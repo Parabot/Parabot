@@ -51,7 +51,6 @@ public class ServerSelector extends JFrame
 		ArrayList<ServerWidget> widgets = new ArrayList<ServerWidget>();
 		widgets.add(new ServerWidget("RecklessPk", "Clisprail", "317"));
 		widgets.add(new ServerWidget("Soulsplit", "Clisprail", "317"));
-		widgets.add(new ServerWidget("RS2007", "Clisprail", "10"));
 		return widgets.toArray(new ServerWidget[widgets.size()]);
 	}
 

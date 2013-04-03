@@ -19,6 +19,7 @@ public class Landing {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		
 		ServerSelector.getInstance().setVisible(true);
 	}
 }

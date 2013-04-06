@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.parabot.core.WebConstants;
 import org.parabot.environment.Environment;
 
 /**
@@ -29,7 +30,7 @@ public class ServerWidget extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				load(new URL("http://parnassian.host56.com/" + name
+				load(new URL(WebConstants.HOME + name
 						+ ".jar"), name);
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();

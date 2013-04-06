@@ -10,6 +10,8 @@ import org.parabot.environment.servers.ServerProvider;
 
 /**
  * 
+ * An environment to load a server
+ * 
  * @author Clisprail
  * 
  * 

@@ -7,13 +7,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.parabot.core.WebConstants;
+import org.parabot.core.desc.ServerDescription;
 import org.parabot.environment.Environment;
 
 /**
@@ -25,27 +23,23 @@ public class ServerWidget extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private String name = null;
+	public ServerDescription desc = null;
 
 	final ActionListener play = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			try {
-				load(new URL(WebConstants.HOME + name
-						+ ".jar"), name);
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
+			load(desc, name);
 		}
 	};
 
-	public ServerWidget(final String serverName, final String author,
-			final String revision) {
+	public ServerWidget(final ServerDescription desc) {
+		this.desc = desc;
 		setLayout(null);
-		this.name = serverName.replaceAll(" ", "");
+		this.name = desc.serverName.replaceAll(" ", "");
 		JLabel l = new JLabel();
 		l.setFont(new Font("Arial", Font.BOLD, 16));
 		l.setForeground(Color.white);
-		l.setText(serverName);
+		l.setText(desc.serverName);
 		l.setBounds(10, 10, 100, 20);
 		add(l);
 		final Font f = new Font("Arial", Font.PLAIN, 12);
@@ -54,13 +48,13 @@ public class ServerWidget extends JPanel {
 		l.setFont(f);
 		l.setForeground(Color.white);
 		l.setBounds(10, 45, 100, 20);
-		l.setText("Author: " + author);
+		l.setText("Author: " + desc.author);
 		add(l);
 		l = new JLabel();
 		l.setFont(f);
 		l.setForeground(Color.white);
 		l.setBounds(10, 60, 100, 20);
-		l.setText("Revision: " + revision);
+		l.setText("Revision: " + desc.revision);
 		add(l);
 		final JButton b = new JButton("Start");
 		b.setFocusable(false);
@@ -90,7 +84,7 @@ public class ServerWidget extends JPanel {
 		g2d.fillRect(0, 0, w, h);
 	}
 
-	public void load(final URL url, final String serverName) {
-		Environment.load(url, serverName);
+	public void load(final ServerDescription desc, final String serverName) {
+		Environment.load(desc, serverName);
 	}
 }

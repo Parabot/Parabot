@@ -13,7 +13,6 @@ import org.parabot.core.Context;
  *
  */
 public abstract class ServerProvider {
-	public Context context = new Context(this);
 	
 	/**
 	 * Hooks to parse
@@ -47,7 +46,7 @@ public abstract class ServerProvider {
 	}
 	
 	public void parseJar() {
-		context.getClassPath().addJar(getJar());
+		Context.resolve().getClassPath().addJar(getJar());
 	}
 
 }

@@ -2,6 +2,8 @@ package org.parabot;
 
 import javax.swing.UIManager;
 
+import org.parabot.core.Core;
+import org.parabot.core.Directories;
 import org.parabot.core.ui.ServerSelector;
 
 /**
@@ -19,6 +21,8 @@ public class Landing {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		Directories.validate();
+		Core.enableDevMode();
 		ServerSelector.getInstance().setVisible(true);
 	}
 }

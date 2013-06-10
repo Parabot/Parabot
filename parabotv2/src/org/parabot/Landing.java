@@ -10,7 +10,7 @@ import org.parabot.core.ui.ServerSelector;
  * Parabot X - A revolution in bot clients
  * 
  * @author Clisprail
- * @author Matt, Dane, Queue, Parameter
+ * @author Matt, Dane, Parameter
  * @version 2.0
  */
 public class Landing {

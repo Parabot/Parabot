@@ -4,6 +4,7 @@ import java.applet.Applet;
 import java.util.HashMap;
 import java.util.TimerTask;
 
+import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.bot.loader.BotLoader;
 import org.parabot.core.classpath.ClassPath;
@@ -80,6 +81,9 @@ public class Context {
 	 */
 	public void load() {
 		serverProvider.parseJar();
+		for(final ClassNode node : classPath.classes.values()) {
+			serverProvider.inject(node);
+		}
 		gameApplet = serverProvider.fetchApplet();
 		final GamePanel panel = GamePanel.getInstance();
 		panel.removeLoader();

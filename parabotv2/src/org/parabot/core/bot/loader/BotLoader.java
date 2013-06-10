@@ -25,7 +25,7 @@ public class BotLoader extends ASMClassLoader {
 
 	@Override
 	public Class<?> findClass(String name) throws ClassNotFoundException {
-		String key = name.replace('.', '/');
+		/*String key = name.replace('.', '/');
 		if(serverProvider.classCache.containsKey(key)) {
 			return serverProvider.classCache.get(key);
 		}
@@ -35,7 +35,7 @@ public class BotLoader extends ASMClassLoader {
 			Class<?>c = serverProvider.nodeToClass(node);
 			serverProvider.classCache.put(key, c);
 			return c;
-		}
+		}*/
 		return super.findClass(name);
 	}
 

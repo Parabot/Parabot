@@ -14,15 +14,9 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.classpath.ClassPath;
 
-/**
- * 
- * @author Clisprail
- * @author Matt
- *
- */
 public class ASMClassLoader extends ClassLoader {
-	
-	public Map<String,Class<?>>classCache = new HashMap<String,Class<?>>();
+
+	private Map<String, Class<?>> classCache = new HashMap<String, Class<?>>();
 	public ClassPath classPath = null;
 	
 	public ASMClassLoader(final ClassPath classPath) {
@@ -32,17 +26,13 @@ public class ASMClassLoader extends ClassLoader {
 	@Override
 	protected URL findResource(String name) {
 		if (getSystemResource(name) == null) {
-			if (classPath.resources.containsKey(name))
+			if (classPath.resources.containsKey(name)) {
 				return classPath.resources.get(name);
-			else
+			} else {
 				return null;
-		} else
-			return getSystemResource(name);
-	}
-	
-	public void addClassToCache(final Class<?> clazz) {
-		String clazzName = clazz.getName().replace('.', '/');
-		classCache.put(clazzName, clazz);
+			}
+		}
+		return getSystemResource(name);
 	}
 
 	@Override
@@ -51,25 +41,25 @@ public class ASMClassLoader extends ClassLoader {
 	}
 
 	@Override
-	public Class<?> findClass(String name) throws ClassNotFoundException {
+	protected Class<?> findClass(String name) throws ClassNotFoundException {
 		String key = name.replace('.', '/');
-		if(classCache.containsKey(key)) {
+		if (classCache.containsKey(key)) {
 			return classCache.get(key);
 		}
-		
 		ClassNode node = classPath.classes.get(key);
 		if (node != null) {
 			classPath.classes.remove(key);
-			Class<?>c = nodeToClass(node);
+			Class<?> c = nodeToClass(node);
 			classCache.put(key, c);
 			return c;
-		} else
-			return super.getSystemClassLoader().loadClass(name);
+		}
+		return super.getSystemClassLoader().loadClass(name);
 	}
 
-	public final Class<?> nodeToClass(ClassNode node) {
-		if (super.findLoadedClass(node.name) != null)
+	private final Class<?> nodeToClass(ClassNode node) {
+		if (super.findLoadedClass(node.name) != null) {
 			return findLoadedClass(node.name);
+		}
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		node.accept(cw);
 		byte[] b = cw.toByteArray();

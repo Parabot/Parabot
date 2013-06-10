@@ -1,6 +1,9 @@
 package org.parabot.core.parsers;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +43,13 @@ public class ServerManifestParser {
 	private ServerDescription[] localDesc() {
 		final ClassPath path = new ClassPath();
 		path.loadClasses(Directories.getServerPath(), null);
+		try {
+			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+			method.setAccessible(true);
+			method.invoke((URLClassLoader) ClassLoader.getSystemClassLoader(), Directories.getServerPath().toURI().toURL());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		final ServerLoader loader = new ServerLoader(path);
 		final List<ServerProvider> providers = new ArrayList<ServerProvider>();
 		final List<ServerDescription> descs = new ArrayList<ServerDescription>();

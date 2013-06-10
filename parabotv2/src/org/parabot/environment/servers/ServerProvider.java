@@ -5,6 +5,7 @@ import java.applet.AppletStub;
 import java.net.URL;
 import javax.swing.JMenuBar;
 
+import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Context;
 /**
  * Provides a server to the bot
@@ -32,6 +33,10 @@ public abstract class ServerProvider {
 	
 	public String getAccessorsPackage() {
 		return null;
+	}
+	
+	public void inject(ClassNode node) {
+		
 	}
 	
 	/**

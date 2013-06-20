@@ -17,13 +17,14 @@ import org.parabot.core.ui.components.BotToolbar;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.LogArea;
 import org.parabot.core.ui.images.Images;
-import org.parabot.core.ui.utils.Center;
+import org.parabot.core.ui.utils.AwtUtil;
+import org.parabot.core.ui.utils.SwingUtil;
 
 /**
  * Bot frame
  * 
  * @author Clisprail
- *
+ * 
  */
 public class BotUI extends JFrame {
 
@@ -47,7 +48,7 @@ public class BotUI extends JFrame {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						
+
 					}
 				}).start();
 			}
@@ -62,32 +63,16 @@ public class BotUI extends JFrame {
 		pane.addLoader();
 		getContentPane().setLayout(layout);
 		setJMenuBar(bar);
-		setTitle("parabot v2");
+		setTitle("Parabot");
 		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
-		Center.centerFramea(this, 775, 683);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(layout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(layout
-								.createParallelGroup(GroupLayout.Alignment.LEADING)))
-				.addComponent(tool, 768, 768, 768)
-				.addComponent(pane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(textPane, 768, 768, 768));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(layout
-						.createSequentialGroup()
-						.addComponent(tool, 30, 30, 30)
-						.addComponent(pane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textPane, 100, 100, 100)
-						.addContainerGap(58, Short.MAX_VALUE)));
+		SwingUtil.center(this);
+		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING))).addComponent(tool, 768, 768, 768).addComponent(pane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(textPane, 768, 768, 768));
+		layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addComponent(tool, 30, 30, 30).addComponent(pane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(textPane, 100, 100, 100).addContainerGap(58, Short.MAX_VALUE)));
 		LogArea.log("Welcome to Parabot v2");
 	}
-	
+
 	public JMenuBar getBar() {
 		return bar;
 	}

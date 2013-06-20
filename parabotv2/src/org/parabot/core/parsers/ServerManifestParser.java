@@ -33,7 +33,7 @@ public class ServerManifestParser {
 		if(Core.isDevMode()) {
 			return localDesc();
 		}
-		return publicDesc();
+		return publicDesc(); 
 	}
 
 	private ServerDescription[] publicDesc() {

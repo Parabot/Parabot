@@ -25,6 +25,5 @@ public final class Landing {
 		Core.enableDevMode();
 		ServerSelector.getInstance().setVisible(true);
 	}
-	
 
 }

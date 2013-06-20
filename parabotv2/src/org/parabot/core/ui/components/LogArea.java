@@ -1,7 +1,5 @@
 package org.parabot.core.ui.components;
 
-
-import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Properties;
@@ -21,22 +19,17 @@ public class LogArea extends JScrollPane {
 	private static final long serialVersionUID = 6571141103751675714L;
 	private static LogArea instance = null;
 	private static LogTextArea logArea = new LogTextArea();
-	
+
 	private LogArea() {
-		super(TextAreaLogHandler.TEXT_AREA,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		logArea.setPreferredSize(new Dimension(775, 80));
-		setPreferredSize(new Dimension(776, 100));
-		setSize(775, 100);
+		super(TextAreaLogHandler.TEXT_AREA, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		setVisible(true);
 		registerLogging();
 	}
-	
+
 	public static LogArea getInstance() {
 		return instance == null ? instance = new LogArea() : instance;
 	}
-	
+
 	private static final Logger log = Logger.getLogger("Bot");
 
 	public static void log(String s) {
@@ -63,19 +56,15 @@ public class LogArea extends JScrollPane {
 		final Properties logging = new Properties();
 		final String logFormatter = LogFormatter.class.getCanonicalName();
 		final String fileHandler = FileHandler.class.getCanonicalName();
-		logging.setProperty("handlers",
-				TextAreaLogHandler.class.getCanonicalName() + "," + fileHandler);
+		logging.setProperty("handlers", TextAreaLogHandler.class.getCanonicalName() + "," + fileHandler);
 		logging.setProperty(".level", "INFO");
-		logging.setProperty(SystemConsoleHandler.class.getCanonicalName()
-				+ ".formatter", logFormatter);
+		logging.setProperty(SystemConsoleHandler.class.getCanonicalName() + ".formatter", logFormatter);
 		logging.setProperty(fileHandler + ".formatter", logFormatter);
-		logging.setProperty(TextAreaLogHandler.class.getCanonicalName()
-				+ ".formatter", logFormatter);
+		logging.setProperty(TextAreaLogHandler.class.getCanonicalName() + ".formatter", logFormatter);
 		final ByteArrayOutputStream logout = new ByteArrayOutputStream();
 		try {
 			logging.store(logout, "");
-			LogManager.getLogManager().readConfiguration(
-					new ByteArrayInputStream(logout.toByteArray()));
+			LogManager.getLogManager().readConfiguration(new ByteArrayInputStream(logout.toByteArray()));
 		} catch (final Exception ignored) {
 		}
 	}

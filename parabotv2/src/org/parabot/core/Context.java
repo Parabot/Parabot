@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
 
-
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.bot.loader.BotLoader;
 import org.parabot.core.classpath.ClassPath;
@@ -17,8 +16,9 @@ import org.parabot.environment.servers.ServerProvider;
 
 /**
  * Game context
+ * 
  * @author Clisprail
- *
+ * 
  */
 public class Context {
 	private static HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
@@ -29,16 +29,14 @@ public class Context {
 	private ServerProvider serverProvider = null;
 	private int tab = 0;
 	private Applet gameApplet = null;
-	
+
 	private Object clientInstance = null;
-	
+
 	private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
-	
+
 	private PaintDebugger paintDebugger = new PaintDebugger();
-	
+
 	public boolean added = false;
-	
-	
 
 	public Context(final ServerProvider serverProvider) {
 		threadGroups.put(Thread.currentThread().getThreadGroup(), this);
@@ -47,40 +45,44 @@ public class Context {
 		id++;
 		this.classPath = new ClassPath();
 	}
-	
+
 	/**
 	 * Sets the ServerProvider class loader
+	 * 
 	 * @param serverEnvironment
 	 */
 	public void setEnvironment(ASMClassLoader serverEnvironment) {
 		classLoader = new BotLoader(classPath, serverEnvironment);
 	}
-	
+
 	/**
 	 * Sets the main client instance
 	 */
 	public void setClientInstance(Object object) {
 		this.clientInstance = object;
 	}
-	
+
 	/**
 	 * ClassPath
+	 * 
 	 * @return classpath
 	 */
 	public ClassPath getClassPath() {
 		return classPath;
 	}
-	
+
 	/**
 	 * Determines if applet has been set
+	 * 
 	 * @return <b>true</b> if set
 	 */
 	public boolean appletSet() {
 		return gameApplet != null;
 	}
-	
+
 	/**
 	 * Gets game applet
+	 * 
 	 * @return applet
 	 */
 	public Applet getApplet() {
@@ -89,6 +91,7 @@ public class Context {
 
 	/**
 	 * Resolves the context from threadgroup
+	 * 
 	 * @return context
 	 */
 	public static Context resolve() {
@@ -102,10 +105,10 @@ public class Context {
 		serverProvider.parseJar();
 		serverProvider.injectHooks();
 		gameApplet = serverProvider.fetchApplet();
-		if(getClient() == null) {
+		if (getClient() == null) {
 			setClientInstance(gameApplet);
 		}
-		serverProvider.addMenuItems(BotUI.getInstance().getBar());
+		serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
 		BotUI.getInstance().validate();
 		final GamePanel panel = GamePanel.getInstance();
 		panel.removeLoader();
@@ -122,6 +125,7 @@ public class Context {
 
 	/**
 	 * Gets the server prodiver belonging to this context
+	 * 
 	 * @return server provider
 	 */
 	public ServerProvider getServerProvider() {
@@ -130,6 +134,7 @@ public class Context {
 
 	/**
 	 * Gets class loader from this context
+	 * 
 	 * @return class loader
 	 */
 	public ASMClassLoader getASMClassLoader() {
@@ -138,6 +143,7 @@ public class Context {
 
 	/**
 	 * Gets the id of this context
+	 * 
 	 * @return id context
 	 */
 	public static int getID() {
@@ -146,46 +152,52 @@ public class Context {
 
 	/**
 	 * Tab id of this context
+	 * 
 	 * @return tab id of this context
 	 */
 	public int getTab() {
 		return tab;
 	}
-	
+
 	/**
 	 * Adds a paintable instance to the paintables
+	 * 
 	 * @param paintable
 	 */
 	public void addPaintable(Paintable paintable) {
 		paintables.add(paintable);
 	}
-	
+
 	/**
 	 * Removes a paintable instance from the paintables
+	 * 
 	 * @param paintable
 	 */
 	public void removePaintable(Paintable paintable) {
 		paintables.remove(paintable);
 	}
-	
+
 	/**
 	 * Gets the paintable instances
+	 * 
 	 * @return array of paintable instances
 	 */
 	public Paintable[] getPaintables() {
 		return paintables.toArray(new Paintable[paintables.size()]);
 	}
-	
+
 	/**
 	 * The client debug painter
+	 * 
 	 * @return debug painter
 	 */
 	public PaintDebugger getPaintDebugger() {
 		return paintDebugger;
 	}
-	
+
 	/**
 	 * Gets the main/client instance
+	 * 
 	 * @return instance of the the client
 	 */
 	public Object getClient() {

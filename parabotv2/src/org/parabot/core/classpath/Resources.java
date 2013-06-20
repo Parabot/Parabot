@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.parabot.core.Directories;
+
 /**
  * 
  * @author Clisprail
@@ -22,7 +24,7 @@ public class Resources {
 	 */
 	public static void loadResource(final ClassPath classPath, final String name, final InputStream in)
 			throws IOException {
-		File f = File.createTempFile("bot", ".tmp", new File("./"));
+		File f = File.createTempFile("bot", ".tmp", Directories.getTempDirectory());
 		f.deleteOnExit();
 		try (OutputStream out = new FileOutputStream(f)) {
 			byte[] buffer = new byte[1024];

@@ -36,7 +36,6 @@ public class JarParser {
 					ClassReader cr = new ClassReader(
 							theJar.getInputStream(entry));
 					ClassNode cn = new ClassNode();
-					//cr.accept(cn, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
 					cr.accept(cn, 0);
 					classPath.classes.put(cn.name, cn);
 				} else if (!entry.isDirectory()

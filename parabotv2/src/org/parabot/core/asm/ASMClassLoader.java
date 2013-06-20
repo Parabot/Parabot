@@ -42,6 +42,11 @@ public class ASMClassLoader extends ClassLoader {
 
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
+		try {
+			return super.getSystemClassLoader().loadClass(name);
+		} catch (Exception e) {
+			
+		}
 		String key = name.replace('.', '/');
 		if (classCache.containsKey(key)) {
 			return classCache.get(key);

@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
-import org.parabot.core.Context;
 import org.parabot.core.ui.components.BotToolbar;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.LogArea;
@@ -30,13 +29,16 @@ public class BotUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static BotUI instance = null;
+	private JMenuBar bar = null;
 
 	public static BotUI getInstance() {
 		return instance == null ? instance = new BotUI() : instance;
 	}
 
 	public BotUI() {
-		JMenuBar bar = new JMenuBar();
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		setDefaultLookAndFeelDecorated(false);
+		bar = new JMenuBar();
 		JMenu file = new JMenu("File");
 		JMenuItem screenshot = new JMenuItem("Screenshot");
 		screenshot.addActionListener(new ActionListener() {
@@ -45,14 +47,7 @@ public class BotUI extends JFrame {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						final Context c = GamePanel.getInstance().context;
-						GamePanel.getInstance().setContext(null);
-						try {
-							Thread.sleep(10000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						GamePanel.getInstance().setContext(c);
+						
 					}
 				}).start();
 			}
@@ -65,10 +60,8 @@ public class BotUI extends JFrame {
 		JToolBar tool = BotToolbar.getInstance();
 		GamePanel pane = GamePanel.getInstance();
 		pane.addLoader();
-		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		getContentPane().setLayout(layout);
 		setJMenuBar(bar);
-		setDefaultLookAndFeelDecorated(true);
 		setTitle("parabot v2");
 		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -93,6 +86,10 @@ public class BotUI extends JFrame {
 						.addComponent(textPane, 100, 100, 100)
 						.addContainerGap(58, Short.MAX_VALUE)));
 		LogArea.log("Welcome to Parabot v2");
+	}
+	
+	public JMenuBar getBar() {
+		return bar;
 	}
 
 }

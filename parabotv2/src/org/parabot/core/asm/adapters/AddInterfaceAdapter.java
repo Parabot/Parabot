@@ -2,13 +2,14 @@ package org.parabot.core.asm.adapters;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.asm.ASMUtils;
+import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
  * @author Clisprail
  * 
  */
-public class AddInterfaceAdapter {
+public class AddInterfaceAdapter implements Injectable {
 
 	private static String accessorPackage = null;
 	private ClassNode node = null;
@@ -32,6 +33,7 @@ public class AddInterfaceAdapter {
 		return accessorPackage;
 	}
 
+	@Override
 	public void inject() {
 		addInterface(node, accessorPackage + interfaceClass);
 	}

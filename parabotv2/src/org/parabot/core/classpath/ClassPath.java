@@ -29,6 +29,14 @@ public class ClassPath {
 	public void addJar(final String jarLocation) {
 		JarParser.parseJar(this, jarLocation);
 	}
+	
+	/**
+	 * Adds jar to this classpath
+	 * @param jarLocation
+	 */
+	public void addJar(final URL jarLocation) {
+		JarParser.parseJar(this, jarLocation.toString());
+	}
 
 	/**
 	 * Finds and loads all classes/jar files in folder
@@ -99,7 +107,9 @@ public class ClassPath {
 	private void loadClass(InputStream in) throws IOException {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
+		//cr.accept(cn, 0);
 		cr.accept(cn, 0);
+		//cr.accept(cn, ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 		classes.put(cn.name, cn);
 	}
 

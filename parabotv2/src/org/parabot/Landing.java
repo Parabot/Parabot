@@ -9,11 +9,11 @@ import org.parabot.core.ui.ServerSelector;
 /**
  * Parabot X - A revolution in bot clients
  * 
- * @author Clisprail
- * @author Matt, Dane, Parameter
+ * @author Clisprail (Parnassian)
+ * @author Matt, Dane
  * @version 2.0
  */
-public class Landing {
+public final class Landing {
 
 	public static void main(String... args) {
 		try {
@@ -25,4 +25,6 @@ public class Landing {
 		Core.enableDevMode();
 		ServerSelector.getInstance().setVisible(true);
 	}
+	
+
 }

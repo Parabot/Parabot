@@ -3,6 +3,7 @@ package org.parabot.core;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
@@ -57,6 +58,14 @@ public class Directories {
 	}
 	
 	/**
+	 * Get script compiled path
+	 * @return script compiled path
+	 */
+	public static File getResourcesPath() {
+		return new File(getDefaultDirectory(), "/Parabot/scripts/resources/");
+	}
+	
+	/**
 	 * Gets settings directory
 	 * @return settings directory
 	 */
@@ -86,12 +95,25 @@ public class Directories {
 		files.add(getSettingsPath());
 		files.add(getScriptSourcesPath());
 		files.add(getScriptCompiledPath());
+		files.add(getResourcesPath());
 		while(files.size() > 0) {
 			final File file = files.poll();
 			if(!file.exists()) {
 				file.mkdirs();
 			}
 		}
+	}
+	
+	private static File temp = null;
+	public static File getTempDirectory() {
+		if(temp != null) {
+			return temp;
+		}
+		int randomNum = new Random().nextInt(999999999);
+		temp = new File(getResourcesPath(), randomNum + "/");
+		temp.mkdirs();
+		temp.deleteOnExit();
+		return temp;
 	}
 
 }

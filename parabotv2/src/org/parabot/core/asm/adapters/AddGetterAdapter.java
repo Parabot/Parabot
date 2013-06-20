@@ -7,6 +7,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * Adds a method into a Classnode which returns a field
@@ -14,7 +15,7 @@ import org.objectweb.asm.tree.MethodNode;
  * @author Clisprail
  *
  */
-public class AddGetterAdapter implements Opcodes {
+public class AddGetterAdapter implements Opcodes, Injectable {
 	private ClassNode into = null;
 	private ClassNode fieldLocation = null;
 	private FieldNode fieldNode = null;
@@ -98,9 +99,10 @@ public class AddGetterAdapter implements Opcodes {
 	/**
 	 * Injects this the method getter
 	 */
+	@Override
 	public void inject() {
 		MethodNode method = new MethodNode(ACC_PUBLIC | (staticMethod ? ACC_STATIC : 0), methodName, "()" + returnDesc, null, null);
-		if (staticField) {
+		if (!staticField) {
 			method.visitVarInsn(ALOAD, 0);
 		}
 		method.visitFieldInsn(staticField ? GETSTATIC : GETFIELD, fieldLocation.name, fieldNode.name, fieldNode.desc);
@@ -118,7 +120,7 @@ public class AddGetterAdapter implements Opcodes {
 			method.visitInsn(L2I);
 
 		method.visitInsn(getReturnOpcode(returnDesc));
-		method.visitMaxs(0, 0);
+		method.visitMaxs(1, 1);
 		into.methods.add(method);
 	}
 	

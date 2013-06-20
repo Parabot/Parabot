@@ -1,6 +1,8 @@
 package org.parabot.environment.api.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -69,11 +71,24 @@ public class WebUtil {
 	 */
 	public static BufferedReader getReader(final URL url) {
 		try {
-			final URLConnection con = getConnection(url);
-			return new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+			return new BufferedReader(new InputStreamReader(getInputStream(url)));
 		} catch (Throwable t) {
 			t.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets inputstream from url
+	 * @param url
+	 * @return inputstream from url
+	 */
+	public static InputStream getInputStream(final URL url) {
+		final URLConnection con = getConnection(url);
+		try {
+			return con.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

@@ -20,20 +20,21 @@ import org.parabot.environment.servers.loader.ServerLoader;
 /**
  * 
  * @author Clisprail
- *
+ * 
  */
 public class ServerManifestParser {
 	public static Map<ServerDescription, ServerCache> cache = new HashMap<ServerDescription, ServerCache>();
-	
+
 	/**
 	 * Gets server descriptions
+	 * 
 	 * @return list of descriptions
 	 */
 	public ServerDescription[] getDescriptions() {
-		if(Core.isDevMode()) {
+		if (Core.inDebugMode()) {
 			return localDesc();
 		}
-		return publicDesc(); 
+		return publicDesc();
 	}
 
 	private ServerDescription[] publicDesc() {
@@ -47,17 +48,17 @@ public class ServerManifestParser {
 			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
 			method.setAccessible(true);
 			method.invoke((URLClassLoader) ClassLoader.getSystemClassLoader(), Directories.getServerPath().toURI().toURL());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		final ServerLoader loader = new ServerLoader(path);
 		final List<ServerProvider> providers = new ArrayList<ServerProvider>();
 		final List<ServerDescription> descs = new ArrayList<ServerDescription>();
-		for(final String className : loader.getServerClassNames()) {
+		for (final String className : loader.getServerClassNames()) {
 			try {
 				final Class<?> serverProviderClass = loader.loadClass(className);
 				final Object annotation = serverProviderClass.getAnnotation(ServerManifest.class);
-				if(annotation == null) {
+				if (annotation == null) {
 					throw new RuntimeException("Missing manifest at " + className);
 				}
 				final ServerManifest manifest = (ServerManifest) annotation;
@@ -69,29 +70,29 @@ public class ServerManifestParser {
 				t.printStackTrace();
 			}
 		}
-		if(providers.isEmpty()) {
+		if (providers.isEmpty()) {
 			return null;
 		}
 		final ServerCache cachedServer = new ServerCache(loader, providers.toArray(new ServerProvider[providers.size()]));
-		for(final ServerDescription desc : descs) {
+		for (final ServerDescription desc : descs) {
 			cache.put(desc, cachedServer);
 		}
 		return descs.toArray(new ServerDescription[descs.size()]);
 	}
-	
+
 	public class ServerCache {
 		private ServerLoader serverLoader = null;
 		private ServerProvider[] serverProviders = null;
-			
+
 		private ServerCache(final ServerLoader serverLoader, final ServerProvider[] serverProviders) {
 			this.serverLoader = serverLoader;
 			this.serverProviders = serverProviders;
 		}
-		
+
 		public ServerLoader getLoader() {
 			return serverLoader;
 		}
-		
+
 		public ServerProvider[] getProviders() {
 			return serverProviders;
 		}

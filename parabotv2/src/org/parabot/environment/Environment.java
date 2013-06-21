@@ -1,6 +1,7 @@
 package org.parabot.environment;
 
 import java.lang.reflect.Constructor;
+
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.classpath.ClassPath;
@@ -16,26 +17,27 @@ import org.parabot.environment.servers.loader.ServerLoader;
 /**
  * 
  * @author Clisprail
- *
+ * 
  */
 public class Environment {
-	
+
 	/**
 	 * Loads a new environment
+	 * 
 	 * @param url
 	 */
 	public static void load(final ServerDescription desc, final String serverName) {
 		ServerSelector.getInstance().dispose();
-		if(!BotUI.getInstance().isVisible()) {
+		if (!BotUI.getInstance().isVisible()) {
 			BotUI.getInstance().setVisible(true);
 		}
-		
-		final ClassPath classPath = Core.isDevMode() ? null : new ClassPath();
-		final ServerCache cache = Core.isDevMode() ? ServerManifestParser.cache.get(desc) : null;
-		
-		final ServerLoader serverLoader = Core.isDevMode() ? cache.getLoader() : new ServerLoader(classPath);
+
+		final ClassPath classPath = Core.inDebugMode() ? null : new ClassPath();
+		final ServerCache cache = Core.inDebugMode() ? ServerManifestParser.cache.get(desc) : null;
+
+		final ServerLoader serverLoader = Core.inDebugMode() ? cache.getLoader() : new ServerLoader(classPath);
 		String[] serverProviders = null;
-		if(!Core.isDevMode()) {
+		if (!Core.inDebugMode()) {
 			serverProviders = serverLoader.getServerClassNames();
 			if (serverProviders == null) {
 				throw new RuntimeException("No server provided.");
@@ -47,7 +49,7 @@ public class Environment {
 			@Override
 			public void run() {
 				try {
-					final ServerProvider server = !Core.isDevMode() ? fetchServerProvider(serverLoader) : cache.getProviders()[desc.providerIndex];
+					final ServerProvider server = !Core.inDebugMode() ? fetchServerProvider(serverLoader) : cache.getProviders()[desc.providerIndex];
 					final Context context = new Context(server);
 					context.setEnvironment(serverLoader);
 					BotToolbar.getInstance().addTab(context, serverName);
@@ -58,7 +60,7 @@ public class Environment {
 			}
 		}).start();
 	}
-	
+
 	private static ServerProvider fetchServerProvider(ServerLoader loader) {
 		try {
 			final String[] serverProviders = loader.getServerClassNames();

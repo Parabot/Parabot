@@ -3,25 +3,21 @@ package org.parabot.core;
 /**
  * 
  * @author Clisprail
- *
+ * 
  */
 public class Core {
-	private static boolean devMode = false;
-	
-	/**
-	 * Enables the developers mode
-	 */
-	public static void enableDevMode() {
-		devMode = true;
+
+	private static boolean debug = false;
+
+	public static void setDebug(boolean debug) {
+		Core.debug = debug;
 	}
-	
+
 	/**
-	 * Determines if bot is in developers mode
-	 * @return <b>true</b> if bot is in developers mode
+	 * @return if the botclient is in debug mode.
 	 */
-	public static boolean isDevMode() {
-		return devMode;
+	public static boolean inDebugMode() {
+		return debug;
 	}
-	
 
 }

@@ -22,7 +22,7 @@ public final class Landing {
 			t.printStackTrace();
 		}
 		Directories.validate();
-		Core.enableDevMode();
+		Core.setDebug(true);
 		ServerSelector.getInstance().setVisible(true);
 	}
 

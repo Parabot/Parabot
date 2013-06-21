@@ -1,12 +1,13 @@
 package org.parabot.core;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileSystemView;
 
 import org.parabot.environment.OperatingSystem;
 
@@ -18,75 +19,96 @@ import org.parabot.environment.OperatingSystem;
  */
 public class Directories {
 
-	/**
-	 * Gets default user directory
-	 * @return default user director
-	 */
-	public static File getDefaultDirectory() {
+	private static Map<String, File> cached = new HashMap<String, File>();
+
+	static {
+
 		switch (OperatingSystem.getOS()) {
-		case WINDOWS:
-			JFileChooser fr = new JFileChooser();
-			FileSystemView fw = fr.getFileSystemView();
-			return fw.getDefaultDirectory();
-		default:
-			return new File(System.getProperty("user.home"));
+			case WINDOWS:
+				cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
+				break;
+			default:
+				cached.put("Root", new File(System.getProperty("user.home")));
 		}
-	}
-	
-	/**
-	 * Gets bot workspace
-	 * @return workspace of bot
-	 */
-	public static File getWorkspace() {
-		return new File(getDefaultDirectory(), "/Parabot/");
-	}
-	
-	/**
-	 * Get script sources path
-	 * @return script sources path
-	 */
-	public static File getScriptSourcesPath() {
-		return new File(getDefaultDirectory(), "/Parabot/scripts/sources/");
+
+		cached.put("Root", getDefaultDirectory());
+		cached.put("Workspace", new File(cached.get("Root"), "/Parabot/"));
+		cached.put("Sources", new File(cached.get("Root"), "/Parabot/scripts/sources/"));
+		cached.put("Compiled", new File(cached.get("Root"), "/Parabot/scripts/compiled/"));
+		cached.put("Resources", new File(cached.get("Root"), "/Parabot/scripts/resources/"));
+		cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
+		cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
 	}
 
 	/**
-	 * Get script compiled path
-	 * @return script compiled path
+	 * Returns the root directory outside of the main Parabot folder.
+	 * 
+	 * @return
+	 */
+	public static File getDefaultDirectory() {
+		return cached.get("Root");
+	}
+
+	/**
+	 * Returns the Parabot folder.
+	 * 
+	 * @return
+	 */
+	public static File getWorkspace() {
+		return cached.get("Workspace");
+	}
+
+	/**
+	 * Returns the script sources folder.
+	 * 
+	 * @return
+	 */
+	public static File getScriptSourcesPath() {
+		return cached.get("Sources");
+	}
+
+	/**
+	 * Returns the compiled scripts folder.
+	 * 
+	 * @return
 	 */
 	public static File getScriptCompiledPath() {
-		return new File(getDefaultDirectory(), "/Parabot/scripts/compiled/");
+		return cached.get("Compiled");
 	}
-	
+
 	/**
-	 * Get script compiled path
-	 * @return script compiled path
+	 * Returns the scripts resources folder.
+	 * 
+	 * @return
 	 */
 	public static File getResourcesPath() {
-		return new File(getDefaultDirectory(), "/Parabot/scripts/resources/");
+		return cached.get("Resources");
 	}
-	
+
 	/**
-	 * Gets settings directory
-	 * @return settings directory
+	 * Returns the Parabot settings folder.
+	 * 
+	 * @return
 	 */
 	public static File getSettingsPath() {
-		return new File(getDefaultDirectory(), "/Parabot/settings/");
+		return cached.get("Settings");
 	}
-	
+
 	/**
-	 * Gets servers directory
-	 * @return servers directory
+	 * Returns the Parabot servers folder.
+	 * 
+	 * @return
 	 */
 	public static File getServerPath() {
-		return new File(getDefaultDirectory(), "/Parabot/servers/");
+		return cached.get("Servers");
 	}
-	
+
 	/**
 	 * Validates all directories and makes them if necessary
 	 */
 	public static void validate() {
 		final File defaultPath = getDefaultDirectory();
-		if(defaultPath == null || !defaultPath.exists()) {
+		if (defaultPath == null || !defaultPath.exists()) {
 			throw new RuntimeException("Default path not found");
 		}
 		final Queue<File> files = new LinkedList<File>();
@@ -96,17 +118,18 @@ public class Directories {
 		files.add(getScriptSourcesPath());
 		files.add(getScriptCompiledPath());
 		files.add(getResourcesPath());
-		while(files.size() > 0) {
+		while (files.size() > 0) {
 			final File file = files.poll();
-			if(!file.exists()) {
+			if (!file.exists()) {
 				file.mkdirs();
 			}
 		}
 	}
-	
+
 	private static File temp = null;
+
 	public static File getTempDirectory() {
-		if(temp != null) {
+		if (temp != null) {
 			return temp;
 		}
 		int randomNum = new Random().nextInt(999999999);

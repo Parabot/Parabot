@@ -76,7 +76,7 @@ public class BotUI extends JFrame implements ActionListener {
 		y += iGameHeight;
 
 		JScrollPane scrlConsole = LogArea.getInstance();
-		scrlConsole.setPreferredSize(new Dimension(765, iLogHeight));
+		scrlConsole.setPreferredSize(new Dimension(765, iLogHeight - 15));
 		toolbar.setLocation(x, y);
 
 		panel.add(toolbar);

@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.ServerManifestParser;
-import org.parabot.core.ui.utils.AwtUtil;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.widgets.ServerWidget;
 
@@ -58,6 +57,7 @@ public class ServerSelector extends JFrame {
 
 		JScrollPane scrlInterior = new JScrollPane(interior);
 		scrlInterior.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrlInterior.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		this.panel.add(scrlInterior, BorderLayout.CENTER);
 		this.add(panel);
@@ -68,8 +68,11 @@ public class ServerSelector extends JFrame {
 
 	public Queue<ServerWidget> getServers() {
 		final Queue<ServerWidget> widgets = new LinkedList<ServerWidget>();
-		for (ServerDescription desc : new ServerManifestParser().getDescriptions()) {
-			widgets.add(new ServerWidget(desc));
+		ServerDescription[] servers = new ServerManifestParser().getDescriptions();
+		if (servers != null) {
+			for (ServerDescription desc : servers) {
+				widgets.add(new ServerWidget(desc));
+			}
 		}
 		return widgets;
 	}

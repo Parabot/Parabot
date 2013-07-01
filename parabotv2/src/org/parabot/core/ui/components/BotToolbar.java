@@ -17,8 +17,10 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import org.parabot.core.Context;
+import org.parabot.core.ui.ScriptSelector;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.images.Images;
+import org.parabot.environment.scripts.Script;
 
 /**
  * Bot toolbar
@@ -30,12 +32,15 @@ public class BotToolbar extends JToolBar {
 	private static final long serialVersionUID = 5373484845104212180L;
 	private static BotToolbar instance = null;
 	private JButton tab = null;
+	private final JButton run = new JButton();
+	private final JButton stop = new JButton();
 	private static Map<TabButton, Context> environments = new HashMap<TabButton, Context>();
+	
+	private boolean runScript = false;
+	private boolean pauseScript = false;
 	
 	public BotToolbar() {
 		setFloatable(false);
-		final JButton run = new JButton();
-		final JButton pause = new JButton();
 		tab = new JButton();
 		tab.addActionListener(new ActionListener() {
 
@@ -46,19 +51,84 @@ public class BotToolbar extends JToolBar {
 			
 		});
 		run.setFocusable(false);
-		pause.setFocusable(false);
+		stop.setFocusable(false);
 		tab.setFocusable(false);
 		try {
 			run.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/run.png")));
-			pause.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/pause.png")));
+			stop.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/stop.png")));
 			tab.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/add.png")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		run.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runButtonClicked();
+			}
+			
+		});
+		stop.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stopButtonClicked();
+			}
+			
+		});
 		//add(tab);
 		add(Box.createHorizontalGlue());
 		add(run);
-		add(pause);
+		add(stop);
+	}
+	
+	protected void stopButtonClicked() {
+		if(!runScript){
+			// obviously do nothing ;d
+			return;
+		}
+		setScriptState(Script.STATE_STOPPED);
+	}
+
+	protected void runButtonClicked() {
+		if(runScript && pauseScript) {
+			// unpause
+			this.pauseScript = false;
+			scriptRunning();
+			setScriptState(Script.STATE_RUNNING);
+			return;
+		} else if(runScript) {
+			// pause
+			this.pauseScript = true;
+			scriptStopped();
+			setScriptState(Script.STATE_PAUSE);
+		} else {
+			new ScriptSelector().setVisible(true);
+		}
+	}
+	
+	private void setScriptState(int state) {
+		Context.currentTab().getRunningScript().setState(state);
+	}
+	
+
+	public void toggleRun() {
+		runScript = !runScript;
+		if(runScript) {
+			scriptRunning();
+		} else {
+			scriptStopped();
+		}
+	}
+	
+	private void scriptRunning() {
+		// sets pause icon
+		run.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/pause.png")));
+	}
+	
+	private void scriptStopped() {
+		// sets start icon
+		run.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/run.png")));
 	}
 	
 	public static BotToolbar getInstance() {

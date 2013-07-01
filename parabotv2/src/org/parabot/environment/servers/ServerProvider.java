@@ -9,6 +9,9 @@ import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.parsers.HookParser;
+import org.parabot.environment.input.Keyboard;
+import org.parabot.environment.input.Mouse;
+import org.parabot.environment.scripts.Script;
 
 /**
  * Provides a server to the bot
@@ -43,7 +46,6 @@ public abstract class ServerProvider implements Opcodes {
 	public void injectHooks() {
 		URL hooksFile = getHooks();
 		if (hooksFile == null) {
-			System.out.println("null");
 			return;
 		}
 		HookParser parser = new HookParser(hooksFile);
@@ -54,6 +56,7 @@ public abstract class ServerProvider implements Opcodes {
 		for (Injectable inj : injectables) {
 			inj.inject();
 		}
+		Context.resolve().setHookParser(parser);
 	}
 
 	/**
@@ -75,6 +78,31 @@ public abstract class ServerProvider implements Opcodes {
 
 	public void parseJar() {
 		Context.resolve().getClassPath().addJar(getJar());
+	}
+	
+	public void initScript(Script script) {
+		
+	}
+	
+	public void initMouse() {
+		final Context context = Context.resolve();
+		final Applet applet = context.getApplet();
+		final Mouse mouse = new Mouse(applet);
+		applet.addMouseListener(mouse);
+		applet.addMouseMotionListener(mouse);
+		context.setMouse(mouse);
+	}
+	
+	public void initKeyboard() {
+		final Context context = Context.resolve();
+		final Applet applet = context.getApplet();
+		final Keyboard keyboard = new Keyboard(applet);
+		applet.addKeyListener(keyboard);
+		context.setKeyboard(keyboard);
+	}
+	
+	public void unloadScript(Script script) {
+		
 	}
 
 }

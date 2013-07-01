@@ -13,10 +13,11 @@ import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.ServerManifestParser;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.widgets.ServerWidget;
+import org.parabot.environment.Environment;
 
 /**
  * 
- * @author Dane
+ * @author Dane, Clisprail
  * 
  */
 
@@ -25,6 +26,8 @@ public class ServerSelector extends JFrame {
 	private static final long serialVersionUID = 5238720307271493899L;
 	private static ServerSelector instance = null;
 	private JPanel panel;
+	
+	public static String initServer = null;
 
 	public static ServerSelector getInstance() {
 		if (instance == null) {
@@ -34,6 +37,14 @@ public class ServerSelector extends JFrame {
 	}
 
 	public ServerSelector() {
+		
+		Queue<ServerWidget> widgets = getServers();
+		if(initServer != null) {
+			if(runServer(widgets)) {
+				initServer = null;
+				return;
+			}
+		}
 
 		this.setTitle("Servers");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,13 +53,12 @@ public class ServerSelector extends JFrame {
 		this.panel = new JPanel(new BorderLayout());
 		this.panel.setPreferredSize(new Dimension(400, 200));
 
-		Queue<ServerWidget> widgets = getServers();
-
 		JPanel interior = new JPanel(null);
 		interior.setPreferredSize(new Dimension(400, widgets.size() * 100));
 
 		int i = 0;
-		for (ServerWidget w : widgets) {
+		while (widgets != null && !widgets.isEmpty()) {
+			final ServerWidget w = widgets.poll();
 			w.setSize(400, 100);
 			w.setLocation(0, i * 100);
 			interior.add(w);
@@ -64,6 +74,24 @@ public class ServerSelector extends JFrame {
 
 		SwingUtil.finalize(this);
 
+	}
+	
+	/**
+	 * This method is called when -server argument is given
+	 * @param widgets
+	 */
+	private boolean runServer(Queue<ServerWidget> widgets) {
+		if(widgets == null || widgets.isEmpty()) {
+			return false;
+		}
+		final String serverName = initServer.toLowerCase();
+		for(ServerWidget widget : widgets) {
+			if(widget.desc.serverName.toLowerCase().equals(serverName)) {
+				Environment.load(widget.desc, widget.desc.serverName.replaceAll(" ", ""));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Queue<ServerWidget> getServers() {

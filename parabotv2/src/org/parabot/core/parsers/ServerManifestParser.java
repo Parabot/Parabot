@@ -1,9 +1,6 @@
 package org.parabot.core.parsers;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,49 +39,69 @@ public class ServerManifestParser {
 	}
 
 	private ServerDescription[] localDesc() {
-		final ClassPath path = new ClassPath();
-		path.loadClasses(Directories.getServerPath(), null);
-		try {
-			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-			method.setAccessible(true);
-			method.invoke((URLClassLoader) ClassLoader.getSystemClassLoader(), Directories.getServerPath().toURI().toURL());
-		} catch (Exception e) {
-			e.printStackTrace();
+		// parse classes in server directories
+		final ClassPath basePath = new ClassPath();
+		basePath.parseJarFiles(false);
+		basePath.loadClasses(Directories.getServerPath(), null);
+		
+		
+		ArrayList<ClassPath> classPaths = new ArrayList<ClassPath>();
+		classPaths.add(basePath);
+		for (final ClassPath classPath : basePath.getJarFiles()) {
+			classPaths.add(classPath);
 		}
-		final ServerLoader loader = new ServerLoader(path);
-		final List<ServerProvider> providers = new ArrayList<ServerProvider>();
-		final List<ServerDescription> descs = new ArrayList<ServerDescription>();
-		for (final String className : loader.getServerClassNames()) {
-			try {
-				final Class<?> serverProviderClass = loader.loadClass(className);
-				final Object annotation = serverProviderClass.getAnnotation(ServerManifest.class);
-				if (annotation == null) {
-					throw new RuntimeException("Missing manifest at " + className);
+		// list of descriptions
+		final List<ServerDescription> allDescs = new ArrayList<ServerDescription>();
+
+		for (final ClassPath path : classPaths) {
+			final List<ServerDescription> descs = new ArrayList<ServerDescription>();
+			// init the server loader
+			final ServerLoader loader = new ServerLoader(path);
+			// list of providers
+			final List<ServerProvider> providers = new ArrayList<ServerProvider>();
+
+			// loop through all classes which extends the 'ServerProvider' class
+			for (final String className : loader.getServerClassNames()) {
+				try {
+					// get class
+					final Class<?> serverProviderClass = loader.loadClass(className);
+					// get annotation
+					final Object annotation = serverProviderClass
+							.getAnnotation(ServerManifest.class);
+					if (annotation == null) {
+						throw new RuntimeException("Missing manifest at "
+								+ className);
+					}
+					// cast object annotation to server manifest annotation
+					final ServerManifest manifest = (ServerManifest) annotation;
+					// get constructor
+					final Constructor<?> con = serverProviderClass.getConstructor();
+					final ServerProvider server = (ServerProvider) con.newInstance();
+					providers.add(server);
+					descs.add(new ServerDescription(manifest.name(), manifest
+							.author(), 0, providers.size() - 1));
+				} catch (Throwable t) {
+					t.printStackTrace();
 				}
-				final ServerManifest manifest = (ServerManifest) annotation;
-				final Constructor<?> con = serverProviderClass.getConstructor();
-				final ServerProvider server = (ServerProvider) con.newInstance();
-				providers.add(server);
-				descs.add(new ServerDescription(manifest.name(), manifest.author(), 0, providers.size() - 1));
-			} catch (Throwable t) {
-				t.printStackTrace();
+			}
+			if (providers.isEmpty()) {
+				continue;
+			}
+			final ServerCache cachedServer = new ServerCache(loader, providers.toArray(new ServerProvider[providers.size()]));
+			for (final ServerDescription desc : descs) {
+				allDescs.add(desc);
+				cache.put(desc, cachedServer);
 			}
 		}
-		if (providers.isEmpty()) {
-			return null;
-		}
-		final ServerCache cachedServer = new ServerCache(loader, providers.toArray(new ServerProvider[providers.size()]));
-		for (final ServerDescription desc : descs) {
-			cache.put(desc, cachedServer);
-		}
-		return descs.toArray(new ServerDescription[descs.size()]);
+		return allDescs.toArray(new ServerDescription[allDescs.size()]);
 	}
 
 	public class ServerCache {
 		private ServerLoader serverLoader = null;
 		private ServerProvider[] serverProviders = null;
 
-		private ServerCache(final ServerLoader serverLoader, final ServerProvider[] serverProviders) {
+		private ServerCache(final ServerLoader serverLoader,
+				final ServerProvider[] serverProviders) {
 			this.serverLoader = serverLoader;
 			this.serverProviders = serverProviders;
 		}

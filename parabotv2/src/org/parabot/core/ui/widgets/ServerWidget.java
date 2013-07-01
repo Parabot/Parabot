@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.ui.ServerSelector;
 import org.parabot.environment.Environment;
 
 /**
@@ -85,6 +86,7 @@ public class ServerWidget extends JPanel {
 	}
 
 	public void load(final ServerDescription desc, final String serverName) {
+		ServerSelector.getInstance().dispose();
 		Environment.load(desc, serverName);
 	}
 }

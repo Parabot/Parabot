@@ -10,9 +10,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
+import org.parabot.core.ui.applet.LoadApplet;
 import org.parabot.core.ui.components.BotToolbar;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.LogArea;
@@ -34,7 +36,8 @@ public class BotUI extends JFrame implements ActionListener {
 	}
 
 	public BotUI() {
-
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		
 		this.setTitle("Parabot");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,13 +84,14 @@ public class BotUI extends JFrame implements ActionListener {
 
 		panel.add(toolbar);
 		panel.add(gamePanel);
+		gamePanel.add(LoadApplet.get());
 		panel.add(scrlConsole);
 
 		this.add(panel, BorderLayout.CENTER);
 
 		SwingUtil.finalize(this);
 
-		LogArea.log("Welcome to Parabot!");
+		LogArea.log("Welcome to parabot v2!");
 	}
 
 	@Override

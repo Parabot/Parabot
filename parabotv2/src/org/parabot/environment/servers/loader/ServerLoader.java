@@ -38,5 +38,9 @@ public class ServerLoader extends ASMClassLoader {
 			}
 		return classNames.toArray(new String[classNames.size()]);
 	}
+	
+	public ClassPath getClassPath() {
+		return classPath;
+	}
 
 }

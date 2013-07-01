@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -12,6 +13,7 @@ import java.util.zip.ZipInputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
+import org.parabot.core.build.BuildPath;
 
 /**
  * 
@@ -21,6 +23,20 @@ import org.objectweb.asm.tree.ClassNode;
 public class ClassPath {
 	public final HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
 	public final Map<String, URL> resources = new HashMap<String, URL>();
+	
+	private boolean isJar = false;
+	private boolean parseJar = true;
+	private ArrayList<URL> jarFiles = new ArrayList<URL>();
+	
+	public URL lastParsed = null;
+	
+	public ClassPath() {
+		
+	}
+	
+	public ClassPath(final boolean isJar) {
+		this.isJar = isJar;
+	}
 
 	/**
 	 * Adds jar to this classpath
@@ -36,6 +52,10 @@ public class ClassPath {
 	 */
 	public void addJar(final URL jarLocation) {
 		JarParser.parseJar(this, jarLocation.toString());
+	}
+	
+	public void parseJarFiles(final boolean enabled) {
+		this.parseJar = enabled;
 	}
 
 	/**
@@ -63,7 +83,11 @@ public class ClassPath {
 					if (f1.getName().endsWith(".class"))
 						loadClass(fin);
 					else if (f.equals(root) && f1.getName().endsWith(".jar")) {
-						loadClasses(f1.toURI().toURL());
+						jarFiles.add(f1.toURI().toURL());
+						if(this.parseJar) {
+							// if enabled, there may be problem with duplicate class names.......
+							loadClasses(f1.toURI().toURL());
+						}
 					} else {
 						String path = f1.toURI().relativize(root.toURI())
 								.getPath();
@@ -81,7 +105,8 @@ public class ClassPath {
 	 * 
 	 * @param url to file
 	 */
-	private void loadClasses(URL u) {
+	public void loadClasses(URL u) {
+		this.lastParsed = u;
 		try (ZipInputStream zin = new ZipInputStream(u.openStream())) {
 			ZipEntry e;
 			while ((e = zin.getNextEntry()) != null) {
@@ -113,6 +138,7 @@ public class ClassPath {
 		classes.put(cn.name, cn);
 	}
 
+
 	/**
 	 * Dumps the classnodes into a jar
 	 * 
@@ -121,5 +147,24 @@ public class ClassPath {
 	public void dump(final String jarName) {
 		JarDumper.dump(this, jarName);
 	}
+	
+	public boolean isJar() {
+		return isJar;
+	}
+	
+	public ClassPath[] getJarFiles() {
+		final ClassPath[] jars = new ClassPath[jarFiles.size()];
+		for(int i = 0; i < jarFiles.size(); i++) {
+			final ClassPath classPath = new ClassPath(true);
+			classPath.loadClasses(jarFiles.get(i));
+			jars[i] = classPath;
+		}
+		return jars;
+	}
+	
+	public void addToBuildPath() {
+		BuildPath.add(lastParsed);
+	}
+
 
 }

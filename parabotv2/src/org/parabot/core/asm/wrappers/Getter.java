@@ -35,6 +35,7 @@ public class Getter implements Injectable {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode);
 		this.methodName = methodName;
+		System.out.println(fieldNode);
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;
 	}
@@ -63,6 +64,10 @@ public class Getter implements Injectable {
 		getAdapter().inject();
 	}
 	
+	/**
+	 * Gets the AddGetterAdapter
+	 * @return AddGetterAdapter
+	 */
 	public AddGetterAdapter getAdapter() {
 		return new AddGetterAdapter(into, fieldLocation, fieldNode, methodName, returnDesc, staticMethod);
 	}

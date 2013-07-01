@@ -28,7 +28,7 @@ public class PaintDebugger {
 			}
 		}
 		g.setColor(Color.green);
-		int y = 20;
+		int y = 40;
 		while(stringDebug.size() > 0) {
 			g.drawString(stringDebug.poll(), 10, y);
 			y += 15;
@@ -39,7 +39,7 @@ public class PaintDebugger {
 		return Context.resolve().getPaintDebugger();
 	}
 	
-	public final void addString(final String debugLine) {
+	public final void addLine(final String debugLine) {
 		stringDebug.add(debugLine);
 	}
 	

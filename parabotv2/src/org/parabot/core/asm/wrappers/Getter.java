@@ -8,7 +8,7 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Getter implements Injectable {
@@ -35,7 +35,6 @@ public class Getter implements Injectable {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode);
 		this.methodName = methodName;
-		System.out.println(fieldNode);
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;
 	}

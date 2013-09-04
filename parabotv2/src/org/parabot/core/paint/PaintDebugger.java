@@ -10,7 +10,7 @@ import org.parabot.core.Context;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class PaintDebugger {

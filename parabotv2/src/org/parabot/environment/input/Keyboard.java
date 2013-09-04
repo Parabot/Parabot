@@ -10,7 +10,7 @@ import org.parabot.core.Context;
 
 /**
  * 
- * @author Clisprail, Matt, Dane
+ * @author Everel, Matt, Dane
  *
  */
 public class Keyboard implements KeyListener {

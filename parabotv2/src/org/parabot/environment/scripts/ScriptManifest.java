@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * A script manifest
- * @author Clisprail
+ * @author Everel
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,5 +22,9 @@ public @interface ScriptManifest {
 	String description();
 	
 	String[] servers();
+	
+	boolean vip() default false;
+	
+	boolean premium() default false;
 
 }

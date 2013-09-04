@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public interface Paintable {

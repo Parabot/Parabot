@@ -14,16 +14,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
-import org.parabot.core.ui.applet.LoadApplet;
 import org.parabot.core.ui.components.BotToolbar;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.LogArea;
+import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 
 /**
  * 
- * @author Dane
+ * @author Dane, Everel
  * 
  */
 public class BotUI extends JFrame implements ActionListener {
@@ -35,7 +35,7 @@ public class BotUI extends JFrame implements ActionListener {
 		return instance == null ? instance = new BotUI() : instance;
 	}
 
-	public BotUI() {
+	private BotUI() {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
 		this.setTitle("Parabot");
@@ -55,10 +55,10 @@ public class BotUI extends JFrame implements ActionListener {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu mnuFile = new JMenu("File");
-		JMenuItem itmScreenshot = new JMenuItem("Screenshot");
-		itmScreenshot.addActionListener(this);
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(this);
 
-		mnuFile.add(itmScreenshot);
+		mnuFile.add(exit);
 		menubar.add(mnuFile);
 
 		this.setJMenuBar(menubar);
@@ -84,14 +84,14 @@ public class BotUI extends JFrame implements ActionListener {
 
 		panel.add(toolbar);
 		panel.add(gamePanel);
-		gamePanel.add(LoadApplet.get());
+		gamePanel.add(VerboseLoader.get());
 		panel.add(scrlConsole);
 
 		this.add(panel, BorderLayout.CENTER);
 
 		SwingUtil.finalize(this);
 
-		LogArea.log("Welcome to parabot v2!");
+		LogArea.log("parabot v2.01 started");
 	}
 
 	@Override
@@ -99,11 +99,13 @@ public class BotUI extends JFrame implements ActionListener {
 		String command = e.getActionCommand();
 
 		switch (command) {
-			case "Screenshot":
-				LogArea.log("Boop");
+			case "Exit":
+				System.exit(0);
 				break;
 			default:
 				System.out.println("Invalid command: ");
 		}
 	}
+
+	
 }

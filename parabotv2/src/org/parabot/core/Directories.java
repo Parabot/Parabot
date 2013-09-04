@@ -13,7 +13,7 @@ import org.parabot.environment.OperatingSystem;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  * @author Matt
  * 
  */
@@ -31,6 +31,7 @@ public class Directories {
 				cached.put("Root", new File(System.getProperty("user.home")));
 		}
 
+		Core.verbose("Caching directories...");
 		cached.put("Root", getDefaultDirectory());
 		cached.put("Workspace", new File(cached.get("Root"), "/Parabot/"));
 		cached.put("Sources", new File(cached.get("Root"), "/Parabot/scripts/sources/"));
@@ -38,6 +39,8 @@ public class Directories {
 		cached.put("Resources", new File(cached.get("Root"), "/Parabot/scripts/resources/"));
 		cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
 		cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
+		cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
+		Core.verbose("Directories cached.");
 	}
 
 	/**
@@ -102,6 +105,15 @@ public class Directories {
 	public static File getServerPath() {
 		return cached.get("Servers");
 	}
+	
+	/**
+	 * Returns the Parabot cache folder.
+	 * 
+	 * @return
+	 */
+	public static File getCachePath() {
+		return cached.get("Cache");
+	}
 
 	/**
 	 * Validates all directories and makes them if necessary
@@ -118,10 +130,15 @@ public class Directories {
 		files.add(getScriptSourcesPath());
 		files.add(getScriptCompiledPath());
 		files.add(getResourcesPath());
+		files.add(getCachePath());
 		while (files.size() > 0) {
 			final File file = files.poll();
 			if (!file.exists()) {
+				Core.verbose("Generating directory: " + file.getAbsolutePath());
 				file.mkdirs();
+				if(!file.exists()) {
+					System.err.println("Failed to make directory: " + file.getAbsolutePath());
+				}
 			}
 		}
 	}

@@ -4,7 +4,7 @@ package org.parabot.environment.servers;
  * 
  * Bot type
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public enum Type {

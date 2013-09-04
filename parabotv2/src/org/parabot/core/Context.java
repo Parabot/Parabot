@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.TimerTask;
 
 import org.parabot.core.asm.ASMClassLoader;
-import org.parabot.core.bot.loader.BotLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.HookParser;
@@ -21,7 +20,7 @@ import org.parabot.environment.servers.ServerProvider;
 /**
  * Game context
  * 
- * @author Clisprail
+ * @author Everel
  * 
  */
 public class Context {
@@ -53,6 +52,7 @@ public class Context {
 		this.serverProvider = serverProvider;
 		id++;
 		this.classPath = new ClassPath();
+		classLoader = new ASMClassLoader(classPath);
 	}
 	
 	/**
@@ -69,13 +69,8 @@ public class Context {
 		return threadGroups.values().iterator().next();
 	}
 
-	/**
-	 * Sets the ServerProvider class loader
-	 * 
-	 * @param serverEnvironment
-	 */
-	public void setEnvironment(ASMClassLoader serverEnvironment) {
-		classLoader = new BotLoader(classPath, serverEnvironment);
+	public void setEnvironment() {
+		classLoader = new ASMClassLoader(classPath);
 	}
 
 	/**
@@ -157,12 +152,18 @@ public class Context {
 	 * Loads the game
 	 */
 	public void load() {
+		Core.verbose("Parsing server jar...");
 		serverProvider.parseJar();
+		Core.verbose("Done.");
+		Core.verbose("Injecting hooks...");
 		serverProvider.injectHooks();
+		Core.verbose("Done.");
+		Core.verbose("Fetching game applet...");;
 		gameApplet = serverProvider.fetchApplet();
 		if (getClient() == null) {
 			setClientInstance(gameApplet);
 		}
+		Core.verbose("Applet fetched.");
 		serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
 		BotUI.getInstance().validate();
 		final GamePanel panel = GamePanel.getInstance();
@@ -176,8 +177,12 @@ public class Context {
 				gameApplet.setBounds(0, 0, 765, 503);
 			}
 		}, 1000);
+		Core.verbose("Initializing mouse...");
 		serverProvider.initMouse();
+		Core.verbose("Done.");
+		Core.verbose("Initializing keyboard...");
 		serverProvider.initKeyboard();
+		Core.verbose("Done.");
 	}
 
 	/**
@@ -190,7 +195,7 @@ public class Context {
 	}
 
 	/**
-	 * Gets class loader from this context
+	 * Gets class loader of server from this context
 	 * 
 	 * @return class loader
 	 */

@@ -6,7 +6,7 @@ import java.net.URLClassLoader;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class BuildPath {

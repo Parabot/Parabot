@@ -14,6 +14,12 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.classpath.ClassPath;
 
+/**
+ * 
+ * @author Everel
+ * @author Matt
+ *
+ */
 public class ASMClassLoader extends ClassLoader {
 
 	private Map<String, Class<?>> classCache = new HashMap<String, Class<?>>();

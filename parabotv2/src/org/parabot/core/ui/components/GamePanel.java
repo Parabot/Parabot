@@ -8,20 +8,18 @@ import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 
 import org.parabot.core.Context;
-import org.parabot.core.ui.applet.LoadApplet;
 
 /**
  * 
  * Main panel where applets are added.
  * 
- * @author Clisprail
+ * @author Everel
  * 
- *
  */
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static GamePanel instance = null;
-	private static LoadApplet loader = LoadApplet.get();
+	private static VerboseLoader loader = VerboseLoader.get();
 	public Context context = null;
 
 	private GamePanel() {

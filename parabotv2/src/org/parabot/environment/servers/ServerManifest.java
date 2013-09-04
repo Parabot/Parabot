@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * A server manifest
- * @author Clisprail
+ * @author Everel
  *
  */
 @Retention(RetentionPolicy.RUNTIME)

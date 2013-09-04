@@ -3,7 +3,9 @@ package org.parabot.environment.scripts;
 import java.util.Collection;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.ui.components.BotToolbar;
+import org.parabot.core.ui.components.LogArea;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.AbstractFramework;
 import org.parabot.environment.scripts.framework.LoopTask;
@@ -12,7 +14,7 @@ import org.parabot.environment.scripts.framework.Strategy;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Script implements Runnable {
@@ -29,7 +31,7 @@ public class Script implements Runnable {
 	public static final int STATE_PAUSE = 1;
 	public static final int STATE_STOPPED = 2;
 	
-	public boolean onExecute() {
+	public boolean onExecute() { 
 		return true;
 	}
 	
@@ -58,24 +60,35 @@ public class Script implements Runnable {
 
 	@Override
 	public final void run() {
+		Core.verbose("Initializing script...");
 		Context.resolve().getServerProvider().initScript(this);
+		Core.verbose("Done.");
+		
 		if(!onExecute()) {
+			Core.verbose("Script#onExecute returned false, unloading and stopping script...");
 			Context.resolve().getServerProvider().unloadScript(this);
 			this.state = STATE_STOPPED;
+			Core.verbose("Done.");
 			return;
 		}
 		
+		Core.verbose("Detecting script framework...");
 		Context.resolve().setRunningScript(this);
 		BotToolbar.getInstance().toggleRun();
 		if(this instanceof LoopTask) {
+			Core.verbose("Script framework detected: LoopTask");
 			frameWorkType = TYPE_LOOP;
 			frameWork = Frameworks.getLooper((LoopTask) this);
 		} else if(strategies != null && !strategies.isEmpty()) {
+			Core.verbose("Script framework detected: Strategies");
 			frameWorkType = TYPE_STRATEGY;
 			frameWork = Frameworks.getStrategyWorker(strategies);
 		} else {
+			Core.verbose("Unknown script framework: Other");
 			frameWorkType = TYPE_OTHER;
 		}
+		Core.verbose("Running script...");
+		LogArea.log("Script started.");
 		try {
 			while(this.state != STATE_STOPPED) {
 				if(this.state == STATE_PAUSE) {
@@ -89,12 +102,14 @@ public class Script implements Runnable {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		Core.verbose("Script stopped/finished, unloading and stopping...");
 		onFinish();
-		
+		LogArea.log("Script stopped.");
 		Context.resolve().getServerProvider().unloadScript(this);
 		this.state = STATE_STOPPED;
 		Context.resolve().setRunningScript(null);
 		BotToolbar.getInstance().toggleRun();
+		Core.verbose("Done.");
 	}
 	
 	/**

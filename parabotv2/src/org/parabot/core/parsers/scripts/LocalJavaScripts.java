@@ -1,52 +1,32 @@
-package org.parabot.core.parsers;
+package org.parabot.core.parsers.scripts;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ScriptDescription;
+import org.parabot.environment.scripts.LocalScriptExecuter;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.ScriptManifest;
-import org.parabot.environment.scripts.loader.ScriptLoader;
+import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
 /**
  * 
- * @author Clisprail
- * 
+ * @author Everel
+ *
  */
-public class ScriptManifestParser {
-	
-	public static Map<ScriptDescription, Script> scriptCache = new HashMap<ScriptDescription, Script>();
+public class LocalJavaScripts extends ScriptParser {
 
-	/**
-	 * Gets server descriptions
-	 * 
-	 * @return list of descriptions
-	 */
-	public ScriptDescription[] getDescriptions() {
-		scriptCache.clear();
-		if (Core.inDebugMode()) {
-			return localDesc();
-		}
-		return publicDesc();
-	}
-
-	private ScriptDescription[] publicDesc() {
-		return null;
-	}
-
-	private ScriptDescription[] localDesc() {
+	@Override
+	public void execute() {
 		// parse classes in server directories
 		final ClassPath path = new ClassPath();
-		path.loadClasses(Directories.getScriptCompiledPath(), null);
+		path.addClasses(Directories.getScriptCompiledPath());
 
 		// init the script loader
-		final ScriptLoader loader = new ScriptLoader(path);
+		final JavaScriptLoader loader = new JavaScriptLoader(path);
 
 		// list of scripts
 		final List<Script> scripts = new ArrayList<Script>();
@@ -58,7 +38,13 @@ public class ScriptManifestParser {
 		for (final String className : loader.getScriptClassNames()) {
 			try {
 				// get class
-				final Class<?> scriptClass = loader.loadClass(className);
+				final Class<?> scriptClass;
+				try {
+					scriptClass = loader.loadClass(className);
+				} catch (NoClassDefFoundError ignored) {
+					// script for an other server provider
+					continue;
+				}
 				// get annotation
 				final Object annotation = scriptClass
 						.getAnnotation(ScriptManifest.class);
@@ -72,19 +58,21 @@ public class ScriptManifestParser {
 				final Constructor<?> con = scriptClass.getConstructor();
 				final Script script = (Script) con.newInstance();
 				scripts.add(script);
-				final ScriptDescription desc = new ScriptDescription(manifest.name(), manifest
-						.author(), manifest.category().toString(), manifest.version(), manifest.description(),
-						manifest.servers(), scripts.size() - 1);
-				scriptCache.put(desc, script);
+				final ScriptDescription desc = new ScriptDescription(
+						manifest.name(), manifest.author(), manifest.category()
+								.toString(), manifest.version(),
+						manifest.description(), manifest.servers(),
+						manifest.vip() ? "yes" : "no",
+						manifest.premium() ? "yes" : "no");
+				SCRIPT_CACHE.put(desc, new LocalScriptExecuter(script));
 				descs.add(desc);
+			} catch (ClassNotFoundException ignored) {
+			} catch (NoClassDefFoundError ignored) {
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
 		}
-		if (scripts.isEmpty()) {
-			return null;
-		}
-		return descs.toArray(new ScriptDescription[descs.size()]);
+
 	}
 
 }

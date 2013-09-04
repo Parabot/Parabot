@@ -1,16 +1,25 @@
 package org.parabot.core.desc;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class ServerDescription {
 	public String serverName = null;
 	public String author = null;
-	public int revision = 0;
-	public int providerIndex = -1;
-	
-	public ServerDescription(final String serverName, final String author, final int revision, final int providerIndex) {
+	public double revision = 0;
+
+	public ServerDescription(final String serverName, final String author,
+			final double revision) {
 		this.serverName = serverName;
 		this.author = author;
 		this.revision = revision;
-		this.providerIndex = providerIndex;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("[Server: %s, Author: %s, Revision: %.1f]", this.serverName, this.author, this.revision);
 	}
 
 }

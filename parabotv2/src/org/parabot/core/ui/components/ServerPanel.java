@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  * 
  */
 public class ServerPanel extends JPanel {

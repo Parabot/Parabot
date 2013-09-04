@@ -4,7 +4,7 @@ package org.parabot.environment.api.utils;
  * 
  * A simple timer class
  * 
- * @author Clisprail, Parameter
+ * @author Everel, Parameter
  * 
  */
 public class Timer

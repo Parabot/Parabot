@@ -2,7 +2,7 @@ package org.parabot.environment.api.utils;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Time {

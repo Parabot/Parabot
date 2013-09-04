@@ -25,7 +25,7 @@ import org.parabot.environment.scripts.Script;
 /**
  * Bot toolbar
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class BotToolbar extends JToolBar {

@@ -5,7 +5,12 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-public class Images {
+/**
+ * 
+ * @author Everel
+ *
+ */
+public final class Images {
 	private static final HashMap<String, BufferedImage> imageCache = new HashMap<String, BufferedImage>();
 	
 	public static BufferedImage getResource(final String resource) {

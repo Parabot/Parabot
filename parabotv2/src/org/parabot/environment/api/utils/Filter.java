@@ -3,7 +3,7 @@ package org.parabot.environment.api.utils;
 /**
  * A simple class to filter things
  * 
- * @author Clisprail
+ * @author Everel
  * 
  * @param <F>
  */

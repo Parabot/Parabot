@@ -6,6 +6,11 @@ import org.parabot.environment.scripts.framework.AbstractFramework;
 import org.parabot.environment.scripts.framework.LoopTask;
 import org.parabot.environment.scripts.framework.Strategy;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class Frameworks {
 	
 	public static Looper getLooper(LoopTask loopTask) {

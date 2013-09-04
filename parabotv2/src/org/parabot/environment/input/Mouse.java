@@ -11,7 +11,7 @@ import org.parabot.environment.api.utils.Time;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Mouse implements MouseListener, MouseMotionListener {

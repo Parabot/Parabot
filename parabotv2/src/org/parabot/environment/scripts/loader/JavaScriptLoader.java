@@ -12,14 +12,14 @@ import org.parabot.environment.scripts.Script;
  * 
  * An environment to load a server
  * 
- * @author Clisprail
+ * @author Everel
  * 
  * 
  */
-public class ScriptLoader extends ASMClassLoader {
+public class JavaScriptLoader extends ASMClassLoader {
 	private ClassPath classPath = null;
 
-	public ScriptLoader(ClassPath classPath) {
+	public JavaScriptLoader(ClassPath classPath) {
 		super(classPath);
 		this.classPath = classPath;
 	}

@@ -2,6 +2,11 @@ package org.parabot.core.ui.utils;
 
 import javax.swing.JOptionPane;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class UILog {
 
 	public static void log(final String title, final String message) {

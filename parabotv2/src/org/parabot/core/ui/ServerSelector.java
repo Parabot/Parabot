@@ -10,14 +10,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.parsers.ServerManifestParser;
+import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.widgets.ServerWidget;
 import org.parabot.environment.Environment;
 
 /**
  * 
- * @author Dane, Clisprail
+ * Shows a list of every supported server which can be started
+ * 
+ * @author Dane, Everel
  * 
  */
 
@@ -81,22 +83,27 @@ public class ServerSelector extends JFrame {
 	 * @param widgets
 	 */
 	private boolean runServer(Queue<ServerWidget> widgets) {
+		// TODO: test this method
 		if(widgets == null || widgets.isEmpty()) {
 			return false;
 		}
 		final String serverName = initServer.toLowerCase();
 		for(ServerWidget widget : widgets) {
 			if(widget.desc.serverName.toLowerCase().equals(serverName)) {
-				Environment.load(widget.desc, widget.desc.serverName.replaceAll(" ", ""));
+				Environment.load(widget.desc);
 				return true;
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Fetches array of server widgets
+	 * @return widgets array
+	 */
 	public Queue<ServerWidget> getServers() {
 		final Queue<ServerWidget> widgets = new LinkedList<ServerWidget>();
-		ServerDescription[] servers = new ServerManifestParser().getDescriptions();
+		ServerDescription[] servers = ServerParser.getDescriptions();
 		if (servers != null) {
 			for (ServerDescription desc : servers) {
 				widgets.add(new ServerWidget(desc));

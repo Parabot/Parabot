@@ -4,7 +4,7 @@ import org.parabot.core.asm.adapters.AddSuperAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Super implements Injectable {

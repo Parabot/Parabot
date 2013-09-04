@@ -5,7 +5,7 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Interface implements Injectable {

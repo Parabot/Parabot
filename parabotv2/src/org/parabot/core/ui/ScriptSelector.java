@@ -26,16 +26,18 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 
 import org.parabot.core.Context;
-import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.desc.ScriptDescription;
-import org.parabot.core.parsers.ScriptManifestParser;
+import org.parabot.core.parsers.scripts.ScriptParser;
 import org.parabot.environment.scripts.Category;
 
 /**
- * @author Clisprail
+ * 
+ * Script Selector GUI, shows all scripts
+ * 
+ * @author Everel
  */
-public class ScriptSelector extends JFrame {
+public final class ScriptSelector extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, DefaultMutableTreeNode> categories = new HashMap<String, DefaultMutableTreeNode>();
 	private HashMap<String, ScriptDescription> format = new HashMap<String, ScriptDescription>();
@@ -44,7 +46,7 @@ public class ScriptSelector extends JFrame {
 	private final int WIDTH = 640;
 	private final int HEIGHT = 256 + 128;
 
-	public static ScriptManifestParser parser = null;
+	public static ScriptParser parser = null;
 
 	public ScriptSelector() {
 		model = new DefaultTreeModel(root);
@@ -56,16 +58,11 @@ public class ScriptSelector extends JFrame {
 		dispose();
 		final ThreadGroup tg = Context.threadGroups.keySet().iterator()
 				.next();
-		new Thread(tg, ScriptManifestParser.scriptCache.get(desc)).start();
+		ScriptParser.SCRIPT_CACHE.get(desc).run(tg);
 	}
 
 	private void putScripts() {
-		localScripts();
-	}
-
-	private void localScripts() {
-		parser = new ScriptManifestParser();
-		final ScriptDescription[] descs = parser.getDescriptions();
+		final ScriptDescription[] descs = ScriptParser.getDescriptions();
 		if (descs == null) {
 			return;
 		}
@@ -83,6 +80,7 @@ public class ScriptSelector extends JFrame {
 			format.put(scriptDesc.scriptName, scriptDesc);
 		}
 	}
+
 
 	private String getScriptName(String path) {
 		return path.split(", ")[2].replaceAll("\\]", "");
@@ -166,14 +164,12 @@ public class ScriptSelector extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String s = getScriptName(tree.getSelectionPath().toString());
 				if (s != null) {
-					if (Core.inDebugMode()) {
-						runScript(format.get(s));
-					}
+					runScript(format.get(s));
 				}
 			}
 		});
 
-		JButton cmdHome = new JButton("Open Home");
+		JButton cmdHome = new JButton("Open home");
 		cmdHome.setBounds(WIDTH - (96 * 2) - 4 - 32, HEIGHT - 24 - 4, 96 + 32,
 				24);
 		cmdHome.addActionListener(new ActionListener() {

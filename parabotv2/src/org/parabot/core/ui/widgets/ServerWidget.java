@@ -12,13 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.environment.Environment;
 
 /**
  * A colorful server widget
- * @author Clisprail
- *
+ * 
+ * @author Everel
+ * 
  */
 public class ServerWidget extends JPanel {
 
@@ -29,7 +31,7 @@ public class ServerWidget extends JPanel {
 	final ActionListener play = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			load(desc, name);
+			load(desc);
 		}
 	};
 
@@ -41,7 +43,7 @@ public class ServerWidget extends JPanel {
 		l.setFont(new Font("Arial", Font.BOLD, 16));
 		l.setForeground(Color.white);
 		l.setText(desc.serverName);
-		l.setBounds(10, 10, 100, 20);
+		l.setBounds(10, 10, 200, 20);
 		add(l);
 		final Font f = new Font("Arial", Font.PLAIN, 12);
 		add(l);
@@ -85,8 +87,15 @@ public class ServerWidget extends JPanel {
 		g2d.fillRect(0, 0, w, h);
 	}
 
-	public void load(final ServerDescription desc, final String serverName) {
+	public void load(final ServerDescription desc) {
 		ServerSelector.getInstance().dispose();
-		Environment.load(desc, serverName);
+		BotUI.getInstance().setVisible(true);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Environment.load(desc);
+
+			}
+		}).start();
 	}
 }

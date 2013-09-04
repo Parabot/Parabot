@@ -10,11 +10,17 @@ import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import org.parabot.core.Core;
 import org.parabot.core.logging.LogFormatter;
 import org.parabot.core.logging.LogTextArea;
 import org.parabot.core.logging.SystemConsoleHandler;
 import org.parabot.core.logging.TextAreaLogHandler;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class LogArea extends JScrollPane {
 
 	private static final long serialVersionUID = 6571141103751675714L;
@@ -22,7 +28,9 @@ public class LogArea extends JScrollPane {
 	private static LogTextArea logArea = new LogTextArea();
 
 	private LogArea() {
-		super(TextAreaLogHandler.TEXT_AREA, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		super(TextAreaLogHandler.TEXT_AREA,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		setVisible(true);
 		registerLogging();
 	}
@@ -54,20 +62,26 @@ public class LogArea extends JScrollPane {
 	}
 
 	public void registerLogging() {
+		Core.verbose("Registering logging...");
 		final Properties logging = new Properties();
 		final String logFormatter = LogFormatter.class.getCanonicalName();
 		final String fileHandler = FileHandler.class.getCanonicalName();
-		logging.setProperty("handlers", TextAreaLogHandler.class.getCanonicalName() + "," + fileHandler);
+		logging.setProperty("handlers",
+				TextAreaLogHandler.class.getCanonicalName() + "," + fileHandler);
 		logging.setProperty(".level", "INFO");
-		logging.setProperty(SystemConsoleHandler.class.getCanonicalName() + ".formatter", logFormatter);
+		logging.setProperty(SystemConsoleHandler.class.getCanonicalName()
+				+ ".formatter", logFormatter);
 		logging.setProperty(fileHandler + ".formatter", logFormatter);
-		logging.setProperty(TextAreaLogHandler.class.getCanonicalName() + ".formatter", logFormatter);
+		logging.setProperty(TextAreaLogHandler.class.getCanonicalName()
+				+ ".formatter", logFormatter);
 		final ByteArrayOutputStream logout = new ByteArrayOutputStream();
 		try {
 			logging.store(logout, "");
-			LogManager.getLogManager().readConfiguration(new ByteArrayInputStream(logout.toByteArray()));
+			LogManager.getLogManager().readConfiguration(
+					new ByteArrayInputStream(logout.toByteArray()));
 		} catch (final Exception ignored) {
 		}
+		Core.verbose("Done.");
 	}
 
 }

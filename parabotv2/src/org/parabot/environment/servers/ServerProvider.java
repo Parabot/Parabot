@@ -16,7 +16,7 @@ import org.parabot.environment.scripts.Script;
 /**
  * Provides a server to the bot
  * 
- * @author Clisprail
+ * @author Everel
  * 
  */
 public abstract class ServerProvider implements Opcodes {

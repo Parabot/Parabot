@@ -3,6 +3,11 @@ package org.parabot.core.ui.utils;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+/**
+ * 
+ * @author Dane
+ *
+ */
 public class AwtUtil {
 
 	private static Toolkit toolkit;

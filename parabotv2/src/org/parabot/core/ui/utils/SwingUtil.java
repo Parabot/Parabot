@@ -2,6 +2,11 @@ package org.parabot.core.ui.utils;
 
 import javax.swing.JFrame;
 
+/**
+ * 
+ * @author Dane
+ *
+ */
 public class SwingUtil {
 
 	/**

@@ -1,7 +1,6 @@
 package org.parabot.environment;
 
-public enum OperatingSystem
-{
+public enum OperatingSystem {
 
 	WINDOWS, LINUX, MAC, OTHER;
 
@@ -17,4 +16,3 @@ public enum OperatingSystem
 	}
 
 }
-

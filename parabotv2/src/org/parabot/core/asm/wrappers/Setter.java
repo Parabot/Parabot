@@ -8,7 +8,7 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
- * @author Clisprail
+ * @author Everel
  *
  */
 public class Setter implements Injectable {

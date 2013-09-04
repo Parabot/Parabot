@@ -80,7 +80,7 @@ public class ServerWidget extends JPanel {
 		setOpaque(true);
 		int w = getWidth();
 		int h = getHeight();
-		Color color1 = new Color(160, 0, 0);
+		Color color1 = new Color(41, 97, 105);
 		Color color2 = color1.darker();
 		GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
 		g2d.setPaint(gp);

@@ -1,6 +1,8 @@
 /id_rsa
 /id_rsa.pub
 /known_hosts
+parabotv2/python
+out
 
 .idea/compiler.xml
 
@@ -21,3 +23,9 @@
 .idea/workspace.xml
 
 parabotv2/parabotv2.iml
+
+.idea/libraries/jython.xml
+
+parabotv2/src/META-INF/MANIFEST.MF
+
+.idea/artifacts/Parabot_V2_02.xml

@@ -1,14 +1,15 @@
 package org.parabot;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
+import org.parabot.core.spoofing.Ip;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+
+import javax.swing.*;
+import java.io.IOException;
 
 /**
  * Parabot v2
@@ -22,7 +23,7 @@ public final class Landing {
 	private static String username = null;
 	private static String password = null;
 
-	public static void main(String... args) {
+	public static void main(String... args) throws IOException {
 		parseArgs(args);
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());
@@ -59,7 +60,7 @@ public final class Landing {
 		new LoginUI().setVisible(true);
 	}
 
-	private static void parseArgs(String... args) {
+	private static void parseArgs(String... args){
 		for (int i = 0; i < args.length; i++) {
 			final String arg = args[i].toLowerCase();
 			switch (arg) {
@@ -83,7 +84,10 @@ public final class Landing {
 				username = args[++i];
 				password = args[++i];
 				break;
-			}
+            case "-proxy":
+                Ip.spoofIP(args[++i], args[++i]);
+                break;
+            }
 
 		}
 	}

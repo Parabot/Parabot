@@ -1,4 +1,4 @@
 Parabot
 =======
 
-Parabot v2.01, the new parabot.
+Parabot v2.02, the new parabot.

@@ -1,11 +1,9 @@
 package org.parabot;
 
-import org.matt123337.patcher.ClassRemapper;
-import org.objectweb.asm.commons.RemappingClassAdapter;
-import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
+import org.parabot.core.spoofing.Ip;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
@@ -87,16 +85,11 @@ public final class Landing {
 				password = args[++i];
 				break;
             case "-proxy":
+                Ip.spoofIP(args[++i], args[++i]);
                 break;
             }
 
 		}
 	}
-    public ClassNode remapClasses(ClassNode c){
-        ClassNode ret = new ClassNode();
-        RemappingClassAdapter adapter = new RemappingClassAdapter(ret,new ClassRemapper());
-        c.accept(adapter);
-        return ret;
-    }
 
 }

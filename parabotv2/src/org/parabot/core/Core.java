@@ -1,9 +1,9 @@
 package org.parabot.core;
 
+import org.parabot.environment.api.utils.WebUtil;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-
-import org.parabot.environment.api.utils.WebUtil;
 
 /**
  * 

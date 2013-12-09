@@ -31,3 +31,15 @@ parabotv2/src/META-INF/MANIFEST.MF
 .idea/artifacts/Parabot_V2_02.xml
 
 .idea/artifacts/parabotv2.xml
+
+*.dat
+
+*.idx0
+
+*.idx2
+
+*.idx1
+
+*.idx4
+
+*.idx3

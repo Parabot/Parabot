@@ -64,7 +64,7 @@ public class Core {
 		BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
 		try {
 			double version = Double.parseDouble(br.readLine());
-			if (Configuration.BOT_VERSION == version) {
+			if (Configuration.BOT_VERSION >= version) {
 				Core.verbose("No updates available.");
 				return true;
 			}

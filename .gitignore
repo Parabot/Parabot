@@ -43,3 +43,4 @@ parabotv2/src/META-INF/MANIFEST.MF
 *.idx4
 
 *.idx3
+/bin

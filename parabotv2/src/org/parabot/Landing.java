@@ -14,9 +14,9 @@ import java.io.IOException;
 /**
  * Parabot v2
  * 
- * @author Everel/Parnassian
+ * @author Everel/Parnassian/Clisprail
  * @author Matt, Dane
- * @version 2.01
+ * @version 2.04
  */
 public final class Landing {
 	// forum account

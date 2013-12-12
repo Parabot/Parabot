@@ -60,7 +60,7 @@ public final class Landing {
 		new LoginUI().setVisible(true);
 	}
 
-	private static void parseArgs(String... args){
+	private static void parseArgs(String... args) {
 		for (int i = 0; i < args.length; i++) {
 			final String arg = args[i].toLowerCase();
 			switch (arg) {
@@ -84,10 +84,10 @@ public final class Landing {
 				username = args[++i];
 				password = args[++i];
 				break;
-            case "-proxy":
-                Ip.spoofIP(args[++i], args[++i]);
-                break;
-            }
+			case "-proxy":
+				Ip.spoofIP(args[++i], args[++i]);
+				break;
+			}
 
 		}
 	}

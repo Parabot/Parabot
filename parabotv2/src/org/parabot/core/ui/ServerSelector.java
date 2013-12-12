@@ -28,7 +28,7 @@ public class ServerSelector extends JFrame {
 	private static final long serialVersionUID = 5238720307271493899L;
 	private static ServerSelector instance = null;
 	private JPanel panel;
-	
+
 	public static String initServer = null;
 
 	public static ServerSelector getInstance() {
@@ -39,10 +39,10 @@ public class ServerSelector extends JFrame {
 	}
 
 	public ServerSelector() {
-		
+
 		Queue<ServerWidget> widgets = getServers();
-		if(initServer != null) {
-			if(runServer(widgets)) {
+		if (initServer != null) {
+			if (runServer(widgets)) {
 				initServer = null;
 				return;
 			}
@@ -53,23 +53,30 @@ public class ServerSelector extends JFrame {
 		this.setResizable(false);
 
 		this.panel = new JPanel(new BorderLayout());
-		this.panel.setPreferredSize(new Dimension(400, 200));
+		this.panel.setPreferredSize(new Dimension(600, 400));
 
 		JPanel interior = new JPanel(null);
-		interior.setPreferredSize(new Dimension(400, widgets.size() * 100));
 
 		int i = 0;
+		int y = 0;
 		while (widgets != null && !widgets.isEmpty()) {
 			final ServerWidget w = widgets.poll();
-			w.setSize(400, 100);
-			w.setLocation(0, i * 100);
+			w.setSize(300, 100);
+			if(i % 2 == 0 && i != 0) {
+				y += 100;
+			}
+			w.setLocation(i % 2 == 0 ? 0 : 300, y);
 			interior.add(w);
 			i++;
 		}
+		y += 100;
+		interior.setPreferredSize(new Dimension(300, y));
 
 		JScrollPane scrlInterior = new JScrollPane(interior);
-		scrlInterior.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrlInterior.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrlInterior
+				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrlInterior
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		this.panel.add(scrlInterior, BorderLayout.CENTER);
 		this.add(panel);
@@ -77,19 +84,20 @@ public class ServerSelector extends JFrame {
 		SwingUtil.finalize(this);
 
 	}
-	
+
 	/**
 	 * This method is called when -server argument is given
+	 * 
 	 * @param widgets
 	 */
 	private boolean runServer(Queue<ServerWidget> widgets) {
 		// TODO: test this method
-		if(widgets == null || widgets.isEmpty()) {
+		if (widgets == null || widgets.isEmpty()) {
 			return false;
 		}
 		final String serverName = initServer.toLowerCase();
-		for(ServerWidget widget : widgets) {
-			if(widget.desc.serverName.toLowerCase().equals(serverName)) {
+		for (ServerWidget widget : widgets) {
+			if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
 				Environment.load(widget.desc);
 				return true;
 			}
@@ -99,6 +107,7 @@ public class ServerSelector extends JFrame {
 
 	/**
 	 * Fetches array of server widgets
+	 * 
 	 * @return widgets array
 	 */
 	public Queue<ServerWidget> getServers() {

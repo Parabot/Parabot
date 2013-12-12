@@ -1,14 +1,15 @@
 package org.parabot.core.ui.widgets;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.GradientPaint;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 
 import org.parabot.core.desc.ServerDescription;
@@ -22,49 +23,22 @@ import org.parabot.environment.Environment;
  * @author Everel
  * 
  */
-public class ServerWidget extends JPanel {
+public class ServerWidget extends JPanel implements MouseListener,
+		MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	private String name = null;
 	public ServerDescription desc = null;
-
-	final ActionListener play = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			load(desc);
-		}
-	};
+	private boolean hovered = false;
 
 	public ServerWidget(final ServerDescription desc) {
 		this.desc = desc;
 		setLayout(null);
-		this.name = desc.serverName.replaceAll(" ", "");
-		JLabel l = new JLabel();
-		l.setFont(new Font("Arial", Font.BOLD, 16));
-		l.setForeground(Color.white);
-		l.setText(desc.serverName);
-		l.setBounds(10, 10, 200, 20);
-		add(l);
-		final Font f = new Font("Arial", Font.PLAIN, 12);
-		add(l);
-		l = new JLabel();
-		l.setFont(f);
-		l.setForeground(Color.white);
-		l.setBounds(10, 45, 100, 20);
-		l.setText("Author: " + desc.author);
-		add(l);
-		l = new JLabel();
-		l.setFont(f);
-		l.setForeground(Color.white);
-		l.setBounds(10, 60, 100, 20);
-		l.setText("Revision: " + desc.revision);
-		add(l);
-		final JButton b = new JButton("Start");
-		b.setFocusable(false);
-		b.setBounds(300, 70, 70, 20);
-		b.setOpaque(false);
-		b.addActionListener(play);
-		add(b);
+		this.name = desc.getServerName().replaceAll(" ", "");
+
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
 	@Override
@@ -80,11 +54,28 @@ public class ServerWidget extends JPanel {
 		setOpaque(true);
 		int w = getWidth();
 		int h = getHeight();
-		Color color1 = new Color(41, 97, 105);
-		Color color2 = color1.darker();
-		GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-		g2d.setPaint(gp);
+
+		Color bgColor = Color.LIGHT_GRAY;
+		if (hovered) {
+			bgColor = Color.GRAY;
+		}
+		g2d.setColor(bgColor);
 		g2d.fillRect(0, 0, w, h);
+		g.setColor(Color.black);
+		Font title = new Font("Arial", Font.BOLD, 16);
+		g.setFont(title);
+		String serverName = desc.getServerName();
+		int sw = g.getFontMetrics().stringWidth(serverName);
+		g.drawString(serverName, (w / 2) - (sw / 2), 30);
+
+		Font normal = new Font("Arial", Font.PLAIN, 12);
+		g.setFont(normal);
+		FontMetrics fm = g.getFontMetrics();
+		String author = "Author: " + desc.getAuthor();
+		String revision = "Revision: " + desc.getRevision();
+
+		g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
+		g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);
 	}
 
 	public void load(final ServerDescription desc) {
@@ -97,5 +88,45 @@ public class ServerWidget extends JPanel {
 
 			}
 		}).start();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (!hovered) {
+			hovered = true;
+			this.repaint();
+		}
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if (hovered) {
+			hovered = false;
+			this.repaint();
+		}
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (hovered) {
+			load(desc);
+		}
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 	}
 }

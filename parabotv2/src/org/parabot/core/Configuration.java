@@ -13,6 +13,6 @@ public class Configuration {
 	public static final String GET_SERVER_PROVIDER = "http://sdn.parabot.org/providers/%s";
 	public static final String GET_BOT_VERSION = "http://bot.parabot.org/version.txt";
 	
-	public static final double BOT_VERSION = 2.03;
+	public static final double BOT_VERSION = 2.04; // BETA
 	
 }

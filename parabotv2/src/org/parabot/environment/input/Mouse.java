@@ -11,6 +11,8 @@ import org.parabot.environment.api.utils.Time;
 
 /**
  * 
+ * A virtual mouse, dispatches mouse events to a component
+ * 
  * @author Everel
  *
  */

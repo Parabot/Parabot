@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 
 /**
  * 
+ * Holds various awt util based methods
+ * 
  * @author Dane
  *
  */

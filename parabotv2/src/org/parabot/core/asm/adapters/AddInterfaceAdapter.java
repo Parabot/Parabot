@@ -7,6 +7,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
+ * This class appends an interface to a class
+ * 
  * @author Everel
  * 
  */

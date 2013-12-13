@@ -2,6 +2,8 @@ package org.parabot.environment.api.utils;
 
 /**
  * 
+ * Holds various Time utilities
+ * 
  * @author Everel
  *
  */

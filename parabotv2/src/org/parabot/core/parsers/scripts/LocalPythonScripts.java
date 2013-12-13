@@ -14,7 +14,7 @@ import org.python.util.PythonInterpreter;
 
 /**
  * 
- * Parser python scripts
+ * Parses python scripts
  * 
  * @author Everel
  *

@@ -10,6 +10,8 @@ import org.parabot.core.Context;
 
 /**
  * 
+ * Manages and paints on a collection of AbstractDebuggers
+ * 
  * @author Everel
  *
  */

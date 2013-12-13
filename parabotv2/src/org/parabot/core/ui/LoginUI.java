@@ -26,6 +26,8 @@ import org.parabot.core.ui.utils.SwingUtil;
 
 /**
  * 
+ * Users must login with their parabot account through this LoginUI class
+ * 
  * @author Everel
  *
  */

@@ -16,6 +16,8 @@ import org.parabot.core.classpath.ClassPath;
 
 /**
  * 
+ * Makes classnodes into runnable classes
+ * 
  * @author Everel
  * @author Matt
  *

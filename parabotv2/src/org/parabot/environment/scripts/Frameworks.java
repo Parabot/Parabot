@@ -8,6 +8,8 @@ import org.parabot.environment.scripts.framework.Strategy;
 
 /**
  * 
+ * Holds various script frameworks
+ * 
  * @author Everel
  *
  */

@@ -8,6 +8,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
+ * This class is used for injecting an invoker into a methodnode
+ * 
  * @author Everel
  *
  */

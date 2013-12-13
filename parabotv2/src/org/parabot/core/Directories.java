@@ -13,6 +13,8 @@ import org.parabot.environment.OperatingSystem;
 
 /**
  * 
+ * Holds parabot's used directories
+ * 
  * @author Everel
  * @author Matt
  * 

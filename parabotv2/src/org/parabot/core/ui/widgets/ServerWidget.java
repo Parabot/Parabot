@@ -18,7 +18,7 @@ import org.parabot.core.ui.ServerSelector;
 import org.parabot.environment.Environment;
 
 /**
- * A colorful server widget
+ * A neat looking server widget
  * 
  * @author Everel
  * 

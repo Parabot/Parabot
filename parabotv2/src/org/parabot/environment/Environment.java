@@ -10,6 +10,8 @@ import org.parabot.environment.api.utils.WebUtil;
 
 /**
  * 
+ * Initiliazes the bot environment
+ * 
  * @author Everel
  * 
  */

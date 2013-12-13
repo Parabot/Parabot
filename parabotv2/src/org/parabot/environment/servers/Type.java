@@ -2,7 +2,7 @@ package org.parabot.environment.servers;
 
 /**
  * 
- * Bot type
+ * Server provider type
  * 
  * @author Everel
  *

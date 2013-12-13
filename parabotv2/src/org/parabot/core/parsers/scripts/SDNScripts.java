@@ -11,6 +11,8 @@ import org.parabot.environment.scripts.SDNScriptExecuter;
 
 /**
  * 
+ * Parses scripts stored at parabot´s sdn
+ * 
  * @author Everel
  *
  */

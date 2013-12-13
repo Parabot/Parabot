@@ -18,6 +18,8 @@ import org.parabot.core.logging.TextAreaLogHandler;
 
 /**
  * 
+ * The LogArea of the BotUI
+ * 
  * @author Everel
  *
  */

@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 /**
  * 
+ * Game Applet holder
+ * 
  * @author Everel
  * 
  */

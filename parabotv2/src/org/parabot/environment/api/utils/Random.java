@@ -2,6 +2,8 @@ package org.parabot.environment.api.utils;
 
 /**
  * 
+ * A random class is used for generating random numbers
+ * 
  * @author Everel
  *
  */

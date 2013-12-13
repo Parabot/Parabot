@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 
 /**
  * 
+ * Caches and loads images from resource
+ * 
  * @author Everel
  *
  */

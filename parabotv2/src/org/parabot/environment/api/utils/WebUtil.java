@@ -16,6 +16,8 @@ import org.parabot.core.io.SizeInputStream;
 
 /**
  * 
+ * A WebUtil class fetches data from an URL
+ * 
  * @author Everel
  * 
  */

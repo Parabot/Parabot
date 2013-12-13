@@ -10,7 +10,7 @@ import org.parabot.environment.scripts.Script;
 
 /**
  * 
- * An environment to load a server
+ * An environment to load a script
  * 
  * @author Everel
  * 

@@ -28,6 +28,8 @@ import org.parabot.core.ui.components.VerboseLoader;
 
 /**
  * 
+ * Manages, parses and dumps class files & jars
+ * 
  * @author Everel
  * @author Matt
  */

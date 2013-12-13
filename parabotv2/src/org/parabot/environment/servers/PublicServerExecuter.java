@@ -19,6 +19,8 @@ import org.parabot.environment.servers.loader.ServerLoader;
 
 /**
  * 
+ * Fetches a server provider from the parabot sdn
+ * 
  * @author Everel
  * 
  */

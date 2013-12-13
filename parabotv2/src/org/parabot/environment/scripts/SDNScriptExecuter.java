@@ -16,6 +16,8 @@ import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
 /**
  * 
+ * Loads a script from the SDN
+ * 
  * @author Everel
  *
  */

@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 
 /**
  * 
+ * The bot user interface
+ * 
  * @author Dane, Everel
  * 
  */

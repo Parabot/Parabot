@@ -14,6 +14,8 @@ import org.parabot.environment.scripts.framework.Strategy;
 
 /**
  * 
+ * Script template, scripts are 'add-ons' which executes various tasks in-game
+ * 
  * @author Everel
  *
  */

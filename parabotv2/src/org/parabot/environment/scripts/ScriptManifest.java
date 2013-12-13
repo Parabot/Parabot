@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * A script manifest
+ * A script manifest, holds all script data
  * @author Everel
  *
  */

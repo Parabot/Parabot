@@ -4,6 +4,8 @@ import javax.swing.JOptionPane;
 
 /**
  * 
+ * Log messages to the log user interface which is attached to the bot user interface
+ * 
  * @author Everel
  *
  */

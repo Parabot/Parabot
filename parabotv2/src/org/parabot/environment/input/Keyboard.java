@@ -10,6 +10,8 @@ import org.parabot.core.Context;
 
 /**
  * 
+ * Virtual keyboard, dispatches key events to a component.
+ * 
  * @author Everel, Matt, Dane
  *
  */

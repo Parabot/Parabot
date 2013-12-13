@@ -1,5 +1,12 @@
 package org.parabot.environment;
 
+/**
+ * 
+ * This class is used for detecting the user's operating system
+ * 
+ * @author Everel
+ * 
+ */
 public enum OperatingSystem {
 
 	WINDOWS, LINUX, MAC, OTHER;

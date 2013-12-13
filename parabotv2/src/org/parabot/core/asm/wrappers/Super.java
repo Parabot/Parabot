@@ -4,6 +4,8 @@ import org.parabot.core.asm.adapters.AddSuperAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
 /**
  * 
+ * This class is used for changing the super class of a class
+ * 
  * @author Everel
  *
  */

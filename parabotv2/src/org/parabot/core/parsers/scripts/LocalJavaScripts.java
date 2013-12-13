@@ -14,6 +14,8 @@ import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
 /**
  * 
+ * Parses locally stored java scripts
+ * 
  * @author Everel
  *
  */

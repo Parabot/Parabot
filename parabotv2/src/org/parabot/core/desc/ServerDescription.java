@@ -2,6 +2,8 @@ package org.parabot.core.desc;
 
 /**
  * 
+ * Holds information about a server
+ * 
  * @author Everel
  * 
  */

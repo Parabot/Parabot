@@ -2,6 +2,8 @@ package org.parabot.environment.scripts;
 
 /**
  * 
+ * Loads a locally stored script
+ * 
  * @author Everel
  *
  */

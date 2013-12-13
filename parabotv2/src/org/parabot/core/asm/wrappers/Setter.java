@@ -8,6 +8,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
+ * This class is used for injecting a setter for a specific field
+ * 
  * @author Everel
  *
  */

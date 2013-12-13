@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 /**
  * 
+ * Holds various swing util based methods
+ * 
  * @author Dane
  *
  */

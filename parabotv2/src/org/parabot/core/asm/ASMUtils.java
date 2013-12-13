@@ -8,6 +8,8 @@ import org.parabot.core.Context;
 
 /**
  * 
+ * A collection of various asm util methods
+ * 
  * @author Everel
  * 
  */

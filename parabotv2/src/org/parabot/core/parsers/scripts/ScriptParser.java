@@ -11,6 +11,8 @@ import org.parabot.environment.scripts.ScriptExecuter;
 
 /**
  * 
+ * Abstract class for parsing scripts
+ * 
  * @author Everel
  *
  */

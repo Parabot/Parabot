@@ -9,6 +9,8 @@ import org.parabot.core.build.BuildPath;
 
 /**
  * 
+ * Jython util class
+ * 
  * @author Everel
  *
  */

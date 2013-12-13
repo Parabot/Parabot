@@ -7,8 +7,7 @@ package org.parabot.environment.api.utils;
  * @author Everel, Parameter
  * 
  */
-public class Timer
-{
+public class Timer {
 
 	private long start;
 	private long end;
@@ -18,8 +17,7 @@ public class Timer
 	 * 
 	 * @param start
 	 */
-	public Timer(long end)
-	{
+	public Timer(long end) {
 
 		start = System.currentTimeMillis();
 		this.end = System.currentTimeMillis() + end;
@@ -28,8 +26,7 @@ public class Timer
 	/**
 	 * Timer Constructor
 	 */
-	public Timer()
-	{
+	public Timer() {
 		this(0);
 	}
 
@@ -43,7 +40,8 @@ public class Timer
 	}
 
 	/**
-	 * Determines if the end time has been reached, does not mean it stopped running.
+	 * Determines if the end time has been reached, does not mean it stopped
+	 * running.
 	 */
 	public boolean isFinished() {
 		return System.currentTimeMillis() > end;

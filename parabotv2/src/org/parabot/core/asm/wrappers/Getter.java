@@ -8,6 +8,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
+ * This class injects a getter which gets a specific field
+ * 
  * @author Everel
  *
  */

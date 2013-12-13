@@ -7,6 +7,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 
 /**
  * 
+ * This class is used for injecting a callback into a methodnode
+ * 
  * @author Everel
  *
  */

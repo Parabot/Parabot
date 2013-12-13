@@ -5,6 +5,8 @@ import org.parabot.core.ui.components.BotToolbar;
 
 /**
  * 
+ * Executes a server provider
+ * 
  * @author Everel
  *
  */

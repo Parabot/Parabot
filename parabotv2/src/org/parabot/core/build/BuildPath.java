@@ -6,6 +6,8 @@ import java.net.URLClassLoader;
 
 /**
  * 
+ * Class used for adding urls to the buildpath
+ * 
  * @author Everel
  *
  */

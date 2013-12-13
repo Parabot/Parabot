@@ -2,6 +2,8 @@ package org.parabot.core;
 
 /**
  * 
+ * Holds some important constants
+ * 
  * @author Everel
  *
  */

@@ -31,7 +31,7 @@
 package org.objectweb.asm;
 
 /**
- * Information about a class being parsed in a {@link org.objectweb.asm.ClassReader}.
+ * Information about a class being parsed in a {@link ClassReader}.
  * 
  * @author Eric Bruneton
  */
@@ -43,7 +43,7 @@ class Context {
     Attribute[] attrs;
 
     /**
-     * The {@link org.objectweb.asm.ClassReader} option flags for the parsing of this class.
+     * The {@link ClassReader} option flags for the parsing of this class.
      */
     int flags;
 

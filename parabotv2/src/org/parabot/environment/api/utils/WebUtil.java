@@ -7,9 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.io.SizeInputStream;
@@ -184,6 +187,16 @@ public class WebUtil {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+	}
+	
+	public static Map<String,List<String>>getHeaders(URL u) throws IOException{
+		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+		conn.addRequestProperty("User-Agent", agent);
+		conn.setRequestMethod("HEAD");
+		conn.connect();
+		Map<String,List<String>>ret = conn.getHeaderFields();
+		conn.disconnect();
+		return ret;
 	}
 
 }

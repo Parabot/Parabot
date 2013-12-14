@@ -60,7 +60,7 @@ public class TryCatchBlockNode {
     public String type;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.TryCatchBlockNode}.
+     * Constructs a new {@link TryCatchBlockNode}.
      * 
      * @param start
      *            beginning of the exception handler's scope (inclusive).

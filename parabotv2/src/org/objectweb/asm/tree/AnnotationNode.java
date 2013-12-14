@@ -54,14 +54,14 @@ public class AnnotationNode extends AnnotationVisitor {
      * {@link Short}, {@link Integer}, {@link Long}, {@link Float},
      * {@link Double}, {@link String} or {@link org.objectweb.asm.Type}, or an
      * two elements String array (for enumeration values), a
-     * {@link org.objectweb.asm.tree.AnnotationNode}, or a {@link java.util.List} of values of one of the
+     * {@link AnnotationNode}, or a {@link List} of values of one of the
      * preceding types. The list may be <tt>null</tt> if there is no name value
      * pair.
      */
     public List<Object> values;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.AnnotationNode}. <i>Subclasses must not use this
+     * Constructs a new {@link AnnotationNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the
      * {@link #AnnotationNode(int, String)} version.
      * 
@@ -73,11 +73,11 @@ public class AnnotationNode extends AnnotationVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.AnnotationNode}.
+     * Constructs a new {@link AnnotationNode}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            of {@link Opcodes#ASM4}.
      * @param desc
      *            the class descriptor of the annotation class.
      */
@@ -87,7 +87,7 @@ public class AnnotationNode extends AnnotationVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.AnnotationNode} to visit an array value.
+     * Constructs a new {@link AnnotationNode} to visit an array value.
      * 
      * @param values
      *            where the visited values must be stored.
@@ -166,7 +166,7 @@ public class AnnotationNode extends AnnotationVisitor {
      * versions of the ASM API than the given version.
      * 
      * @param api
-     *            an ASM API version. Must be one of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            an ASM API version. Must be one of {@link Opcodes#ASM4}.
      */
     public void check(final int api) {
         // nothing to do

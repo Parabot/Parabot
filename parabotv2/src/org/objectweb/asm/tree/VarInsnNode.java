@@ -49,7 +49,7 @@ public class VarInsnNode extends AbstractInsnNode {
     public int var;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.VarInsnNode}.
+     * Constructs a new {@link VarInsnNode}.
      * 
      * @param opcode
      *            the opcode of the local variable instruction to be

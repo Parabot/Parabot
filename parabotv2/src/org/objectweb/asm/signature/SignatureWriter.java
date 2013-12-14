@@ -63,7 +63,7 @@ public class SignatureWriter extends SignatureVisitor {
     private int argumentStack;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.signature.SignatureWriter} object.
+     * Constructs a new {@link SignatureWriter} object.
      */
     public SignatureWriter() {
         super(Opcodes.ASM4);

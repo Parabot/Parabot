@@ -50,7 +50,7 @@ import org.objectweb.asm.Type;
 public class MethodNode extends MethodVisitor {
 
     /**
-     * The method's access flags (see {@link org.objectweb.asm.Opcodes}). This field also
+     * The method's access flags (see {@link Opcodes}). This field also
      * indicates if the method is synthetic and/or deprecated.
      */
     public int access;
@@ -79,7 +79,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The runtime visible annotations of this method. This list is a list of
-     * {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label visible
@@ -88,7 +88,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The runtime invisible annotations of this method. This list is a list of
-     * {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label invisible
@@ -97,7 +97,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The non standard attributes of this method. This list is a list of
-     * {@link org.objectweb.asm.Attribute} objects. May be <tt>null</tt>.
+     * {@link Attribute} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.Attribute
      */
@@ -108,14 +108,14 @@ public class MethodNode extends MethodVisitor {
      * a {@link Byte}, {@link Boolean}, {@link Character}, {@link Short},
      * {@link Integer}, {@link Long}, {@link Float}, {@link Double},
      * {@link String} or {@link Type}, or an two elements String array (for
-     * enumeration values), a {@link org.objectweb.asm.tree.AnnotationNode}, or a {@link java.util.List} of
+     * enumeration values), a {@link AnnotationNode}, or a {@link List} of
      * values of one of the preceding types. May be <tt>null</tt>.
      */
     public Object annotationDefault;
 
     /**
      * The runtime visible parameter annotations of this method. These lists are
-     * lists of {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label invisible parameters
@@ -124,7 +124,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The runtime invisible parameter annotations of this method. These lists
-     * are lists of {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * are lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label visible parameters
@@ -133,7 +133,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The instructions of this method. This list is a list of
-     * {@link org.objectweb.asm.tree.AbstractInsnNode} objects.
+     * {@link AbstractInsnNode} objects.
      * 
      * @associates org.objectweb.asm.tree.AbstractInsnNode
      * @label instructions
@@ -160,7 +160,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * The local variables of this method. This list is a list of
-     * {@link org.objectweb.asm.tree.LocalVariableNode} objects. May be <tt>null</tt>
+     * {@link LocalVariableNode} objects. May be <tt>null</tt>
      * 
      * @associates org.objectweb.asm.tree.LocalVariableNode
      */
@@ -172,7 +172,7 @@ public class MethodNode extends MethodVisitor {
     private boolean visited;
 
     /**
-     * Constructs an uninitialized {@link org.objectweb.asm.tree.MethodNode}. <i>Subclasses must not
+     * Constructs an uninitialized {@link MethodNode}. <i>Subclasses must not
      * use this constructor</i>. Instead, they must use the
      * {@link #MethodNode(int)} version.
      */
@@ -181,11 +181,11 @@ public class MethodNode extends MethodVisitor {
     }
 
     /**
-     * Constructs an uninitialized {@link org.objectweb.asm.tree.MethodNode}.
+     * Constructs an uninitialized {@link MethodNode}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            of {@link Opcodes#ASM4}.
      */
     public MethodNode(final int api) {
         super(api);
@@ -193,12 +193,12 @@ public class MethodNode extends MethodVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.MethodNode}. <i>Subclasses must not use this
+     * Constructs a new {@link MethodNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the
      * {@link #MethodNode(int, int, String, String, String, String[])} version.
      * 
      * @param access
-     *            the method's access flags (see {@link org.objectweb.asm.Opcodes}). This
+     *            the method's access flags (see {@link Opcodes}). This
      *            parameter also indicates if the method is synthetic and/or
      *            deprecated.
      * @param name
@@ -218,13 +218,13 @@ public class MethodNode extends MethodVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.MethodNode}.
+     * Constructs a new {@link MethodNode}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            of {@link Opcodes#ASM4}.
      * @param access
-     *            the method's access flags (see {@link org.objectweb.asm.Opcodes}). This
+     *            the method's access flags (see {@link Opcodes}). This
      *            parameter also indicates if the method is synthetic and/or
      *            deprecated.
      * @param name
@@ -265,9 +265,7 @@ public class MethodNode extends MethodVisitor {
     @Override
     public AnnotationVisitor visitAnnotationDefault() {
         return new AnnotationNode(new ArrayList<Object>(0) {
-			private static final long serialVersionUID = 3618671528080057645L;
-
-			@Override
+            @Override
             public boolean add(final Object o) {
                 annotationDefault = o;
                 return super.add(o);
@@ -293,8 +291,7 @@ public class MethodNode extends MethodVisitor {
         return an;
     }
 
-    @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public AnnotationVisitor visitParameterAnnotation(final int parameter,
             final String desc, final boolean visible) {
         AnnotationNode an = new AnnotationNode(desc);
@@ -452,7 +449,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * Returns the LabelNode corresponding to the given Label. Creates a new
      * LabelNode if necessary. The default implementation of this method uses
-     * the {@link org.objectweb.asm.Label#info} field to store associations between labels and
+     * the {@link Label#info} field to store associations between labels and
      * label nodes.
      * 
      * @param l
@@ -497,7 +494,7 @@ public class MethodNode extends MethodVisitor {
      * versions of the ASM API than the given version.
      * 
      * @param api
-     *            an ASM API version. Must be one of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            an ASM API version. Must be one of {@link Opcodes#ASM4}.
      */
     public void check(final int api) {
         // nothing to do

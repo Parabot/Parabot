@@ -47,17 +47,17 @@ import org.objectweb.asm.Opcodes;
  * of the operand stack elements <i>just before</i> <b>i</b> is executed. <br>
  * <br>
  * (*) this is mandatory only for classes whose version is greater than or equal
- * to {@link org.objectweb.asm.Opcodes#V1_6 V1_6}.
+ * to {@link Opcodes#V1_6 V1_6}.
  * 
  * @author Eric Bruneton
  */
 public class FrameNode extends AbstractInsnNode {
 
     /**
-     * The type of this frame. Must be {@link org.objectweb.asm.Opcodes#F_NEW} for expanded
-     * frames, or {@link org.objectweb.asm.Opcodes#F_FULL}, {@link org.objectweb.asm.Opcodes#F_APPEND},
-     * {@link org.objectweb.asm.Opcodes#F_CHOP}, {@link org.objectweb.asm.Opcodes#F_SAME} or
-     * {@link org.objectweb.asm.Opcodes#F_APPEND}, {@link org.objectweb.asm.Opcodes#F_SAME1} for compressed frames.
+     * The type of this frame. Must be {@link Opcodes#F_NEW} for expanded
+     * frames, or {@link Opcodes#F_FULL}, {@link Opcodes#F_APPEND},
+     * {@link Opcodes#F_CHOP}, {@link Opcodes#F_SAME} or
+     * {@link Opcodes#F_APPEND}, {@link Opcodes#F_SAME1} for compressed frames.
      */
     public int type;
 
@@ -65,7 +65,7 @@ public class FrameNode extends AbstractInsnNode {
      * The types of the local variables of this stack map frame. Elements of
      * this list can be Integer, String or LabelNode objects (for primitive,
      * reference and uninitialized types respectively - see
-     * {@link org.objectweb.asm.MethodVisitor}).
+     * {@link MethodVisitor}).
      */
     public List<Object> local;
 
@@ -73,7 +73,7 @@ public class FrameNode extends AbstractInsnNode {
      * The types of the operand stack elements of this stack map frame. Elements
      * of this list can be Integer, String or LabelNode objects (for primitive,
      * reference and uninitialized types respectively - see
-     * {@link org.objectweb.asm.MethodVisitor}).
+     * {@link MethodVisitor}).
      */
     public List<Object> stack;
 
@@ -82,28 +82,28 @@ public class FrameNode extends AbstractInsnNode {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.FrameNode}.
+     * Constructs a new {@link FrameNode}.
      * 
      * @param type
-     *            the type of this frame. Must be {@link org.objectweb.asm.Opcodes#F_NEW} for
-     *            expanded frames, or {@link org.objectweb.asm.Opcodes#F_FULL},
-     *            {@link org.objectweb.asm.Opcodes#F_APPEND}, {@link org.objectweb.asm.Opcodes#F_CHOP},
-     *            {@link org.objectweb.asm.Opcodes#F_SAME} or {@link org.objectweb.asm.Opcodes#F_APPEND},
-     *            {@link org.objectweb.asm.Opcodes#F_SAME1} for compressed frames.
+     *            the type of this frame. Must be {@link Opcodes#F_NEW} for
+     *            expanded frames, or {@link Opcodes#F_FULL},
+     *            {@link Opcodes#F_APPEND}, {@link Opcodes#F_CHOP},
+     *            {@link Opcodes#F_SAME} or {@link Opcodes#F_APPEND},
+     *            {@link Opcodes#F_SAME1} for compressed frames.
      * @param nLocal
      *            number of local variables of this stack map frame.
      * @param local
      *            the types of the local variables of this stack map frame.
      *            Elements of this list can be Integer, String or LabelNode
      *            objects (for primitive, reference and uninitialized types
-     *            respectively - see {@link org.objectweb.asm.MethodVisitor}).
+     *            respectively - see {@link MethodVisitor}).
      * @param nStack
      *            number of operand stack elements of this stack map frame.
      * @param stack
      *            the types of the operand stack elements of this stack map
      *            frame. Elements of this list can be Integer, String or
      *            LabelNode objects (for primitive, reference and uninitialized
-     *            types respectively - see {@link org.objectweb.asm.MethodVisitor}).
+     *            types respectively - see {@link MethodVisitor}).
      */
     public FrameNode(final int type, final int nLocal, final Object[] local,
             final int nStack, final Object[] stack) {

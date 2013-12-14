@@ -30,10 +30,10 @@
 package org.objectweb.asm;
 
 /**
- * A {@link org.objectweb.asm.ClassVisitor} that generates classes in bytecode form. More
+ * A {@link ClassVisitor} that generates classes in bytecode form. More
  * precisely this visitor generates a byte array conforming to the Java class
  * file format. It can be used alone, to generate a Java class "from scratch",
- * or with one or more {@link org.objectweb.asm.ClassReader ClassReader} and adapter class visitor
+ * or with one or more {@link ClassReader ClassReader} and adapter class visitor
  * to generate a modified class from one or more existing Java classes.
  * 
  * @author Eric Bruneton
@@ -250,7 +250,7 @@ public class ClassWriter extends ClassVisitor {
     static final int HANDLE_BASE = 20;
 
     /**
-     * Normal type Item stored in the ClassWriter {@link org.objectweb.asm.ClassWriter#typeTable},
+     * Normal type Item stored in the ClassWriter {@link ClassWriter#typeTable},
      * instead of the constant pool, in order to avoid clashes with normal
      * constant pool items in the ClassWriter constant pool's hash table.
      */
@@ -258,14 +258,14 @@ public class ClassWriter extends ClassVisitor {
 
     /**
      * Uninitialized type Item stored in the ClassWriter
-     * {@link org.objectweb.asm.ClassWriter#typeTable}, instead of the constant pool, in order to
+     * {@link ClassWriter#typeTable}, instead of the constant pool, in order to
      * avoid clashes with normal constant pool items in the ClassWriter constant
      * pool's hash table.
      */
     static final int TYPE_UNINIT = 31;
 
     /**
-     * Merged type Item stored in the ClassWriter {@link org.objectweb.asm.ClassWriter#typeTable},
+     * Merged type Item stored in the ClassWriter {@link ClassWriter#typeTable},
      * instead of the constant pool, in order to avoid clashes with normal
      * constant pool items in the ClassWriter constant pool's hash table.
      */
@@ -477,12 +477,12 @@ public class ClassWriter extends ClassVisitor {
      * <tt>true</tt> if the maximum stack size and number of local variables
      * must be automatically computed.
      */
-    private final boolean computeMaxs;
+    private boolean computeMaxs;
 
     /**
      * <tt>true</tt> if the stack map frames must be recomputed from scratch.
      */
-    private final boolean computeFrames;
+    private boolean computeFrames;
 
     /**
      * <tt>true</tt> if the stack map tables of this class are invalid. The
@@ -587,7 +587,7 @@ public class ClassWriter extends ClassVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassWriter} object.
+     * Constructs a new {@link ClassWriter} object.
      * 
      * @param flags
      *            option flags that can be used to modify the default behavior
@@ -609,7 +609,7 @@ public class ClassWriter extends ClassVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassWriter} object and enables optimizations for
+     * Constructs a new {@link ClassWriter} object and enables optimizations for
      * "mostly add" bytecode transformations. These optimizations are the
      * following:
      * 
@@ -622,13 +622,13 @@ public class ClassWriter extends ClassVisitor {
      * directly from the original class bytecode (i.e. without emitting visit
      * events for all the method instructions), which saves a <i>lot</i> of
      * time. Untransformed methods are detected by the fact that the
-     * {@link org.objectweb.asm.ClassReader} receives {@link MethodVisitor} objects that come from
-     * a {@link org.objectweb.asm.ClassWriter} (and not from any other {@link org.objectweb.asm.ClassVisitor}
+     * {@link ClassReader} receives {@link MethodVisitor} objects that come from
+     * a {@link ClassWriter} (and not from any other {@link ClassVisitor}
      * instance).</li>
      * </ul>
      * 
      * @param classReader
-     *            the {@link org.objectweb.asm.ClassReader} used to read the original class. It
+     *            the {@link ClassReader} used to read the original class. It
      *            will be used to copy the entire constant pool from the
      *            original class and also to copy other fragments of original
      *            bytecode where applicable.
@@ -908,9 +908,22 @@ public class ClassWriter extends ClassVisitor {
             attrs.put(this, null, 0, -1, -1, out);
         }
         if (invalidFrames) {
-            ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
-            new ClassReader(out.data).accept(cw, ClassReader.SKIP_FRAMES);
-            return cw.toByteArray();
+            anns = null;
+            ianns = null;
+            attrs = null;
+            innerClassesCount = 0;
+            innerClasses = null;
+            bootstrapMethodsCount = 0;
+            bootstrapMethods = null;
+            firstField = null;
+            lastField = null;
+            firstMethod = null;
+            lastMethod = null;
+            computeMaxs = false;
+            computeFrames = true;
+            invalidFrames = false;
+            new ClassReader(out.data).accept(this, ClassReader.SKIP_FRAMES);
+            return toByteArray();
         }
         return out.data;
     }
@@ -978,7 +991,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a number or string constant to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param cst
@@ -995,7 +1008,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds an UTF8 string to the constant pool of the class being build. Does
      * nothing if the constant pool already contains a similar item. <i>This
-     * method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not
+     * method is intended for {@link Attribute} sub classes, and is normally not
      * needed by class generators or adapters.</i>
      * 
      * @param value
@@ -1016,7 +1029,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a class reference to the constant pool of the class being build.
      * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param value
@@ -1037,7 +1050,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a class reference to the constant pool of the class being build.
      * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param value
@@ -1051,7 +1064,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a method type reference to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param methodDesc
@@ -1072,7 +1085,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a method type reference to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param methodDesc
@@ -1087,7 +1100,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a handle to the constant pool of the class being build. Does nothing
      * if the constant pool already contains a similar item. <i>This method is
-     * intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by
+     * intended for {@link Attribute} sub classes, and is normally not needed by
      * class generators or adapters.</i>
      * 
      * @param tag
@@ -1128,7 +1141,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a handle to the constant pool of the class being build. Does nothing
      * if the constant pool already contains a similar item. <i>This method is
-     * intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by
+     * intended for {@link Attribute} sub classes, and is normally not needed by
      * class generators or adapters.</i>
      * 
      * @param tag
@@ -1156,7 +1169,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds an invokedynamic reference to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param name
@@ -1240,7 +1253,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds an invokedynamic reference to the constant pool of the class being
      * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param name
@@ -1286,7 +1299,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a field reference to the constant pool of the class being build.
      * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param owner
@@ -1331,7 +1344,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a method reference to the constant pool of the class being build.
      * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param owner
@@ -1449,7 +1462,7 @@ public class ClassWriter extends ClassVisitor {
     /**
      * Adds a name and type to the constant pool of the class being build. Does
      * nothing if the constant pool already contains a similar item. <i>This
-     * method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not
+     * method is intended for {@link Attribute} sub classes, and is normally not
      * needed by class generators or adapters.</i>
      * 
      * @param name

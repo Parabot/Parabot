@@ -23,11 +23,8 @@ public abstract class ServerParser {
 	public static final ServerDescription[] getDescriptions() {
 		SERVER_CACHE.clear();
 		final ArrayList<ServerParser> parsers = new ArrayList<ServerParser>();
-		if(Core.inDebugMode()) {
 			parsers.add(new LocalServers());
-		} else {
 			parsers.add(new PublicServers());
-		}
 		
 		Core.verbose("Parsing server providers...");
 		for(final ServerParser parser : parsers) {

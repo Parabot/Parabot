@@ -41,7 +41,7 @@ import org.objectweb.asm.MethodVisitor;
 public class InsnNode extends AbstractInsnNode {
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.InsnNode}.
+     * Constructs a new {@link InsnNode}.
      * 
      * @param opcode
      *            the opcode of the instruction to be constructed. This opcode

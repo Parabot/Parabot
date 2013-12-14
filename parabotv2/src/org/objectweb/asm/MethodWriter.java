@@ -30,7 +30,7 @@
 package org.objectweb.asm;
 
 /**
- * A {@link org.objectweb.asm.MethodVisitor} that generates methods in bytecode form. Each visit
+ * A {@link MethodVisitor} that generates methods in bytecode form. Each visit
  * method of this class appends the bytecode corresponding to the visited
  * instruction to a byte vector, in the order these methods are called.
  * 
@@ -263,7 +263,7 @@ class MethodWriter extends MethodVisitor {
      * local variables start at index 3 and are followed by the operand stack
      * values. In summary frame[0] = offset, frame[1] = nLocal, frame[2] =
      * nStack, frame[3] = nLocal. All types are encoded as integers, with the
-     * same format as the one used in {@link org.objectweb.asm.Label}, but limited to BASE types.
+     * same format as the one used in {@link Label}, but limited to BASE types.
      */
     private int[] frame;
 
@@ -351,8 +351,8 @@ class MethodWriter extends MethodVisitor {
     /**
      * A list of labels. This list is the list of basic blocks in the method,
      * i.e. a list of Label objects linked to each other by their
-     * {@link org.objectweb.asm.Label#successor} field, in the order they are visited by
-     * {@link org.objectweb.asm.MethodVisitor#visitLabel}, and starting with the first basic
+     * {@link Label#successor} field, in the order they are visited by
+     * {@link MethodVisitor#visitLabel}, and starting with the first basic
      * block.
      */
     private Label labels;
@@ -371,7 +371,7 @@ class MethodWriter extends MethodVisitor {
      * The (relative) stack size after the last visited instruction. This size
      * is relative to the beginning of the current basic block, i.e., the true
      * stack size after the last visited instruction is equal to the
-     * {@link org.objectweb.asm.Label#inputStackTop beginStackSize} of the current basic block
+     * {@link Label#inputStackTop beginStackSize} of the current basic block
      * plus <tt>stackSize</tt>.
      */
     private int stackSize;
@@ -380,7 +380,7 @@ class MethodWriter extends MethodVisitor {
      * The (relative) maximum stack size after the last visited instruction.
      * This size is relative to the beginning of the current basic block, i.e.,
      * the true maximum stack size after the last visited instruction is equal
-     * to the {@link org.objectweb.asm.Label#inputStackTop beginStackSize} of the current basic
+     * to the {@link Label#inputStackTop beginStackSize} of the current basic
      * block plus <tt>stackSize</tt>.
      */
     private int maxStackSize;
@@ -390,7 +390,7 @@ class MethodWriter extends MethodVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link org.objectweb.asm.MethodWriter}.
+     * Constructs a new {@link MethodWriter}.
      * 
      * @param cw
      *            the class writer in which the method must be added.
@@ -1768,7 +1768,7 @@ class MethodWriter extends MethodVisitor {
     /**
      * Writes some types of the current frame {@link #frame} into the
      * StackMapTableAttribute. This method converts types from the format used
-     * in {@link org.objectweb.asm.Label} to the format used in StackMapTable attributes. In
+     * in {@link Label} to the format used in StackMapTable attributes. In
      * particular, it converts type table indexes to constant pool indexes.
      * 
      * @param start
@@ -2127,7 +2127,7 @@ class MethodWriter extends MethodVisitor {
 
     /**
      * Resizes and replaces the temporary instructions inserted by
-     * {@link org.objectweb.asm.Label#resolve} for wide forward jumps, while keeping jump offsets
+     * {@link Label#resolve} for wide forward jumps, while keeping jump offsets
      * and instruction addresses consistent. This may require to resize other
      * existing instructions, or even to introduce new instructions: for
      * example, increasing the size of an instruction by 2 at the middle of a
@@ -2138,7 +2138,7 @@ class MethodWriter extends MethodVisitor {
      * by this method.
      * <p>
      * <i>This method must be called after all the method that is being built
-     * has been visited</i>. In particular, the {@link org.objectweb.asm.Label Label} objects used
+     * has been visited</i>. In particular, the {@link Label Label} objects used
      * to construct the method are no longer valid after this method has been
      * called.
      */

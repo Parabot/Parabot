@@ -46,7 +46,7 @@ public class IntInsnNode extends AbstractInsnNode {
     public int operand;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.IntInsnNode}.
+     * Constructs a new {@link IntInsnNode}.
      * 
      * @param opcode
      *            the opcode of the instruction to be constructed. This opcode

@@ -52,7 +52,7 @@ public class IincInsnNode extends AbstractInsnNode {
     public int incr;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.IincInsnNode}.
+     * Constructs a new {@link IincInsnNode}.
      * 
      * @param var
      *            index of the local variable to be incremented.

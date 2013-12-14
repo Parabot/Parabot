@@ -294,7 +294,7 @@ public class Type {
      * Returns the Java method type corresponding to the given constructor.
      * 
      * @param c
-     *            a {@link java.lang.reflect.Constructor Constructor} object.
+     *            a {@link Constructor Constructor} object.
      * @return the Java method type corresponding to the given constructor.
      */
     public static Type getType(final Constructor<?> c) {
@@ -305,7 +305,7 @@ public class Type {
      * Returns the Java method type corresponding to the given method.
      * 
      * @param m
-     *            a {@link java.lang.reflect.Method Method} object.
+     *            a {@link Method Method} object.
      * @return the Java method type corresponding to the given method.
      */
     public static Type getType(final Method m) {
@@ -708,7 +708,7 @@ public class Type {
      * Returns the descriptor corresponding to the given constructor.
      * 
      * @param c
-     *            a {@link java.lang.reflect.Constructor Constructor} object.
+     *            a {@link Constructor Constructor} object.
      * @return the descriptor of the given constructor.
      */
     public static String getConstructorDescriptor(final Constructor<?> c) {
@@ -725,7 +725,7 @@ public class Type {
      * Returns the descriptor corresponding to the given method.
      * 
      * @param m
-     *            a {@link java.lang.reflect.Method Method} object.
+     *            a {@link Method Method} object.
      * @return the descriptor of the given method.
      */
     public static String getMethodDescriptor(final Method m) {

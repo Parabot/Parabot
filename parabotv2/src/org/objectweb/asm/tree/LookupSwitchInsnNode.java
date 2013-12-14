@@ -57,12 +57,12 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
 
     /**
      * Beginnings of the handler blocks. This list is a list of
-     * {@link org.objectweb.asm.tree.LabelNode} objects.
+     * {@link LabelNode} objects.
      */
     public List<LabelNode> labels;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LookupSwitchInsnNode}.
+     * Constructs a new {@link LookupSwitchInsnNode}.
      * 
      * @param dflt
      *            beginning of the default handler block.

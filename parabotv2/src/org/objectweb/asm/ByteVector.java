@@ -48,7 +48,7 @@ public class ByteVector {
     int length;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ByteVector ByteVector} with a default initial
+     * Constructs a new {@link ByteVector ByteVector} with a default initial
      * size.
      */
     public ByteVector() {
@@ -56,7 +56,7 @@ public class ByteVector {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ByteVector ByteVector} with the given initial
+     * Constructs a new {@link ByteVector ByteVector} with the given initial
      * size.
      * 
      * @param initialSize
@@ -204,11 +204,14 @@ public class ByteVector {
      * automatically enlarged if necessary.
      * 
      * @param s
-     *            a String.
+     *            a String whose UTF8 encoded length must be less than 65536.
      * @return this byte vector.
      */
     public ByteVector putUTF8(final String s) {
         int charLength = s.length();
+        if (charLength > 65535) {
+            throw new IllegalArgumentException();
+        }
         int len = length;
         if (len + 2 + charLength > data.length) {
             enlarge(2 + charLength);
@@ -237,6 +240,9 @@ public class ByteVector {
                     } else {
                         byteLength += 2;
                     }
+                }
+                if (byteLength > 65535) {
+                    throw new IllegalArgumentException();
                 }
                 data[length] = (byte) (byteLength >>> 8);
                 data[length + 1] = (byte) byteLength;

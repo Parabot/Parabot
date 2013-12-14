@@ -1,0 +1,11 @@
+It's very simple to use ParaFork's proxy implementation, as it currently stands it is only though the command line. A GUI is in the works.
+
+Usage:
+java -jar parafork.jar -proxy TYPE IP PORT
+
+TYPE can be one of 3 things (case insensitive):
+	HTTP
+	SOCKSV5
+	SOCKSV4
+
+HTTP proxies can be used to tunnel TCP connections, but many implementations block all ports except 443, if this happens you'll want to find a different proxy

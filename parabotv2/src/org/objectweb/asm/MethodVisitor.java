@@ -61,7 +61,7 @@ public abstract class MethodVisitor {
     protected MethodVisitor mv;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.MethodVisitor}.
+     * Constructs a new {@link MethodVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
@@ -72,7 +72,7 @@ public abstract class MethodVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.MethodVisitor}.
+     * Constructs a new {@link MethodVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
@@ -395,7 +395,7 @@ public abstract class MethodVisitor {
      * @param bsmArgs
      *            the bootstrap method constant arguments. Each argument must be
      *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double}, {@link String}, {@link Type} or {@link org.objectweb.asm.Handle}
+     *            {@link Double}, {@link String}, {@link Type} or {@link Handle}
      *            value. This method is allowed to modify the content of the
      *            array so a caller should expect that this array may change.
      */
@@ -431,7 +431,7 @@ public abstract class MethodVisitor {
      * just after it.
      * 
      * @param label
-     *            a {@link org.objectweb.asm.Label Label} object.
+     *            a {@link Label Label} object.
      */
     public void visitLabel(Label label) {
         if (mv != null) {
@@ -484,7 +484,7 @@ public abstract class MethodVisitor {
      *            {@link Double}, a {@link String}, a {@link Type} of OBJECT or
      *            ARRAY sort for <tt>.class</tt> constants, for classes whose
      *            version is 49.0, a {@link Type} of METHOD sort or a
-     *            {@link org.objectweb.asm.Handle} for MethodType and MethodHandle constants, for
+     *            {@link Handle} for MethodType and MethodHandle constants, for
      *            classes whose version is 51.0.
      */
     public void visitLdcInsn(Object cst) {

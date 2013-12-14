@@ -58,7 +58,7 @@ public class FieldInsnNode extends AbstractInsnNode {
     public String desc;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.FieldInsnNode}.
+     * Constructs a new {@link FieldInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This

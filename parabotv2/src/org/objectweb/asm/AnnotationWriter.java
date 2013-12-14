@@ -30,7 +30,7 @@
 package org.objectweb.asm;
 
 /**
- * An {@link org.objectweb.asm.AnnotationVisitor} that generates annotations in bytecode form.
+ * An {@link AnnotationVisitor} that generates annotations in bytecode form.
  * 
  * @author Eric Bruneton
  * @author Eugene Kuleshov
@@ -88,7 +88,7 @@ final class AnnotationWriter extends AnnotationVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link org.objectweb.asm.AnnotationWriter}.
+     * Constructs a new {@link AnnotationWriter}.
      * 
      * @param cw
      *            the class writer to which this annotation must be added.

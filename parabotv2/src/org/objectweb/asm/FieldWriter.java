@@ -30,7 +30,7 @@
 package org.objectweb.asm;
 
 /**
- * An {@link org.objectweb.asm.FieldVisitor} that generates Java fields in bytecode form.
+ * An {@link FieldVisitor} that generates Java fields in bytecode form.
  * 
  * @author Eric Bruneton
  */
@@ -90,7 +90,7 @@ final class FieldWriter extends FieldVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link org.objectweb.asm.FieldWriter}.
+     * Constructs a new {@link FieldWriter}.
      * 
      * @param cw
      *            the class writer to which this field must be added.

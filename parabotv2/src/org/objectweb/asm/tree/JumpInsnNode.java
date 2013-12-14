@@ -48,7 +48,7 @@ public class JumpInsnNode extends AbstractInsnNode {
     public LabelNode label;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.JumpInsnNode}.
+     * Constructs a new {@link JumpInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This

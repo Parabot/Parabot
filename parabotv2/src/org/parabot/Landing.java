@@ -1,14 +1,14 @@
 package org.parabot;
 
+import org.matt123337.proxy.ProxySocket;
+import org.matt123337.proxy.ProxyType;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
-import org.parabot.core.forum.AccountManager;
-import org.parabot.core.spoofing.Ip;
-import org.parabot.core.ui.LoginUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
+
 import java.io.IOException;
 
 /**
@@ -19,14 +19,9 @@ import java.io.IOException;
  * @version 2.04
  */
 public final class Landing {
-	// forum account
-	private static String username = null;
-	private static String password = null;
 
 	public static void main(String... args) throws IOException {
 		parseArgs(args);
-
-		Core.verbose("Debug mode: " + Core.inDebugMode());
 
 		try {
 			Core.verbose("Setting look and feel: "
@@ -36,28 +31,15 @@ public final class Landing {
 			t.printStackTrace();
 		}
 
-		if (!Core.inDebugMode() && !Core.isValid()) {
-			UILog.log(
-					"Updates",
-					"Please download the newest version of parabot at http://www.parabot.org/",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
+		if (!Core.isValid()) {
+			System.out
+					.println("New version of mainstream parabot out, better merge!");
 		}
 
 		Core.verbose("Validating directories...");
 		Directories.validate();
-		Core.verbose("Validating account manager...");
-		AccountManager.validate();
 
-		if (username != null && password != null) {
-			new LoginUI(username, password);
-			username = null;
-			password = null;
-			return;
-		}
-
-		Core.verbose("Starting login gui...");
-		new LoginUI().setVisible(true);
+		ServerSelector.getInstance();
 	}
 
 	private static void parseArgs(String... args) {
@@ -70,9 +52,6 @@ public final class Landing {
 						.println("Directories created, you can now run parabot.");
 				System.exit(0);
 				break;
-			case "-debug":
-				Core.setDebug(true);
-				break;
 			case "-v":
 			case "-verbose":
 				Core.setVerbose(true);
@@ -80,15 +59,37 @@ public final class Landing {
 			case "-server":
 				ServerSelector.initServer = args[++i];
 				break;
-			case "-login":
-				username = args[++i];
-				password = args[++i];
-				break;
 			case "-proxy":
-				Ip.spoofIP(args[++i], args[++i]);
+				String type = args[++i];
+				String ip = args[++i];
+				String port = args[++i];
+				if (!handleProxy(type, ip, port)) {
+					System.exit(1);
+				}
 				break;
 			}
 
+		}
+	}
+
+	private static boolean handleProxy(String type, String ip, String port) {
+		ProxyType proxyType = null;
+		for (ProxyType pt : ProxyType.values()) {
+			if (pt.name().equalsIgnoreCase(type)) {
+				proxyType = pt;
+				break;
+			}
+		}
+		if (proxyType == null) {
+			System.err.println("Unknown proxy type:" + type);
+			return false;
+		}
+		try {
+			int p = Integer.parseInt(port);
+			ProxySocket.setProxy(proxyType, ip, p);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 

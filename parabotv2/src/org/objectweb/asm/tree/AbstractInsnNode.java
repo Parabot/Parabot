@@ -146,7 +146,7 @@ public abstract class AbstractInsnNode {
     int index;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.AbstractInsnNode}.
+     * Constructs a new {@link AbstractInsnNode}.
      * 
      * @param opcode
      *            the opcode of the instruction to be constructed.

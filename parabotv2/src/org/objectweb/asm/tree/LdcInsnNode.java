@@ -49,7 +49,7 @@ public class LdcInsnNode extends AbstractInsnNode {
     public Object cst;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LdcInsnNode}.
+     * Constructs a new {@link LdcInsnNode}.
      * 
      * @param cst
      *            the constant to be loaded on the stack. This parameter must be

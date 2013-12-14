@@ -106,7 +106,7 @@ public class ClassReader {
 
     /**
      * The class to be parsed. <i>The content of this array must not be
-     * modified. This field is intended for {@link org.objectweb.asm.Attribute} sub classes, and
+     * modified. This field is intended for {@link Attribute} sub classes, and
      * is normally not needed by class generators or adapters.</i>
      */
     public final byte[] b;
@@ -144,7 +144,7 @@ public class ClassReader {
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassReader} object.
+     * Constructs a new {@link ClassReader} object.
      * 
      * @param b
      *            the bytecode of the class to be read.
@@ -154,7 +154,7 @@ public class ClassReader {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassReader} object.
+     * Constructs a new {@link ClassReader} object.
      * 
      * @param b
      *            the bytecode of the class to be read.
@@ -413,11 +413,11 @@ public class ClassReader {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassReader} object.
+     * Constructs a new {@link ClassReader} object.
      * 
      * @param is
      *            an input stream from which to read the class.
-     * @throws java.io.IOException
+     * @throws IOException
      *             if a problem occurs during reading.
      */
     public ClassReader(final InputStream is) throws IOException {
@@ -425,11 +425,11 @@ public class ClassReader {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.ClassReader} object.
+     * Constructs a new {@link ClassReader} object.
      * 
      * @param name
      *            the binary qualified name of the class to be read.
-     * @throws java.io.IOException
+     * @throws IOException
      *             if an exception occurs during reading.
      */
     public ClassReader(final String name) throws IOException {
@@ -446,7 +446,7 @@ public class ClassReader {
      * @param close
      *            true to close the input stream after reading.
      * @return the bytecode read from the given input stream.
-     * @throws java.io.IOException
+     * @throws IOException
      *             if a problem occurs during reading.
      */
     private static byte[] readClass(final InputStream is, boolean close)
@@ -491,7 +491,7 @@ public class ClassReader {
     // ------------------------------------------------------------------------
 
     /**
-     * Makes the given visitor visit the Java class of this {@link org.objectweb.asm.ClassReader}
+     * Makes the given visitor visit the Java class of this {@link ClassReader}
      * . This class is the one specified in the constructor (see
      * {@link #ClassReader(byte[]) ClassReader}).
      * 
@@ -507,7 +507,7 @@ public class ClassReader {
     }
 
     /**
-     * Makes the given visitor visit the Java class of this {@link org.objectweb.asm.ClassReader}.
+     * Makes the given visitor visit the Java class of this {@link ClassReader}.
      * This class is the one specified in the constructor (see
      * {@link #ClassReader(byte[]) ClassReader}).
      * 
@@ -1916,7 +1916,7 @@ public class ClassReader {
      *            prototypes of the attributes that must be parsed during the
      *            visit of the class. Any attribute whose type is not equal to
      *            the type of one the prototypes is ignored (i.e. an empty
-     *            {@link org.objectweb.asm.Attribute} instance is returned).
+     *            {@link Attribute} instance is returned).
      * @param type
      *            the type of the attribute.
      * @param off
@@ -1968,7 +1968,7 @@ public class ClassReader {
 
     /**
      * Returns the start index of the constant pool item in {@link #b b}, plus
-     * one. <i>This method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is
+     * one. <i>This method is intended for {@link Attribute} sub classes, and is
      * normally not needed by class generators or adapters.</i>
      * 
      * @param item
@@ -1993,7 +1993,7 @@ public class ClassReader {
 
     /**
      * Reads a byte value in {@link #b b}. <i>This method is intended for
-     * {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @param index
@@ -2006,7 +2006,7 @@ public class ClassReader {
 
     /**
      * Reads an unsigned short value in {@link #b b}. <i>This method is intended
-     * for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * for {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @param index
@@ -2020,7 +2020,7 @@ public class ClassReader {
 
     /**
      * Reads a signed short value in {@link #b b}. <i>This method is intended
-     * for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * for {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @param index
@@ -2034,7 +2034,7 @@ public class ClassReader {
 
     /**
      * Reads a signed int value in {@link #b b}. <i>This method is intended for
-     * {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @param index
@@ -2049,7 +2049,7 @@ public class ClassReader {
 
     /**
      * Reads a signed long value in {@link #b b}. <i>This method is intended for
-     * {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @param index
@@ -2064,7 +2064,7 @@ public class ClassReader {
 
     /**
      * Reads an UTF8 string constant pool item in {@link #b b}. <i>This method
-     * is intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed
+     * is intended for {@link Attribute} sub classes, and is normally not needed
      * by class generators or adapters.</i>
      * 
      * @param index
@@ -2139,7 +2139,7 @@ public class ClassReader {
 
     /**
      * Reads a class constant pool item in {@link #b b}. <i>This method is
-     * intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by
+     * intended for {@link Attribute} sub classes, and is normally not needed by
      * class generators or adapters.</i>
      * 
      * @param index
@@ -2159,7 +2159,7 @@ public class ClassReader {
 
     /**
      * Reads a numeric or string constant pool item in {@link #b b}. <i>This
-     * method is intended for {@link org.objectweb.asm.Attribute} sub classes, and is normally not
+     * method is intended for {@link Attribute} sub classes, and is normally not
      * needed by class generators or adapters.</i>
      * 
      * @param item

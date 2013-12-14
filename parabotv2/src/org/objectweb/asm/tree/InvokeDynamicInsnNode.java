@@ -63,7 +63,7 @@ public class InvokeDynamicInsnNode extends AbstractInsnNode {
     public Object[] bsmArgs;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.InvokeDynamicInsnNode}.
+     * Constructs a new {@link InvokeDynamicInsnNode}.
      * 
      * @param name
      *            invokedynamic name.

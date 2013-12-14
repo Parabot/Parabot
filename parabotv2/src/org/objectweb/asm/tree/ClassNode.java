@@ -116,7 +116,7 @@ public class ClassNode extends ClassVisitor {
 
     /**
      * The runtime visible annotations of this class. This list is a list of
-     * {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label visible
@@ -125,7 +125,7 @@ public class ClassNode extends ClassVisitor {
 
     /**
      * The runtime invisible annotations of this class. This list is a list of
-     * {@link org.objectweb.asm.tree.AnnotationNode} objects. May be <tt>null</tt>.
+     * {@link AnnotationNode} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.tree.AnnotationNode
      * @label invisible
@@ -134,7 +134,7 @@ public class ClassNode extends ClassVisitor {
 
     /**
      * The non standard attributes of this class. This list is a list of
-     * {@link org.objectweb.asm.Attribute} objects. May be <tt>null</tt>.
+     * {@link Attribute} objects. May be <tt>null</tt>.
      * 
      * @associates org.objectweb.asm.Attribute
      */
@@ -165,7 +165,7 @@ public class ClassNode extends ClassVisitor {
     public List<MethodNode> methods;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.ClassNode}. <i>Subclasses must not use this
+     * Constructs a new {@link ClassNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the {@link #ClassNode(int)}
      * version.
      */
@@ -174,11 +174,11 @@ public class ClassNode extends ClassVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.ClassNode}.
+     * Constructs a new {@link ClassNode}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            of {@link Opcodes#ASM4}.
      */
     public ClassNode(final int api) {
         super(api);
@@ -286,7 +286,7 @@ public class ClassNode extends ClassVisitor {
      * API than the given version.
      * 
      * @param api
-     *            an ASM API version. Must be one of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            an ASM API version. Must be one of {@link Opcodes#ASM4}.
      */
     public void check(final int api) {
         // nothing to do

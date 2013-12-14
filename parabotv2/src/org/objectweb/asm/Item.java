@@ -31,7 +31,7 @@ package org.objectweb.asm;
 
 /**
  * A constant pool item. Constant pool items can be created with the 'newXXX'
- * methods in the {@link org.objectweb.asm.ClassWriter} class.
+ * methods in the {@link ClassWriter} class.
  * 
  * @author Eric Bruneton
  */
@@ -45,24 +45,24 @@ final class Item {
     /**
      * Type of this constant pool item. A single class is used to represent all
      * constant pool item types, in order to minimize the bytecode size of this
-     * package. The value of this field is one of {@link org.objectweb.asm.ClassWriter#INT},
-     * {@link org.objectweb.asm.ClassWriter#LONG}, {@link org.objectweb.asm.ClassWriter#FLOAT},
-     * {@link org.objectweb.asm.ClassWriter#DOUBLE}, {@link org.objectweb.asm.ClassWriter#UTF8},
-     * {@link org.objectweb.asm.ClassWriter#STR}, {@link org.objectweb.asm.ClassWriter#CLASS},
-     * {@link org.objectweb.asm.ClassWriter#NAME_TYPE}, {@link org.objectweb.asm.ClassWriter#FIELD},
-     * {@link org.objectweb.asm.ClassWriter#METH}, {@link org.objectweb.asm.ClassWriter#IMETH},
-     * {@link org.objectweb.asm.ClassWriter#MTYPE}, {@link org.objectweb.asm.ClassWriter#INDY}.
+     * package. The value of this field is one of {@link ClassWriter#INT},
+     * {@link ClassWriter#LONG}, {@link ClassWriter#FLOAT},
+     * {@link ClassWriter#DOUBLE}, {@link ClassWriter#UTF8},
+     * {@link ClassWriter#STR}, {@link ClassWriter#CLASS},
+     * {@link ClassWriter#NAME_TYPE}, {@link ClassWriter#FIELD},
+     * {@link ClassWriter#METH}, {@link ClassWriter#IMETH},
+     * {@link ClassWriter#MTYPE}, {@link ClassWriter#INDY}.
      * 
      * MethodHandle constant 9 variations are stored using a range of 9 values
-     * from {@link org.objectweb.asm.ClassWriter#HANDLE_BASE} + 1 to
-     * {@link org.objectweb.asm.ClassWriter#HANDLE_BASE} + 9.
+     * from {@link ClassWriter#HANDLE_BASE} + 1 to
+     * {@link ClassWriter#HANDLE_BASE} + 9.
      * 
      * Special Item types are used for Items that are stored in the ClassWriter
-     * {@link org.objectweb.asm.ClassWriter#typeTable}, instead of the constant pool, in order to
+     * {@link ClassWriter#typeTable}, instead of the constant pool, in order to
      * avoid clashes with normal constant pool items in the ClassWriter constant
      * pool's hash table. These special item types are
-     * {@link org.objectweb.asm.ClassWriter#TYPE_NORMAL}, {@link org.objectweb.asm.ClassWriter#TYPE_UNINIT} and
-     * {@link org.objectweb.asm.ClassWriter#TYPE_MERGED}.
+     * {@link ClassWriter#TYPE_NORMAL}, {@link ClassWriter#TYPE_UNINIT} and
+     * {@link ClassWriter#TYPE_MERGED}.
      */
     int type;
 
@@ -106,13 +106,13 @@ final class Item {
     Item next;
 
     /**
-     * Constructs an uninitialized {@link org.objectweb.asm.Item}.
+     * Constructs an uninitialized {@link Item}.
      */
     Item() {
     }
 
     /**
-     * Constructs an uninitialized {@link org.objectweb.asm.Item} for constant pool element at
+     * Constructs an uninitialized {@link Item} for constant pool element at
      * given position.
      * 
      * @param index

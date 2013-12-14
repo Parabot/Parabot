@@ -52,7 +52,7 @@ public abstract class AnnotationVisitor {
     protected AnnotationVisitor av;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.AnnotationVisitor}.
+     * Constructs a new {@link AnnotationVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
@@ -63,7 +63,7 @@ public abstract class AnnotationVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.AnnotationVisitor}.
+     * Constructs a new {@link AnnotationVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one

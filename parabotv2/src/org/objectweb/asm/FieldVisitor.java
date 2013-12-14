@@ -51,7 +51,7 @@ public abstract class FieldVisitor {
     protected FieldVisitor fv;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.FieldVisitor}.
+     * Constructs a new {@link FieldVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
@@ -62,7 +62,7 @@ public abstract class FieldVisitor {
     }
 
     /**
-     * Constructs a new {@link org.objectweb.asm.FieldVisitor}.
+     * Constructs a new {@link FieldVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one

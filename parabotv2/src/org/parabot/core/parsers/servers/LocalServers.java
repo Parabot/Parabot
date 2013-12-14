@@ -58,7 +58,7 @@ public class LocalServers extends ServerParser {
 							.newInstance();
 
 					SERVER_CACHE.put(
-							new ServerDescription(manifest.name(), manifest
+							new ServerDescription("Local:" + manifest.name(), manifest
 									.author(), manifest.version()),
 							new LocalServerExecuter(serverProvider, path,
 									manifest.name()));

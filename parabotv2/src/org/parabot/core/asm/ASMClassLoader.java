@@ -10,7 +10,9 @@ import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.matt123337.proxy.ClassRemapper;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.classpath.ClassPath;
 

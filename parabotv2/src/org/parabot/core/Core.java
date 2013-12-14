@@ -14,24 +14,7 @@ import java.io.IOException;
  */
 public class Core {
 
-	private static boolean debug = false;
 	private static boolean verbose = false;
-
-	/**
-	 * Enabled debug mode
-	 * 
-	 * @param debug
-	 */
-	public static void setDebug(final boolean debug) {
-		Core.debug = debug;
-	}
-
-	/**
-	 * @return if the client is in debug mode.
-	 */
-	public static boolean inDebugMode() {
-		return debug;
-	}
 
 	/**
 	 * @return if the client is in verbose mode.

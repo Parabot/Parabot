@@ -93,7 +93,7 @@ public class Attribute {
 
     /**
      * Reads a {@link #type type} attribute. This method must return a
-     * <i>new</i> {@link org.objectweb.asm.Attribute} object, of type {@link #type type},
+     * <i>new</i> {@link Attribute} object, of type {@link #type type},
      * corresponding to the <tt>len</tt> bytes starting at the given offset, in
      * the given class reader.
      * 
@@ -119,7 +119,7 @@ public class Attribute {
      * @param labels
      *            the labels of the method's code, or <tt>null</tt> if the
      *            attribute to be read is not a code attribute.
-     * @return a <i>new</i> {@link org.objectweb.asm.Attribute} object corresponding to the given
+     * @return a <i>new</i> {@link Attribute} object corresponding to the given
      *         bytes.
      */
     protected Attribute read(final ClassReader cr, final int off,

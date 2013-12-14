@@ -77,6 +77,8 @@ public abstract class ServerProvider implements Opcodes {
 	}
 
 	public void parseJar() {
+		URL jarURL = getJar();
+
 		Context.resolve().getClassPath().addJar(getJar());
 	}
 	

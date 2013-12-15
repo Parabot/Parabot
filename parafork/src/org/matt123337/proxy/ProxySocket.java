@@ -14,11 +14,15 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.SocketChannel;
 
+import javax.swing.JOptionPane;
+
+import org.parabot.core.ui.utils.UILog;
+
 public class ProxySocket extends Socket {
 
 	private static ProxyType proxyType = ProxyType.HTTP;
 
-	private static int proxyPort = -1;
+	private static int proxyPort = 0;
 
 	private InetAddress addr;
 	private int port;
@@ -45,8 +49,20 @@ public class ProxySocket extends Socket {
 			proxyPort = port;
 			proxyType = type;
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
+	}
+	
+	public static InetAddress getProxyAddress(){
+		return proxyInetAddress;
+	}
+	
+	public static int getProxyPort(){
+		return proxyPort;
+	}
+	
+	public static ProxyType getProxyType(){
+		return proxyType;
 	}
 
 	@Override
@@ -56,13 +72,16 @@ public class ProxySocket extends Socket {
 			this.addr = InetAddress.getByName(isa.getHostString());
 			this.port = isa.getPort();
 		}
-		if (proxyInetAddress != null && proxyPort != -1) {
+		if (proxyInetAddress != null && proxyPort > 0) {
 			try{
 			super.connect(cachedAddr = new InetSocketAddress(proxyInetAddress,
 					proxyPort));
 			initProxy();
 			}catch(Exception e){
-				e.printStackTrace();
+				UILog.log(
+						"Proxy Error",
+						e.getMessage(),
+						JOptionPane.ERROR_MESSAGE);
 			}
 		} else
 			super.connect(addr);

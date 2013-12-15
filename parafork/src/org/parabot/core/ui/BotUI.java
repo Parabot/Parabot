@@ -49,9 +49,12 @@ public class BotUI extends JFrame implements ActionListener {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu mnuFile = new JMenu("File");
+		JMenuItem proxy = new JMenuItem("Proxy");
 		JMenuItem exit = new JMenuItem("Exit");
+		proxy.addActionListener(this);
 		exit.addActionListener(this);
 
+		mnuFile.add(proxy);
 		mnuFile.add(exit);
 		menubar.add(mnuFile);
 
@@ -95,6 +98,11 @@ public class BotUI extends JFrame implements ActionListener {
 		switch (command) {
 			case "Exit":
 				System.exit(0);
+				break;
+			case "Proxy":
+				ProxyGUI proxy = ProxyGUI.getInstance();
+				proxy.setLocationRelativeTo(BotUI.getInstance());
+				proxy.setVisible(true);
 				break;
 			default:
 				System.out.println("Invalid command: ");

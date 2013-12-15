@@ -77,6 +77,7 @@ public class ServerSelector extends JFrame {
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrlInterior
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrlInterior.getVerticalScrollBar().setUnitIncrement(20);
 
 		this.panel.add(scrlInterior, BorderLayout.CENTER);
 		this.add(panel);

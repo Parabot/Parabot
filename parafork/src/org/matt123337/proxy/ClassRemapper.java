@@ -14,7 +14,6 @@ public class ClassRemapper extends Remapper {
 	public String map(String str) {
 		String s = remapNames.get(str);
 		if (s != null) {
-			System.out.println("[CLASS_REMAP] " + str + " => " + s);
 			return s;
 		} else {
 			return str;

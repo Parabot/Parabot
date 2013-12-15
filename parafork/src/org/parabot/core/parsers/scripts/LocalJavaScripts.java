@@ -61,7 +61,7 @@ public class LocalJavaScripts extends ScriptParser {
 				final Script script = (Script) con.newInstance();
 				scripts.add(script);
 				final ScriptDescription desc = new ScriptDescription(
-						manifest.name(), manifest.author(), manifest.category()
+						"Local:" + manifest.name(), manifest.author(), manifest.category()
 								.toString(), manifest.version(),
 						manifest.description(), manifest.servers(),
 						manifest.vip() ? "yes" : "no",

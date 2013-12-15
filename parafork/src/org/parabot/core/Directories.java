@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.swing.JFileChooser;
 
+import org.parabot.Landing;
 import org.parabot.environment.OperatingSystem;
 
 /**
@@ -37,10 +38,10 @@ public class Directories {
 		cached.put("Root", getDefaultDirectory());
 		cached.put("Workspace", new File(cached.get("Root"), "/Parabot/"));
 		cached.put("Sources", new File(cached.get("Root"), "/Parabot/scripts/sources/"));
-		cached.put("Compiled", new File(cached.get("Root"), "/Parabot/scripts/compiled/"));
+		cached.put("Compiled", Landing.scriptsDir == null ?new File(cached.get("Root"), "/Parabot/scripts/compiled/") : new File(Landing.scriptsDir));
 		cached.put("Resources", new File(cached.get("Root"), "/Parabot/scripts/resources/"));
 		cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
-		cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
+		cached.put("Servers", Landing.providerDir == null ? new File(cached.get("Root"),  "/Parabot/servers/"): new File(Landing.providerDir));
 		cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
 		Core.verbose("Directories cached.");
 	}

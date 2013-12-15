@@ -19,6 +19,9 @@ import java.io.IOException;
  * @version 2.04
  */
 public final class Landing {
+	
+	public static String providerDir = null;
+	public static String scriptsDir = null;
 
 	public static void main(String... args) throws IOException {
 		parseArgs(args);
@@ -66,6 +69,12 @@ public final class Landing {
 				if (!handleProxy(type, ip, port)) {
 					System.exit(1);
 				}
+				break;
+			case "-providers":
+				providerDir = args[++i];
+				break;
+			case "-scripts":
+				scriptsDir = args[++i];
 				break;
 			}
 

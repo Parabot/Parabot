@@ -80,7 +80,7 @@ public class BotToolbar extends JToolBar {
 			}
 			
 		});
-		add(tab);
+		//add(tab);
 		add(Box.createHorizontalGlue());
 		add(run);
 		add(stop);

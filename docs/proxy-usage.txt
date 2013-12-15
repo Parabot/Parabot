@@ -1,4 +1,4 @@
-It's very simple to use ParaFork's proxy implementation, as it currently stands it is only though the command line. A GUI is in the works.
+You can use the command line args (see below) or the GUI in bot to set proxy info, the GUI is located at" File -> Proxy"
 
 Usage:
 java -jar parafork.jar -proxy TYPE IP PORT

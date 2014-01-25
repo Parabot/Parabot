@@ -44,7 +44,7 @@ public class SignatureReader {
     private final String signature;
 
     /**
-     * Constructs a {@link org.objectweb.asm.signature.SignatureReader} for the given signature.
+     * Constructs a {@link SignatureReader} for the given signature.
      * 
      * @param signature
      *            A <i>ClassSignature</i>, <i>MethodTypeSignature</i>, or
@@ -56,9 +56,9 @@ public class SignatureReader {
 
     /**
      * Makes the given visitor visit the signature of this
-     * {@link org.objectweb.asm.signature.SignatureReader}. This signature is the one specified in the
+     * {@link SignatureReader}. This signature is the one specified in the
      * constructor (see {@link #SignatureReader(String) SignatureReader}). This
-     * method is intended to be called on a {@link org.objectweb.asm.signature.SignatureReader} that was
+     * method is intended to be called on a {@link SignatureReader} that was
      * created using a <i>ClassSignature</i> (such as the <code>signature</code>
      * parameter of the {@link org.objectweb.asm.ClassVisitor#visit
      * ClassVisitor.visit} method) or a <i>MethodTypeSignature</i> (such as the
@@ -114,9 +114,9 @@ public class SignatureReader {
 
     /**
      * Makes the given visitor visit the signature of this
-     * {@link org.objectweb.asm.signature.SignatureReader}. This signature is the one specified in the
+     * {@link SignatureReader}. This signature is the one specified in the
      * constructor (see {@link #SignatureReader(String) SignatureReader}). This
-     * method is intended to be called on a {@link org.objectweb.asm.signature.SignatureReader} that was
+     * method is intended to be called on a {@link SignatureReader} that was
      * created using a <i>FieldTypeSignature</i>, such as the
      * <code>signature</code> parameter of the
      * {@link org.objectweb.asm.ClassVisitor#visitField ClassVisitor.visitField}

@@ -71,7 +71,7 @@ public class LocalVariableNode {
     public int index;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LocalVariableNode}.
+     * Constructs a new {@link LocalVariableNode}.
      * 
      * @param name
      *            the name of a local variable.

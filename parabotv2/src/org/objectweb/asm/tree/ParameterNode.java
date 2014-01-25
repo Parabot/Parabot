@@ -1,5 +1,4 @@
-<html>
-<!--
+/***
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (c) 2000-2011 INRIA, France Telecom
  * All rights reserved.
@@ -27,10 +26,51 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
--->
-<body>
-Provides support for type signatures.
+ */
+package org.objectweb.asm.tree;
 
-@since ASM 2.0
-</body>
-</html>
+import org.objectweb.asm.MethodVisitor;
+
+/**
+ * A node that represents a parameter access and name.
+ * 
+ * @author Remi Forax
+ */
+public class ParameterNode {
+    /**
+     * The parameter's name.
+     */
+    public String name;
+
+    /**
+     * The parameter's access flags (see {@link org.objectweb.asm.Opcodes}).
+     * Valid values are <tt>ACC_FINAL</tt>, <tt>ACC_SYNTHETIC</tt> and
+     * <tt>ACC_MANDATED</tt>.
+     */
+    public int access;
+
+    /**
+     * Constructs a new {@link ParameterNode}.
+     * 
+     * @param access
+     *            The parameter's access flags. Valid values are
+     *            <tt>ACC_FINAL</tt>, <tt>ACC_SYNTHETIC</tt> or/and
+     *            <tt>ACC_MANDATED</tt> (see {@link org.objectweb.asm.Opcodes}).
+     * @param name
+     *            the parameter's name.
+     */
+    public ParameterNode(final String name, final int access) {
+        this.name = name;
+        this.access = access;
+    }
+
+    /**
+     * Makes the given visitor visit this parameter declaration.
+     * 
+     * @param mv
+     *            a method visitor.
+     */
+    public void accept(final MethodVisitor mv) {
+        mv.visitParameter(name, access);
+    }
+}

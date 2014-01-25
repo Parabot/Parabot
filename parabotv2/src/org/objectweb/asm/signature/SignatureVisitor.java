@@ -29,10 +29,12 @@
  */
 package org.objectweb.asm.signature;
 
+import org.objectweb.asm.Opcodes;
+
 /**
  * A visitor to visit a generic signature. The methods of this interface must be
  * called in one of the three following orders (the last one is the only valid
- * order for a {@link org.objectweb.asm.signature.SignatureVisitor} that is returned by a method of this
+ * order for a {@link SignatureVisitor} that is returned by a method of this
  * interface):
  * <ul>
  * <li><i>ClassSignature</i> = ( <tt>visitFormalTypeParameter</tt>
@@ -71,18 +73,21 @@ public abstract class SignatureVisitor {
 
     /**
      * The ASM API version implemented by this visitor. The value of this field
-     * must be one of {@link org.objectweb.asm.Opcodes#ASM4}.
+     * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
     protected final int api;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.signature.SignatureVisitor}.
+     * Constructs a new {@link SignatureVisitor}.
      * 
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link org.objectweb.asm.Opcodes#ASM4}.
+     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
     public SignatureVisitor(final int api) {
+        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
+            throw new IllegalArgumentException();
+        }
         this.api = api;
     }
 

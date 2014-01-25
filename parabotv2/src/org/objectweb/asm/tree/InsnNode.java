@@ -41,7 +41,7 @@ import org.objectweb.asm.MethodVisitor;
 public class InsnNode extends AbstractInsnNode {
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.InsnNode}.
+     * Constructs a new {@link InsnNode}.
      * 
      * @param opcode
      *            the opcode of the instruction to be constructed. This opcode
@@ -78,10 +78,11 @@ public class InsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitInsn(opcode);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new InsnNode(opcode);
+        return new InsnNode(opcode).cloneAnnotations(this);
     }
 }

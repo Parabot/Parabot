@@ -35,7 +35,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
 /**
- * An {@link org.objectweb.asm.tree.AbstractInsnNode} that encapsulates a {@link org.objectweb.asm.Label}.
+ * An {@link AbstractInsnNode} that encapsulates a {@link Label}.
  */
 public class LabelNode extends AbstractInsnNode {
 

@@ -62,12 +62,12 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
 
     /**
      * Beginnings of the handler blocks. This list is a list of
-     * {@link org.objectweb.asm.tree.LabelNode} objects.
+     * {@link LabelNode} objects.
      */
     public List<LabelNode> labels;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.TableSwitchInsnNode}.
+     * Constructs a new {@link TableSwitchInsnNode}.
      * 
      * @param min
      *            the minimum key value.
@@ -103,11 +103,12 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
             labels[i] = this.labels.get(i).getLabel();
         }
         mv.visitTableSwitchInsn(min, max, dflt.getLabel(), labels);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
         return new TableSwitchInsnNode(min, max, clone(dflt, labels), clone(
-                this.labels, labels));
+                this.labels, labels)).cloneAnnotations(this);
     }
 }

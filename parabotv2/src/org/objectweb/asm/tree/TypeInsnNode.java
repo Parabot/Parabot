@@ -48,7 +48,7 @@ public class TypeInsnNode extends AbstractInsnNode {
     public String desc;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.TypeInsnNode}.
+     * Constructs a new {@link TypeInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This
@@ -81,10 +81,11 @@ public class TypeInsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitTypeInsn(opcode, desc);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new TypeInsnNode(opcode, desc);
+        return new TypeInsnNode(opcode, desc).cloneAnnotations(this);
     }
 }

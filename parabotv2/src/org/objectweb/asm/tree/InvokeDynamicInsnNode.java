@@ -63,7 +63,7 @@ public class InvokeDynamicInsnNode extends AbstractInsnNode {
     public Object[] bsmArgs;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.InvokeDynamicInsnNode}.
+     * Constructs a new {@link InvokeDynamicInsnNode}.
      * 
      * @param name
      *            invokedynamic name.
@@ -91,10 +91,12 @@ public class InvokeDynamicInsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs);
+        return new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs)
+                .cloneAnnotations(this);
     }
 }

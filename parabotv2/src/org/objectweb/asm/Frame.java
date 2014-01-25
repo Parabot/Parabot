@@ -1278,8 +1278,8 @@ final class Frame {
      * @param frame
      *            the basic block whose input frame must be updated.
      * @param edge
-     *            the kind of the {@link org.objectweb.asm.Edge} between this label and 'label'.
-     *            See {@link org.objectweb.asm.Edge#info}.
+     *            the kind of the {@link Edge} between this label and 'label'.
+     *            See {@link Edge#info}.
      * @return <tt>true</tt> if the input frame of the given label has been
      *         changed by this operation.
      */

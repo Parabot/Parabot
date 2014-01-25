@@ -49,7 +49,7 @@ public class VarInsnNode extends AbstractInsnNode {
     public int var;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.VarInsnNode}.
+     * Constructs a new {@link VarInsnNode}.
      * 
      * @param opcode
      *            the opcode of the local variable instruction to be
@@ -84,10 +84,11 @@ public class VarInsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitVarInsn(opcode, var);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new VarInsnNode(opcode, var);
+        return new VarInsnNode(opcode, var).cloneAnnotations(this);
     }
 }

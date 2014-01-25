@@ -57,12 +57,12 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
 
     /**
      * Beginnings of the handler blocks. This list is a list of
-     * {@link org.objectweb.asm.tree.LabelNode} objects.
+     * {@link LabelNode} objects.
      */
     public List<LabelNode> labels;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LookupSwitchInsnNode}.
+     * Constructs a new {@link LookupSwitchInsnNode}.
      * 
      * @param dflt
      *            beginning of the default handler block.
@@ -105,6 +105,7 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
             labels[i] = this.labels.get(i).getLabel();
         }
         mv.visitLookupSwitchInsn(dflt.getLabel(), keys, labels);
+        acceptAnnotations(mv);
     }
 
     @Override
@@ -112,6 +113,6 @@ public class LookupSwitchInsnNode extends AbstractInsnNode {
         LookupSwitchInsnNode clone = new LookupSwitchInsnNode(clone(dflt,
                 labels), null, clone(this.labels, labels));
         clone.keys.addAll(keys);
-        return clone;
+        return clone.cloneAnnotations(this);
     }
 }

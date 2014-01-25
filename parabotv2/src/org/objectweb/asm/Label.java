@@ -214,7 +214,7 @@ public class Label {
 
     /**
      * Information about the input and output stack map frames of this basic
-     * block. This field is only used when {@link org.objectweb.asm.ClassWriter#COMPUTE_FRAMES}
+     * block. This field is only used when {@link ClassWriter#COMPUTE_FRAMES}
      * option is used.
      */
     Frame frame;
@@ -222,7 +222,7 @@ public class Label {
     /**
      * The successor of this label, in the order they are visited. This linked
      * list does not include labels used for debug info only. If
-     * {@link org.objectweb.asm.ClassWriter#COMPUTE_FRAMES} option is used then, in addition, it
+     * {@link ClassWriter#COMPUTE_FRAMES} option is used then, in addition, it
      * does not contain successive labels that denote the same bytecode position
      * (in this case only the first label appears in this list).
      */
@@ -230,8 +230,8 @@ public class Label {
 
     /**
      * The successors of this node in the control flow graph. These successors
-     * are stored in a linked list of {@link org.objectweb.asm.Edge Edge} objects, linked to each
-     * other by their {@link org.objectweb.asm.Edge#next} field.
+     * are stored in a linked list of {@link Edge Edge} objects, linked to each
+     * other by their {@link Edge#next} field.
      */
     Edge successors;
 
@@ -262,7 +262,7 @@ public class Label {
     /**
      * Returns the offset corresponding to this label. This offset is computed
      * from the start of the method's bytecode. <i>This method is intended for
-     * {@link org.objectweb.asm.Attribute} sub classes, and is normally not needed by class
+     * {@link Attribute} sub classes, and is normally not needed by class
      * generators or adapters.</i>
      * 
      * @return the offset corresponding to this label.

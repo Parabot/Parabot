@@ -53,7 +53,7 @@ public class LineNumberNode extends AbstractInsnNode {
     public LabelNode start;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LineNumberNode}.
+     * Constructs a new {@link LineNumberNode}.
      * 
      * @param line
      *            a line number. This number refers to the source file from

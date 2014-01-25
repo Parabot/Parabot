@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
 import org.objectweb.asm.MethodVisitor;
 
 /**
- * A doubly linked list of {@link org.objectweb.asm.tree.AbstractInsnNode} objects. <i>This
+ * A doubly linked list of {@link AbstractInsnNode} objects. <i>This
  * implementation is not thread safe</i>.
  */
 public class InsnList {
@@ -100,7 +100,7 @@ public class InsnList {
      *            the index of the instruction that must be returned.
      * @return the instruction whose index is given.
      * @throws IndexOutOfBoundsException
-     *             if (index < 0 || index >= size()).
+     *             if (index &lt; 0 || index &gt;= size()).
      */
     public AbstractInsnNode get(final int index) {
         if (index < 0 || index >= size) {
@@ -207,7 +207,7 @@ public class InsnList {
      *            an instruction <i>of this list</i>.
      * @param insn
      *            another instruction, <i>which must not belong to any
-     *            {@link org.objectweb.asm.tree.InsnList}</i>.
+     *            {@link InsnList}</i>.
      */
     public void set(final AbstractInsnNode location, final AbstractInsnNode insn) {
         AbstractInsnNode next = location.next;
@@ -241,7 +241,7 @@ public class InsnList {
      * 
      * @param insn
      *            an instruction, <i>which must not belong to any
-     *            {@link org.objectweb.asm.tree.InsnList}</i>.
+     *            {@link InsnList}</i>.
      */
     public void add(final AbstractInsnNode insn) {
         ++size;
@@ -287,7 +287,7 @@ public class InsnList {
      * 
      * @param insn
      *            an instruction, <i>which must not belong to any
-     *            {@link org.objectweb.asm.tree.InsnList}</i>.
+     *            {@link InsnList}</i>.
      */
     public void insert(final AbstractInsnNode insn) {
         ++size;
@@ -336,7 +336,7 @@ public class InsnList {
      *            inserted.
      * @param insn
      *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link org.objectweb.asm.tree.InsnList}</i>.
+     *            any {@link InsnList}</i>.
      */
     public void insert(final AbstractInsnNode location,
             final AbstractInsnNode insn) {
@@ -392,7 +392,7 @@ public class InsnList {
      *            inserted.
      * @param insn
      *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link org.objectweb.asm.tree.InsnList}</i>.
+     *            any {@link InsnList}</i>.
      */
     public void insertBefore(final AbstractInsnNode location,
             final AbstractInsnNode insn) {
@@ -479,7 +479,7 @@ public class InsnList {
      * 
      * @param mark
      *            if the instructions must be marked as no longer belonging to
-     *            any {@link org.objectweb.asm.tree.InsnList}.
+     *            any {@link InsnList}.
      */
     void removeAll(final boolean mark) {
         if (mark) {

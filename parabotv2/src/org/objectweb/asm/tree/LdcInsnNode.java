@@ -49,7 +49,7 @@ public class LdcInsnNode extends AbstractInsnNode {
     public Object cst;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.LdcInsnNode}.
+     * Constructs a new {@link LdcInsnNode}.
      * 
      * @param cst
      *            the constant to be loaded on the stack. This parameter must be
@@ -69,10 +69,11 @@ public class LdcInsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitLdcInsn(cst);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new LdcInsnNode(cst);
+        return new LdcInsnNode(cst).cloneAnnotations(this);
     }
 }

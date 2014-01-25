@@ -58,7 +58,7 @@ public class MethodInsnNode extends AbstractInsnNode {
     public String desc;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.MethodInsnNode}.
+     * Constructs a new {@link MethodInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This

@@ -58,7 +58,7 @@ public class FieldInsnNode extends AbstractInsnNode {
     public String desc;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.FieldInsnNode}.
+     * Constructs a new {@link FieldInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This
@@ -97,12 +97,14 @@ public class FieldInsnNode extends AbstractInsnNode {
     }
 
     @Override
-    public void accept(final MethodVisitor cv) {
-        cv.visitFieldInsn(opcode, owner, name, desc);
+    public void accept(final MethodVisitor mv) {
+        mv.visitFieldInsn(opcode, owner, name, desc);
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new FieldInsnNode(opcode, owner, name, desc);
+        return new FieldInsnNode(opcode, owner, name, desc)
+                .cloneAnnotations(this);
     }
 }

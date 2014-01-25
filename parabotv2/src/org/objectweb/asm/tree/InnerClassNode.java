@@ -64,7 +64,7 @@ public class InnerClassNode {
     public int access;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.InnerClassNode}.
+     * Constructs a new {@link InnerClassNode}.
      * 
      * @param name
      *            the internal name of an inner class (see

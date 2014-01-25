@@ -48,7 +48,7 @@ public class JumpInsnNode extends AbstractInsnNode {
     public LabelNode label;
 
     /**
-     * Constructs a new {@link org.objectweb.asm.tree.JumpInsnNode}.
+     * Constructs a new {@link JumpInsnNode}.
      * 
      * @param opcode
      *            the opcode of the type instruction to be constructed. This
@@ -86,10 +86,12 @@ public class JumpInsnNode extends AbstractInsnNode {
     @Override
     public void accept(final MethodVisitor mv) {
         mv.visitJumpInsn(opcode, label.getLabel());
+        acceptAnnotations(mv);
     }
 
     @Override
     public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new JumpInsnNode(opcode, clone(label, labels));
+        return new JumpInsnNode(opcode, clone(label, labels))
+                .cloneAnnotations(this);
     }
 }

@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
+import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.widgets.ServerWidget;
 import org.parabot.environment.Environment;
@@ -51,6 +52,7 @@ public class ServerSelector extends JFrame {
 		this.setTitle("Servers");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
+		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		this.panel = new JPanel(new BorderLayout());
 		this.panel.setPreferredSize(new Dimension(600, 400));

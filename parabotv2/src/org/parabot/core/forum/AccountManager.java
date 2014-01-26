@@ -30,6 +30,7 @@ public final class AccountManager {
 		if (validated) {
 			return;
 		}
+		validated = true;
 		instance = new AccountManager();
 
 		Core.verbose("Initializing account manager accessors...");
@@ -63,6 +64,7 @@ public final class AccountManager {
 					URLEncoder.encode(user, "UTF-8"),
 					URLEncoder.encode(pass, "UTF-8")));
 		} catch (Throwable t) {
+			t.printStackTrace();
 			return false;
 		}
 

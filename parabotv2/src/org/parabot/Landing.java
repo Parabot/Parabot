@@ -63,7 +63,7 @@ public final class Landing {
 	private static void parseArgs(String... args) {
 		for (int i = 0; i < args.length; i++) {
 			final String arg = args[i].toLowerCase();
-			switch (arg) {
+			switch (arg.toLowerCase()) {
 			case "-createdirs":
 				Directories.validate();
 				System.out

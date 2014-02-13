@@ -1,21 +1,15 @@
 package org.parabot.core.ui.widgets;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
-import javax.swing.JPanel;
-
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.environment.Environment;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * A neat looking server widget
@@ -59,6 +53,7 @@ public class ServerWidget extends JPanel implements MouseListener,
 		if (hovered) {
 			bgColor = Color.GRAY;
 		}
+
 		g2d.setColor(bgColor);
 		g2d.fillRect(0, 0, w, h);
 		g.setColor(Color.black);

@@ -1,13 +1,13 @@
 package org.parabot.core.parsers.scripts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.jython.Jython;
 import org.parabot.environment.scripts.ScriptExecuter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -25,12 +25,18 @@ public abstract class ScriptParser {
 	public static ScriptDescription[] getDescriptions() {
 		SCRIPT_CACHE.clear();
 		final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
-		if(Core.inDebugMode()) {
+		if(Core.inLoadLocal()) {
 			parsers.add(new LocalJavaScripts());
 			if(Jython.isValid()) {
 				parsers.add(new LocalPythonScripts());
 			}
-		} else {
+            parsers.add(new SDNScripts());
+		}else if (Core.inDebugMode()){
+            parsers.add(new LocalJavaScripts());
+            if(Jython.isValid()) {
+                parsers.add(new LocalPythonScripts());
+            }
+        }else{
 			parsers.add(new SDNScripts());
 		}
 		

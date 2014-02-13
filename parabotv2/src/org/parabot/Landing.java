@@ -87,6 +87,9 @@ public final class Landing {
 			case "-proxy":
 				Ip.spoofIP(args[++i], args[++i]);
 				break;
+            case "-loadlocal":
+                Core.setLoadLocal(true);
+                break;
 			}
 
 		}

@@ -1,12 +1,12 @@
 package org.parabot.core.parsers.servers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.environment.servers.ServerExecuter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -23,9 +23,12 @@ public abstract class ServerParser {
 	public static final ServerDescription[] getDescriptions() {
 		SERVER_CACHE.clear();
 		final ArrayList<ServerParser> parsers = new ArrayList<ServerParser>();
-		if(Core.inDebugMode()) {
+		if(Core.inLoadLocal()) {
 			parsers.add(new LocalServers());
-		} else {
+            parsers.add(new PublicServers());
+		} else if (Core.inDebugMode()){
+            parsers.add(new LocalServers());
+        }else{
 			parsers.add(new PublicServers());
 		}
 		

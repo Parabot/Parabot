@@ -16,8 +16,25 @@ public class Core {
 
 	private static boolean debug = false;
 	private static boolean verbose = false;
+    private static boolean loadLocal = false; //Loads both local and public scripts/servers
 
-	/**
+    /**
+     * Enabled loadLocal mode
+     *
+     * @param loadLocal
+     */
+    public static void setLoadLocal(final boolean loadLocal) {
+        Core.loadLocal = loadLocal;
+    }
+
+    /**
+     * @return if the client is in loadLocal mode.
+     */
+    public static boolean inLoadLocal() {
+        return loadLocal;
+    }
+
+    /**
 	 * Enabled debug mode
 	 * 
 	 * @param debug

@@ -1,10 +1,5 @@
 package org.parabot.environment.servers;
 
-import java.applet.Applet;
-import java.applet.AppletStub;
-import java.net.URL;
-import javax.swing.JMenuBar;
-
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
 import org.parabot.core.asm.interfaces.Injectable;
@@ -12,6 +7,11 @@ import org.parabot.core.parsers.HookParser;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
+
+import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AppletStub;
+import java.net.URL;
 
 /**
  * Provides a server to the bot
@@ -62,8 +62,8 @@ public abstract class ServerProvider implements Opcodes {
 	/**
 	 * Add custom items to the bot menu bar
 	 * 
-	 * @param menu
-	 *            bar to add items on
+	 * @param bar
+	 * menu bar to add items on
 	 */
 	public void addMenuItems(JMenuBar bar) {
 	}

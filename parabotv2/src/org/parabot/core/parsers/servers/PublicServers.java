@@ -43,7 +43,7 @@ public class PublicServers extends ServerParser {
                         version = Double.parseDouble(line);
                         break;
                     case 0:
-                        // jarName
+                        // serverID
                         ServerDescription desc = new ServerDescription(name,
                                 author, version);
                         SERVER_CACHE.put(desc, new PublicServerExecuter(name, line));

@@ -44,3 +44,5 @@ parabotv2/src/META-INF/MANIFEST.MF
 
 *.idx3
 /bin
+
+.idea/uiDesigner.xml

@@ -98,5 +98,4 @@ public class Core {
         Core.verbose("Updates available...");
         return false;
     }
-
 }

@@ -1,12 +1,5 @@
 package org.parabot.environment.servers;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import javax.swing.JOptionPane;
-
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
@@ -17,6 +10,11 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.loader.ServerLoader;
 
+import javax.swing.*;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URL;
+
 /**
  * 
  * Fetches a server provider from the parabot sdn
@@ -26,26 +24,38 @@ import org.parabot.environment.servers.loader.ServerLoader;
  */
 public class PublicServerExecuter extends ServerExecuter {
 	private String serverName = null;
-	private String jarName = null;
+	private String serverID = null;
 
-	public PublicServerExecuter(final String serverName, final String jarName) {
+	public PublicServerExecuter(final String serverName, final String serverID) {
 		this.serverName = serverName;
-		this.jarName = jarName;
+		this.serverID = serverID;
 	}
 
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
 			final File destination = new File(Directories.getCachePath(),
-					this.jarName);
-			final String jarUrl = String.format(
-					Configuration.GET_SERVER_PROVIDER,
-					URLEncoder.encode(this.jarName, "UTF-8"));
-			
+					this.serverID);
+			final String jarUrl = Configuration.GET_SERVER_PROVIDER + this.serverID;
+            final String providerInfo = Configuration.GET_SERVER_PROVIDER_INFO + this.serverID;
+
+            try{
+                Integer.parseInt(this.serverID);
+            }catch(NumberFormatException e){
+                UILog.log(
+                        "Error",
+                        "Failed to parse the server ID for the server provider, error: [Server ID is not an integer.]",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
 			Core.verbose("Downloading: " + jarUrl + " ...");
 
 			WebUtil.downloadFile(new URL(jarUrl), destination,
 					VerboseLoader.get());
+
+            WebUtil.downloadFile(new URL(providerInfo),
+                    new File(System.getProperty("user.home") + "/serverProvider.pb"),
+                    VerboseLoader.get());
 			
 			Core.verbose("Server provider downloaded...");
 			

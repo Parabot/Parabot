@@ -1,14 +1,14 @@
 package org.parabot.core.forum;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.SDNScripts;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.SDNScriptExecuter;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Handles logging in to parabot forum, only certain classes may use this class.
@@ -60,9 +60,9 @@ public final class AccountManager {
 		String contents = null;
 		try {
 			contents = WebUtil.getContents(String.format(
-					Configuration.LOGIN_SERVER,
-					URLEncoder.encode(user, "UTF-8"),
-					URLEncoder.encode(pass, "UTF-8")));
+                    Configuration.LOGIN_SERVER,
+                    URLEncoder.encode(user, "UTF-8"),
+                    URLEncoder.encode(pass, "UTF-8")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
@@ -71,7 +71,7 @@ public final class AccountManager {
 		if (contents.equals("correct")) {
 			account = new Account(user, pass);
 			return true;
-		} 
+		}
 		return false;
 	}
 

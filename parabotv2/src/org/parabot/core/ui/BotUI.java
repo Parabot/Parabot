@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.ui.components.BotToolbar;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.LogArea;
@@ -84,7 +85,7 @@ public class BotUI extends JFrame implements ActionListener {
 
 		SwingUtil.finalize(this);
 
-		LogArea.log("parabot v2.03 started");
+		LogArea.log("parabot " + Configuration.BOT_VERSION +" started");
 	}
 
 	@Override

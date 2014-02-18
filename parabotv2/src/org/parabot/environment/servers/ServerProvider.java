@@ -26,6 +26,7 @@ public abstract class ServerProvider implements Opcodes {
 	 * 
 	 * @return URL to hooks file
 	 */
+	@Deprecated
 	public URL getHooks() {
 		return null;
 	}

@@ -9,7 +9,6 @@ import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -102,7 +101,6 @@ public class BotUI extends JFrame implements ActionListener {
 				break;
             case "Network":
                 System.out.println("Starting up the proxy UI");
-                //NetworkUI.main();
                 break;
 			default:
 				System.out.println("Invalid command: " + command);

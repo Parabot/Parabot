@@ -1,6 +1,6 @@
 # Parabot
 
-Parabot v2.04.
+Parabot v2.05.
 
 #### Website
 
@@ -9,6 +9,3 @@ Parabot v2.04.
 #### Compilation
 
 You'll need the jython libraries in order to compile parabot successfully.
-
-
-

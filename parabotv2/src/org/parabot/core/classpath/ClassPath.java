@@ -18,8 +18,10 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.matt123337.proxy.ClassRemapper;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
@@ -186,7 +188,8 @@ public class ClassPath {
 	protected void loadClass(InputStream in) throws IOException {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
-		cr.accept(cn, 0);
+        RemappingClassAdapter adapter = new RemappingClassAdapter(cn,new ClassRemapper());
+		cr.accept(adapter, ClassReader.EXPAND_FRAMES);
 		classes.put(cn.name, cn);
 	}
 

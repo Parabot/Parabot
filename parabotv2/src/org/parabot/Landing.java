@@ -1,15 +1,18 @@
 package org.parabot;
 
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import org.matt123337.proxy.ProxySocket;
+import org.matt123337.proxy.ProxyType;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
-import org.parabot.core.spoofing.Ip;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
-
-import javax.swing.*;
-import java.io.IOException;
 
 /**
  * Parabot v2
@@ -84,9 +87,14 @@ public final class Landing {
                     username = args[++i];
                     password = args[++i];
                     break;
-                case "-proxy":
-                    Ip.spoofIP(args[++i], args[++i]);
-                    break;
+    			case "-proxy":
+    				String type = args[++i];
+    				String ip = args[++i];
+    				String port = args[++i];
+    				if (!handleProxy(type, ip, port)) {
+    					System.exit(1);
+    				}
+    				break;
                 case "-loadlocal":
                     Core.setLoadLocal(true);
                     break;
@@ -94,5 +102,26 @@ public final class Landing {
 
         }
     }
+    
+	private static boolean handleProxy(String type, String ip, String port) {
+		ProxyType proxyType = null;
+		for (ProxyType pt : ProxyType.values()) {
+			if (pt.name().equalsIgnoreCase(type)) {
+				proxyType = pt;
+				break;
+			}
+		}
+		if (proxyType == null) {
+			System.err.println("Unknown proxy type:" + type);
+			return false;
+		}
+		try {
+			int p = Integer.parseInt(port);
+			ProxySocket.setProxy(proxyType, ip, p);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 }

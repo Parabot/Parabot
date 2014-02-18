@@ -46,3 +46,9 @@ parabotv2/src/META-INF/MANIFEST.MF
 /bin
 
 .idea/uiDesigner.xml
+
+*.jar
+
+*.classpath
+
+*.project

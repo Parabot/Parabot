@@ -9,6 +9,7 @@ import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,9 +50,12 @@ public class BotUI extends JFrame implements ActionListener {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu mnuFile = new JMenu("File");
+		JMenuItem proxy = new JMenuItem("Network");
 		JMenuItem exit = new JMenuItem("Exit");
+		proxy.addActionListener(this);
 		exit.addActionListener(this);
 
+		mnuFile.add(proxy);
 		mnuFile.add(exit);
 		menubar.add(mnuFile);
 
@@ -95,6 +99,11 @@ public class BotUI extends JFrame implements ActionListener {
 		switch (command) {
 			case "Exit":
 				System.exit(0);
+				break;
+			case "Network":
+				NetworkUI proxy = NetworkUI.getInstance();
+				proxy.setLocationRelativeTo(BotUI.getInstance());
+				proxy.setVisible(true);
 				break;
 			default:
 				System.out.println("Invalid command: ");

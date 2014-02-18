@@ -33,6 +33,7 @@ import org.parabot.core.ui.utils.UILog;
 
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		DocumentListener {
+	private static final long serialVersionUID = 1L;
 
 	private static NetworkUI instance;
 
@@ -41,7 +42,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 	private IntTextField proxyPort;
 	private JButton submitButton;
 
-	JList[] macList;
+	JList<?>[] macList;
 	JScrollPane[] macScrollList;
 
 	private NetworkUI() {
@@ -212,18 +213,23 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		setVisible(false);
 	}
 
-	private JList createMacList() {
+	private JList<String> createMacList() {
 		String[] hexStrings = new String[256];
 		for (int i = 0; i < 256; i++) {
 			hexStrings[i] = String.format("%02X", i);
 		}
-		JList ret = new JList<String>(hexStrings);
+		JList<String> ret = new JList<String>(hexStrings);
 		ret.setVisibleRowCount(3);
 		ret.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		return ret;
 	}
 
 	class IntTextField extends JTextField {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public IntTextField(int defval, int size) {
 			super("" + defval, size);
 		}
@@ -250,6 +256,11 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		}
 
 		class IntTextDocument extends PlainDocument {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void insertString(int offs, String str, AttributeSet a)
 					throws BadLocationException {
 				if (str == null)

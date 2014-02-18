@@ -7,7 +7,6 @@ package org.parabot.core.spoofer;
  */
 public class Proxy {
     public static void setProxy(String host, int port){
-        System.getProperties().put("proxySet", "true");
         System.getProperties().put("proxyHost", host);
         System.getProperties().put("proxyPort", port);
     }

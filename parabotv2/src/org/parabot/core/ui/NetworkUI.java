@@ -102,6 +102,7 @@ public class NetworkUI {
                         return;
                     }
                     Proxy.setProxy(proxyHostField.getText(), Integer.parseInt(proxyPortField.getText()));
+                    frame.setVisible(false);
                 }
             }
         });

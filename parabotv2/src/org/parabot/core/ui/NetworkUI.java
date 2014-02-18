@@ -1,5 +1,7 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.spoofer.Proxy;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +10,7 @@ import java.util.HashMap;
 
 public class NetworkUI {
 
-    private JFrame frame;
+    public JFrame frame;
     private JTextField proxyHostField;
     private JTextField proxyPortField;
     private HashMap<String, Integer> socksVersions = new HashMap<>();
@@ -92,7 +94,15 @@ public class NetworkUI {
         JButton submit = new JButton("Submit");
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(socksVersions.get(socksOptions.getSelectedItem()));
+                if (!proxyHostField.getText().isEmpty() && !proxyPortField.getText().isEmpty()){
+                    try{
+                        Integer.parseInt(proxyPortField.getText());
+                    }catch (Exception ex){
+                        System.out.println("The given port is not a numeric value");
+                        return;
+                    }
+                    Proxy.setProxy(proxyHostField.getText(), Integer.parseInt(proxyPortField.getText()));
+                }
             }
         });
         submit.setBounds(327, 243, 117, 29);

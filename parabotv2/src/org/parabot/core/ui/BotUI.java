@@ -100,7 +100,8 @@ public class BotUI extends JFrame implements ActionListener {
 				System.exit(0);
 				break;
             case "Network":
-                System.out.println("Starting up the proxy UI");
+                NetworkUI UI = new NetworkUI();
+                UI.frame.setVisible(true);
                 break;
 			default:
 				System.out.println("Invalid command: " + command);

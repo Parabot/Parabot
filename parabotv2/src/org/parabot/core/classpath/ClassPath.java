@@ -20,12 +20,10 @@ import java.util.zip.ZipInputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.io.SizeInputStream;
-import org.parabot.core.proxy.ClassRemapper;
 import org.parabot.core.ui.components.VerboseLoader;
 
 /**
@@ -188,8 +186,7 @@ public class ClassPath {
 	protected void loadClass(InputStream in) throws IOException {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
-        RemappingClassAdapter adapter = new RemappingClassAdapter(cn,new ClassRemapper());
-		cr.accept(adapter, ClassReader.EXPAND_FRAMES);
+		cr.accept(cn, ClassReader.EXPAND_FRAMES);
 		classes.put(cn.name, cn);
 	}
 

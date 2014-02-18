@@ -20,18 +20,18 @@ import java.util.Collection;
  *
  */
 public class Script implements Runnable {
-	private Collection<Strategy> strategies = null;
-	private int frameWorkType = 0;
-	private AbstractFramework frameWork = null;
-	
 	public static final int TYPE_STRATEGY = 0;
 	public static final int TYPE_LOOP = 1;
 	public static final int TYPE_OTHER = 2;
 	
-	private int state = 0;
 	public static final int STATE_RUNNING = 0;
 	public static final int STATE_PAUSE = 1;
 	public static final int STATE_STOPPED = 2;
+	
+	private Collection<Strategy> strategies;
+	private AbstractFramework frameWork;
+	private int state;
+	private int frameWorkType;
 	
 	public boolean onExecute() {
 		return true;
@@ -62,8 +62,10 @@ public class Script implements Runnable {
 
 	@Override
 	public final void run() {
+		Context context = Context.resolve();
+		
 		Core.verbose("Initializing script...");
-		Context.resolve().getServerProvider().initScript(this);
+		context.getServerProvider().initScript(this);
 		Core.verbose("Done.");
 		
 		if(!onExecute()) {
@@ -75,7 +77,7 @@ public class Script implements Runnable {
 		}
 		
 		Core.verbose("Detecting script framework...");
-		Context.resolve().setRunningScript(this);
+		context.setRunningScript(this);
 		BotToolbar.getInstance().toggleRun();
 		if(this instanceof LoopTask) {
 			Core.verbose("Script framework detected: LoopTask");
@@ -93,6 +95,10 @@ public class Script implements Runnable {
 		LogArea.log("Script started.");
 		try {
 			while(this.state != STATE_STOPPED) {
+				if(context.getRandomHandler().checkAndRun()) {
+					continue;
+				}
+				
 				if(this.state == STATE_PAUSE) {
 					sleep(500);
 					continue;

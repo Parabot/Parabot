@@ -9,6 +9,7 @@ import org.parabot.core.ui.components.GamePanel;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
+import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.servers.ServerProvider;
 
@@ -23,35 +24,35 @@ import java.util.TimerTask;
  * @author Everel
  */
 public class Context {
-    public static HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
+    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
+    private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
     private static int id = 1;
 
-    private ASMClassLoader classLoader = null;
-    private ClassPath classPath = null;
-    private ServerProvider serverProvider = null;
-    private int tab = 0;
-    private Applet gameApplet = null;
-    private HookParser hookParser = null;
-    private Script runningScript = null;
-
-    private Object clientInstance = null;
-
-    private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
-
-    private PaintDebugger paintDebugger = new PaintDebugger();
-
-    public boolean added = false;
-
-    private Mouse mouse = null;
-    private Keyboard keyboard = null;
+    public boolean added;
+    private ASMClassLoader classLoader;
+    private ClassPath classPath;
+    private ServerProvider serverProvider;
+    private int tab;
+    private Applet gameApplet;
+    private HookParser hookParser;
+    private Script runningScript;
+    private RandomHandler randomHandler;
+    private Object clientInstance;
+    private PaintDebugger paintDebugger;
+    private Mouse mouse;
+    private Keyboard keyboard;
 
     public Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
-        tab = id;
+      
         this.serverProvider = serverProvider;
-        id++;
+        this.paintDebugger = new PaintDebugger();
         this.classPath = new ClassPath();
-        classLoader = new ASMClassLoader(classPath);
+        this.classLoader = new ASMClassLoader(classPath);
+        this.randomHandler = new RandomHandler();
+        this.tab = id;
+        
+        id++;
     }
 
     /**
@@ -296,6 +297,14 @@ public class Context {
      */
     public Script getRunningScript() {
         return this.runningScript;
+    }
+    
+    /**
+     * Gets the random handler
+     * @return random handler
+     */
+    public RandomHandler getRandomHandler() {
+    	return this.randomHandler;
     }
 
 }

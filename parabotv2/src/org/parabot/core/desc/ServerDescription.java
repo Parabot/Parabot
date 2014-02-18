@@ -8,9 +8,9 @@ package org.parabot.core.desc;
  * 
  */
 public class ServerDescription {
-	private String serverName = null;
-	private String author = null;
-	private double revision = 0;
+	private String serverName;
+	private String author;
+	private double revision;
 
 	public ServerDescription(final String serverName, final String author,
 			final double revision) {

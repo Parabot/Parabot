@@ -17,8 +17,8 @@ import java.util.ArrayList;
  * 
  */
 public final class AccountManager {
-	private static boolean validated = false;
-	private static AccountManager instance = null;
+	private static boolean validated;
+	private static AccountManager instance;
 
 	private Account account = null;
 

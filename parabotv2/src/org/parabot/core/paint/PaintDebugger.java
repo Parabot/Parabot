@@ -16,8 +16,13 @@ import org.parabot.core.Context;
  *
  */
 public class PaintDebugger {
-	private final HashMap<String, AbstractDebugger> debuggers = new HashMap<String, AbstractDebugger>();
-	private final Queue<String> stringDebug = new LinkedList<String>();
+	private final HashMap<String, AbstractDebugger> debuggers;
+	private final Queue<String> stringDebug;
+	
+	public PaintDebugger() {
+		this.debuggers = new HashMap<String, AbstractDebugger>();
+		this.stringDebug = new LinkedList<String>();
+	}
 	
 	public final void addDebugger(final String name, final AbstractDebugger debugger) {
 		debuggers.put(name, debugger);

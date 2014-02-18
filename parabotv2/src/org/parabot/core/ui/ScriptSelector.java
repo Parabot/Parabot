@@ -25,18 +25,19 @@ import java.util.HashMap;
  * @author Everel
  */
 public final class ScriptSelector extends JFrame {
+	public static ScriptParser parser;
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, DefaultMutableTreeNode> categories = new HashMap<String, DefaultMutableTreeNode>();
 	private HashMap<String, ScriptDescription> format = new HashMap<String, ScriptDescription>();
 	private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Scripts");
-	private DefaultTreeModel model = null;
-	private final int WIDTH = 640;
-	private final int HEIGHT = 256 + 128;
-
-	public static ScriptParser parser = null;
+	private DefaultTreeModel model;
+	private final int WIDTH;
+	private final int HEIGHT;
 
 	public ScriptSelector() {
-		model = new DefaultTreeModel(root);
+		this.WIDTH = 640;
+		this.HEIGHT = 256 + 128;
+		this.model = new DefaultTreeModel(root);
 		putScripts();
 		createUI();
 	}

@@ -20,11 +20,8 @@ import org.parabot.core.asm.wrappers.Super;
  * 
  * @author Dane
  * 
- *
- * 
  */
 public class JSONHookParser extends HookParser {
-
 	private JSONObject root;
 	private Map<String, String> interfaces;
 	private HashMap<String, String> constants;

@@ -7,15 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-
 public class NetworkUI {
 
     public JFrame frame;
     private JTextField proxyHostField;
     private JTextField proxyPortField;
-    private HashMap<String, Integer> socksVersions = new HashMap<>();
+    private HashMap<String, Integer> socksVersions;
 
     public NetworkUI() {
+    	this.socksVersions = new HashMap<String, Integer>();
         initialize();
     }
 

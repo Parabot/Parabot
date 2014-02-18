@@ -3,16 +3,17 @@ package org.parabot.core.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class SizeInputStream extends InputStream {
-	private InputStream in = null;
-
-	private double size = 0;
-
-	public int bytesRead = 0;
-
+	public int bytesRead;
 	private ProgressListener l;
-	
-	private long startTime = 0L;
+	private InputStream in;
+	private long startTime;
+	private double size;
 
 	public SizeInputStream(InputStream in, int size, ProgressListener l) {
 		this.in = in;

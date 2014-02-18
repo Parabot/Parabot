@@ -5,11 +5,8 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class MacAddress {
-
 	public static byte[] mac = new byte[] { 11, 11, 11, 11, 11, 11 };
-
 	private static byte[] realMac;
-
 	private static MacAddress cached;
 
 	static {

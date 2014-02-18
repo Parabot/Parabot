@@ -16,7 +16,7 @@ import java.net.URL;
  * @author Everel
  */
 public class SDNScripts extends ScriptParser {
-    private static AccountManager manager = null;
+    private static AccountManager manager;
 
     public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 

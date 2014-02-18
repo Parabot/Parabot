@@ -11,10 +11,9 @@ import java.io.IOException;
  * @author Everel
  */
 public class Core {
-
-    private static boolean debug = false;
-    private static boolean verbose = false;
-    private static boolean loadLocal = false; //Loads both local and public scripts/servers
+    private static boolean debug;
+    private static boolean verbose;
+    private static boolean loadLocal; //Loads both local and public scripts/servers
 
     /**
      * Enabled loadLocal mode

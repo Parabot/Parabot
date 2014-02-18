@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * @author Paris
  */
 public class LogOutputStream extends OutputStream {
-	protected boolean hasBeenClosed = false;
+	protected boolean hasBeenClosed;
 	protected Logger category;
 	protected Level priority;
 	protected StringBuilder buffer;

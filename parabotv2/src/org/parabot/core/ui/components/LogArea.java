@@ -26,8 +26,8 @@ import org.parabot.core.logging.TextAreaLogHandler;
 public class LogArea extends JScrollPane {
 
 	private static final long serialVersionUID = 6571141103751675714L;
-	private static LogArea instance = null;
 	private static LogTextArea logArea = new LogTextArea();
+	private static LogArea instance;
 
 	private LogArea() {
 		super(TextAreaLogHandler.TEXT_AREA,

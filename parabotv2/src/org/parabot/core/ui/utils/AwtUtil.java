@@ -8,10 +8,9 @@ import java.awt.Toolkit;
  * Holds various awt util based methods
  * 
  * @author Dane
- *
+ * 
  */
 public class AwtUtil {
-
 	private static Toolkit toolkit;
 
 	public static Toolkit getToolkit() {

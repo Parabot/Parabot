@@ -25,12 +25,10 @@ import org.parabot.environment.Environment;
  */
 
 public class ServerSelector extends JFrame {
-
+	public static String initServer;
 	private static final long serialVersionUID = 5238720307271493899L;
-	private static ServerSelector instance = null;
+	private static ServerSelector instance;
 	private JPanel panel;
-
-	public static String initServer = null;
 
 	public static ServerSelector getInstance() {
 		if (instance == null) {

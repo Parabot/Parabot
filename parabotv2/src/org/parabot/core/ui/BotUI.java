@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 public class BotUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = -2126184292879805519L;
-	private static BotUI instance = null;
+	private static BotUI instance;
 
 	public static BotUI getInstance() {
 		return instance == null ? instance = new BotUI() : instance;

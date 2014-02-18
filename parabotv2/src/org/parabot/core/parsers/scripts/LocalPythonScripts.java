@@ -18,9 +18,7 @@ import java.io.FilenameFilter;
  * @author Everel
  */
 public class LocalPythonScripts extends ScriptParser {
-    private PythonInterpreter interpreter = new PythonInterpreter();
-
-    private static final FilenameFilter PYTHON_SCRIPT_FILTER = new FilenameFilter() {
+	private static final FilenameFilter PYTHON_SCRIPT_FILTER = new FilenameFilter() {
 
         @Override
         public boolean accept(File dir, String name) {
@@ -28,6 +26,12 @@ public class LocalPythonScripts extends ScriptParser {
         }
 
     };
+    
+    private PythonInterpreter interpreter;
+
+    public LocalPythonScripts() {
+    	this.interpreter = new PythonInterpreter();
+    }
 
     /**
      * @param name - local var name

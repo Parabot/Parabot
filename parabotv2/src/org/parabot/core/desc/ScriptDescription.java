@@ -7,16 +7,16 @@ package org.parabot.core.desc;
  * 
  */
 public class ScriptDescription {
-	public String scriptName = null;
-	public String author = null;
-	public String category = null;
-	public double version = 0;
-	public String description = null;
-	public String[] servers = null;
-	public String isVip = null;
-	public String isPremium = null;
+	public String scriptName;
+	public String author;
+	public String category;
+	public double version;
+	public String description;
+	public String[] servers;
+	public String isVip;
+	public String isPremium;
 	public int sdnId = -1;
-	public String jarName = null;
+	public String jarName;
 
 	/**
 	 * The ScriptManifest

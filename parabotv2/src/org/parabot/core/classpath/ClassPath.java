@@ -34,21 +34,23 @@ import org.parabot.core.ui.components.VerboseLoader;
  * @author Matt
  */
 public class ClassPath {
-	public final HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
-	public final Map<String, URL> resources = new HashMap<String, URL>();
-
-	private boolean isJar = false;
-	private boolean parseJar = true;
-	private ArrayList<URL> jarFiles = new ArrayList<URL>();
+	public final HashMap<String, ClassNode> classes;
+	public final Map<String, URL> resources;
+	private boolean isJar;
+	private boolean parseJar;
+	private ArrayList<URL> jarFiles;
 
 	public URL lastParsed = null;
 
 	public ClassPath() {
-
+		this(false);
 	}
 
 	public ClassPath(final boolean isJar) {
 		this.isJar = isJar;
+		this.classes = new HashMap<String, ClassNode>();
+		this.resources = new HashMap<String, URL>();
+		this.jarFiles = new ArrayList<URL>();
 	}
 	
 	public void addJar(final File file) {

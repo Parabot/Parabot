@@ -8,12 +8,12 @@ import java.util.logging.LogRecord;
 import javax.swing.JLabel;
 
 public class LabelLogHandler extends Handler {
-	public final JLabel label = new JLabel();
+	public final JLabel label;
 	private final Color defaultColor;
 
 	public LabelLogHandler() {
-		super();
-		defaultColor = label.getForeground();
+		this.label = new JLabel();
+		this.defaultColor = label.getForeground();
 	}
 
 	@Override

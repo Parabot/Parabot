@@ -18,9 +18,9 @@ import org.parabot.core.Context;
  */
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static GamePanel instance = null;
+	private static GamePanel instance;
 	private static VerboseLoader loader = VerboseLoader.get();
-	public Context context = null;
+	public Context context;
 
 	private GamePanel() {
 		setFocusable(true);

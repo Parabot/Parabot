@@ -15,7 +15,7 @@ import org.parabot.core.build.BuildPath;
  *
  */
 public class Jython {
-	private static boolean valid = false;
+	private static boolean valid;
 	
 	/**
 	 * Determines if jython jar has been downloaded.

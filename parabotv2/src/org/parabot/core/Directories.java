@@ -13,11 +13,10 @@ import java.util.*;
  * @author Matt
  */
 public class Directories {
-
-    private static Map<String, File> cached = new HashMap<String, File>();
+    private static Map<String, File> cached;
 
     static {
-
+		cached = new HashMap<String, File>();
         switch (OperatingSystem.getOS()) {
             case WINDOWS:
                 cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());

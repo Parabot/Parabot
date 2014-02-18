@@ -21,12 +21,13 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 	private static final long serialVersionUID = 7412412644921803896L;
 	private static VerboseLoader current = null;
 	private static String state = "Initializing loader...";
-	private FontMetrics fontMetrics = null;
-	private BufferedImage bot_image = null;
-	private ProgressBar p = new ProgressBar(400, 20);
+	private FontMetrics fontMetrics;
+	private BufferedImage bot_image;
+	private ProgressBar p;
 
 	public VerboseLoader() {
-		bot_image = Images.getResource("/org/parabot/core/ui/images/para.png");
+		this.bot_image = Images.getResource("/org/parabot/core/ui/images/para.png");
+		this.p = new ProgressBar(400, 20);
 		setSize(775, 510);
 		setBackground(Color.black);
 		setDoubleBuffered(true);

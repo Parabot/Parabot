@@ -30,16 +30,18 @@ import org.parabot.environment.scripts.Script;
  */
 public class BotToolbar extends JToolBar {
 	private static final long serialVersionUID = 5373484845104212180L;
-	private static BotToolbar instance = null;
-	private JButton tab = null;
-	private final JButton run = new JButton();
-	private final JButton stop = new JButton();
+	private static BotToolbar instance;
 	private static Map<TabButton, Context> environments = new HashMap<TabButton, Context>();
+	private JButton tab;
+	private final JButton run;
+	private final JButton stop;
 	
 	private boolean runScript = false;
 	private boolean pauseScript = false;
 	
 	public BotToolbar() {
+		this.run = new JButton();
+		this.stop = new JButton();
 		setFloatable(false);
 		tab = new JButton();
 		tab.addActionListener(new ActionListener() {

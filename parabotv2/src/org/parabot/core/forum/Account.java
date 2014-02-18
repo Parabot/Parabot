@@ -10,8 +10,8 @@ package org.parabot.core.forum;
  * 
  */
 public class Account {
-	private String username = null;
-	private String password = null;
+	private String username;
+	private String password;
 
 	/**
 	 * 

@@ -14,18 +14,21 @@ import java.awt.geom.Rectangle2D;
  *
  */
 public class ProgressBar {
-	private double value = 0;
-	private int width = 0;
-	private int height = 0;
-	private double locX = 0;
-	private Color progColor = new Color(255, 0, 0);
-	private Color backColor = new Color(74, 74, 72, 100);
-	private FontMetrics fontMetrics = null;
-	private String text = "";
+	private double value;
+	private int width;
+	private int height;
+	private double locX;
+	private Color progColor;
+	private Color backColor;
+	private FontMetrics fontMetrics;
+	private String text;
 
 	public ProgressBar(int width, int height) {
+		this.progColor = new Color(255, 0, 0);
+		this.backColor = new Color(74, 74, 72, 100);
 		this.width = width;
 		this.height = height;
+		this.text = "";
 	}
 	
 	public void setText(final String text) {

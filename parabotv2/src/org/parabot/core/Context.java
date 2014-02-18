@@ -3,7 +3,7 @@ package org.parabot.core;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.paint.PaintDebugger;
-import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.parsers.HookParser;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.environment.api.interfaces.Paintable;

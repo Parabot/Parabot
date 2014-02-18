@@ -3,7 +3,7 @@ package org.parabot.environment.servers;
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
 import org.parabot.core.asm.interfaces.Injectable;
-import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.parsers.HookParser;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;

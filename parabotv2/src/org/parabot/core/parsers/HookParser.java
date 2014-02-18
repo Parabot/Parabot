@@ -1,4 +1,4 @@
-package org.parabot.core.parsers.hooks;
+package org.parabot.core.parsers;
 
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.interfaces.Injectable;

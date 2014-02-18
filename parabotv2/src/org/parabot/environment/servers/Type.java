@@ -9,6 +9,6 @@ package org.parabot.environment.servers;
  */
 public enum Type {
 	
-	INJECTION, REFLECTION, COLOR, OTHER
+	INJECTION, REFLECTION, COLOR, LOADER, OTHER
 
 }

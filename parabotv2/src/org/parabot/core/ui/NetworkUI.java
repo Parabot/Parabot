@@ -43,7 +43,7 @@ public class NetworkUI {
         socksOption.setBounds(6, 6, 87, 16);
         proxy.add(socksOption);
 
-        final JComboBox socksOptions = new JComboBox();
+        final JComboBox<String> socksOptions = new JComboBox<String>();
         for (String key : socksVersions.keySet()) {
             socksOptions.addItem(key);
         }

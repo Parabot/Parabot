@@ -1,4 +1,4 @@
-package org.matt123337.spoofer;
+package org.parabot.core.spoofer;
 
 import java.net.InetAddress;
 import java.net.SocketException;

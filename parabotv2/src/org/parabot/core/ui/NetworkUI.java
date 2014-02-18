@@ -25,9 +25,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import org.matt123337.proxy.ProxySocket;
-import org.matt123337.proxy.ProxyType;
-import org.matt123337.spoofer.NetworkInterface;
+import org.parabot.core.proxy.ProxySocket;
+import org.parabot.core.proxy.ProxyType;
+import org.parabot.core.spoofer.NetworkInterface;
 import org.parabot.core.ui.components.LogArea;
 import org.parabot.core.ui.utils.UILog;
 

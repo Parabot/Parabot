@@ -18,7 +18,6 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.matt123337.proxy.ClassRemapper;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.commons.RemappingClassAdapter;
@@ -26,6 +25,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.io.SizeInputStream;
+import org.parabot.core.proxy.ClassRemapper;
 import org.parabot.core.ui.components.VerboseLoader;
 
 /**

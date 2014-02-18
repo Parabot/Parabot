@@ -186,7 +186,7 @@ public class ClassPath {
 	protected void loadClass(InputStream in) throws IOException {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
-		cr.accept(cn, 0);
+		cr.accept(cn, ClassReader.EXPAND_FRAMES);
 		classes.put(cn.name, cn);
 	}
 

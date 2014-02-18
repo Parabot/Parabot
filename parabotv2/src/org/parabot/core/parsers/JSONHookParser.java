@@ -20,7 +20,7 @@ import org.parabot.core.asm.wrappers.Super;
  * 
  * @author Dane
  * 
- *         hehehehheHEUhehEUHehueUheUHEUeU
+ *
  * 
  */
 public class JSONHookParser extends HookParser {
@@ -37,7 +37,7 @@ public class JSONHookParser extends HookParser {
 		try {
 			parser.parse(new InputStreamReader(file.getInputStream()));
 		} catch (Throwable t) {
-			throw new RuntimeException("Unable to pares hooks: " + t);
+			throw new RuntimeException("Unable to parse hooks: " + t);
 		}
 	}
 

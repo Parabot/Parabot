@@ -2,6 +2,7 @@ package org.parabot.environment.servers;
 
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
+import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.parsers.HookParser;
 import org.parabot.environment.input.Keyboard;
@@ -25,10 +26,19 @@ public abstract class ServerProvider implements Opcodes {
 	/**
 	 * Hooks to parse
 	 * 
+	 * @deprecated use getHookFile() now
 	 * @return URL to hooks file
 	 */
 	@Deprecated
 	public URL getHooks() {
+		return null;
+	}
+	
+	/**
+	 * Get hook file to parse
+	 * @return hook file
+	 */
+	public HookFile getHookFile() {
 		return null;
 	}
 
@@ -46,11 +56,13 @@ public abstract class ServerProvider implements Opcodes {
 	}
 
 	public void injectHooks() {
-		URL hooksFile = getHooks();
-		if (hooksFile == null) {
+		HookFile hookFile = fetchHookFile();
+		
+		if(hookFile == null) {
 			return;
 		}
-		HookParser parser = new HookParser(hooksFile);
+		
+		HookParser parser = hookFile.getParser();
 		Injectable[] injectables = parser.getInjectables();
 		if (injectables == null) {
 			return;
@@ -59,6 +71,20 @@ public abstract class ServerProvider implements Opcodes {
 			inj.inject();
 		}
 		Context.resolve().setHookParser(parser);
+	}
+	
+	private HookFile fetchHookFile() {
+		HookFile hookFile = getHookFile();
+		if(hookFile != null) {
+			return hookFile;
+		}
+		
+		URL hookLocation = getHooks();
+		if(hookLocation == null) {
+			return null;
+		}
+		
+		return new HookFile(hookLocation, HookFile.TYPE_XML);
 	}
 
 	/**

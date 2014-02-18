@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-import org.parabot.core.ui.components.LogArea;
-
 public class NetworkInterface {
 
 	public static byte[] mac = new byte[] { 11, 11, 11, 11, 11, 11 };

@@ -8,4 +8,4 @@ Parabot v2.05.
 
 #### Compilation
 
-You'll need the jython libraries in order to compile parabot successfully.
+You'll need the [libraries](https://github.com/Parabot/Parabot/tree/master/parabotv2/libs) in order to compile parabot successfully.

@@ -10,7 +10,6 @@ import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
 
 import javax.swing.*;
-
 import java.applet.Applet;
 import java.applet.AppletStub;
 import java.net.URL;
@@ -23,7 +22,12 @@ import java.net.URL;
  */
 public abstract class ServerProvider implements Opcodes {
 
-	/**
+//    public static Handler.RandomChecker getRandomChecker() {
+//        Handler.RandomChecker randomChecker = new Handler.RandomChecker();
+//        return randomChecker;
+//    }
+
+    /**
 	 * Hooks to parse
 	 * 
 	 * @deprecated use getHookFile() now
@@ -132,5 +136,6 @@ public abstract class ServerProvider implements Opcodes {
 	public void unloadScript(Script script) {
 		
 	}
+
 
 }

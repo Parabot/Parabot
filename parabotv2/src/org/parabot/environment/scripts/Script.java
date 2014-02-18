@@ -1,7 +1,5 @@
 package org.parabot.environment.scripts;
 
-import java.util.Collection;
-
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.components.BotToolbar;
@@ -11,6 +9,8 @@ import org.parabot.environment.scripts.framework.AbstractFramework;
 import org.parabot.environment.scripts.framework.LoopTask;
 import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;
+
+import java.util.Collection;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class Script implements Runnable {
 	public static final int STATE_PAUSE = 1;
 	public static final int STATE_STOPPED = 2;
 	
-	public boolean onExecute() { 
+	public boolean onExecute() {
 		return true;
 	}
 	

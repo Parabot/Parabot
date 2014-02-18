@@ -47,12 +47,11 @@ parabotv2/src/META-INF/MANIFEST.MF
 
 .idea/uiDesigner.xml
 
-<<<<<<< HEAD
 .idea/libraries/jfxrt.xml
-=======
 *.jar
 
 *.classpath
 
 *.project
->>>>>>> 18cffe02674768c9927a96cc05d2ae09e803974d
+
+*.xml

@@ -74,7 +74,7 @@ public class NetworkUI {
         tabbedPane.addTab("Mac address", null, macAddress, null);
         macAddress.setLayout(null);
 
-        JLabel enableSpoofer = new JLabel("Enable spoofer");
+        JLabel enableSpoofer = new JLabel("Enable mac spoofer");
         enableSpoofer.setBounds(6, 80, 99, 16);
         macAddress.add(enableSpoofer);
 

@@ -1,4 +1,4 @@
-package org.parabot.core.parsers;
+package org.parabot.core.parsers.hooks;
 
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;

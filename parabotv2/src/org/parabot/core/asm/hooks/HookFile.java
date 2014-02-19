@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.parabot.core.parsers.HookParser;
-import org.parabot.core.parsers.JSONHookParser;
-import org.parabot.core.parsers.XMLHookParser;
+import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.parsers.hooks.JSONHookParser;
+import org.parabot.core.parsers.hooks.XMLHookParser;
 import org.parabot.environment.api.utils.WebUtil;
 
 public class HookFile {

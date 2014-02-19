@@ -1,4 +1,4 @@
-package org.parabot.core.parsers;
+package org.parabot.core.parsers.hooks;
 
 import java.io.InputStreamReader;
 import java.util.HashMap;

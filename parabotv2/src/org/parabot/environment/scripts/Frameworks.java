@@ -47,7 +47,7 @@ class Looper extends AbstractFramework {
 }
 
 class StrategyWorker extends AbstractFramework {
-	private Collection<Strategy> strategies = null;
+	private Collection<Strategy> strategies;
 	
 	public StrategyWorker(Collection<Strategy> strategies) {
 		this.strategies = strategies;

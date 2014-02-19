@@ -16,8 +16,8 @@ import org.parabot.core.Context;
  *
  */
 public class Keyboard implements KeyListener {
-	private Component component = null;
 	private static HashMap<Character, Character> specialChars;
+	private Component component;
 	private long pressTime;
 
 	public Keyboard(Component component) {

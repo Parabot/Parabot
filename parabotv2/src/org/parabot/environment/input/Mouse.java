@@ -17,9 +17,9 @@ import org.parabot.environment.api.utils.Time;
  *
  */
 public class Mouse implements MouseListener, MouseMotionListener {
-	private Component component = null;
-	private int x = 0;
-	private int y = 0;
+	private Component component;
+	private int x;
+	private int y;
 	
 	public Mouse(Component component) {
 		this.component = component;

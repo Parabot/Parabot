@@ -17,7 +17,7 @@ import org.parabot.environment.scripts.Script;
  * 
  */
 public class JavaScriptLoader extends ASMClassLoader {
-	private ClassPath classPath = null;
+	private ClassPath classPath;
 
 	public JavaScriptLoader(ClassPath classPath) {
 		super(classPath);

@@ -21,8 +21,8 @@ import org.parabot.core.ui.utils.UILog;
  */
 public final class Landing {
     // forum account
-    private static String username = null;
-    private static String password = null;
+    private static String username;
+    private static String password;
 
     public static void main(String... args) throws IOException {
         parseArgs(args);

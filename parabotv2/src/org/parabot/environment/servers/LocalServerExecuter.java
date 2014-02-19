@@ -16,8 +16,8 @@ import org.parabot.core.classpath.ClassPath;
  */
 public class LocalServerExecuter extends ServerExecuter {
 	private final ServerProvider serverProvider;
-	private ClassPath classPath = null;
-	private String serverName = null;
+	private ClassPath classPath;
+	private String serverName;
 
 	public LocalServerExecuter(ServerProvider serverProvider,
 			ClassPath classPath, final String serverName) {

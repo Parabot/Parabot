@@ -8,7 +8,7 @@ package org.parabot.environment.scripts;
  *
  */
 public class LocalScriptExecuter extends ScriptExecuter {
-	private Script script = null;
+	private Script script;
 	
 	public LocalScriptExecuter(final Script script) {
 		this.script = script;

@@ -8,7 +8,6 @@ package org.parabot.environment.api.utils;
  * 
  */
 public class Timer {
-
 	private long start;
 	private long end;
 

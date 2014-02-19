@@ -22,9 +22,8 @@ import org.parabot.environment.scripts.loader.JavaScriptLoader;
  *
  */
 public class SDNScriptExecuter extends ScriptExecuter {
-	private int id = -1;
 	
-	private static AccountManager manager = null;
+	private static AccountManager manager;
 
 	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 
@@ -34,6 +33,8 @@ public class SDNScriptExecuter extends ScriptExecuter {
 		}
 
 	};
+	
+	private int id = -1;
 	
 	public SDNScriptExecuter(final int id) {
 		this.id = id;

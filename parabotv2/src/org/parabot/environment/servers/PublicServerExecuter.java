@@ -23,8 +23,8 @@ import java.net.URL;
  * 
  */
 public class PublicServerExecuter extends ServerExecuter {
-	private String serverName = null;
-	private String serverID = null;
+	private String serverName;
+	private String serverID;
 
 	public PublicServerExecuter(final String serverName, final String serverID) {
 		this.serverName = serverName;

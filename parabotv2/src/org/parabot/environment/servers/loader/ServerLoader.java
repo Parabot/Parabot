@@ -17,7 +17,7 @@ import org.parabot.environment.servers.ServerProvider;
  * 
  */
 public class ServerLoader extends ASMClassLoader {
-	private ClassPath classPath = null;
+	private ClassPath classPath;
 
 	public ServerLoader(ClassPath classPath) {
 		super(classPath);

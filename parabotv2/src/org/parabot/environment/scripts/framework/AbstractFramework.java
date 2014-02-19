@@ -9,6 +9,10 @@ package org.parabot.environment.scripts.framework;
  */
 public abstract class AbstractFramework {
 	
+	/**
+	 * Executes this frame
+	 * @return <b>true</b> if it should keep executing this framework, otherwise <b>false</b>.
+	 */
 	public abstract boolean execute();
 
 }

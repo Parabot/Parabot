@@ -14,12 +14,12 @@ import org.parabot.core.asm.interfaces.Injectable;
  *
  */
 public class Invoker implements Injectable {
-	private ClassNode into = null;
-	private ClassNode methodLocation = null;
-	private MethodNode mn = null;
-	private String argsDesc = null;
-	private String returnDesc = null;
-	private String methodName = null;
+	private ClassNode into;
+	private ClassNode methodLocation;
+	private MethodNode mn;
+	private String argsDesc;
+	private String returnDesc;
+	private String methodName;
 
 	public Invoker(String methodLoc, String invMethName, String argsDesc,
 			String returnDesc, String methodName) {

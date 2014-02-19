@@ -14,12 +14,12 @@ import org.parabot.core.asm.interfaces.Injectable;
  * 
  */
 public class AddSetterAdapter implements Opcodes, Injectable {
-	private ClassNode fieldLocation = null;
-	private ClassNode into = null;
-	private FieldNode field = null;
-	private String name = null;
-	private String desc = null;
-	private boolean methodStatic = false;
+	private ClassNode fieldLocation;
+	private ClassNode into;
+	private FieldNode field;
+	private String name;
+	private String desc;
+	private boolean methodStatic;
 
 	public AddSetterAdapter(ClassNode fieldLocation, ClassNode into,
 			FieldNode field, String name, String desc, boolean methodStatic) {

@@ -15,7 +15,7 @@ public class ScriptDescription {
 	public String[] servers;
 	public String isVip;
 	public String isPremium;
-	public int sdnId = -1;
+	public int sdnId;
 	public String jarName;
 
 	/**

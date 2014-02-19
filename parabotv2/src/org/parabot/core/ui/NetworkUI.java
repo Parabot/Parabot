@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class NetworkUI {
-
     public JFrame frame;
     private JTextField proxyHostField;
     private JTextField proxyPortField;

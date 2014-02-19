@@ -10,8 +10,8 @@ import org.parabot.core.asm.interfaces.Injectable;
  *
  */
 public class Super implements Injectable {
-	private String className = null;
-	private String superClassName = null;
+	private String className;
+	private String superClassName;
 	
 	public Super(String className, String superClassName) {
 		this.className = className;

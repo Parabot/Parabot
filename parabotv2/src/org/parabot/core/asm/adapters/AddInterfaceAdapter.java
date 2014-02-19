@@ -13,10 +13,10 @@ import org.parabot.core.asm.interfaces.Injectable;
  * 
  */
 public class AddInterfaceAdapter implements Injectable {
-
-	private static String accessorPackage = null;
-	private ClassNode node = null;
-	private String interfaceClass = null;
+	private static String accessorPackage;
+	
+	private ClassNode node;
+	private String interfaceClass;
 
 	public AddInterfaceAdapter(ClassNode node, String interfaceClass) {
 		this.node = node;

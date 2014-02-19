@@ -19,8 +19,9 @@ import java.awt.event.MouseMotionListener;
  */
 public class ServerWidget extends JPanel implements MouseListener,
 		MouseMotionListener {
-	public ServerDescription desc;
 	private static final long serialVersionUID = 1L;
+	
+	public ServerDescription desc;
 	private String name;
 	private boolean hovered;
 

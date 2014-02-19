@@ -20,10 +20,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLHookParser extends HookParser {
-	private boolean parsedInterfaces;
 	private Document doc;
 	private HashMap<String, String> interfaceMap;
 	private HashMap<String, String> constants;
+	private boolean parsedInterfaces;
 
 	public XMLHookParser(HookFile hookFile) {
 		super(hookFile);

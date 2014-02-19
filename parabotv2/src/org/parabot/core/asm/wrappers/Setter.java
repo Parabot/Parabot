@@ -14,12 +14,12 @@ import org.parabot.core.asm.interfaces.Injectable;
  *
  */
 public class Setter implements Injectable {
-	private ClassNode fieldLocation = null;
-	private ClassNode into = null;
-	private FieldNode field = null;
-	private String name = null;
-	private String desc = null;
-	private boolean methodStatic = false;
+	private ClassNode fieldLocation;
+	private ClassNode into;
+	private FieldNode field;
+	private String name;
+	private String desc;
+	private boolean methodStatic;
 	
 	public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic) {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);

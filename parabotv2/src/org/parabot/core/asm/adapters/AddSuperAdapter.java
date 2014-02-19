@@ -19,8 +19,8 @@ import org.parabot.core.asm.interfaces.Injectable;
  *
  */
 public class AddSuperAdapter implements Injectable {
-	private ClassNode node = null;
-	private String superClass = null;
+	private ClassNode node;
+	private String superClass;
 
 	public AddSuperAdapter(final ClassNode node, final String superClass) {
 		this.node = node;

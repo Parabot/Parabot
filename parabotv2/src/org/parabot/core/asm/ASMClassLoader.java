@@ -24,10 +24,11 @@ import org.parabot.core.classpath.ClassPath;
  */
 public class ASMClassLoader extends ClassLoader {
 
-	private Map<String, Class<?>> classCache = new HashMap<String, Class<?>>();
-	public ClassPath classPath = null;
+	private Map<String, Class<?>> classCache;
+	public ClassPath classPath;
 	
 	public ASMClassLoader(final ClassPath classPath) {
+		this.classCache = new HashMap<String, Class<?>>();
 		this.classPath = classPath;
 	}
 

@@ -20,7 +20,7 @@ public final class AccountManager {
 	private static boolean validated;
 	private static AccountManager instance;
 
-	private Account account = null;
+	private Account account;
 
 	private AccountManager() {
 

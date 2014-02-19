@@ -28,6 +28,7 @@ public class ServerSelector extends JFrame {
 	public static String initServer;
 	private static final long serialVersionUID = 5238720307271493899L;
 	private static ServerSelector instance;
+	
 	private JPanel panel;
 
 	public static ServerSelector getInstance() {

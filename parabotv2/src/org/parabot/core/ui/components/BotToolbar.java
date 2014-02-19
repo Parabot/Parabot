@@ -32,12 +32,12 @@ public class BotToolbar extends JToolBar {
 	private static final long serialVersionUID = 5373484845104212180L;
 	private static BotToolbar instance;
 	private static Map<TabButton, Context> environments = new HashMap<TabButton, Context>();
+	
 	private JButton tab;
 	private final JButton run;
 	private final JButton stop;
-	
-	private boolean runScript = false;
-	private boolean pauseScript = false;
+	private boolean runScript;
+	private boolean pauseScript;
 	
 	public BotToolbar() {
 		this.run = new JButton();

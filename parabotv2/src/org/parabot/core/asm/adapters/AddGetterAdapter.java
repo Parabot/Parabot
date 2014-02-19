@@ -18,13 +18,13 @@ import org.parabot.core.asm.interfaces.Injectable;
  * 
  */
 public class AddGetterAdapter implements Opcodes, Injectable {
-	private ClassNode into = null;
-	private ClassNode fieldLocation = null;
-	private FieldNode fieldNode = null;
-	private String methodName = null;
-	private String returnDesc = null;
-	private boolean staticField = false;
-	private boolean staticMethod = false;
+	private ClassNode into;
+	private ClassNode fieldLocation;
+	private FieldNode fieldNode;
+	private String methodName;
+	private String returnDesc;
+	private boolean staticField;
+	private boolean staticMethod;
 
 	/**
 	 * 

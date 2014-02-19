@@ -13,15 +13,15 @@ import javax.imageio.ImageIO;
  *
  */
 public final class Images {
-	private static final HashMap<String, BufferedImage> imageCache = new HashMap<String, BufferedImage>();
+	private static final HashMap<String, BufferedImage> IMAGE_CACHE = new HashMap<String, BufferedImage>();
 	
 	public static BufferedImage getResource(final String resource) {
-		if(imageCache.containsKey(resource)) {
-			return imageCache.get(resource);
+		if(IMAGE_CACHE.containsKey(resource)) {
+			return IMAGE_CACHE.get(resource);
 		}
 		try {
 			final BufferedImage img = ImageIO.read(Images.class.getResourceAsStream(resource));
-			imageCache.put(resource, img);
+			IMAGE_CACHE.put(resource, img);
 			return img;
 		} catch (Throwable t) {
 			throw new RuntimeException("Failed to load image from resource. " + t.getMessage());

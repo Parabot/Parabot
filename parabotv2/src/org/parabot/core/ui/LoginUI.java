@@ -32,14 +32,14 @@ import org.parabot.core.ui.utils.SwingUtil;
  *
  */
 public class LoginUI extends JFrame {
-
 	private static final long serialVersionUID = 2032832552863466297L;
 	private static LoginUI instance;
+	private static AccountManager manager;
+	
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JButton cmdLogin;
 	private JButton cmdRegister;
-	private static AccountManager manager;
 
 	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 

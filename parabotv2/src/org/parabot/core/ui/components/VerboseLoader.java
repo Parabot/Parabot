@@ -19,8 +19,9 @@ import org.parabot.core.ui.images.Images;
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
 	private static final long serialVersionUID = 7412412644921803896L;
-	private static VerboseLoader current = null;
+	private static VerboseLoader current;
 	private static String state = "Initializing loader...";
+	
 	private FontMetrics fontMetrics;
 	private BufferedImage bot_image;
 	private ProgressBar p;

@@ -117,6 +117,10 @@ public abstract class ServerProvider implements Opcodes {
 		
 	}
 	
+	public void init() {
+		
+	}
+	
 	public void initMouse() {
 		final Context context = Context.resolve();
 		final Applet applet = context.getApplet();

@@ -158,6 +158,7 @@ public class Context {
      */
     public void load() {
         Core.verbose("Parsing server jar...");
+        serverProvider.init();
         serverProvider.parseJar();
         Core.verbose("Done.");
         Core.verbose("Injecting hooks...");

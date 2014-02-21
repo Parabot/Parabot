@@ -123,21 +123,17 @@ public class Script implements Runnable {
 	/**
 	 * Sleeps until the SleepCondition is valid.
 	 * 
+	 * <B>DEPRECATED!</b> use {@link Time#sleep(SleepCondition, int)}
+	 * 
 	 * @param conn
 	 *            the condition.
 	 * @param timeout
 	 *            the time in miliseconds before it stops sleeping.
 	 * @return whether it ran successfully without timing out.
 	 */
+	@Deprecated
 	public final boolean sleep(SleepCondition conn, int timeout) {
-		long start = System.currentTimeMillis();
-		while (!conn.isValid()) {
-			if (start + timeout < System.currentTimeMillis()) {
-				return false;
-			}
-			Time.sleep(50);
-		}
-		return true;
+		return Time.sleep(conn, timeout);
 	}
 	
 	/**

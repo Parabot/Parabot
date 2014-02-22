@@ -165,7 +165,6 @@ public class Context {
         serverProvider.injectHooks();
         Core.verbose("Done.");
         Core.verbose("Fetching game applet...");
-        ;
         gameApplet = serverProvider.fetchApplet();
         if (getClient() == null) {
             setClientInstance(gameApplet);

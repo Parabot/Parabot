@@ -91,10 +91,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 		this.add(panel, BorderLayout.CENTER);
 		
 		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 		new BotDialog(this);
 
-		LogArea.log("parabot " + Configuration.BOT_VERSION +" started");
+		LogArea.log("parabot " + Configuration.BOT_VERSION + " started");
 	}
 
 	@Override

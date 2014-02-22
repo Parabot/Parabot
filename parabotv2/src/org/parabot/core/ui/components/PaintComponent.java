@@ -1,10 +1,14 @@
 package org.parabot.core.ui.components;
 
-import java.awt.Color;
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
+import org.parabot.core.paint.PaintDebugger;
+import org.parabot.environment.api.utils.Time;
 
 /**
  * 
@@ -13,20 +17,58 @@ import javax.swing.JPanel;
  * @author Everel
  *
  */
-public class PaintComponent extends JPanel {
+public class PaintComponent extends JComponent implements Runnable {
 	private static final long serialVersionUID = 4653612412080038193L;
+	private static PaintComponent instance;
 	
-	public PaintComponent(Dimension size) {
-		setPreferredSize(size);
-		setSize(size);
+	private BufferedImage buffer;
+	private Graphics2D g2;
+	private Dimension dimensions;
+	private PaintDebugger paintDebugger;
+	
+	private PaintComponent(Dimension dimensions) {
+		this.dimensions = dimensions;
+		this.buffer = new BufferedImage(dimensions.width, dimensions.height, BufferedImage.TYPE_INT_ARGB);
+		this.g2 = buffer.createGraphics();
+		
+		setPreferredSize(dimensions);
+		setSize(dimensions);
 		setOpaque(false);
+		setDoubleBuffered(true);
+	}
+	
+	public static PaintComponent getInstance(Dimension dimensions) {
+		return instance == null ? instance = new PaintComponent(dimensions) : instance;
+	}
+	
+	public static PaintComponent getInstance() {
+		return getInstance(null);
+	}
+	
+	public void startPainting(PaintDebugger paintDebugger) {
+		this.paintDebugger = paintDebugger;
+		new Thread(this).start();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println("paint");
-		g.setColor(Color.red);
-		g.drawString("hi", 10, 10);
+		super.paintComponent(g);
+		g2.setComposite(AlphaComposite.Clear);
+		g2.fillRect(0, 0, dimensions.width, dimensions.height);
+		g2.setComposite(AlphaComposite.SrcOver);
+		
+		if(paintDebugger != null) {
+			paintDebugger.debug(g2);
+		}
+		g.drawImage(buffer, 0, 0, null);
+	}
+
+	@Override
+	public void run() {
+		while(true) {
+			Time.sleep(15);
+			repaint();
+		}
 	}
 
 }

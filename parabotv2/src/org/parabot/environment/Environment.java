@@ -1,6 +1,5 @@
 package org.parabot.environment;
 
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.jython.Jython;
@@ -35,10 +34,7 @@ public class Environment {
 		
 		Core.verbose("Loading server: " + desc.toString());
 
-		final String id = "tab" + Context.getID();
-		final ThreadGroup bot = new ThreadGroup(id);
-
-		ServerParser.SERVER_CACHE.get(desc).run(bot);
+		ServerParser.SERVER_CACHE.get(desc).run();
 		
 	}
 }

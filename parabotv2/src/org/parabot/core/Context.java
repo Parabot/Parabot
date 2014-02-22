@@ -26,13 +26,13 @@ import java.util.TimerTask;
 public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
     private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
-    private static int id = 1;
+    
+    private static Context instance;
 
     public boolean added;
     private ASMClassLoader classLoader;
     private ClassPath classPath;
     private ServerProvider serverProvider;
-    private int tab;
     private Applet gameApplet;
     private HookParser hookParser;
     private Script runningScript;
@@ -42,7 +42,7 @@ public class Context {
     private Mouse mouse;
     private Keyboard keyboard;
 
-    public Context(final ServerProvider serverProvider) {
+    private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
       
         this.serverProvider = serverProvider;
@@ -50,23 +50,15 @@ public class Context {
         this.classPath = new ClassPath();
         this.classLoader = new ASMClassLoader(classPath);
         this.randomHandler = new RandomHandler();
-        this.tab = id;
-        
-        id++;
+   
     }
 
-    /**
-     * Resolves the context from threadgroup
-     *
-     * @return context
-     */
-    public static Context resolve() {
-        return threadGroups.get(Thread.currentThread().getThreadGroup());
+    public static Context getInstance(ServerProvider serverProvider) {
+        return instance == null ? instance = new Context(serverProvider) : instance;
     }
-
-    public static Context currentTab() {
-        // TODO
-        return threadGroups.values().iterator().next();
+    
+    public static Context getInstance() {
+    	return getInstance(null);
     }
 
     public void setEnvironment() {
@@ -207,24 +199,6 @@ public class Context {
      */
     public ASMClassLoader getASMClassLoader() {
         return classLoader;
-    }
-
-    /**
-     * Gets the id of this context
-     *
-     * @return id context
-     */
-    public static int getID() {
-        return id;
-    }
-
-    /**
-     * Tab id of this context
-     *
-     * @return tab id of this context
-     */
-    public int getTab() {
-        return tab;
     }
 
     /**

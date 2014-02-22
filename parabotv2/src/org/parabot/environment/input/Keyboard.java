@@ -25,7 +25,7 @@ public class Keyboard implements KeyListener {
 	}
 	
 	public static Keyboard getInstance() {
-		return Context.resolve().getKeyboard();
+		return Context.getInstance().getKeyboard();
 	}
 
 	static {

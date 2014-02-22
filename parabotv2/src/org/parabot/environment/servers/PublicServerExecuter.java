@@ -32,7 +32,7 @@ public class PublicServerExecuter extends ServerExecuter {
 	}
 
 	@Override
-	public void run(ThreadGroup tg) {
+	public void run() {
 		try {
 			final File destination = new File(Directories.getCachePath(),
 					this.serverID);
@@ -86,7 +86,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				final Constructor<?> con = providerClass.getConstructor();
 				final ServerProvider serverProvider = (ServerProvider) con
 						.newInstance();
-				super.finalize(tg, serverProvider, this.serverName);
+				super.finalize(serverProvider, this.serverName);
 			} catch (NoClassDefFoundError ignored) {
 				UILog.log(
 						"Error",

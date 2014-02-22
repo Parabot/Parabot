@@ -62,7 +62,7 @@ public class Script implements Runnable {
 
 	@Override
 	public final void run() {
-		Context context = Context.resolve();
+		Context context = Context.getInstance();
 		
 		Core.verbose("Initializing script...");
 		context.getServerProvider().initScript(this);
@@ -70,7 +70,7 @@ public class Script implements Runnable {
 		
 		if(!onExecute()) {
 			Core.verbose("Script#onExecute returned false, unloading and stopping script...");
-			Context.resolve().getServerProvider().unloadScript(this);
+			context.getServerProvider().unloadScript(this);
 			this.state = STATE_STOPPED;
 			Core.verbose("Done.");
 			return;
@@ -113,9 +113,9 @@ public class Script implements Runnable {
 		Core.verbose("Script stopped/finished, unloading and stopping...");
 		onFinish();
 		LogArea.log("Script stopped.");
-		Context.resolve().getServerProvider().unloadScript(this);
+		context.getServerProvider().unloadScript(this);
 		this.state = STATE_STOPPED;
-		Context.resolve().setRunningScript(null);
+		context.setRunningScript(null);
 		BotToolbar.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}

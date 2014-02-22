@@ -25,7 +25,7 @@ public class ASMUtils implements Opcodes {
 	}
 
 	public static ClassNode getClass(String className) {
-		Context context = Context.resolve();
+		Context context = Context.getInstance();
 		for (ClassNode node : context.getClassPath().classes.values()) {
 			if (node.name.equals(className)) {
 				return node;

@@ -27,7 +27,7 @@ public class LocalServerExecuter extends ServerExecuter {
 	}
 
 	@Override
-	public void run(ThreadGroup tg) {
+	public void run() {
 		// add jar or directory to buildpath.
 		if (this.classPath.isJar()) {
 			Core.verbose("Adding server provider jar to buildpath: "
@@ -43,7 +43,7 @@ public class LocalServerExecuter extends ServerExecuter {
 			}
 		}
 		// finalize
-		super.finalize(tg, this.serverProvider, this.serverName);
+		super.finalize(this.serverProvider, this.serverName);
 	}
 
 }

@@ -26,7 +26,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	}
 	
 	public static Mouse getInstance() {
-		return Context.resolve().getMouse();
+		return Context.getInstance().getMouse();
 	}
 	
 	/**

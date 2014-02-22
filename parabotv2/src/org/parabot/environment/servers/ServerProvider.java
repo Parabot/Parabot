@@ -75,7 +75,7 @@ public abstract class ServerProvider implements Opcodes {
 		for (Injectable inj : injectables) {
 			inj.inject();
 		}
-		Context.resolve().setHookParser(parser);
+		Context.getInstance().setHookParser(parser);
 	}
 	
 	private HookFile fetchHookFile() {
@@ -106,11 +106,11 @@ public abstract class ServerProvider implements Opcodes {
 	}
 	
 	public void setClientInstance(Object client) {
-		Context.resolve().setClientInstance(client);
+		Context.getInstance().setClientInstance(client);
 	}
 
 	public void parseJar() {
-		Context.resolve().getClassPath().addJar(getJar());
+		Context.getInstance().getClassPath().addJar(getJar());
 	}
 	
 	public void initScript(Script script) {
@@ -122,7 +122,7 @@ public abstract class ServerProvider implements Opcodes {
 	}
 	
 	public void initMouse() {
-		final Context context = Context.resolve();
+		final Context context = Context.getInstance();
 		final Applet applet = context.getApplet();
 		final Mouse mouse = new Mouse(applet);
 		applet.addMouseListener(mouse);
@@ -131,7 +131,7 @@ public abstract class ServerProvider implements Opcodes {
 	}
 	
 	public void initKeyboard() {
-		final Context context = Context.resolve();
+		final Context context = Context.getInstance();
 		final Applet applet = context.getApplet();
 		final Keyboard keyboard = new Keyboard(applet);
 		applet.addKeyListener(keyboard);

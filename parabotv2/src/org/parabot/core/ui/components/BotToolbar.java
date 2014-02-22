@@ -7,9 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,7 +28,6 @@ import org.parabot.environment.scripts.Script;
 public class BotToolbar extends JToolBar {
 	private static final long serialVersionUID = 5373484845104212180L;
 	private static BotToolbar instance;
-	private static Map<TabButton, Context> environments = new HashMap<TabButton, Context>();
 	
 	private JButton tab;
 	private final JButton run;
@@ -110,7 +106,7 @@ public class BotToolbar extends JToolBar {
 	}
 	
 	private void setScriptState(int state) {
-		Context.currentTab().getRunningScript().setState(state);
+		Context.getInstance().getRunningScript().setState(state);
 	}
 	
 
@@ -140,26 +136,7 @@ public class BotToolbar extends JToolBar {
 	public void addTab(final Context context, final String name) {
 		TabButton b = new TabButton(name);
 		b.setActive(true);
-		b.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				final TabButton tabButton = (TabButton) e.getSource();
-				final Context context = environments.get(tabButton);
-				for(final TabButton button : environments.keySet()) {
-					button.setActive(false);
-				}
-				tabButton.setActive(true);
-				if(!context.appletSet()) {
-					return;
-				}
-				GamePanel.getInstance().setContext(context);
-			}
-			
-		});
-		//add(b, getComponentIndex(tab));
 		add(b, 0);
-		environments.put(b, context);
 	}
 	
 	

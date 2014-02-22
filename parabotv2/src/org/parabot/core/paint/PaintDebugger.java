@@ -43,7 +43,7 @@ public class PaintDebugger {
 	}
 	
 	public static final PaintDebugger getInstance() {
-		return Context.resolve().getPaintDebugger();
+		return Context.getInstance().getPaintDebugger();
 	}
 	
 	public final void addLine(final String debugLine) {

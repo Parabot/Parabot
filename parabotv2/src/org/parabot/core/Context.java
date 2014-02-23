@@ -4,6 +4,7 @@ import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.ui.BotDialog;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.environment.api.interfaces.Paintable;
@@ -180,7 +181,7 @@ public class Context {
         Core.verbose("Initializing keyboard...");
         serverProvider.initKeyboard();
         Core.verbose("Done.");
-        BotUI.getInstance().validate();
+        BotDialog.getInstance().validate();
     }
 
     /**

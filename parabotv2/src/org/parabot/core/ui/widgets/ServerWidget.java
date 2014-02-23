@@ -75,7 +75,7 @@ public class ServerWidget extends JPanel implements MouseListener,
 
 	public void load(final ServerDescription desc) {
 		ServerSelector.getInstance().dispose();
-		BotUI.getInstance().setVisible(true);
+		BotUI.getInstance();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

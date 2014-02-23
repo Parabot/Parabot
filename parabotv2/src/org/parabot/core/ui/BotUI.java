@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * 
@@ -22,7 +24,7 @@ import java.awt.event.ComponentListener;
  * @author Dane, Everel
  * 
  */
-public class BotUI extends JFrame implements ActionListener, ComponentListener {
+public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
 	private static final long serialVersionUID = -2126184292879805519L;
 	private static BotUI instance;
@@ -41,6 +43,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 		this.setLayout(new BorderLayout());
 		this.addComponentListener(this);
+		this.addWindowListener(this);
 		this.setIgnoreRepaint(true);
 
 		int iToolbarHeight = 24;
@@ -93,8 +96,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 		
 		pack();
 		setLocationRelativeTo(null);
-		setVisible(true);
-		new BotDialog(this);
+		BotDialog.getInstance(this);
 
 		LogArea.log("parabot " + Configuration.BOT_VERSION + " started");
 	}
@@ -141,6 +143,48 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.out.println("close");
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+		BotDialog.getInstance().setVisible(false);
+		BotDialog.getInstance().setVisible(true);
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+		//BotDialog.getInstance().setVisible(false);
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 }

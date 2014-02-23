@@ -52,7 +52,6 @@ public class PaintComponent extends JComponent implements Runnable {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 		g2.setComposite(AlphaComposite.Clear);
 		g2.fillRect(0, 0, dimensions.width, dimensions.height);
 		g2.setComposite(AlphaComposite.SrcOver);

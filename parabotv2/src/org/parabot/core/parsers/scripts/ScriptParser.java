@@ -2,7 +2,7 @@ package org.parabot.core.parsers.scripts;
 
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
-import org.parabot.core.jython.Jython;
+import org.parabot.core.lib.jython.Jython;
 import org.parabot.environment.scripts.ScriptExecuter;
 
 import java.util.ArrayList;

@@ -1,11 +1,16 @@
 package org.parabot.environment;
 
+import java.util.LinkedList;
+
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.jython.Jython;
+import org.parabot.core.lib.Library;
+import org.parabot.core.lib.javafx.JavaFX;
+import org.parabot.core.lib.jython.Jython;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
+
 
 /**
  * 
@@ -22,15 +27,22 @@ public class Environment {
 	 * @param url
 	 */
 	public static void load(final ServerDescription desc) {
-		if (!Jython.hasJar()) {
-			Core.verbose("Downloading jython...");
-			VerboseLoader.setState("Downloading jython...");
-			WebUtil.downloadFile(Jython.getDownloadLink(), Jython.getJarFile(),
-					VerboseLoader.get());
-			Core.verbose("Downloaded jython.");
+		
+		LinkedList<Library> libs = new LinkedList<Library>();
+		libs.add(new Jython());
+		libs.add(new JavaFX());
+		
+		for(Library lib : libs) {
+			if(!lib.hasJar()) {
+				Core.verbose("Downloading " + lib.getLibraryName() + "...");
+				VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
+				WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
+				Core.verbose("Downloaded " + lib.getLibraryName() + ".");
+			}
+			Core.verbose("Initializing " + lib.getLibraryName());
+			lib.init();
 		}
-		Core.verbose("Initializing jython...");
-		Jython.init();
+		
 		
 		Core.verbose("Loading server: " + desc.toString());
 

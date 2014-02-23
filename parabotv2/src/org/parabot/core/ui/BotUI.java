@@ -93,7 +93,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		panel.add(scrlConsole);
 
 		this.add(panel, BorderLayout.CENTER);
-		
+
 		pack();
 		setLocationRelativeTo(null);
 		BotDialog.getInstance(this);

@@ -26,7 +26,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 
 	private static final long serialVersionUID = -2126184292879805519L;
 	private static BotUI instance;
-	private static JDialog dialog;
+	//private static JDialog dialog;
 
 	public static BotUI getInstance() {
 		return instance == null ? instance = new BotUI() : instance;
@@ -40,7 +40,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 		this.setLayout(new BorderLayout());
-		this.addComponentListener(this);
+		//this.addComponentListener(this);
 
 		int iToolbarHeight = 24;
 		int iGameHeight = 503;
@@ -91,9 +91,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 		this.add(panel, BorderLayout.CENTER);
 		
 		pack();
-		setLocationRelativeTo(null);
+		//setLocationRelativeTo(null);
 		setVisible(true);
-		new BotDialog(this);
+		//new BotDialog(this);
 
 		LogArea.log("parabot " + Configuration.BOT_VERSION + " started");
 	}
@@ -116,16 +116,16 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener {
 	}
 	
 	protected void setDialog(JDialog dialog) {
-		BotUI.dialog = dialog;
+		//BotUI.dialog = dialog;
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
-		if(dialog == null) {
+		/*if(dialog == null) {
 			return;
 		}
 		Point gameLocation = GamePanel.getInstance().getLocationOnScreen();
-		dialog.setLocation(gameLocation.x, gameLocation.y);
+		dialog.setLocation(gameLocation.x, gameLocation.y);*/
 	}
 
 	@Override

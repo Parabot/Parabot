@@ -23,7 +23,7 @@ public abstract class ServerExecuter {
 					Context context = Context.getInstance(provider);
 					BotToolbar.getInstance().addTab(context, serverName);
 					context.load();
-					PaintComponent.getInstance().startPainting(context.getPaintDebugger());
+					//PaintComponent.getInstance().startPainting(context.getPaintDebugger());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}

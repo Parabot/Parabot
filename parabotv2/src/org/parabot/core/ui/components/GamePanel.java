@@ -1,6 +1,5 @@
 package org.parabot.core.ui.components;
 
-import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,8 +19,6 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static GamePanel instance;
 	private static VerboseLoader loader = VerboseLoader.get();
-	
-	public Context context;
 
 	private GamePanel() {
 		setFocusable(true);
@@ -47,20 +44,7 @@ public class GamePanel extends JPanel {
 	 * @param context
 	 */
 	public void setContext(final Context c) {
-		if(context != null) {
-			context.getApplet().setVisible(false);
-		}
-		context = c;
-		if(c == null) {
-			return;
-		}
-		final Applet gameApplet = context.getApplet();
-		if(!c.added) {
-			add(gameApplet);
-			c.added = true;
-			return;
-		}
-		gameApplet.setVisible(true);
+		add(c.getApplet());
 	}
 	
 

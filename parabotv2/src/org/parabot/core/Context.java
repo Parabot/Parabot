@@ -166,8 +166,10 @@ public class Context {
         BotUI.getInstance().validate();
         final GamePanel panel = GamePanel.getInstance();
         panel.removeLoader();
-        panel.add(gameApplet);
         gameApplet.setSize(765, 503);
+        panel.add(gameApplet);
+        gameApplet.init();
+        gameApplet.start();
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {
             @Override

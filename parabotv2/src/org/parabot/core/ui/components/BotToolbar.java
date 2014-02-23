@@ -137,6 +137,7 @@ public class BotToolbar extends JToolBar {
 		TabButton b = new TabButton(name);
 		b.setActive(true);
 		add(b, 0);
+		repaint();
 	}
 	
 	

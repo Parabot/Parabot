@@ -61,10 +61,6 @@ public class Context {
     	return getInstance(null);
     }
 
-    public void setEnvironment() {
-        classLoader = new ASMClassLoader(classPath);
-    }
-
     /**
      * Sets the main client instance
      */

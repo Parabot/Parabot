@@ -34,7 +34,7 @@ public class PaintComponent extends JComponent implements Runnable {
 		setPreferredSize(dimensions);
 		setSize(dimensions);
 		setOpaque(false);
-		setDoubleBuffered(true);
+		setIgnoreRepaint(true);
 	}
 	
 	public static PaintComponent getInstance(Dimension dimensions) {
@@ -66,7 +66,7 @@ public class PaintComponent extends JComponent implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			Time.sleep(15);
+			Time.sleep(100);
 			repaint();
 		}
 	}

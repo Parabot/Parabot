@@ -198,8 +198,10 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
-		BotDialog.getInstance().setVisible(false);
-		BotDialog.getInstance().setVisible(true);
+		if(isVisible()) {
+			BotDialog.getInstance().setVisible(false);
+			BotDialog.getInstance().setVisible(true);
+		}
 	}
 
 	@Override

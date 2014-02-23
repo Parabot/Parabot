@@ -21,11 +21,13 @@ public class BotDialog extends JDialog {
 		setLayout(new BorderLayout());
 		setUndecorated(true);
 		setBackground(new Color(0, 0, 0, 0));
+		getRootPane().setOpaque(false);
 		setContentPane(PaintComponent.getInstance(botUI.getSize()));
 		setPreferredSize(botUI.getSize());
 		setSize(botUI.getSize());
-		setIgnoreRepaint(true);
+		setFocusable(false);
 		setVisible(true);
+		
 	}
 
 }

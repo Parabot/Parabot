@@ -164,6 +164,7 @@ public class Context {
         panel.removeLoader();
         gameApplet.setSize(765, 503);
         panel.add(gameApplet);
+        panel.validate();
         gameApplet.init();
         gameApplet.start();
         java.util.Timer t = new java.util.Timer();
@@ -179,6 +180,7 @@ public class Context {
         Core.verbose("Initializing keyboard...");
         serverProvider.initKeyboard();
         Core.verbose("Done.");
+        BotUI.getInstance().validate();
     }
 
     /**

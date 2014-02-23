@@ -1,8 +1,9 @@
 package org.parabot.core.ui.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 
@@ -34,22 +35,18 @@ public class GamePanel extends JPanel {
 				GroupLayout.Alignment.LEADING).addGap(0, 418, Short.MAX_VALUE));
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	}
-
 	/**
 	 * Updates context of this panel and adds a different Applet to the panel
+	 * 
 	 * @param context
 	 */
 	public void setContext(final Context c) {
-		add(c.getApplet());
+		add(c.getApplet(), BorderLayout.CENTER);
 	}
-	
 
 	/**
 	 * Gets instance of this panel
+	 * 
 	 * @return instance of this panel
 	 */
 	public static GamePanel getInstance() {
@@ -60,7 +57,7 @@ public class GamePanel extends JPanel {
 	 * Adds the loader applet
 	 */
 	public void addLoader() {
-		add(loader);
+		add(loader, BorderLayout.CENTER);
 	}
 
 	/**

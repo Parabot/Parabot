@@ -2,8 +2,7 @@ package org.parabot.environment.scripts;
 
 import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.ui.components.BotToolbar;
-import org.parabot.core.ui.components.LogArea;
+import org.parabot.core.ui.BotUI;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.AbstractFramework;
 import org.parabot.environment.scripts.framework.LoopTask;
@@ -78,7 +77,7 @@ public class Script implements Runnable {
 		
 		Core.verbose("Detecting script framework...");
 		context.setRunningScript(this);
-		BotToolbar.getInstance().toggleRun();
+		BotUI.getInstance().toggleRun();
 		if(this instanceof LoopTask) {
 			Core.verbose("Script framework detected: LoopTask");
 			frameWorkType = TYPE_LOOP;
@@ -92,7 +91,7 @@ public class Script implements Runnable {
 			frameWorkType = TYPE_OTHER;
 		}
 		Core.verbose("Running script...");
-		LogArea.log("Script started.");
+		System.out.println("Script started.");
 		try {
 			while(this.state != STATE_STOPPED) {
 				if(context.getRandomHandler().checkAndRun()) {
@@ -112,11 +111,11 @@ public class Script implements Runnable {
 		}
 		Core.verbose("Script stopped/finished, unloading and stopping...");
 		onFinish();
-		LogArea.log("Script stopped.");
+		System.out.println("Script stopped.");
 		context.getServerProvider().unloadScript(this);
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
-		BotToolbar.getInstance().toggleRun();
+		BotUI.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}
 	

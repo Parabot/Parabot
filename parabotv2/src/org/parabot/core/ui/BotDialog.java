@@ -1,7 +1,6 @@
 package org.parabot.core.ui;
 
 import java.awt.Color;
-
 import javax.swing.JDialog;
 
 import org.parabot.core.ui.components.PaintComponent;
@@ -18,9 +17,7 @@ public class BotDialog extends JDialog {
 	private BotDialog(BotUI botUI) {
 		super(botUI);
 		
-		
 		botUI.setDialog(this);
-
 		setUndecorated(true);
 		getRootPane().setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));
@@ -30,7 +27,7 @@ public class BotDialog extends JDialog {
 		setVisible(true);
 		setContentPane(PaintComponent.getInstance(botUI.getSize()));
 		botUI.setVisible(true);
-		//setAlwaysOnTop(true);
+	
 	}
 	
 	public static BotDialog getInstance(BotUI botUI) {

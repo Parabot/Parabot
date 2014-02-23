@@ -1,6 +1,7 @@
 package org.parabot.core.ui.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -30,6 +31,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 		this.bot_image = Images.getResource("/org/parabot/core/ui/images/para.png");
 		this.p = new ProgressBar(400, 20);
 		setSize(775, 510);
+		setPreferredSize(new Dimension(775, 510));
 		setBackground(Color.black);
 		setDoubleBuffered(true);
 		setOpaque(false);

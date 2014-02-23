@@ -7,7 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
-import org.parabot.core.paint.PaintDebugger;
+
+import org.parabot.core.Context;
+import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.api.utils.Time;
 
 /**
@@ -24,7 +26,7 @@ public class PaintComponent extends JComponent implements Runnable {
 	private BufferedImage buffer;
 	private Graphics2D g2;
 	private Dimension dimensions;
-	private PaintDebugger paintDebugger;
+	private Context context;
 	
 	private PaintComponent(Dimension dimensions) {
 		this.dimensions = dimensions;
@@ -45,8 +47,8 @@ public class PaintComponent extends JComponent implements Runnable {
 		return getInstance(null);
 	}
 	
-	public void startPainting(PaintDebugger paintDebugger) {
-		this.paintDebugger = paintDebugger;
+	public void startPainting(Context context) {
+		this.context = context;
 		new Thread(this).start();
 	}
 	
@@ -56,8 +58,11 @@ public class PaintComponent extends JComponent implements Runnable {
 		g2.fillRect(0, 0, dimensions.width, dimensions.height);
 		g2.setComposite(AlphaComposite.SrcOver);
 		
-		if(paintDebugger != null) {
-			paintDebugger.debug(g2);
+		if(context != null) {
+			for(Paintable p : context.getPaintables()) {
+				p.paint(g);
+			}
+			context.getPaintDebugger().debug(g2);
 		}
 		g.drawImage(buffer, 0, 0, null);
 	}

@@ -102,8 +102,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 				System.exit(0);
 				break;
             case "Network":
-                NetworkUI UI = new NetworkUI();
-                UI.frame.setVisible(true);
+                NetworkUI.getInstance().setVisible(true);
                 break;
             case "Run":
             	if(pauseScript) {

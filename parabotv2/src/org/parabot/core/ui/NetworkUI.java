@@ -1,111 +1,285 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.spoofer.Proxy;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.net.SocketException;
 
-public class NetworkUI {
-    public JFrame frame;
-    private JTextField proxyHostField;
-    private JTextField proxyPortField;
-    private HashMap<String, Integer> socksVersions;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 
-    public NetworkUI() {
-    	this.socksVersions = new HashMap<String, Integer>();
-        initialize();
-    }
+import org.parabot.core.network.NetworkInterface;
+import org.parabot.core.network.proxy.ProxySocket;
+import org.parabot.core.network.proxy.ProxyType;
+import org.parabot.core.ui.utils.UILog;
 
-    public static void main(String[] args){
-        NetworkUI window = new NetworkUI();
-        window.frame.setVisible(true);
-    }
+public class NetworkUI extends JFrame implements KeyListener, ActionListener,
+		DocumentListener {
 
-    private void initialize() {
-        socksVersions.put("Socks 4", 4);
-        socksVersions.put("Socks 5", 5);
-        frame = new JFrame();
-        frame.setResizable(false);
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(6, 6, 438, 233);
-        frame.getContentPane().add(tabbedPane);
+	private static NetworkUI instance;
 
-        JPanel proxy = new JPanel();
-        tabbedPane.addTab("Proxy", null, proxy, null);
-        proxy.setLayout(null);
+	private JComboBox<ProxyType> proxyType;
+	private JTextField proxyHost;
+	private IntTextField proxyPort;
+	private JButton submitButton;
 
-        JLabel socksOption = new JLabel("Socks version");
-        socksOption.setBounds(6, 6, 87, 16);
-        proxy.add(socksOption);
+	JList<String>[] macList;
+	JScrollPane[] macScrollList;
 
-        final JComboBox<String> socksOptions = new JComboBox<String>();
-        for (String key : socksVersions.keySet()) {
-            socksOptions.addItem(key);
-        }
-        socksOptions.setBounds(105, 2, 127, 27);
-        proxy.add(socksOptions);
+	private NetworkUI() {
+		initGUI();
+	}
 
-        JLabel proxyHost = new JLabel("Proxy host");
-        proxyHost.setBounds(6, 66, 87, 16);
-        proxy.add(proxyHost);
+	public static NetworkUI getInstance() {
+		return instance == null ? instance = new NetworkUI() : instance;
+	}
 
-        proxyHostField = new JTextField();
-        proxyHostField.setBounds(105, 60, 127, 28);
-        proxy.add(proxyHostField);
-        proxyHostField.setColumns(10);
+	@Override
+	public void setVisible(boolean b) {
+		BotUI.getInstance().setEnabled(!b);
+		if (ProxySocket.getProxyAddress() != null)
+			proxyHost.setText(ProxySocket.getProxyAddress().getHostName());
+		proxyPort.setText("" + ProxySocket.getProxyPort());
+		proxyType.setSelectedItem(ProxySocket.getProxyType());
+		setLocationRelativeTo(BotUI.getInstance());
+		super.setVisible(b);
+	}
 
-        JLabel proxyPort = new JLabel("Proxy port");
-        proxyPort.setBounds(6, 126, 87, 16);
-        proxy.add(proxyPort);
+	@SuppressWarnings("unchecked")
+	private void initGUI() {
+		proxyType = new JComboBox<ProxyType>(ProxyType.values());
+		proxyType.setSelectedItem(ProxySocket.getProxyType());
 
-        proxyPortField = new JTextField();
-        proxyPortField.setBounds(105, 120, 127, 28);
-        proxy.add(proxyPortField);
-        proxyPortField.setColumns(10);
+		proxyHost = new JTextField();
+		proxyHost.addKeyListener(this);
 
-        JPanel macAddress = new JPanel();
-        tabbedPane.addTab("Mac address", null, macAddress, null);
-        macAddress.setLayout(null);
+		proxyPort = new IntTextField(80, 5);
+		proxyPort.setColumns(5);
+		proxyPort.addKeyListener(this);
 
-        JLabel enableSpoofer = new JLabel("Enable mac spoofer");
-        enableSpoofer.setBounds(6, 80, 99, 16);
-        macAddress.add(enableSpoofer);
+		submitButton = new JButton("Submit");
+		submitButton.addActionListener(this);
 
-        final ButtonGroup bg = new ButtonGroup();
-        JRadioButton spooferYes = new JRadioButton("Yes");
-        spooferYes.setBounds(117, 76, 59, 23);
-        macAddress.add(spooferYes);
+		byte[] mac = new byte[6];
+		try {
+			mac = NetworkInterface.getRealHardwareAddress();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		macList = new JList[mac.length];
+		macScrollList = new JScrollPane[mac.length];
+		for (int i = 0; i < mac.length; i++) {
+			int value = mac[i] & 0xFF;
+			macList[i] = createMacList();
+			macList[i].setSelectedIndex(value);
+			macScrollList[i] = new JScrollPane(macList[i]);
+			macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
 
-        JRadioButton spooferNo = new JRadioButton("No");
-        spooferNo.setBounds(188, 76, 59, 23);
-        macAddress.add(spooferNo);
-        spooferNo.setSelected(true);
+		}
+		JPanel p = createPanelUI();
+		add(p);
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		pack();
+		setTitle("Network Settings");
+	}
 
-        bg.add(spooferYes);
-        bg.add(spooferNo);
+	private JPanel createPanelUI() {
+		JPanel ret = new JPanel();
+		ret.setLayout(new BoxLayout(ret, BoxLayout.LINE_AXIS));
+		Box main = Box.createVerticalBox();
 
-        JButton submit = new JButton("Submit");
-        submit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!proxyHostField.getText().isEmpty() && !proxyPortField.getText().isEmpty()){
-                    try{
-                        Integer.parseInt(proxyPortField.getText());
-                    }catch (Exception ex){
-                        System.out.println("The given port is not a numeric value");
-                        return;
-                    }
-                    Proxy.setProxy(proxyHostField.getText(), Integer.parseInt(proxyPortField.getText()));
-                    frame.setVisible(false);
-                }
-            }
-        });
-        submit.setBounds(327, 243, 117, 29);
-        frame.getContentPane().add(submit);
-    }
+		Box type = Box.createHorizontalBox();
+		type.add(new JLabel("Proxy Type: "));
+		type.add(proxyType);
+
+		Box host = Box.createHorizontalBox();
+		host.add(new JLabel("Proxy Host: "));
+		host.add(proxyHost);
+
+		Box port = Box.createHorizontalBox();
+		port.add(new JLabel("Proxy Port: "));
+		port.add(proxyPort);
+
+		Box macBox = Box.createHorizontalBox();
+		macBox.add(new JLabel("MAC:"));
+		for (int i = 0; i < macList.length; i++) {
+			macBox.add(new JScrollPane(macList[i]));
+			macBox.add(Box.createHorizontalStrut(5));
+		}
+
+		Box submit = Box.createHorizontalBox();
+		submit.add(submitButton);
+
+		main.add(type);
+
+		main.add(Box.createVerticalStrut(5));
+		main.add(host);
+
+		main.add(Box.createVerticalStrut(5));
+		main.add(port);
+
+		main.add(Box.createVerticalStrut(5));
+		main.add(macBox);
+
+		main.add(Box.createVerticalStrut(5));
+		main.add(submit);
+
+		ret.add(main);
+		ret.setBorder(new EmptyBorder(10, 10, 10, 10));
+		return ret;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		Object source = e.getSource();
+		if (source == proxyPort || source == proxyHost) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				actionPerformed(null);
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {
+
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent arg0) {
+		if (proxyPort.isValid()) {
+			proxyPort.setText("" + proxyPort.getValue());
+		}
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent arg0) {
+		insertUpdate(arg0);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		byte[] mac = new byte[macList.length];
+		for (int i = 0; i < mac.length; i++)
+			mac[i] = (byte) Short.parseShort(
+					(String) macList[i].getSelectedValue(), 16);
+		NetworkInterface.mac = mac;
+
+		try {
+			if (ProxySocket.getConnectionCount() > 0) {
+				try {
+					System.out.println("Closing Existing Connections...");
+					ProxySocket.closeConnections();
+				} catch (Exception e) {
+
+				}
+			}
+			ProxySocket.setProxy((ProxyType) proxyType.getSelectedItem(),
+					proxyHost.getText(), proxyPort.getValue());
+			UILog.log("Info", "Network settings have been set!");
+		} catch (Exception e) {
+			UILog.log("Error",
+					"Unable to set proxy info!\n\nReason:" + e.getMessage());
+			e.printStackTrace();
+		}
+		setVisible(false);
+	}
+
+	private JList<String> createMacList() {
+		String[] hexStrings = new String[256];
+		for (int i = 0; i < 256; i++) {
+			hexStrings[i] = String.format("%02X", i);
+		}
+		JList<String> ret = new JList<String>(hexStrings);
+		ret.setVisibleRowCount(3);
+		ret.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		return ret;
+	}
+
+	class IntTextField extends JTextField {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public IntTextField(int defval, int size) {
+			super("" + defval, size);
+		}
+
+		protected Document createDefaultModel() {
+			return new IntTextDocument();
+		}
+
+		public boolean isValid() {
+			try {
+				int i = Integer.parseInt(getText());
+				return i > 0 && i <= 25565;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+
+		public int getValue() {
+			try {
+				return Integer.parseInt(getText());
+			} catch (NumberFormatException e) {
+				return 0;
+			}
+		}
+
+		class IntTextDocument extends PlainDocument {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void insertString(int offs, String str, AttributeSet a)
+					throws BadLocationException {
+				if (str == null)
+					return;
+				String oldString = getText(0, getLength());
+				String newString = oldString.substring(0, offs) + str
+						+ oldString.substring(offs);
+				try {
+					Integer.parseInt(newString.replace("-", "") + "0");
+					super.insertString(offs, str, a);
+				} catch (NumberFormatException e) {
+				}
+			}
+		}
+	}
 }

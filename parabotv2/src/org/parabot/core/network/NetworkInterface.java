@@ -1,13 +1,13 @@
-package org.parabot.core.spoofer;
+package org.parabot.core.network;
 
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class MacAddress {
+public class NetworkInterface {
 	public static byte[] mac = new byte[] { 11, 11, 11, 11, 11, 11 };
 	private static byte[] realMac;
-	private static MacAddress cached;
+	private static NetworkInterface cached;
 
 	static {
         try {
@@ -37,9 +37,9 @@ public class MacAddress {
 		return mac;
 	}
 
-	public static MacAddress getByInetAddress(InetAddress addr) {
+	public static NetworkInterface getByInetAddress(InetAddress addr) {
 		if (cached == null)
-			cached = new MacAddress();
+			cached = new NetworkInterface();
 		return cached;
 	}
 }

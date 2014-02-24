@@ -20,8 +20,10 @@ import java.util.zip.ZipInputStream;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Directories;
+import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.io.SizeInputStream;
 import org.parabot.core.ui.components.VerboseLoader;
@@ -176,6 +178,8 @@ public class ClassPath {
 			}
 		}
 	}
+	
+	ClassRemapper class_mapper = new ClassRemapper();
 
 	/**
 	 * Loads class from input stream
@@ -187,7 +191,10 @@ public class ClassPath {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		classes.put(cn.name, cn);
+		RemappingClassAdapter rca = new RemappingClassAdapter(cn,class_mapper);
+		ClassNode remapped = new ClassNode();
+		cn.accept(rca);
+		classes.put(cn.name, remapped);
 	}
 
 	/**

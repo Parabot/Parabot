@@ -36,20 +36,25 @@ import org.parabot.core.ui.components.VerboseLoader;
  * @author Matt
  */
 public class ClassPath {
-	public final HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
-	public final Map<String, URL> resources = new HashMap<String, URL>();
+	public final HashMap<String, ClassNode> classes;
+	public final Map<String, URL> resources;
+	public URL lastParsed;
+	private ClassRemapper classRemapper;
+	private boolean isJar;
+	private boolean parseJar;
+	private ArrayList<URL> jarFiles;
 
-	private boolean isJar = false;
-	private boolean parseJar = true;
-	private ArrayList<URL> jarFiles = new ArrayList<URL>();
-
-	public URL lastParsed = null;
 
 	public ClassPath() {
-
+		this(false);
 	}
 
 	public ClassPath(final boolean isJar) {
+		this.classes = new HashMap<String, ClassNode>();
+		this.resources = new HashMap<String, URL>();
+		this.classRemapper = new ClassRemapper();
+		this.parseJar = true;
+		this.jarFiles = new ArrayList<URL>();
 		this.isJar = isJar;
 	}
 
@@ -178,8 +183,6 @@ public class ClassPath {
 			}
 		}
 	}
-	
-	ClassRemapper class_mapper = new ClassRemapper();
 
 	/**
 	 * Loads class from input stream
@@ -191,7 +194,7 @@ public class ClassPath {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		RemappingClassAdapter rca = new RemappingClassAdapter(cn,class_mapper);
+		RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
 		ClassNode remapped = new ClassNode();
 		cn.accept(rca);
 		classes.put(cn.name, remapped);

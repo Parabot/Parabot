@@ -1,9 +1,9 @@
 package org.parabot.core.ui;
 
-import java.awt.Color;
-import javax.swing.JDialog;
-
 import org.parabot.core.ui.components.PaintComponent;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class BotDialog extends JDialog {
 
 	private BotDialog(BotUI botUI) {
 		super(botUI);
-		
+
 		botUI.setDialog(this);
 		setUndecorated(true);
 		getRootPane().setOpaque(false);

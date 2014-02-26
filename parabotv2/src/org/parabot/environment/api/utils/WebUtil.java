@@ -185,5 +185,19 @@ public class WebUtil {
 			t.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Converts file format to url format
+	 * @param file
+	 * @return url to file
+	 */
+	public static URL toURL(File file) {
+		try {
+			return file.toURI().toURL();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

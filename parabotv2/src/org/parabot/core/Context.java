@@ -2,6 +2,7 @@ package org.parabot.core;
 
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
+import org.parabot.core.desc.ServerProviderInfo;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
@@ -42,6 +43,7 @@ public class Context {
     private PaintDebugger paintDebugger;
     private Mouse mouse;
     private Keyboard keyboard;
+    private ServerProviderInfo providerInfo;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
@@ -191,6 +193,25 @@ public class Context {
      */
     public ServerProvider getServerProvider() {
         return serverProvider;
+    }
+    
+    /**
+     * 
+     * Sets provider info of this context
+     * 
+     * @param providerInfo
+     */
+    public void setProviderInfo(ServerProviderInfo providerInfo) {
+    	this.providerInfo = providerInfo;
+    }
+    
+    /**
+     * Gets ServerProvider info
+     * Can be null if this is not a public server provider
+     * @return info about this provider
+     */
+    public ServerProviderInfo getServerProviderInfo() {
+    	return this.providerInfo;
     }
 
     /**

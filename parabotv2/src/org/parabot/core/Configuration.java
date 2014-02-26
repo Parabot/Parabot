@@ -14,6 +14,6 @@ public class Configuration {
     public static final String GET_SERVER_PROVIDER_INFO = "http://sdn.parabot.org/providers/getInformation.php?id=";
     public static final String GET_BOT_VERSION = "http://bot.parabot.org/version.txt";
 
-    public static final double BOT_VERSION = 2.05; // BETA
+    public static final double BOT_VERSION = 2.06;
 
 }

@@ -35,6 +35,7 @@ import org.parabot.core.ui.components.VerboseLoader;
  * @author Everel
  * @author Matt
  */
+@SuppressWarnings("unused")
 public class ClassPath {
 	public final HashMap<String, ClassNode> classes;
 	public final Map<String, URL> resources;
@@ -194,10 +195,10 @@ public class ClassPath {
 		ClassReader cr = new ClassReader(in);
 		ClassNode cn = new ClassNode();
 		cr.accept(cn, 0);
-		RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
+		/*RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
 		ClassNode remapped = new ClassNode();
-		cn.accept(rca);
-		classes.put(cn.name, remapped);
+		cn.accept(rca);*/
+		classes.put(cn.name, cn);
 	}
 
 	/**

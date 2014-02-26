@@ -1,16 +1,19 @@
 package org.parabot.environment.servers;
 
 import org.parabot.core.Configuration;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
+import org.parabot.core.desc.ServerProviderInfo;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.loader.ServerLoader;
 
 import javax.swing.*;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -34,31 +37,38 @@ public class PublicServerExecuter extends ServerExecuter {
 	@Override
 	public void run() {
 		try {
+			try {
+				Integer.parseInt(this.serverID);
+			} catch (NumberFormatException e) {
+				UILog.log(
+						"Error",
+						"Failed to parse the server ID for the server provider, error: [Server ID is not an integer.]",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
+					+ this.serverID));
+			
 			final File destination = new File(Directories.getCachePath(),
-					this.serverID);
-			final String jarUrl = Configuration.GET_SERVER_PROVIDER + this.serverID;
-            final String providerInfo = Configuration.GET_SERVER_PROVIDER_INFO + this.serverID;
-
-            try{
-                Integer.parseInt(this.serverID);
-            }catch(NumberFormatException e){
-                UILog.log(
-                        "Error",
-                        "Failed to parse the server ID for the server provider, error: [Server ID is not an integer.]",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+					serverProviderInfo.getCRC32() + ".jar");
+			
+			
+			final String jarUrl = Configuration.GET_SERVER_PROVIDER
+					+ this.serverID;
 
 			Core.verbose("Downloading: " + jarUrl + " ...");
 
-			WebUtil.downloadFile(new URL(jarUrl), destination,
-					VerboseLoader.get());
+			
+			if(destination.exists()) {
+				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
+			} else {
+				WebUtil.downloadFile(new URL(jarUrl), destination,
+						VerboseLoader.get());
+				Core.verbose("Server provider downloaded...");
+			}
 
-            WebUtil.downloadFile(new URL(providerInfo),
-                    new File(System.getProperty("user.home") + "/serverProvider.pb"),
-                    VerboseLoader.get());
-			
-			Core.verbose("Server provider downloaded...");
-			
+
 			final ClassPath classPath = new ClassPath();
 			classPath.addJar(destination);
 
@@ -86,6 +96,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				final Constructor<?> con = providerClass.getConstructor();
 				final ServerProvider serverProvider = (ServerProvider) con
 						.newInstance();
+				Context.getInstance().setProviderInfo(serverProviderInfo);
 				super.finalize(serverProvider, this.serverName);
 			} catch (NoClassDefFoundError ignored) {
 				UILog.log(

@@ -52,8 +52,6 @@ public class PublicServerExecuter extends ServerExecuter {
 			
 			final File destination = new File(Directories.getCachePath(),
 					serverProviderInfo.getCRC32() + ".jar");
-			
-			
 			final String jarUrl = Configuration.GET_SERVER_PROVIDER
 					+ this.serverID;
 
@@ -96,7 +94,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				final Constructor<?> con = providerClass.getConstructor();
 				final ServerProvider serverProvider = (ServerProvider) con
 						.newInstance();
-				Context.getInstance().setProviderInfo(serverProviderInfo);
+				Context.getInstance(serverProvider).setProviderInfo(serverProviderInfo);
 				super.finalize(serverProvider, this.serverName);
 			} catch (NoClassDefFoundError ignored) {
 				UILog.log(

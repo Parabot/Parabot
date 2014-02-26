@@ -30,6 +30,19 @@ public class BotDialog extends JDialog {
 	
 	}
 	
+	
+	public void setDimensions(Dimension dimension) {
+		setUndecorated(true);
+		getRootPane().setOpaque(false);
+		setBackground(new Color(0, 0, 0, 0));
+		setFocusableWindowState(true);
+		setPreferredSize(dimension);
+		setSize(dimension);
+		setVisible(true);
+		setContentPane(PaintComponent.getInstance());
+		PaintComponent.getInstance().setDimensions(dimension);
+	}
+	
 	public static BotDialog getInstance(BotUI botUI) {
 		return instance == null ? instance = new BotDialog(botUI) : instance;
 	}

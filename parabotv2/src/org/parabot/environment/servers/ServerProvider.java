@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import java.applet.Applet;
 import java.applet.AppletStub;
+import java.awt.Dimension;
 import java.net.URL;
 
 /**
@@ -23,10 +24,13 @@ import java.net.URL;
  */
 public abstract class ServerProvider implements Opcodes {
 
-//    public static Handler.RandomChecker getRandomChecker() {
-//        Handler.RandomChecker randomChecker = new Handler.RandomChecker();
-//        return randomChecker;
-//    }
+	/**
+	 * Get the game/applet dimensions
+	 * @return game/applet dimensions
+	 */
+	public Dimension getGameDimensions() {
+		return new Dimension(765, 503);
+	}
 
     /**
 	 * Hooks to parse

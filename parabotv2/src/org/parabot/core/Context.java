@@ -16,6 +16,7 @@ import org.parabot.environment.scripts.Script;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -161,28 +162,37 @@ public class Context {
             setClientInstance(gameApplet);
         }
         Core.verbose("Applet fetched.");
-        serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
-        BotUI.getInstance().validate();
+        
         final GamePanel panel = GamePanel.getInstance();
+        final Dimension appletSize = serverProvider.getGameDimensions();
+        
+        panel.setPreferredSize(appletSize);
+        serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
+        BotUI.getInstance().pack();
+        BotUI.getInstance().validate();
+        
         panel.removeLoader();
-        gameApplet.setSize(765, 503);
+        gameApplet.setSize(appletSize);
         panel.add(gameApplet);
         panel.validate();
+        
         gameApplet.init();
         gameApplet.start();
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                gameApplet.setBounds(0, 0, 765, 503);
+                gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
             }
         }, 1000);
+        
         Core.verbose("Initializing mouse...");
         serverProvider.initMouse();
         Core.verbose("Done.");
         Core.verbose("Initializing keyboard...");
         serverProvider.initKeyboard();
         Core.verbose("Done.");
+        
         BotDialog.getInstance().validate();
     }
 

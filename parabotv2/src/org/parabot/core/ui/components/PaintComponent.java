@@ -39,6 +39,18 @@ public class PaintComponent extends JComponent implements Runnable {
 		setIgnoreRepaint(true);
 	}
 	
+	public void setDimensions(Dimension dimensions) {
+		this.dimensions = dimensions;
+		this.dimensions = dimensions;
+		this.buffer = new BufferedImage(dimensions.width, dimensions.height, BufferedImage.TYPE_INT_ARGB);
+		this.g2 = buffer.createGraphics();
+		
+		setPreferredSize(dimensions);
+		setSize(dimensions);
+		setOpaque(false);
+		setIgnoreRepaint(true);
+	}
+	
 	public static PaintComponent getInstance(Dimension dimensions) {
 		return instance == null ? instance = new PaintComponent(dimensions) : instance;
 	}

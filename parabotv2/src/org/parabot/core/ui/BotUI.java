@@ -134,7 +134,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
-		if(dialog == null) {
+		if(dialog == null || !isVisible()) {
 			return;
 		}
 		Point gameLocation = GamePanel.getInstance().getLocationOnScreen();
@@ -168,6 +168,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 	@Override
 	public void componentResized(ComponentEvent e) {
+		if(isVisible()) {
+			BotDialog.getInstance().setSize(getSize());
+		}
 	}
 
 	@Override

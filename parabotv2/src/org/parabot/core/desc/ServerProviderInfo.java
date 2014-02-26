@@ -65,5 +65,9 @@ public class ServerProviderInfo {
 		return Integer.parseInt(properties.getProperty("bankTabs"));
 	}
 	
+	public Properties getProperties() {
+		return this.properties;
+	}
+	
 
 }

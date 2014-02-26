@@ -61,6 +61,10 @@ public class ServerProviderInfo {
 		return Long.parseLong(properties.getProperty("crc32"));
 	}
 	
+	public long getClientCRC32() {
+		return Long.parseLong(properties.getProperty("clientCrc32"));
+	}
+	
 	public int getBankTabs() {
 		return Integer.parseInt(properties.getProperty("bankTabs"));
 	}

@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Core {
     private static boolean debug;
     private static boolean verbose;
+    private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
 
     /**
@@ -39,6 +40,15 @@ public class Core {
     public static void setDebug(final boolean debug) {
         Core.debug = debug;
     }
+    
+    /**
+     * Enables dump mode
+     * 
+     * @param dump
+     */
+    public static void setDump(final boolean dump) {
+    	Core.dump = dump;
+    }
 
     /**
      * @return if the client is in debug mode.
@@ -52,6 +62,13 @@ public class Core {
      */
     public static boolean inVerboseMode() {
         return verbose;
+    }
+    
+    /**
+     * @return if parabot should dump injected jar
+     */
+    public static boolean shouldDump() {
+    	return dump;
     }
 
     /**

@@ -88,6 +88,9 @@ public final class Landing {
                 case "-loadlocal":
                     Core.setLoadLocal(true);
                     break;
+                case "-dump":
+                	Core.setDump(true);
+                	break;
             }
 
         }

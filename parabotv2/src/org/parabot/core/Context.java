@@ -17,6 +17,7 @@ import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
 import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -157,6 +158,11 @@ public class Context {
         serverProvider.injectHooks();
         Core.verbose("Done.");
         Core.verbose("Fetching game applet...");
+        if(Core.shouldDump()) {
+        	Core.verbose("Dumping injected client...");
+        	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
+        	Core.verbose("Done.");
+        }
         gameApplet = serverProvider.fetchApplet();
         if (getClient() == null) {
             setClientInstance(gameApplet);

@@ -38,6 +38,8 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 				this.argsDesc + this.returnDesc, null, null);
 
 		boolean isStatic = (this.mn.access & ACC_STATIC) != 0;
+		
+		mn.access = mn.access | ACC_PUBLIC;
 
 		if (!isStatic)
 			m.visitVarInsn(ALOAD, 0);

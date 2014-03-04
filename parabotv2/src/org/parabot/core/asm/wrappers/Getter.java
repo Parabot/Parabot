@@ -2,6 +2,7 @@ package org.parabot.core.asm.wrappers;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.adapters.AddGetterAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
@@ -38,6 +39,7 @@ public class Getter implements Injectable {
 		this.methodName = methodName;
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;
+        Core.verbose(this.methodName.toString());
 	}
 	
 	/**
@@ -61,7 +63,7 @@ public class Getter implements Injectable {
 	 */
 	@Override
 	public void inject() {
-		getAdapter().inject();
+        getAdapter().inject();
 	}
 	
 	/**

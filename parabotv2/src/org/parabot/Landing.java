@@ -1,16 +1,14 @@
 package org.parabot;
 
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+
+import javax.swing.*;
+import java.io.IOException;
 
 /**
  * Parabot v2

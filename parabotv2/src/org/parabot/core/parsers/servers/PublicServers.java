@@ -2,6 +2,8 @@ package org.parabot.core.parsers.servers;
 
 import org.parabot.core.Configuration;
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.forum.AccountManager;
+import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.PublicServerExecuter;
 
@@ -14,12 +16,23 @@ import java.net.URL;
  * @author Everel
  */
 public class PublicServers extends ServerParser {
+	
+	private static AccountManager manager;
+
+	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
+
+		@Override
+		public final void setManager(AccountManager manager) {
+			PublicServers.manager = manager;
+		}
+
+	};
 
     @Override
     public void execute() {
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SERVER_PROVIDERS));
+                    Configuration.GET_SERVER_PROVIDERS), manager.getAccount().getUsername(), manager.getAccount().getPassword());
             int count = 0;
             String line;
 
@@ -56,5 +69,4 @@ public class PublicServers extends ServerParser {
             e.printStackTrace();
         }
     }
-
 }

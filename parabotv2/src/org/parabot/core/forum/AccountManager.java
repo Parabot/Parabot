@@ -3,10 +3,13 @@ package org.parabot.core.forum;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.SDNScripts;
+import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.SDNScriptExecuter;
+import org.parabot.environment.servers.PublicServerExecuter;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -38,6 +41,8 @@ public final class AccountManager {
 		accessors.add(SDNScripts.MANAGER_FETCHER);
 		accessors.add(LoginUI.MANAGER_FETCHER);
 		accessors.add(SDNScriptExecuter.MANAGER_FETCHER);
+		accessors.add(PublicServers.MANAGER_FETCHER);
+		accessors.add(PublicServerExecuter.MANAGER_FETCHER);
 
 		for (final AccountManagerAccess accessor : accessors) {
 			accessor.setManager(instance);
@@ -69,7 +74,11 @@ public final class AccountManager {
 		}
 
 		if (contents.equals("correct")) {
-			account = new Account(user, pass);
+			try {
+				account = new Account(URLEncoder.encode(user, "UTF-8"), URLEncoder.encode(pass, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 		return false;

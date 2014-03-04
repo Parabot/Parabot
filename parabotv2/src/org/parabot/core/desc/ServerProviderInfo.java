@@ -15,11 +15,11 @@ import org.parabot.environment.api.utils.WebUtil;
 public class ServerProviderInfo {
 	private Properties properties;
 	
-	public ServerProviderInfo(URL providerInfo) {
+	public ServerProviderInfo(URL providerInfo, String username, String password) {
 		this.properties = new Properties();
         try {
             String line;
-            BufferedReader br = WebUtil.getReader(providerInfo);
+            BufferedReader br = WebUtil.getReader(providerInfo, username, password);
             while ((line = br.readLine()) != null) {
             	if(line.contains(": ")) {
             		properties.put(line.substring(0, line.indexOf(": ")), line.substring(line.indexOf(": ") + 2, line.length()));

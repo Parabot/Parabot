@@ -7,9 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.io.SizeInputStream;
@@ -153,6 +155,46 @@ public class WebUtil {
 		}
 		return null;
 	}
+	
+	public static BufferedReader getReader(final URL url, String username, String password) {
+		try {
+			String data = URLEncoder.encode("username", "UTF-8") + "=" + username;
+	        data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + password;
+			
+			URLConnection connection = url.openConnection();
+		
+			connection.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            wr.write(data);
+            wr.flush();
+            wr.close();
+ 
+            return new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static URLConnection getConnection(final URL url, String username, String password) {
+		try {
+			String data = URLEncoder.encode("username", "UTF-8") + "=" + username;
+	        data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + password;
+			
+			URLConnection connection = url.openConnection();
+		
+			connection.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            wr.write(data);
+            wr.flush();
+            wr.close();
+ 
+            return connection;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
+	}
 
 	/**
 	 * Downloads a file on the internet
@@ -164,6 +206,38 @@ public class WebUtil {
 			final ProgressListener listener) {
 		try {
 			final URLConnection connection = getConnection(url);
+			int size = connection.getContentLength();
+			SizeInputStream sizeInputStream = new SizeInputStream(
+					connection.getInputStream(), size, listener);
+			BufferedInputStream in = new BufferedInputStream(sizeInputStream);
+			FileOutputStream fileOut = new FileOutputStream(destination);
+			try {
+				byte data[] = new byte[1024];
+				int count;
+				while ((count = in.read(data, 0, 1024)) != -1) {
+					fileOut.write(data, 0, count);
+				}
+			} finally {
+				if (in != null)
+					in.close();
+				if (fileOut != null)
+					fileOut.close();
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Downloads a file on the internet
+	 * @param url
+	 * @param destination
+	 * @param listener
+	 */
+	public static void downloadFile(final URL url, final File destination,
+			final ProgressListener listener, String username, String password) {
+		try {
+			final URLConnection connection = getConnection(url, username, password);
 			int size = connection.getContentLength();
 			SizeInputStream sizeInputStream = new SizeInputStream(
 					connection.getInputStream(), size, listener);

@@ -7,6 +7,8 @@ import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
+import org.parabot.core.forum.AccountManager;
+import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
@@ -28,6 +30,17 @@ import java.net.URL;
 public class PublicServerExecuter extends ServerExecuter {
 	private String serverName;
 	private String serverID;
+	
+	private static AccountManager manager;
+
+	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
+
+		@Override
+		public final void setManager(AccountManager manager) {
+			PublicServerExecuter.manager = manager;
+		}
+
+	};
 
 	public PublicServerExecuter(final String serverName, final String serverID) {
 		this.serverName = serverName;
@@ -48,7 +61,7 @@ public class PublicServerExecuter extends ServerExecuter {
 			}
 			
 			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
-					+ this.serverID));
+					+ this.serverID), manager.getAccount().getUsername(), manager.getAccount().getPassword());
 			
 			final File destination = new File(Directories.getCachePath(),
 					serverProviderInfo.getCRC32() + ".jar");
@@ -62,7 +75,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
 			} else {
 				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get());
+						VerboseLoader.get(), manager.getAccount().getUsername(), manager.getAccount().getPassword());
 				Core.verbose("Server provider downloaded...");
 			}
 

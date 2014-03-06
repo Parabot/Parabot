@@ -1,5 +1,7 @@
 package org.parabot.core.asm.adapters;
 
+import java.lang.reflect.Modifier;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -39,7 +41,15 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 
 		boolean isStatic = (this.mn.access & ACC_STATIC) != 0;
 		
-		mn.access = mn.access | ACC_PUBLIC;
+		if(!Modifier.isPublic(mn.access)) {
+			if(Modifier.isPrivate(mn.access)) {
+				mn.access = mn.access & (~ACC_PRIVATE);
+			}
+			if(Modifier.isProtected(mn.access)) {
+				mn.access = mn.access & (~ACC_PROTECTED);
+			}
+			mn.access = mn.access | ACC_PUBLIC;
+		}
 
 		if (!isStatic)
 			m.visitVarInsn(ALOAD, 0);

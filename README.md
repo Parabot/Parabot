@@ -1,6 +1,6 @@
 # Parabot
 
-Parabot v2.06.
+Parabot v2.07.
 
 #### Website
 

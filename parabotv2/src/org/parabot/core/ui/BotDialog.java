@@ -29,9 +29,8 @@ public class BotDialog extends JDialog {
 		botUI.setVisible(true);
 	
 	}
-	
-	
-	public void setDimensions(Dimension dimension) {
+
+    public void setDimensions(Dimension dimension) {
 		setUndecorated(true);
 		getRootPane().setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));

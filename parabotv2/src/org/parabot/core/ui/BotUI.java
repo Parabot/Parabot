@@ -53,6 +53,13 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		JMenu scripts = new JMenu("Script");
 		
 		JMenuItem proxy = new JMenuItem("Network");
+        final JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+        dialog.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BotDialog.getInstance().setVisible(!dialog.isSelected());
+            }
+        });
 		JMenuItem exit = new JMenuItem("Exit");
 		
 		run = new JMenuItem("Run");
@@ -74,6 +81,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		stop.addActionListener(this);
 		
 		file.add(proxy);
+        file.add(dialog);
 		file.add(exit);
 		
 		scripts.add(run);

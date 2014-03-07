@@ -15,6 +15,7 @@ public class Core {
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
+    private static String OS = System.getProperty("os.name").toLowerCase();
 
     /**
      * Enabled loadLocal mode
@@ -84,6 +85,16 @@ public class Core {
         if (verbose) {
             System.out.println(line);
         }
+    }
+
+    /**
+     * Determines if user is using a windows OS
+     * @return <b>true</b> if user is using a windows OS
+     */
+    public static boolean isWindows() {
+
+        return (OS.indexOf("win") >= 0);
+
     }
 
     /**

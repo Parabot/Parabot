@@ -16,7 +16,7 @@ public class Directories {
     private static Map<String, File> cached;
 
     static {
-		cached = new HashMap<String, File>();
+    	cached = new HashMap<String, File>();
         switch (OperatingSystem.getOS()) {
             case WINDOWS:
                 cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
@@ -36,6 +36,30 @@ public class Directories {
         cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
         Core.verbose("Directories cached.");
     }
+    
+    /**
+     * Set script bin folder
+     * @param f
+     */
+    public static void setScriptCompiledDirectory(File f) {
+    	if(!f.isDirectory()) {
+    		throw new IllegalArgumentException(f + "is not a directory.");
+    	}
+    	cached.put("Compiled", f);
+    }
+    
+    /**
+     * Set server bin folder
+     * @param f
+     */
+    public static void setServerCompiledDirectory(File f) {
+    	if(!f.isDirectory()) {
+    		throw new IllegalArgumentException(f + "is not a directory.");
+    	}
+    	cached.put("Servers", f);
+    }
+    
+   
 
     /**
      * Returns the root directory outside of the main Parabot folder.

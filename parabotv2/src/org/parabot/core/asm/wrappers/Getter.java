@@ -33,13 +33,13 @@ public class Getter implements Injectable {
 	 */
 	public Getter(final String into, final String fieldLocation, final String fieldNode,
 			final String methodName, final String returnDesc, final boolean staticMethod) {
+		Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");
 		this.into = ASMUtils.getClass(into);
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode);
 		this.methodName = methodName;
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;
-        Core.verbose(this.methodName.toString());
 	}
 	
 	/**

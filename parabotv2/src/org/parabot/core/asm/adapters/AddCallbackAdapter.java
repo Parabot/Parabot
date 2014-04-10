@@ -1,5 +1,7 @@
 package org.parabot.core.asm.adapters;
 
+import java.lang.reflect.Modifier;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -43,7 +45,7 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 		inject.add(new LabelNode(l0));
 		for (int arg : args) {
 			inject.add(new VarInsnNode(ASMUtils.getLoadOpcode(types[arg]
-					.getDescriptor()), arg));
+					.getDescriptor()), Modifier.isStatic(method.access) ? arg : arg + 1));
 		}
 		inject.add(new MethodInsnNode(INVOKESTATIC,
 				this.invokeClass, this.invokeMethod,

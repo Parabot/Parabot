@@ -54,3 +54,5 @@ parabotv2/src/META-INF/MANIFEST.MF
 *.project
 
 *.xml
+
+/releases/

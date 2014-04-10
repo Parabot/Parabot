@@ -42,7 +42,7 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 		Label l0 = new Label();
 		inject.add(new LabelNode(l0));
 		for (int arg : args) {
-			inject.add(new VarInsnNode(ASMUtils.getLoadOpcode(types[arg - 1 < 0 ? 0 : arg - 1]
+			inject.add(new VarInsnNode(ASMUtils.getLoadOpcode(types[arg]
 					.getDescriptor()), arg));
 		}
 		inject.add(new MethodInsnNode(INVOKESTATIC,

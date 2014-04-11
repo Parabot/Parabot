@@ -25,6 +25,7 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 	private String returnDesc;
 	private boolean staticField;
 	private boolean staticMethod;
+	private long multiplier;
 
 	/**
 	 * 
@@ -40,11 +41,12 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 	 *            - return type of method, can be null for default return
 	 * @param staticMethod
 	 *            - pass true if you want the method to be static
+	 * @param multiplier - if this field requires a multiplier
 	 */
 	public AddGetterAdapter(final ClassNode into,
 			final ClassNode fieldLocation, final FieldNode fieldNode,
 			final String methodName, final String returnDesc,
-			final boolean staticMethod) {
+			final boolean staticMethod, final long multiplier) {
 		this.into = into;
 		this.fieldLocation = fieldLocation;
 		this.fieldNode = fieldNode;
@@ -52,6 +54,7 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 		this.returnDesc = returnDesc == null ? fieldNode.desc : returnDesc;
 		this.staticField = Modifier.isStatic(fieldNode.access);
 		this.staticMethod = staticMethod;
+		this.multiplier = multiplier;
 	}
 
 	/**
@@ -117,7 +120,7 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 	@Override
 	public void inject() {
 		Core.verbose("Injecting: " + this.toString());
-		
+
 		MethodNode method = new MethodNode(ACC_PUBLIC
 				| (staticMethod ? ACC_STATIC : 0), methodName, "()"
 				+ returnDesc, null, null);
@@ -138,8 +141,21 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 			}
 		}
 
-		if (fieldNode.desc.equals("J") && returnDesc.equals("I"))
+		if(multiplier != 0) {
+			if(fieldNode.desc.equals("I")) {
+				method.visitInsn(I2L);
+			}
+			method.visitLdcInsn(new Long(multiplier));
+			method.visitInsn(LMUL);
+			if(returnDesc.equals("I")) {
+				method.visitInsn(L2I);
+			}
+		} else if (fieldNode.desc.equals("J") && returnDesc.equals("I")) {
 			method.visitInsn(L2I);
+		} else if(fieldNode.desc.equals("I") && returnDesc.equals("J")) {
+			method.visitInsn(I2L);
+		}
+		
 
 		method.visitInsn(ASMUtils.getReturnOpcode(returnDesc));
 		method.visitMaxs(1, 1);

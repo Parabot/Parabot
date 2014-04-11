@@ -159,6 +159,7 @@ public class XMLHookParser extends HookParser {
 	                    "accessor", addGetter));
 	            final String into = isSet("into", addGetter) ? getValue("into",
 	                    addGetter) : className;
+	            final long multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
 	            final String fieldName = getValue("field", addGetter);
 	            final String methodName = getValue("methodname", addGetter);
 	            boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
@@ -184,7 +185,7 @@ public class XMLHookParser extends HookParser {
 	                returnDesc = str.toString();
 	            }
 	            final Getter get = new Getter(into, className, fieldName,
-	                    methodName, returnDesc, staticMethod);
+	                    methodName, returnDesc, staticMethod, multiplier);
 	            getterList.add(get);
 	        }
 	        return getterList.toArray(new Getter[getterList.size()]);

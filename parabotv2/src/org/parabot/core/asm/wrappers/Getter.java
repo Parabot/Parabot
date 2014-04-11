@@ -21,6 +21,7 @@ public class Getter implements Injectable {
 	private String methodName;
 	private String returnDesc;
 	private boolean staticMethod;
+	private long multiplier;
 	
 	/**
 	 * 
@@ -30,9 +31,10 @@ public class Getter implements Injectable {
 	 * @param methodName - method name of getter
 	 * @param returnDesc - return type of method, can be null for default return
 	 * @param staticMethod - pass true if you want the method to be static
+	 * @param multiplier - if there is one, otherwise 0L
 	 */
 	public Getter(final String into, final String fieldLocation, final String fieldNode,
-			final String methodName, final String returnDesc, final boolean staticMethod) {
+			final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier) {
 		Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");
 		this.into = ASMUtils.getClass(into);
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
@@ -40,6 +42,7 @@ public class Getter implements Injectable {
 		this.methodName = methodName;
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;
+		this.multiplier = multiplier;
 	}
 	
 	/**
@@ -71,7 +74,7 @@ public class Getter implements Injectable {
 	 * @return AddGetterAdapter
 	 */
 	public AddGetterAdapter getAdapter() {
-		return new AddGetterAdapter(into, fieldLocation, fieldNode, methodName, returnDesc, staticMethod);
+		return new AddGetterAdapter(into, fieldLocation, fieldNode, methodName, returnDesc, staticMethod, multiplier);
 	}
 
 }

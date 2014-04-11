@@ -8,7 +8,6 @@ import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -89,18 +88,18 @@ public final class Landing {
                     Core.setLocalMode(args[++i]);
                     break;
                 case "-dump":
-                	Core.setDump(true);
-                	break;
+                    Core.setDump(true);
+                    break;
                 case "-scriptsbin":
-                	Directories.setScriptCompiledDirectory(new File(args[++i]));
-                	break;
+                    Directories.setScriptCompiledDirectory(new File(args[++i]));
+                    break;
                 case "-serversbin":
-                	Directories.setServerCompiledDirectory(new File(args[++i]));
-                	break;
+                    Directories.setServerCompiledDirectory(new File(args[++i]));
+                    break;
             }
 
         }
     }
-    
+
 
 }

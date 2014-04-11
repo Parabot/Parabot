@@ -21,9 +21,8 @@ public abstract class ServerParser {
     public static final ServerDescription[] getDescriptions() {
         SERVER_CACHE.clear();
         final ArrayList<ServerParser> parsers = new ArrayList<ServerParser>();
-        if (Core.inLoadLocal()) {
+        if (Core.inLoadLocalServers()) {
             parsers.add(new LocalServers());
-            parsers.add(new PublicServers());
         } else if (Core.inDebugMode()) {
             parsers.add(new LocalServers());
         } else {

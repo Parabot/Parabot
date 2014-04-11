@@ -86,7 +86,7 @@ public final class Landing {
                     password = args[++i];
                     break;
                 case "-loadlocal":
-                    Core.setLoadLocal(true);
+                    Core.setLocalMode(args[++i]);
                     break;
                 case "-dump":
                 	Core.setDump(true);

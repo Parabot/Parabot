@@ -23,12 +23,11 @@ public abstract class ScriptParser {
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
         final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
-        if (Core.inLoadLocal()) {
+        if (Core.inLoadLocalScripts()) {
             parsers.add(new LocalJavaScripts());
             if (Jython.isValid()) {
                 parsers.add(new LocalPythonScripts());
             }
-            parsers.add(new SDNScripts());
         } else if (Core.inDebugMode()) {
             parsers.add(new LocalJavaScripts());
             if (Jython.isValid()) {

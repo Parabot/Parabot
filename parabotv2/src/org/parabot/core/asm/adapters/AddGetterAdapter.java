@@ -142,13 +142,16 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 		}
 
 		if(multiplier != 0) {
-			if(fieldNode.desc.equals("I")) {
+			if(fieldNode.desc.equals("I") || fieldNode.desc.equals("S")) {
 				method.visitInsn(I2L);
 			}
 			method.visitLdcInsn(new Long(multiplier));
 			method.visitInsn(LMUL);
-			if(returnDesc.equals("I")) {
+			if(returnDesc.equals("I") || returnDesc.equals("S")) {
 				method.visitInsn(L2I);
+			}
+			if(returnDesc.equals("S")) {
+				method.visitInsn(I2S);
 			}
 		} else if (fieldNode.desc.equals("J") && returnDesc.equals("I")) {
 			method.visitInsn(L2I);

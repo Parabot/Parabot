@@ -21,18 +21,18 @@ public class Setter implements Injectable {
 	private String desc;
 	private boolean methodStatic;
 	
-	public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic) {
+	public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic, final String fieldDesc) {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		into = (into == null) ? fieldLocation : into;
 		this.into = ASMUtils.getClass(into);
-		this.field = ASMUtils.getField(this.fieldLocation, fieldName);
+		this.field = ASMUtils.getField(this.fieldLocation, fieldName, fieldDesc);
 		this.name = methodName;
 		this.desc = (desc == null) ? this.field.desc : desc;
 		this.methodStatic = methodStatic;
 	}
 	
 	public Setter(final String fieldLocation, final String fieldName, final String methodName) {
-		this(fieldLocation, null, fieldName, methodName, null, false);
+		this(fieldLocation, null, fieldName, methodName, null, false, null);
 	}
 	
 	/**

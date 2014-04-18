@@ -119,7 +119,7 @@ public class JSONHookParser extends HookParser {
 				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
 				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
-				g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, 0);
+				g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, 0, null);
 			}
 			return g;
 		}
@@ -152,7 +152,7 @@ public class JSONHookParser extends HookParser {
 				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
 				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
-				s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false);
+				s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, null);
 			}
 			return s;
 		}

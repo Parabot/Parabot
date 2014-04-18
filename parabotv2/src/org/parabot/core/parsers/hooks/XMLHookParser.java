@@ -161,6 +161,7 @@ public class XMLHookParser extends HookParser {
 	                    addGetter) : className;
 	            final long multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
 	            final String fieldName = getValue("field", addGetter);
+	            final String fieldDesc = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
 	            final String methodName = getValue("methodname", addGetter);
 	            boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
 	                    "methstatic", addGetter).equals("true")) : false;
@@ -185,7 +186,7 @@ public class XMLHookParser extends HookParser {
 	                returnDesc = str.toString();
 	            }
 	            final Getter get = new Getter(into, className, fieldName,
-	                    methodName, returnDesc, staticMethod, multiplier);
+	                    methodName, returnDesc, staticMethod, multiplier, fieldDesc);
 	            getterList.add(get);
 	        }
 	        return getterList.toArray(new Getter[getterList.size()]);
@@ -233,6 +234,7 @@ public class XMLHookParser extends HookParser {
             final String into = isSet("into", addSetter) ? getValue("into",
                     addSetter) : className;
             final String fieldName = getValue("field", addSetter);
+            final String fieldDesc = isSet("descfield", addSetter) ? getValue("descfield", addSetter) : null;
             final String methodName = getValue("methodname", addSetter);
             boolean staticMethod = isSet("methstatic", addSetter) ? (getValue(
                     "methstatic", addSetter).equals("true")) : false;
@@ -257,7 +259,7 @@ public class XMLHookParser extends HookParser {
                 returnDesc = str.toString();
             }
             final Setter get = new Setter(className, into, fieldName,
-                    methodName, returnDesc, staticMethod);
+                    methodName, returnDesc, staticMethod, fieldDesc);
             setterList.add(get);
         }
         return setterList.toArray(new Setter[setterList.size()]);

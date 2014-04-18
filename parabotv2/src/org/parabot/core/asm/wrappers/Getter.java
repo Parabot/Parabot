@@ -32,13 +32,15 @@ public class Getter implements Injectable {
 	 * @param returnDesc - return type of method, can be null for default return
 	 * @param staticMethod - pass true if you want the method to be static
 	 * @param multiplier - if there is one, otherwise 0L
+	 * @param fieldDesc - desc of the field, null if there are no duplicate field names
 	 */
 	public Getter(final String into, final String fieldLocation, final String fieldNode,
-			final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier) {
+			final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier,
+			final String fieldDesc) {
 		Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");
 		this.into = ASMUtils.getClass(into);
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
-		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode);
+		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
 		this.methodName = methodName;
 		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
 		this.staticMethod = staticMethod;

@@ -41,12 +41,14 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 	 *            - return type of method, can be null for default return
 	 * @param staticMethod
 	 *            - pass true if you want the method to be static
-	 * @param multiplier - if this field requires a multiplier
+	 * @param multiplier
+	 *            - if this field requires a multipli
 	 */
 	public AddGetterAdapter(final ClassNode into,
 			final ClassNode fieldLocation, final FieldNode fieldNode,
 			final String methodName, final String returnDesc,
 			final boolean staticMethod, final long multiplier) {
+		Core.verbose("Injecting getter method: " + methodName);
 		this.into = into;
 		this.fieldLocation = fieldLocation;
 		this.fieldNode = fieldNode;
@@ -141,24 +143,23 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 			}
 		}
 
-		if(multiplier != 0) {
-			if(fieldNode.desc.equals("I") || fieldNode.desc.equals("S")) {
+		if (multiplier != 0) {
+			if (fieldNode.desc.equals("I") || fieldNode.desc.equals("S")) {
 				method.visitInsn(I2L);
 			}
 			method.visitLdcInsn(new Long(multiplier));
 			method.visitInsn(LMUL);
-			if(returnDesc.equals("I") || returnDesc.equals("S")) {
+			if (returnDesc.equals("I") || returnDesc.equals("S")) {
 				method.visitInsn(L2I);
 			}
-			if(returnDesc.equals("S")) {
+			if (returnDesc.equals("S")) {
 				method.visitInsn(I2S);
 			}
 		} else if (fieldNode.desc.equals("J") && returnDesc.equals("I")) {
 			method.visitInsn(L2I);
-		} else if(fieldNode.desc.equals("I") && returnDesc.equals("J")) {
+		} else if (fieldNode.desc.equals("I") && returnDesc.equals("J")) {
 			method.visitInsn(I2L);
 		}
-		
 
 		method.visitInsn(ASMUtils.getReturnOpcode(returnDesc));
 		method.visitMaxs(1, 1);

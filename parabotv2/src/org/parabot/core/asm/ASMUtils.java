@@ -23,6 +23,18 @@ public class ASMUtils implements Opcodes {
 		}
 		return null;
 	}
+	
+	public static FieldNode getField(ClassNode node, String fieldName, String desc) {
+		if(desc == null) {
+			return getField(node, fieldName);
+		}
+		for (final FieldNode fieldNode : node.fields) {
+			if (fieldNode.name.equals(fieldName) && fieldNode.desc.equals(desc)) {
+				return fieldNode;
+			}
+		}
+		return null;
+	}
 
 	public static ClassNode getClass(String className) {
 		Context context = Context.getInstance();

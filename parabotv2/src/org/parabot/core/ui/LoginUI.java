@@ -1,28 +1,20 @@
 package org.parabot.core.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import com.apple.eawt.Application;
+import org.parabot.core.Core;
+import org.parabot.core.forum.AccountManager;
+import org.parabot.core.forum.AccountManagerAccess;
+import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.utils.SwingUtil;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import org.parabot.core.Core;
-import org.parabot.core.forum.AccountManager;
-import org.parabot.core.forum.AccountManagerAccess;
-import org.parabot.core.ui.images.Images;
-import org.parabot.core.ui.utils.SwingUtil;
 
 /**
  * 
@@ -90,6 +82,7 @@ public class LoginUI extends JFrame {
 		this.setResizable(false);
 		this.setIconImage(Images
 				.getResource("/org/parabot/core/ui/images/icon.png"));
+        Application.getApplication().setDockIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		int w = 250;
 		int x = 8;

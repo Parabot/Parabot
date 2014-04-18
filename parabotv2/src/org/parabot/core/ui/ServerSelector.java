@@ -1,20 +1,17 @@
 package org.parabot.core.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
+import com.apple.eawt.Application;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.widgets.ServerWidget;
 import org.parabot.environment.Environment;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 
@@ -52,6 +49,7 @@ public class ServerSelector extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
+        Application.getApplication().setDockIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		this.panel = new JPanel(new BorderLayout());
 		this.panel.setPreferredSize(new Dimension(600, 400));

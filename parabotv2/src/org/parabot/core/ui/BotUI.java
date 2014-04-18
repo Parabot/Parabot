@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.apple.eawt.Application;
 import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.images.Images;
@@ -46,6 +47,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		this.setLayout(new BorderLayout());
 		this.addComponentListener(this);
 		this.addWindowListener(this);
+        Application.getApplication().setDockIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		JMenuBar menuBar = new JMenuBar();
 

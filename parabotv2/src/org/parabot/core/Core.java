@@ -14,35 +14,22 @@ public class Core {
     private static boolean debug;
     private static boolean verbose;
     private static boolean dump;
-    private static boolean loadLocalScripts; //Loads both local and public scripts
-    private static boolean loadLocalServers; //Loads both local and public scripts
+    private static boolean loadLocal; //Loads both local and public scripts/servers
 
     /**
+     * Enabled loadLocal mode
      *
-     * @return if the client is in loadLocalScripts mode.
+     * @param loadLocal
      */
-    public static boolean inLoadLocalScripts(){
-        return loadLocalScripts;
+    public static void setLoadLocal(final boolean loadLocal) {
+        Core.loadLocal = loadLocal;
     }
 
     /**
-     *
-     * @return if the client is in loadLocalServers mode
+     * @return if the client is in loadLocal mode.
      */
-    public static boolean inLoadLocalServers(){
-        return loadLocalServers;
-    }
-
-    /**
-     *
-     * @param mode
-     */
-    public static void setLocalMode(String mode){
-        if (mode.toLowerCase().equals("scripts")){
-            loadLocalScripts = true;
-        }else{
-            loadLocalServers = true;
-        }
+    public static boolean inLoadLocal() {
+        return loadLocal;
     }
 
     /**
@@ -53,14 +40,14 @@ public class Core {
     public static void setDebug(final boolean debug) {
         Core.debug = debug;
     }
-
+    
     /**
      * Enables dump mode
-     *
+     * 
      * @param dump
      */
     public static void setDump(final boolean dump) {
-        Core.dump = dump;
+    	Core.dump = dump;
     }
 
     /**
@@ -76,12 +63,12 @@ public class Core {
     public static boolean inVerboseMode() {
         return verbose;
     }
-
+    
     /**
      * @return if parabot should dump injected jar
      */
     public static boolean shouldDump() {
-        return dump;
+    	return dump;
     }
 
     /**
@@ -113,7 +100,9 @@ public class Core {
                 Core.verbose("No updates available.");
                 return true;
             }
-        } catch (NumberFormatException | IOException e) {
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {

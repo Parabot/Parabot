@@ -114,4 +114,8 @@ public class Core {
         Core.verbose("Updates available...");
         return false;
     }
+    
+    public static void debug(int i) {
+    	System.out.println("DEBUG: " + i);
+    }
 }

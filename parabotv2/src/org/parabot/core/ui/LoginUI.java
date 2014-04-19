@@ -1,6 +1,5 @@
 package org.parabot.core.ui;
 
-import com.apple.eawt.Application;
 import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
@@ -82,7 +81,6 @@ public class LoginUI extends JFrame {
 		this.setResizable(false);
 		this.setIconImage(Images
 				.getResource("/org/parabot/core/ui/images/icon.png"));
-        Application.getApplication().setDockIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		int w = 250;
 		int x = 8;

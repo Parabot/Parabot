@@ -1,6 +1,5 @@
 package org.parabot.core.ui;
 
-import com.apple.eawt.Application;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.images.Images;
@@ -49,7 +48,6 @@ public class ServerSelector extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
-        Application.getApplication().setDockIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
 
 		this.panel = new JPanel(new BorderLayout());
 		this.panel.setPreferredSize(new Dimension(600, 400));

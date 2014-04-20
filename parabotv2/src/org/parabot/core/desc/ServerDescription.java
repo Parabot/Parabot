@@ -7,7 +7,7 @@ package org.parabot.core.desc;
  * @author Everel
  * 
  */
-public class ServerDescription {
+public class ServerDescription implements Comparable<ServerDescription> {
 	private String serverName;
 	private String author;
 	private double revision;
@@ -35,6 +35,11 @@ public class ServerDescription {
 	public String toString() {
 		return String.format("[Server: %s, Author: %s, Revision: %.2f]",
 				this.serverName, this.author, this.revision);
+	}
+
+	@Override
+	public int compareTo( ServerDescription o ) {
+		return this.getServerName().compareTo( o.getServerName() );
 	}
 
 }

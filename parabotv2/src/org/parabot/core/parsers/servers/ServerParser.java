@@ -7,6 +7,7 @@ import org.parabot.environment.servers.ServerExecuter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Abstract class for parsing server providers
@@ -42,8 +43,9 @@ public abstract class ServerParser {
             Core.verbose("Server providers parsed.");
         }
 
+		Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecuter>( SERVER_CACHE );
 
-        return SERVER_CACHE.keySet().toArray(new ServerDescription[SERVER_CACHE.size()]);
+        return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
     }
 
 }

@@ -1,12 +1,14 @@
+
 package org.parabot.core.asm.interfaces;
 
 /**
  * Injectable
+ * 
  * @author Everel
- *
  */
-public interface Injectable {
-	
+public interface Injectable
+{
+
 	/**
 	 * Injects bytecode into a class
 	 */

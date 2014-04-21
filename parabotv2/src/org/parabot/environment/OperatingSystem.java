@@ -1,23 +1,23 @@
+
 package org.parabot.environment;
 
 /**
- * 
  * This class is used for detecting the user's operating system
  * 
  * @author Everel
- * 
  */
 public enum OperatingSystem {
 
 	WINDOWS, LINUX, MAC, OTHER;
 
-	public static final OperatingSystem getOS() {
-		String str = System.getProperty("os.name").toLowerCase();
-		if (str.indexOf("win") > -1)
+	public static final OperatingSystem getOS()
+	{
+		String str = System.getProperty( "os.name" ).toLowerCase();
+		if( str.indexOf( "win" ) > - 1 )
 			return OperatingSystem.WINDOWS;
-		if (str.indexOf("mac") > -1)
+		if( str.indexOf( "mac" ) > - 1 )
 			return OperatingSystem.MAC;
-		if (str.indexOf("nix") > -1 || str.indexOf("nux") > -1)
+		if( str.indexOf( "nix" ) > - 1 || str.indexOf( "nux" ) > - 1 )
 			return OperatingSystem.LINUX;
 		return OperatingSystem.OTHER;
 	}

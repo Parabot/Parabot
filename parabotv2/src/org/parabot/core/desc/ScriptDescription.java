@@ -1,12 +1,14 @@
+
 package org.parabot.core.desc;
 
 /**
  * Holds information about a script
  * 
  * @author Everel
- * 
  */
-public class ScriptDescription implements Comparable<ScriptDescription> {
+public class ScriptDescription implements Comparable<ScriptDescription>
+{
+
 	public String scriptName;
 	public String author;
 	public String category;
@@ -18,6 +20,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	public int sdnId;
 	public String jarName;
 
+
 	/**
 	 * The ScriptManifest
 	 * 
@@ -28,12 +31,14 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param description
 	 * @param servers
 	 */
-	public ScriptDescription(final String scriptName, final String author,
+	public ScriptDescription( final String scriptName, final String author,
 			final String category, final double version,
-			final String description, final String[] servers) {
-		this(scriptName, author, category, version, description, servers, null,
-				null, -1, null);
+			final String description, final String[] servers )
+	{
+		this( scriptName, author, category, version, description, servers, null,
+				null, - 1, null );
 	}
+
 
 	/**
 	 * Used for SDN script (see SDNScripts parser)
@@ -47,16 +52,18 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param servers
 	 * @param sdnId
 	 */
-	public ScriptDescription(final String jarName, final String scriptName,
+	public ScriptDescription( final String jarName, final String scriptName,
 			final String author, final String category, final double version,
-			final String description, final String[] servers, final int sdnId) {
-		this(scriptName, author, category, version, description, servers, null,
-				null, sdnId, jarName);
+			final String description, final String[] servers, final int sdnId )
+	{
+		this( scriptName, author, category, version, description, servers, null,
+				null, sdnId, jarName );
 	}
 
+
 	/**
-	 * Used by bot (java scripts and python scripts) and SDN Manager (sdn
-	 * manager is a private program)
+	 * Used by bot (java scripts and python scripts) and SDN Manager (sdn manager is a private
+	 * program)
 	 * 
 	 * @param scriptName
 	 * @param author
@@ -67,13 +74,15 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param vip
 	 * @param premium
 	 */
-	public ScriptDescription(final String scriptName, final String author,
+	public ScriptDescription( final String scriptName, final String author,
 			final String category, final double version,
 			final String description, final String[] servers, final String vip,
-			final String premium) {
-		this(scriptName, author, category, version, description, servers, vip,
-				premium, -1, null);
+			final String premium )
+	{
+		this( scriptName, author, category, version, description, servers, vip,
+				premium, - 1, null );
 	}
+
 
 	/**
 	 * Main constructor
@@ -89,10 +98,11 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param sdnId
 	 * @param jarName
 	 */
-	public ScriptDescription(final String scriptName, final String author,
+	public ScriptDescription( final String scriptName, final String author,
 			final String category, final double version,
 			final String description, final String[] servers, final String vip,
-			final String premium, final int sdnId, final String jarName) {
+			final String premium, final int sdnId, final String jarName )
+	{
 		this.scriptName = scriptName;
 		this.author = author;
 		this.category = category;
@@ -105,35 +115,39 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 		this.jarName = jarName;
 	}
 
+
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		final StringBuilder b = new StringBuilder();
-		b.append("[name: ").append(this.scriptName).append(", author: ")
-				.append(this.author).append(", category: ")
-				.append(this.category).append(", version: ")
-				.append(this.version).append(", description: ")
-				.append(this.description).append(", servers: ");
-		for (int i = 0; i < this.servers.length; i++) {
-			b.append(this.servers[i]);
-			if (i < (this.servers.length - 1)) {
-				b.append(" ");
+		b.append( "[name: " ).append( this.scriptName ).append( ", author: " )
+				.append( this.author ).append( ", category: " )
+				.append( this.category ).append( ", version: " )
+				.append( this.version ).append( ", description: " )
+				.append( this.description ).append( ", servers: " );
+		for( int i = 0; i < this.servers.length; i ++ ) {
+			b.append( this.servers[i] );
+			if( i < ( this.servers.length - 1 ) ) {
+				b.append( " " );
 			}
 		}
-		b.append(", vip: ")
-				.append(this.isVip == null ? "unknown" : this.isVip)
-				.append(", premium: ")
-				.append(this.isPremium == null ? "unknown" : this.isPremium)
-				.append(", sdn id: ")
-				.append(this.sdnId == -1 ? "unknown" : Integer
-						.toString(this.sdnId)).append(", jarname: ")
-				.append(this.jarName == null ? "unknown" : this.jarName)
-				.append("]");
+		b.append( ", vip: " )
+				.append( this.isVip == null ? "unknown": this.isVip )
+				.append( ", premium: " )
+				.append( this.isPremium == null ? "unknown": this.isPremium )
+				.append( ", sdn id: " )
+				.append( this.sdnId == - 1 ? "unknown": Integer
+						.toString( this.sdnId ) ).append( ", jarname: " )
+				.append( this.jarName == null ? "unknown": this.jarName )
+				.append( "]" );
 
 		return b.toString();
 	}
 
+
 	@Override
-	public int compareTo( ScriptDescription o )	{
+	public int compareTo( ScriptDescription o )
+	{
 		return scriptName.compareTo( o.scriptName );
 	}
 }

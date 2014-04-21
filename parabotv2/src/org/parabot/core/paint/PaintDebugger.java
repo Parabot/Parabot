@@ -1,3 +1,4 @@
+
 package org.parabot.core.paint;
 
 import java.awt.Color;
@@ -9,53 +10,67 @@ import java.util.Queue;
 import org.parabot.core.Context;
 
 /**
- * 
  * Manages and paints on a collection of AbstractDebuggers
  * 
  * @author Everel
- *
  */
-public class PaintDebugger {
+public class PaintDebugger
+{
+
 	private final HashMap<String, AbstractDebugger> debuggers;
 	private final Queue<String> stringDebug;
-	
-	public PaintDebugger() {
+
+
+	public PaintDebugger()
+	{
 		this.debuggers = new HashMap<String, AbstractDebugger>();
 		this.stringDebug = new LinkedList<String>();
 	}
-	
-	public final void addDebugger(final String name, final AbstractDebugger debugger) {
-		debuggers.put(name, debugger);
+
+
+	public final void addDebugger( final String name, final AbstractDebugger debugger )
+	{
+		debuggers.put( name, debugger );
 	}
-	
-	public void debug(Graphics g) {
-		for(final AbstractDebugger d : debuggers.values()) {
-			if(d.isEnabled()) {
-				d.paint(g);
+
+
+	public void debug( Graphics g )
+	{
+		for( final AbstractDebugger d: debuggers.values() ) {
+			if( d.isEnabled() ) {
+				d.paint( g );
 			}
 		}
-		g.setColor(Color.green);
+		g.setColor( Color.green );
 		int y = 40;
-		while(stringDebug.size() > 0) {
-			g.drawString(stringDebug.poll(), 10, y);
+		while( stringDebug.size() > 0 ) {
+			g.drawString( stringDebug.poll(), 10, y );
 			y += 15;
 		}
 	}
-	
-	public static final PaintDebugger getInstance() {
+
+
+	public static final PaintDebugger getInstance()
+	{
 		return Context.getInstance().getPaintDebugger();
 	}
-	
-	public final void addLine(final String debugLine) {
-		stringDebug.add(debugLine);
+
+
+	public final void addLine( final String debugLine )
+	{
+		stringDebug.add( debugLine );
 	}
-	
-	public final void toggle(final String name) {
-		debuggers.get(name).toggle();
+
+
+	public final void toggle( final String name )
+	{
+		debuggers.get( name ).toggle();
 	}
-	
-	public final boolean isEnabled(final String name) {
-		return debuggers.get(name).isEnabled();
+
+
+	public final boolean isEnabled( final String name )
+	{
+		return debuggers.get( name ).isEnabled();
 	}
 
 }

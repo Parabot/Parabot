@@ -1,3 +1,4 @@
+
 package org.parabot.environment.servers;
 
 import org.parabot.core.Configuration;
@@ -21,118 +22,122 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 
 /**
- * 
  * Fetches a server provider from the parabot sdn
  * 
  * @author Everel
- * 
  */
-public class PublicServerExecuter extends ServerExecuter {
+public class PublicServerExecuter extends ServerExecuter
+{
+
 	private String serverName;
 	private String serverID;
-	
+
 	private static AccountManager manager;
 
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
+	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess()
+	{
 
 		@Override
-		public final void setManager(AccountManager manager) {
+		public final void setManager( AccountManager manager )
+		{
 			PublicServerExecuter.manager = manager;
 		}
 
 	};
 
-	public PublicServerExecuter(final String serverName, final String serverID) {
+
+	public PublicServerExecuter( final String serverName, final String serverID )
+	{
 		this.serverName = serverName;
 		this.serverID = serverID;
 	}
 
+
 	@Override
-	public void run() {
+	public void run()
+	{
 		try {
 			try {
-				Integer.parseInt(this.serverID);
-			} catch (NumberFormatException e) {
+				Integer.parseInt( this.serverID );
+			} catch( NumberFormatException e ) {
 				UILog.log(
 						"Error",
 						"Failed to parse the server ID for the server provider, error: [Server ID is not an integer.]",
-						JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE );
 				return;
 			}
-			
-			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
-					+ this.serverID), manager.getAccount().getUsername(), manager.getAccount().getPassword());
-			
-			final File destination = new File(Directories.getCachePath(),
-					serverProviderInfo.getCRC32() + ".jar");
+
+			ServerProviderInfo serverProviderInfo = new ServerProviderInfo( new URL( Configuration.GET_SERVER_PROVIDER_INFO
+					+ this.serverID ), manager.getAccount().getUsername(), manager.getAccount().getPassword() );
+
+			final File destination = new File( Directories.getCachePath(),
+					serverProviderInfo.getCRC32() + ".jar" );
 			final String jarUrl = Configuration.GET_SERVER_PROVIDER
 					+ this.serverID;
 
-			Core.verbose("Downloading: " + jarUrl + " ...");
+			Core.verbose( "Downloading: " + jarUrl + " ..." );
 
-			
-			if(destination.exists()) {
-				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
+			if( destination.exists() ) {
+				Core.verbose( "Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]" );
 			} else {
-				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get(), manager.getAccount().getUsername(), manager.getAccount().getPassword());
-				Core.verbose("Server provider downloaded...");
+				WebUtil.downloadFile( new URL( jarUrl ), destination,
+						VerboseLoader.get(), manager.getAccount().getUsername(), manager.getAccount().getPassword() );
+				Core.verbose( "Server provider downloaded..." );
 			}
 
-
 			final ClassPath classPath = new ClassPath();
-			classPath.addJar(destination);
+			classPath.addJar( destination );
 
-			BuildPath.add(destination.toURI().toURL());
+			BuildPath.add( destination.toURI().toURL() );
 
-			ServerLoader serverLoader = new ServerLoader(classPath);
+			ServerLoader serverLoader = new ServerLoader( classPath );
 			final String[] classNames = serverLoader.getServerClassNames();
-			if (classNames == null || classNames.length == 0) {
+			if( classNames == null || classNames.length == 0 ) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [No provider found in jar file.]",
-						JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE );
 				return;
-			} else if (classNames.length > 1) {
+			} else if( classNames.length > 1 ) {
 				UILog.log(
 						"Error",
-						"Failed to load server provider, error: [Multiple providers found in jar file.]");
+						"Failed to load server provider, error: [Multiple providers found in jar file.]" );
 				return;
 			}
 
 			final String className = classNames[0];
 			try {
-				final Class<?> providerClass = serverLoader
-						.loadClass(className);
-				final Constructor<?> con = providerClass.getConstructor();
-				final ServerProvider serverProvider = (ServerProvider) con
+				final Class< ? > providerClass = serverLoader
+						.loadClass( className );
+				final Constructor< ? > con = providerClass.getConstructor();
+				final ServerProvider serverProvider = ( ServerProvider )con
 						.newInstance();
-				Context.getInstance(serverProvider).setProviderInfo(serverProviderInfo);
-				super.finalize(serverProvider, this.serverName);
-			} catch (NoClassDefFoundError ignored) {
+				Context.getInstance( serverProvider ).setProviderInfo( serverProviderInfo );
+				super.finalize( serverProvider, this.serverName );
+			} catch( NoClassDefFoundError ignored ) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (ClassNotFoundException ignored) {
+						JOptionPane.ERROR_MESSAGE );
+			} catch( ClassNotFoundException ignored ) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (Throwable t) {
+						JOptionPane.ERROR_MESSAGE );
+			} catch( Throwable t ) {
 				t.printStackTrace();
 				UILog.log(
 						"Error",
 						"Failed to load server provider, post the stacktrace/error on the parabot forums.",
-						JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE );
 			}
 
-		} catch (Exception e) {
+		} catch( Exception e ) {
 			e.printStackTrace();
 			UILog.log(
 					"Error",
 					"Failed to load server provider, post the stacktrace/error on the parabot forums.",
-					JOptionPane.ERROR_MESSAGE);
+					JOptionPane.ERROR_MESSAGE );
 		}
 
 	}

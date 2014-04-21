@@ -1,3 +1,4 @@
+
 package org.parabot.core.classpath;
 
 import java.io.File;
@@ -29,14 +30,15 @@ import org.parabot.core.io.SizeInputStream;
 import org.parabot.core.ui.components.VerboseLoader;
 
 /**
- * 
  * Manages, parses and dumps class files & jars
  * 
  * @author Everel
  * @author Matt
  */
-@SuppressWarnings("unused")
-public class ClassPath {
+@SuppressWarnings( "unused" )
+public class ClassPath
+{
+
 	public final HashMap<String, ClassNode> classes;
 	public final Map<String, URL> resources;
 	public URL lastParsed;
@@ -46,11 +48,14 @@ public class ClassPath {
 	private ArrayList<URL> jarFiles;
 
 
-	public ClassPath() {
-		this(false);
+	public ClassPath()
+	{
+		this( false );
 	}
 
-	public ClassPath(final boolean isJar) {
+
+	public ClassPath( final boolean isJar )
+	{
 		this.classes = new HashMap<String, ClassNode>();
 		this.resources = new HashMap<String, URL>();
 		this.classRemapper = new ClassRemapper();
@@ -59,52 +64,57 @@ public class ClassPath {
 		this.isJar = isJar;
 	}
 
-	public void addJar(final File file) {
+
+	public void addJar( final File file )
+	{
 		try {
-			addJar(file.toURI().toURL());
-		} catch (MalformedURLException e) {
+			addJar( file.toURI().toURL() );
+		} catch( MalformedURLException e ) {
 			e.printStackTrace();
 		}
 	}
 
-	public void addJar(final URL url) {
+
+	public void addJar( final URL url )
+	{
 		this.lastParsed = url;
 		try {
-			addJar(url.openConnection());
-		} catch (IOException e) {
+			addJar( url.openConnection() );
+		} catch( IOException e ) {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Adds a jar to this classpath
 	 * 
 	 * @param url
 	 */
-	public void addJar(final URLConnection connection) {
+	public void addJar( final URLConnection connection )
+	{
 		try {
 			final int size = connection.getContentLength();
 			final SizeInputStream sizeInputStream = new SizeInputStream(
-					connection.getInputStream(), size, VerboseLoader.get());
-			final ZipInputStream zin = new ZipInputStream(sizeInputStream);
+					connection.getInputStream(), size, VerboseLoader.get() );
+			final ZipInputStream zin = new ZipInputStream( sizeInputStream );
 			ZipEntry e;
-			while ((e = zin.getNextEntry()) != null) {
-				if (e.isDirectory())
+			while( ( e = zin.getNextEntry() ) != null ) {
+				if( e.isDirectory() )
 					continue;
-				if (e.getName().endsWith(".class")) {
-					loadClass(zin);
+				if( e.getName().endsWith( ".class" ) ) {
+					loadClass( zin );
 				} else {
-					loadResource(e.getName(), zin);
+					loadResource( e.getName(), zin );
 				}
-				VerboseLoader.setState("Downloading: " + e.getName());
+				VerboseLoader.setState( "Downloading: " + e.getName() );
 			}
 			zin.close();
-		} catch (IOException e) {
+		} catch( IOException e ) {
 			e.printStackTrace();
 		}
-		VerboseLoader.get().onProgressUpdate(100);
+		VerboseLoader.get().onProgressUpdate( 100 );
 	}
-
 
 
 	/**
@@ -113,33 +123,40 @@ public class ClassPath {
 	 * @param url
 	 *            - in string format
 	 */
-	public void addJar(final String url) {
+	public void addJar( final String url )
+	{
 		try {
-			addJar(new URL(url));
-		} catch (MalformedURLException e) {
+			addJar( new URL( url ) );
+		} catch( MalformedURLException e ) {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Whether jar files should be parsed or ignored
 	 * 
 	 * @param enabled
 	 */
-	public void parseJarFiles(final boolean enabled) {
+	public void parseJarFiles( final boolean enabled )
+	{
 		this.parseJar = enabled;
 	}
 
+
 	/**
 	 * Finds and loads all classes/jar files in folder
+	 * 
 	 * @param directory
 	 */
-	public void addClasses(final File directory) {
-		if(directory == null || !directory.isDirectory()) {
-			throw new IllegalArgumentException("Not a valid directory.");
+	public void addClasses( final File directory )
+	{
+		if( directory == null || ! directory.isDirectory() ) {
+			throw new IllegalArgumentException( "Not a valid directory." );
 		}
-		addClasses(directory, null);
+		addClasses( directory, null );
 	}
+
 
 	/**
 	 * Finds and loads all classes/jar files in folder
@@ -148,42 +165,44 @@ public class ClassPath {
 	 *            to find class / jar files
 	 * @param root
 	 */
-	public void addClasses(final File f, File root) {
-		if (f == null)
+	public void addClasses( final File f, File root )
+	{
+		if( f == null )
 			return;
-		if (!f.exists()) {
+		if( ! f.exists() ) {
 			f.mkdirs();
 		}
-		if (root == null) {
+		if( root == null ) {
 			root = f;
 		}
-		for (File f1 : f.listFiles()) {
-			if (f1 == null) {
+		for( File f1: f.listFiles() ) {
+			if( f1 == null ) {
 				continue;
-			} else if (f1.isDirectory()) {
-				addClasses(f1, root);
+			} else if( f1.isDirectory() ) {
+				addClasses( f1, root );
 			} else {
-				try (FileInputStream fin = new FileInputStream(f1)) {
-					if (f1.getName().endsWith(".class"))
-						loadClass(fin);
-					else if (f.equals(root) && f1.getName().endsWith(".jar")) {
-						jarFiles.add(f1.toURI().toURL());
-						if (this.parseJar) {
+				try( FileInputStream fin = new FileInputStream( f1 ) ) {
+					if( f1.getName().endsWith( ".class" ) )
+						loadClass( fin );
+					else if( f.equals( root ) && f1.getName().endsWith( ".jar" ) ) {
+						jarFiles.add( f1.toURI().toURL() );
+						if( this.parseJar ) {
 							// if enabled, there may be problem with duplicate
 							// class names.......
-							addJar(f1.toURI().toURL());
+							addJar( f1.toURI().toURL() );
 						}
 					} else {
-						String path = f1.toURI().relativize(root.toURI())
+						String path = f1.toURI().relativize( root.toURI() )
 								.getPath();
-						loadResource(path, fin);
+						loadResource( path, fin );
 					}
-				} catch (Exception e) {
+				} catch( Exception e ) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
+
 
 	/**
 	 * Loads class from input stream
@@ -191,39 +210,46 @@ public class ClassPath {
 	 * @param inputstream
 	 * @throws IOException
 	 */
-	protected void loadClass(InputStream in) throws IOException {
-		ClassReader cr = new ClassReader(in);
+	protected void loadClass( InputStream in ) throws IOException
+	{
+		ClassReader cr = new ClassReader( in );
 		ClassNode cn = new ClassNode();
-		cr.accept(cn, 0);
-		/*RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
-		ClassNode remapped = new ClassNode();
-		cn.accept(rca);*/
-		classes.put(cn.name, cn);
+		cr.accept( cn, 0 );
+		/*
+		 * RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper); ClassNode
+		 * remapped = new ClassNode(); cn.accept(rca);
+		 */
+		classes.put( cn.name, cn );
 	}
+
 
 	/**
 	 * Determines if this classpath represents a jar file
 	 * 
 	 * @return if this classpath represents a jar file
 	 */
-	public boolean isJar() {
+	public boolean isJar()
+	{
 		return isJar;
 	}
+
 
 	/**
 	 * Gets all jar files in this classpath
 	 * 
 	 * @return array of classpath
 	 */
-	public ClassPath[] getJarFiles() {
+	public ClassPath[] getJarFiles()
+	{
 		final ClassPath[] jars = new ClassPath[jarFiles.size()];
-		for (int i = 0; i < jarFiles.size(); i++) {
-			final ClassPath classPath = new ClassPath(true);
-			classPath.addJar(jarFiles.get(i));
+		for( int i = 0; i < jarFiles.size(); i ++ ) {
+			final ClassPath classPath = new ClassPath( true );
+			classPath.addJar( jarFiles.get( i ) );
 			jars[i] = classPath;
 		}
 		return jars;
 	}
+
 
 	/**
 	 * Dumps a resource from a input stream
@@ -233,67 +259,77 @@ public class ClassPath {
 	 * @param inputstream
 	 * @throws IOException
 	 */
-	private void loadResource(final String name, final InputStream in)
-			throws IOException {
-		final File f = File.createTempFile("bot", ".tmp",
-				Directories.getTempDirectory());
+	private void loadResource( final String name, final InputStream in )
+			throws IOException
+	{
+		final File f = File.createTempFile( "bot", ".tmp",
+				Directories.getTempDirectory() );
 		f.deleteOnExit();
-		try (OutputStream out = new FileOutputStream(f)) {
+		try( OutputStream out = new FileOutputStream( f ) ) {
 			byte[] buffer = new byte[1024];
 			int len;
-			while ((len = in.read(buffer)) != -1)
-				out.write(buffer, 0, len);
-		} catch (IOException e) {
+			while( ( len = in.read( buffer ) ) != - 1 )
+				out.write( buffer, 0, len );
+		} catch( IOException e ) {
 		}
-		this.resources.put(name, f.toURI().toURL());
+		this.resources.put( name, f.toURI().toURL() );
 	}
+
 
 	/**
 	 * Adds this jar to buildpath
 	 */
-	public void addToBuildPath() {
-		BuildPath.add(lastParsed);
+	public void addToBuildPath()
+	{
+		BuildPath.add( lastParsed );
 	}
+
 
 	/**
 	 * Dump this classPath classes to a jar file
 	 * 
 	 * @param fileName
 	 */
-	public void dump(final String fileName) {
-		dump(new File(fileName));
+	public void dump( final String fileName )
+	{
+		dump( new File( fileName ) );
 	}
+
 
 	/**
 	 * Dump this classPath classes to a jar file
 	 * 
 	 * @param file
 	 */
-	public void dump(final File file) {
+	public void dump( final File file )
+	{
 		try {
-			dump(new FileOutputStream(file));
-		} catch (FileNotFoundException e) {
+			dump( new FileOutputStream( file ) );
+		} catch( FileNotFoundException e ) {
 			e.printStackTrace();
 		}
 	}
 
+
 	/**
 	 * Dumps this classPath classes to a jar file
+	 * 
 	 * @param stream
 	 */
-	public void dump(final FileOutputStream stream) {
+	public void dump( final FileOutputStream stream )
+	{
 		try {
-			JarOutputStream out = new JarOutputStream(stream);
-			for (ClassNode cn : this.classes.values()) {
-				JarEntry je = new JarEntry(cn.name + ".class");
-				out.putNextEntry(je);
-				ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-				cn.accept(cw);
-				out.write(cw.toByteArray());
+			JarOutputStream out = new JarOutputStream( stream );
+			for( ClassNode cn: this.classes.values() ) {
+				JarEntry je = new JarEntry( cn.name + ".class" );
+				out.putNextEntry( je );
+				ClassWriter cw = new ClassWriter( ClassWriter.COMPUTE_MAXS );
+				cn.accept( cw );
+				out.write( cw.toByteArray() );
 			}
 			out.close();
 			stream.close();
-		} catch (Exception e) {
+		} catch( Exception e ) {
 			e.printStackTrace();
 		}
 	}

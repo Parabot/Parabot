@@ -6,7 +6,7 @@ package org.parabot.core.desc;
  * @author Everel
  * 
  */
-public class ScriptDescription {
+public class ScriptDescription implements Comparable<ScriptDescription> {
 	public String scriptName;
 	public String author;
 	public String category;
@@ -130,5 +130,10 @@ public class ScriptDescription {
 				.append("]");
 
 		return b.toString();
+	}
+
+	@Override
+	public int compareTo( ScriptDescription o )	{
+		return scriptName.compareTo( o.scriptName );
 	}
 }

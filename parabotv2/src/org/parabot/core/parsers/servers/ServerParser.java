@@ -1,3 +1,4 @@
+
 package org.parabot.core.parsers.servers;
 
 import org.parabot.core.Core;
@@ -11,41 +12,46 @@ import java.util.TreeMap;
 
 /**
  * Abstract class for parsing server providers
- *
+ * 
  * @author Everel
  */
-public abstract class ServerParser {
-    public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<ServerDescription, ServerExecuter>();
+public abstract class ServerParser
+{
 
-    public abstract void execute();
+	public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<ServerDescription, ServerExecuter>();
 
-    public static final ServerDescription[] getDescriptions() {
-        SERVER_CACHE.clear();
-        final ArrayList<ServerParser> parsers = new ArrayList<ServerParser>();
-        if (Core.inLoadLocal()) {
-            parsers.add(new LocalServers());
-            parsers.add(new PublicServers());
-        } else if (Core.inDebugMode()) {
-            parsers.add(new LocalServers());
-        } else {
-            parsers.add(new PublicServers());
-        }
 
-        Core.verbose("Parsing server providers...");
-        for (final ServerParser parser : parsers) {
-            parser.execute();
-        }
+	public abstract void execute();
 
-        if (Core.inVerboseMode()) {
-            for (final ServerDescription desc : SERVER_CACHE.keySet()) {
-                Core.verbose(desc.toString());
-            }
-            Core.verbose("Server providers parsed.");
-        }
+
+	public static final ServerDescription[] getDescriptions()
+	{
+		SERVER_CACHE.clear();
+		final ArrayList<ServerParser> parsers = new ArrayList<ServerParser>();
+		if( Core.inLoadLocal() ) {
+			parsers.add( new LocalServers() );
+			parsers.add( new PublicServers() );
+		} else if( Core.inDebugMode() ) {
+			parsers.add( new LocalServers() );
+		} else {
+			parsers.add( new PublicServers() );
+		}
+
+		Core.verbose( "Parsing server providers..." );
+		for( final ServerParser parser: parsers ) {
+			parser.execute();
+		}
+
+		if( Core.inVerboseMode() ) {
+			for( final ServerDescription desc: SERVER_CACHE.keySet() ) {
+				Core.verbose( desc.toString() );
+			}
+			Core.verbose( "Server providers parsed." );
+		}
 
 		Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecuter>( SERVER_CACHE );
 
-        return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
-    }
+		return SORTED_SERVER_CACHE.keySet().toArray( new ServerDescription[SORTED_SERVER_CACHE.size()] );
+	}
 
 }

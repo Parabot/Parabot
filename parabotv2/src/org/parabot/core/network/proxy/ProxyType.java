@@ -1,3 +1,4 @@
+
 package org.parabot.core.network.proxy;
 
 public enum ProxyType {

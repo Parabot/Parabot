@@ -1,3 +1,4 @@
+
 package org.parabot.environment.servers;
 
 import org.objectweb.asm.Opcodes;
@@ -20,36 +21,44 @@ import java.net.URL;
  * Provides a server to the bot
  * 
  * @author Everel
- * 
  */
-public abstract class ServerProvider implements Opcodes {
+public abstract class ServerProvider implements Opcodes
+{
 
 	/**
 	 * Get the game/applet dimensions
+	 * 
 	 * @return game/applet dimensions
 	 */
-	public Dimension getGameDimensions() {
-		return new Dimension(765, 503);
+	public Dimension getGameDimensions()
+	{
+		return new Dimension( 765, 503 );
 	}
 
-    /**
+
+	/**
 	 * Hooks to parse
 	 * 
 	 * @deprecated use getHookFile() now
 	 * @return URL to hooks file
 	 */
 	@Deprecated
-	public URL getHooks() {
+	public URL getHooks()
+	{
 		return null;
 	}
-	
+
+
 	/**
 	 * Get hook file to parse
+	 * 
 	 * @return hook file
 	 */
-	public HookFile getHookFile() {
+	public HookFile getHookFile()
+	{
 		return null;
 	}
+
 
 	/**
 	 * Jar to parse
@@ -58,93 +67,117 @@ public abstract class ServerProvider implements Opcodes {
 	 */
 	public abstract URL getJar();
 
+
 	public abstract Applet fetchApplet();
 
-	public String getAccessorsPackage() {
+
+	public String getAccessorsPackage()
+	{
 		return null;
 	}
 
-	public void injectHooks() {
+
+	public void injectHooks()
+	{
 		HookFile hookFile = fetchHookFile();
-		
-		if(hookFile == null) {
+
+		if( hookFile == null ) {
 			return;
 		}
-		
+
 		HookParser parser = hookFile.getParser();
 		Injectable[] injectables = parser.getInjectables();
-		if (injectables == null) {
+		if( injectables == null ) {
 			return;
 		}
-		for (Injectable inj : injectables) {
+		for( Injectable inj: injectables ) {
 			inj.inject();
 		}
-		Context.getInstance().setHookParser(parser);
+		Context.getInstance().setHookParser( parser );
 	}
-	
-	private HookFile fetchHookFile() {
+
+
+	private HookFile fetchHookFile()
+	{
 		HookFile hookFile = getHookFile();
-		if(hookFile != null) {
+		if( hookFile != null ) {
 			return hookFile;
 		}
-		
+
 		URL hookLocation = getHooks();
-		if(hookLocation == null) {
+		if( hookLocation == null ) {
 			return null;
 		}
-		
-		return new HookFile(hookLocation, HookFile.TYPE_XML);
+
+		return new HookFile( hookLocation, HookFile.TYPE_XML );
 	}
+
 
 	/**
 	 * Add custom items to the bot menu bar
 	 * 
 	 * @param bar
-	 * menu bar to add items on
+	 *            menu bar to add items on
 	 */
-	public void addMenuItems(JMenuBar bar) {
+	public void addMenuItems( JMenuBar bar )
+	{
 	}
 
-	public AppletStub getStub() {
+
+	public AppletStub getStub()
+	{
 		return null;
 	}
-	
-	public void setClientInstance(Object client) {
-		Context.getInstance().setClientInstance(client);
+
+
+	public void setClientInstance( Object client )
+	{
+		Context.getInstance().setClientInstance( client );
 	}
 
-	public void parseJar() {
-		Context.getInstance().getClassPath().addJar(getJar());
-	}
-	
-	public void initScript(Script script) {
-		
-	}
-	
-	public void init() {
-		
-	}
-	
-	public void initMouse() {
-		final Context context = Context.getInstance();
-		final Applet applet = context.getApplet();
-		final Mouse mouse = new Mouse(applet);
-		applet.addMouseListener(mouse);
-		applet.addMouseMotionListener(mouse);
-		context.setMouse(mouse);
-	}
-	
-	public void initKeyboard() {
-		final Context context = Context.getInstance();
-		final Applet applet = context.getApplet();
-		final Keyboard keyboard = new Keyboard(applet);
-		applet.addKeyListener(keyboard);
-		context.setKeyboard(keyboard);
-	}
-	
-	public void unloadScript(Script script) {
-		
+
+	public void parseJar()
+	{
+		Context.getInstance().getClassPath().addJar( getJar() );
 	}
 
+
+	public void initScript( Script script )
+	{
+
+	}
+
+
+	public void init()
+	{
+
+	}
+
+
+	public void initMouse()
+	{
+		final Context context = Context.getInstance();
+		final Applet applet = context.getApplet();
+		final Mouse mouse = new Mouse( applet );
+		applet.addMouseListener( mouse );
+		applet.addMouseMotionListener( mouse );
+		context.setMouse( mouse );
+	}
+
+
+	public void initKeyboard()
+	{
+		final Context context = Context.getInstance();
+		final Applet applet = context.getApplet();
+		final Keyboard keyboard = new Keyboard( applet );
+		applet.addKeyListener( keyboard );
+		context.setKeyboard( keyboard );
+	}
+
+
+	public void unloadScript( Script script )
+	{
+
+	}
 
 }

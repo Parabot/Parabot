@@ -1,3 +1,4 @@
+
 package org.parabot.environment.servers;
 
 import java.net.MalformedURLException;
@@ -8,42 +9,46 @@ import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
 
 /**
- * 
  * Loads locally stored server providers
  * 
  * @author Everel
- * 
  */
-public class LocalServerExecuter extends ServerExecuter {
+public class LocalServerExecuter extends ServerExecuter
+{
+
 	private final ServerProvider serverProvider;
 	private ClassPath classPath;
 	private String serverName;
 
-	public LocalServerExecuter(ServerProvider serverProvider,
-			ClassPath classPath, final String serverName) {
+
+	public LocalServerExecuter( ServerProvider serverProvider,
+			ClassPath classPath, final String serverName )
+	{
 		this.serverProvider = serverProvider;
 		this.classPath = classPath;
 		this.serverName = serverName;
 	}
 
+
 	@Override
-	public void run() {
+	public void run()
+	{
 		// add jar or directory to buildpath.
-		if (this.classPath.isJar()) {
-			Core.verbose("Adding server provider jar to buildpath: "
-					+ this.classPath.lastParsed.toString());
+		if( this.classPath.isJar() ) {
+			Core.verbose( "Adding server provider jar to buildpath: "
+					+ this.classPath.lastParsed.toString() );
 			this.classPath.addToBuildPath();
 		} else {
-			Core.verbose("Adding server providers directory to buildpath: "
-					+ Directories.getServerPath().getPath());
+			Core.verbose( "Adding server providers directory to buildpath: "
+					+ Directories.getServerPath().getPath() );
 			try {
-				BuildPath.add(Directories.getServerPath().toURI().toURL());
-			} catch (MalformedURLException e) {
+				BuildPath.add( Directories.getServerPath().toURI().toURL() );
+			} catch( MalformedURLException e ) {
 				e.printStackTrace();
 			}
 		}
 		// finalize
-		super.finalize(this.serverProvider, this.serverName);
+		super.finalize( this.serverProvider, this.serverName );
 	}
 
 }

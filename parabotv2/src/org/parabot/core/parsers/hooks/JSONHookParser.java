@@ -1,3 +1,4 @@
+
 package org.parabot.core.parsers.hooks;
 
 import java.io.InputStreamReader;
@@ -17,229 +18,249 @@ import org.parabot.core.asm.wrappers.Setter;
 import org.parabot.core.asm.wrappers.Super;
 
 /**
- * 
  * @author Dane
- * 
  */
-public class JSONHookParser extends HookParser {
+public class JSONHookParser extends HookParser
+{
+
 	private JSONObject root;
 	private Map<String, String> interfaces;
 	private HashMap<String, String> constants;
 
-	public JSONHookParser(HookFile file) {
-		super(file);
+
+	public JSONHookParser( HookFile file )
+	{
+		super( file );
 
 		JSONParser parser = new JSONParser();
 
 		try {
-			parser.parse(new InputStreamReader(file.getInputStream()));
-		} catch (Throwable t) {
-			throw new RuntimeException("Unable to parse hooks: " + t);
+			parser.parse( new InputStreamReader( file.getInputStream() ) );
+		} catch( Throwable t ) {
+			throw new RuntimeException( "Unable to parse hooks: " + t );
 		}
 	}
 
-	public String get(JSONObject o, String s) {
-		return this.get(o, s);
+
+	public String get( JSONObject o, String s )
+	{
+		return this.get( o, s );
 	}
 
-	public String formatDescription(String s) {
+
+	public String formatDescription( String s )
+	{
 		StringBuilder b = new StringBuilder();
 
-		if (s.charAt(0) == '[') {
-			for (int j = 0; j < s.length(); j++) {
-				if (s.charAt(j) == '[') {
-					b.append('[');
+		if( s.charAt( 0 ) == '[' ) {
+			for( int j = 0; j < s.length(); j ++ ) {
+				if( s.charAt( j ) == '[' ) {
+					b.append( '[' );
 				}
 			}
-			s = s.replaceAll("\\[", "");
+			s = s.replaceAll( "\\[", "" );
 		}
 
-		return b.append('L').append(String.format(s, AddInterfaceAdapter.getAccessorPackage())).append(';').toString();
+		return b.append( 'L' ).append( String.format( s, AddInterfaceAdapter.getAccessorPackage() ) ).append( ';' ).toString();
 	}
 
+
 	@Override
-	public Interface[] getInterfaces() {
-		JSONArray a = (JSONArray) root.get("interfaces");
+	public Interface[] getInterfaces()
+	{
+		JSONArray a = ( JSONArray )root.get( "interfaces" );
 		interfaces = new HashMap<>();
 
-		if (a != null && a.size() > 0) {
+		if( a != null && a.size() > 0 ) {
 			Interface[] i = new Interface[a.size()];
-			for (int j = 0; j < a.size(); j++) {
-				JSONObject o = (JSONObject) a.get(j);
+			for( int j = 0; j < a.size(); j ++ ) {
+				JSONObject o = ( JSONObject )a.get( j );
 
-				String clazz = this.get(o, "class");
-				String interfaze = this.get(o, "interface");
+				String clazz = this.get( o, "class" );
+				String interfaze = this.get( o, "interface" );
 
-				interfaces.put(clazz, interfaze);
-				i[j] = new Interface(clazz, interfaze);
+				interfaces.put( clazz, interfaze );
+				i[j] = new Interface( clazz, interfaze );
 			}
 			return i;
 		}
 		return null;
 	}
 
-	@Override
-	public Super[] getSupers() {
-		JSONArray a = (JSONArray) root.get("supers");
 
-		if (a != null && a.size() > 0) {
+	@Override
+	public Super[] getSupers()
+	{
+		JSONArray a = ( JSONArray )root.get( "supers" );
+
+		if( a != null && a.size() > 0 ) {
 			Super[] s = new Super[a.size()];
-			for (int i = 0; i < a.size(); i++) {
-				JSONObject o = (JSONObject) a.get(i);
-				s[i] = new Super(this.get(o, "class"), this.get(o, "super"));
+			for( int i = 0; i < a.size(); i ++ ) {
+				JSONObject o = ( JSONObject )a.get( i );
+				s[i] = new Super( this.get( o, "class" ), this.get( o, "super" ) );
 			}
 			return s;
 		}
 		return null;
 	}
 
+
 	@Override
-	public Getter[] getGetters() {
-		JSONArray a = (JSONArray) root.get("getters");
+	public Getter[] getGetters()
+	{
+		JSONArray a = ( JSONArray )root.get( "getters" );
 
-		if (a != null && a.size() > 0) {
+		if( a != null && a.size() > 0 ) {
 			Getter[] g = new Getter[a.size()];
-			for (int i = 0; i < a.size(); i++) {
-				JSONObject o = (JSONObject) a.get(i);
+			for( int i = 0; i < a.size(); i ++ ) {
+				JSONObject o = ( JSONObject )a.get( i );
 
-				if (o.containsKey("class") && o.containsKey("accessor")) {
-					throw new RuntimeException("Cannot have class AND accessor tags together!");
+				if( o.containsKey( "class" ) && o.containsKey( "accessor" ) ) {
+					throw new RuntimeException( "Cannot have class AND accessor tags together!" );
 				}
 
-				if (o.containsKey("accessor") && this.interfaces == null) {
-					throw new RuntimeException("Cannot use accessor tag before parsing interfaces!");
+				if( o.containsKey( "accessor" ) && this.interfaces == null ) {
+					throw new RuntimeException( "Cannot use accessor tag before parsing interfaces!" );
 				}
 
-				String desc = this.get(o, "desc");
+				String desc = this.get( o, "desc" );
 
-				if (desc != null && desc.contains("%s")) {
-					desc = formatDescription(desc);
+				if( desc != null && desc.contains( "%s" ) ) {
+					desc = formatDescription( desc );
 				}
 
-				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+				String clazz = o.containsKey( "class" ) ? this.get( o, "class" ): interfaces.get( this.get( o, "accessor" ) );
+				String into = o.containsKey( "into" ) ? this.get( o, "into" ): clazz;
 
-				g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, 0, null);
+				g[i] = new Getter( into, clazz, this.get( o, "field" ), this.get( o, "method" ), desc, o.containsKey( "static" ) ? ( boolean )o.get( "static" ): false, 0, null );
 			}
 			return g;
 		}
 		return null;
 	}
 
+
 	@Override
-	public Setter[] getSetters() {
-		JSONArray a = (JSONArray) root.get("setters");
+	public Setter[] getSetters()
+	{
+		JSONArray a = ( JSONArray )root.get( "setters" );
 
-		if (a != null && a.size() > 0) {
+		if( a != null && a.size() > 0 ) {
 			Setter[] s = new Setter[a.size()];
-			for (int i = 0; i < a.size(); i++) {
-				JSONObject o = (JSONObject) a.get(i);
+			for( int i = 0; i < a.size(); i ++ ) {
+				JSONObject o = ( JSONObject )a.get( i );
 
-				if (o.containsKey("class") && o.containsKey("accessor")) {
-					throw new RuntimeException("Cannot have class AND accessor tags together!");
+				if( o.containsKey( "class" ) && o.containsKey( "accessor" ) ) {
+					throw new RuntimeException( "Cannot have class AND accessor tags together!" );
 				}
 
-				if (o.containsKey("accessor") && this.interfaces == null) {
-					throw new RuntimeException("Cannot use accessor tag before parsing interfaces!");
+				if( o.containsKey( "accessor" ) && this.interfaces == null ) {
+					throw new RuntimeException( "Cannot use accessor tag before parsing interfaces!" );
 				}
 
-				String desc = this.get(o, "desc");
+				String desc = this.get( o, "desc" );
 
-				if (desc != null && desc.contains("%s")) {
-					desc = formatDescription(desc);
+				if( desc != null && desc.contains( "%s" ) ) {
+					desc = formatDescription( desc );
 				}
 
-				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+				String clazz = o.containsKey( "class" ) ? this.get( o, "class" ): interfaces.get( this.get( o, "accessor" ) );
+				String into = o.containsKey( "into" ) ? this.get( o, "into" ): clazz;
 
-				s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, null);
+				s[i] = new Setter( into, clazz, this.get( o, "field" ), this.get( o, "method" ), desc, o.containsKey( "static" ) ? ( boolean )o.get( "static" ): false, null );
 			}
 			return s;
 		}
 		return null;
 	}
 
+
 	@Override
-	public Invoker[] getInvokers() {
-		JSONArray a = (JSONArray) root.get("invokers");
+	public Invoker[] getInvokers()
+	{
+		JSONArray a = ( JSONArray )root.get( "invokers" );
 
-		if (a != null && a.size() > 0) {
+		if( a != null && a.size() > 0 ) {
 			Invoker[] i = new Invoker[a.size()];
-			for (int j = 0; j < a.size(); j++) {
-				JSONObject o = (JSONObject) a.get(j);
+			for( int j = 0; j < a.size(); j ++ ) {
+				JSONObject o = ( JSONObject )a.get( j );
 
-				if (o.containsKey("class") && o.containsKey("accessor")) {
-					throw new RuntimeException("Cannot have class AND accessor tags together!");
+				if( o.containsKey( "class" ) && o.containsKey( "accessor" ) ) {
+					throw new RuntimeException( "Cannot have class AND accessor tags together!" );
 				}
 
-				if (o.containsKey("accessor") && this.interfaces == null) {
-					throw new RuntimeException("Cannot use accessor tag before parsing interfaces!");
+				if( o.containsKey( "accessor" ) && this.interfaces == null ) {
+					throw new RuntimeException( "Cannot use accessor tag before parsing interfaces!" );
 				}
 
-				String desc = this.get(o, "desc");
+				String desc = this.get( o, "desc" );
 
-				if (desc != null && desc.contains("%s")) {
-					desc = formatDescription(desc);
+				if( desc != null && desc.contains( "%s" ) ) {
+					desc = formatDescription( desc );
 				}
 
-				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+				String clazz = o.containsKey( "class" ) ? this.get( o, "class" ): interfaces.get( this.get( o, "accessor" ) );
+				String into = o.containsKey( "into" ) ? this.get( o, "into" ): clazz;
 
-				i[j] = new Invoker(into, clazz, this.get(o, "invokemethod"), this.get(o, "argdesc"), this.get(o, "desc"), this.get(o, "method"));
+				i[j] = new Invoker( into, clazz, this.get( o, "invokemethod" ), this.get( o, "argdesc" ), this.get( o, "desc" ), this.get( o, "method" ) );
 			}
 			return i;
 		}
 		return null;
 	}
 
+
 	@Override
-	public Callback[] getCallbacks() {
-		JSONArray a = (JSONArray) root.get("callbacks");
+	public Callback[] getCallbacks()
+	{
+		JSONArray a = ( JSONArray )root.get( "callbacks" );
 
-		if (a != null && a.size() > 0) {
+		if( a != null && a.size() > 0 ) {
 			Callback[] c = new Callback[a.size()];
-			for (int j = 0; j < a.size(); j++) {
-				JSONObject o = (JSONObject) a.get(j);
+			for( int j = 0; j < a.size(); j ++ ) {
+				JSONObject o = ( JSONObject )a.get( j );
 
-				if (o.containsKey("class") && o.containsKey("accessor")) {
-					throw new RuntimeException("Cannot have class AND accessor tags together!");
+				if( o.containsKey( "class" ) && o.containsKey( "accessor" ) ) {
+					throw new RuntimeException( "Cannot have class AND accessor tags together!" );
 				}
 
-				if (o.containsKey("accessor") && this.interfaces == null) {
-					throw new RuntimeException("Cannot use accessor tag before parsing interfaces!");
+				if( o.containsKey( "accessor" ) && this.interfaces == null ) {
+					throw new RuntimeException( "Cannot use accessor tag before parsing interfaces!" );
 				}
 
-				String desc = this.get(o, "desc");
+				String desc = this.get( o, "desc" );
 
-				if (desc != null && desc.contains("%s")) {
-					desc = formatDescription(desc);
+				if( desc != null && desc.contains( "%s" ) ) {
+					desc = formatDescription( desc );
 				}
 
-				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
+				String clazz = o.containsKey( "class" ) ? this.get( o, "class" ): interfaces.get( this.get( o, "accessor" ) );
 
-				c[j] = new Callback(clazz, this.get(o, "method"), this.get(o, "callclass"), this.get(o, "callmethod"), this.get(o, "calldesc"), this.get(o, "callargs"), this.get(o, "desc"));
+				c[j] = new Callback( clazz, this.get( o, "method" ), this.get( o, "callclass" ), this.get( o, "callmethod" ), this.get( o, "calldesc" ), this.get( o, "callargs" ), this.get( o, "desc" ) );
 			}
 			return c;
 		}
 		return null;
 	}
 
+
 	@Override
-	public HashMap<String, String> getConstants() {
-		if (this.constants == null) {
+	public HashMap<String, String> getConstants()
+	{
+		if( this.constants == null ) {
 			this.constants = new HashMap<>();
 		}
 
-		if (!this.constants.isEmpty()) {
+		if( ! this.constants.isEmpty() ) {
 			return this.constants;
 		}
 
-		JSONArray a = (JSONArray) root.get("constants");
+		JSONArray a = ( JSONArray )root.get( "constants" );
 
-		if (a != null && a.size() > 0) {
-			for (int j = 0; j < a.size(); j++) {
-				JSONObject o = (JSONObject) a.get(j);
-				this.constants.put(this.get(o, "name"), (String) o.get("value"));
+		if( a != null && a.size() > 0 ) {
+			for( int j = 0; j < a.size(); j ++ ) {
+				JSONObject o = ( JSONObject )a.get( j );
+				this.constants.put( this.get( o, "name" ), ( String )o.get( "value" ) );
 			}
 		}
 

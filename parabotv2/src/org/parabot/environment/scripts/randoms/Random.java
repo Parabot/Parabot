@@ -1,4 +1,4 @@
-package org.parabot.environment.randoms;
+package org.parabot.environment.scripts.randoms;
 
 /**
  * 

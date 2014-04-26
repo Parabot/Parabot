@@ -17,13 +17,13 @@ public class Directories {
 
     static {
     	cached = new HashMap<String, File>();
-        switch (OperatingSystem.getOS()) {
-            case WINDOWS:
-                cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
-                break;
-            default:
-                cached.put("Root", new File(System.getProperty("user.home")));
-        }
+		switch (OperatingSystem.getOS()) {
+		case WINDOWS:
+			cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
+			break;
+		default:
+			cached.put("Root", new File(System.getProperty("user.home")));
+		}
 
         Core.verbose("Caching directories...");
         cached.put("Root", getDefaultDirectory());

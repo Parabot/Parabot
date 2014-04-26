@@ -1,16 +1,14 @@
 package org.parabot.core.parsers.scripts;
 
-import org.parabot.core.Core;
-import org.parabot.core.desc.ScriptDescription;
-import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.lib.jython.Jython;
-import org.parabot.environment.scripts.ScriptExecuter;
-import org.parabot.environment.servers.ServerExecuter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.parabot.core.Core;
+import org.parabot.core.desc.ScriptDescription;
+import org.parabot.core.lib.jython.Jython;
+import org.parabot.environment.scripts.ScriptExecuter;
 
 /**
  * Abstract class for parsing scripts

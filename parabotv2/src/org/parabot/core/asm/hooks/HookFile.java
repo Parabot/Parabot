@@ -24,13 +24,13 @@ public class HookFile {
 	public HookFile(URL url, int type) {
 		setType(type);
 		this.url = url;
-		this.type = type;
 	}
 	
 	private void setType(int type) {
 		if(type < 0 || type > 1) {
 			throw new IllegalArgumentException("This type does not exist");
 		}
+		this.type = type;
 	}
 	
 	public InputStream getInputStream() {

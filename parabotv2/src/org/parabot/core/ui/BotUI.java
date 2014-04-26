@@ -52,13 +52,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		JMenu scripts = new JMenu("Script");
 		
 		JMenuItem proxy = new JMenuItem("Network");
-        final JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
-        dialog.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BotDialog.getInstance().setVisible(!dialog.isSelected());
-            }
-        });
+        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+
 		JMenuItem exit = new JMenuItem("Exit");
 		
 		run = new JMenuItem("Run");
@@ -73,6 +68,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		stop.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/stop.png")));
 		
 		proxy.addActionListener(this);
+		dialog.addActionListener(this);
 		exit.addActionListener(this);
 		
 		run.addActionListener(this);
@@ -129,6 +125,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             	break;
             case "Stop":
             	setScriptState(Script.STATE_STOPPED);
+            	break;
+            case "Disable dialog":
+            	BotDialog.getInstance().setVisible(!dialog.isVisible());
             	break;
 			default:
 				System.out.println("Invalid command: " + command);

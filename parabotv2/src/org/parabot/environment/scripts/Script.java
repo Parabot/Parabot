@@ -151,11 +151,7 @@ public class Script implements Runnable {
 	 * @param ms
 	 */
 	public final void sleep(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Time.sleep(ms);
 	}
 	
 	

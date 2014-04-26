@@ -12,22 +12,13 @@ import javax.swing.JFrame;
 public class SwingUtil {
 
 	/**
-	 * Centers the frame.
-	 * 
-	 * @param f
-	 */
-	public static void center(JFrame f) {
-		f.setLocation((AwtUtil.getScreenWidth() - f.getWidth()) / 2, (AwtUtil.getScreenHeight() - f.getHeight()) / 2);
-	}
-
-	/**
 	 * Packs, centers, and shows the frame.
 	 * 
 	 * @param f
 	 */
 	public static void finalize(JFrame f) {
 		f.pack();
-		center(f);
+		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 	}
 

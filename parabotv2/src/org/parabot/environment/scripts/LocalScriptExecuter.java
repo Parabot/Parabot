@@ -1,5 +1,7 @@
 package org.parabot.environment.scripts;
 
+import java.lang.reflect.Constructor;
+
 /**
  * 
  * Loads a locally stored script
@@ -8,15 +10,19 @@ package org.parabot.environment.scripts;
  *
  */
 public class LocalScriptExecuter extends ScriptExecuter {
-	private Script script;
+	private Constructor<?> scriptConstructor;
 	
-	public LocalScriptExecuter(final Script script) {
-		this.script = script;
+	public LocalScriptExecuter(final Constructor<?> scriptConstructor) {
+		this.scriptConstructor = scriptConstructor;
 	}
 
 	@Override
 	public void run(ThreadGroup tg) {
-		super.finalize(tg, this.script);
+		try {
+			super.finalize(tg, (Script) scriptConstructor.newInstance(new Object[] { }));
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
 	}
 
 }

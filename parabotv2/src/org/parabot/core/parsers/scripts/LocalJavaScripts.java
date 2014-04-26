@@ -4,13 +4,10 @@ import org.parabot.core.Directories;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.environment.scripts.LocalScriptExecuter;
-import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.ScriptManifest;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Parses locally stored java scripts
@@ -27,12 +24,6 @@ public class LocalJavaScripts extends ScriptParser {
 
         // init the script loader
         final JavaScriptLoader loader = new JavaScriptLoader(path);
-
-        // list of scripts
-        final List<Script> scripts = new ArrayList<Script>();
-
-        // list of descriptions
-        final List<ScriptDescription> descs = new ArrayList<ScriptDescription>();
 
         // loop through all classes which extends the 'Script' class
         for (final String className : loader.getScriptClassNames()) {
@@ -56,16 +47,13 @@ public class LocalJavaScripts extends ScriptParser {
                 final ScriptManifest manifest = (ScriptManifest) annotation;
                 // get constructor
                 final Constructor<?> con = scriptClass.getConstructor();
-                final Script script = (Script) con.newInstance();
-                scripts.add(script);
                 final ScriptDescription desc = new ScriptDescription(
                         manifest.name(), manifest.author(), manifest.category()
                         .toString(), manifest.version(),
                         manifest.description(), manifest.servers(),
                         manifest.vip() ? "yes" : "no",
                         manifest.premium() ? "yes" : "no");
-                SCRIPT_CACHE.put(desc, new LocalScriptExecuter(script));
-                descs.add(desc);
+                SCRIPT_CACHE.put(desc, new LocalScriptExecuter(con));
             } catch (ClassNotFoundException ignored) {
             } catch (NoClassDefFoundError ignored) {
             } catch (Throwable t) {

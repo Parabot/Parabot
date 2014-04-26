@@ -38,8 +38,8 @@ public class ServerDescription implements Comparable<ServerDescription> {
 	}
 
 	@Override
-	public int compareTo( ServerDescription o ) {
-		return this.getServerName().compareTo( o.getServerName() );
+	public int compareTo(ServerDescription o) {
+		return this.getServerName().compareTo(o.getServerName());
 	}
 
 }

@@ -133,7 +133,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	}
 
 	@Override
-	public int compareTo( ScriptDescription o )	{
-		return scriptName.compareTo( o.scriptName );
+	public int compareTo(ScriptDescription o) {
+		return scriptName.compareTo(o.scriptName);
 	}
 }

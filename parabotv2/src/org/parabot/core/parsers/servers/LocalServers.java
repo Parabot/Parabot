@@ -1,15 +1,14 @@
 package org.parabot.core.parsers.servers;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+
 import org.parabot.core.Directories;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.environment.servers.LocalServerExecuter;
 import org.parabot.environment.servers.ServerManifest;
-import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
-
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 
 /**
  * Parses local server providers located in the servers directory
@@ -53,13 +52,11 @@ public class LocalServers extends ServerParser {
                     // get constructor
                     final Constructor<?> con = serverProviderClass
                             .getConstructor();
-                    final ServerProvider serverProvider = (ServerProvider) con
-                            .newInstance();
 
                     SERVER_CACHE.put(
                             new ServerDescription(manifest.name(), manifest
                                     .author(), manifest.version()),
-                            new LocalServerExecuter(serverProvider, path,
+                            new LocalServerExecuter(con, path,
                                     manifest.name()));
                 } catch (Throwable t) {
                     t.printStackTrace();

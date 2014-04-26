@@ -1,5 +1,6 @@
 package org.parabot.environment.servers;
 
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 
 import org.parabot.core.Core;
@@ -15,13 +16,13 @@ import org.parabot.core.classpath.ClassPath;
  * 
  */
 public class LocalServerExecuter extends ServerExecuter {
-	private final ServerProvider serverProvider;
+	private final Constructor<?> serverProviderConstructor;
 	private ClassPath classPath;
 	private String serverName;
 
-	public LocalServerExecuter(ServerProvider serverProvider,
+	public LocalServerExecuter(Constructor<?> serverProviderConstructor,
 			ClassPath classPath, final String serverName) {
-		this.serverProvider = serverProvider;
+		this.serverProviderConstructor = serverProviderConstructor;
 		this.classPath = classPath;
 		this.serverName = serverName;
 	}
@@ -43,7 +44,11 @@ public class LocalServerExecuter extends ServerExecuter {
 			}
 		}
 		// finalize
-		super.finalize(this.serverProvider, this.serverName);
+		try {
+			super.finalize((ServerProvider) serverProviderConstructor.newInstance(), this.serverName);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 	}
 
 }

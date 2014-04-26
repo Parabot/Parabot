@@ -38,13 +38,13 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 	private BotUI() {
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
-		this.setTitle("Parabot");
-		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
-		this.setLayout(new BorderLayout());
-		this.addComponentListener(this);
-		this.addWindowListener(this);
+		setTitle("Parabot");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
+		setLayout(new BorderLayout());
+		addComponentListener(this);
+		addWindowListener(this);
 
 		JMenuBar menuBar = new JMenuBar();
 
@@ -86,7 +86,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		menuBar.add(file);
 		menuBar.add(scripts);
 
-		this.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 
 		add(GamePanel.getInstance());
 		GamePanel.getInstance().addLoader();

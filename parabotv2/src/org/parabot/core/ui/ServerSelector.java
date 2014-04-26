@@ -2,12 +2,13 @@ package org.parabot.core.ui;
 
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
+import org.parabot.core.ui.components.ServerComponent;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
-import org.parabot.core.ui.widgets.ServerWidget;
 import org.parabot.environment.Environment;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -36,7 +37,7 @@ public class ServerSelector extends JFrame {
 
 	public ServerSelector() {
 
-		Queue<ServerWidget> widgets = getServers();
+		Queue<ServerComponent> widgets = getServers();
 		if (initServer != null) {
 			if (runServer(widgets)) {
 				initServer = null;
@@ -57,7 +58,7 @@ public class ServerSelector extends JFrame {
 		int i = 0;
 		int y = 0;
 		while (widgets != null && !widgets.isEmpty()) {
-			final ServerWidget w = widgets.poll();
+			final ServerComponent w = widgets.poll();
 			w.setSize(300, 100);
 			if(i % 2 == 0 && i != 0) {
 				y += 100;
@@ -87,13 +88,13 @@ public class ServerSelector extends JFrame {
 	 * 
 	 * @param widgets
 	 */
-	private boolean runServer(Queue<ServerWidget> widgets) {
+	private boolean runServer(Queue<ServerComponent> widgets) {
 		// TODO: test this method
 		if (widgets == null || widgets.isEmpty()) {
 			return false;
 		}
 		final String serverName = initServer.toLowerCase();
-		for (ServerWidget widget : widgets) {
+		for (ServerComponent widget : widgets) {
 			if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
 				Environment.load(widget.desc);
 				return true;
@@ -107,12 +108,12 @@ public class ServerSelector extends JFrame {
 	 * 
 	 * @return widgets array
 	 */
-	public Queue<ServerWidget> getServers() {
-		final Queue<ServerWidget> widgets = new LinkedList<ServerWidget>();
+	public Queue<ServerComponent> getServers() {
+		final Queue<ServerComponent> widgets = new LinkedList<ServerComponent>();
 		ServerDescription[] servers = ServerParser.getDescriptions();
 		if (servers != null) {
 			for (ServerDescription desc : servers) {
-				widgets.add(new ServerWidget(desc));
+				widgets.add(new ServerComponent(desc));
 			}
 		}
 		return widgets;

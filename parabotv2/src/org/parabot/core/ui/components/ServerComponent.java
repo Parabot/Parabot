@@ -1,4 +1,4 @@
-package org.parabot.core.ui.widgets;
+package org.parabot.core.ui.components;
 
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.BotUI;
@@ -12,12 +12,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * A neat looking server widget
+ * A neat looking server component
  * 
  * @author Everel
  * 
  */
-public class ServerWidget extends JPanel implements MouseListener,
+public class ServerComponent extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,7 +25,7 @@ public class ServerWidget extends JPanel implements MouseListener,
 	private String name;
 	private boolean hovered;
 
-	public ServerWidget(final ServerDescription desc) {
+	public ServerComponent(final ServerDescription desc) {
 		this.desc = desc;
 		setLayout(null);
 		this.name = desc.getServerName().replaceAll(" ", "");

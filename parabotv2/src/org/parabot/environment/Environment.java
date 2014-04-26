@@ -6,7 +6,6 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.lib.Library;
 import org.parabot.core.lib.javafx.JavaFX;
-import org.parabot.core.lib.jython.Jython;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
@@ -29,7 +28,6 @@ public class Environment {
 	public static void load(final ServerDescription desc) {
 		
 		LinkedList<Library> libs = new LinkedList<Library>();
-		libs.add(new Jython());
 		libs.add(new JavaFX());
 		
 		for(Library lib : libs) {

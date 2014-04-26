@@ -7,7 +7,6 @@ import java.util.TreeMap;
 
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
-import org.parabot.core.lib.jython.Jython;
 import org.parabot.environment.scripts.ScriptExecuter;
 
 /**
@@ -26,15 +25,9 @@ public abstract class ScriptParser {
         final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
-            if (Jython.isValid()) {
-                parsers.add(new LocalPythonScripts());
-            }
             parsers.add(new SDNScripts());
         } else if (Core.inDebugMode()) {
             parsers.add(new LocalJavaScripts());
-            if (Jython.isValid()) {
-                parsers.add(new LocalPythonScripts());
-            }
         } else {
             parsers.add(new SDNScripts());
         }

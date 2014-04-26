@@ -39,7 +39,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
 		this.setTitle("Parabot");
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));

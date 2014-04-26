@@ -1,10 +1,6 @@
-package org.parabot.environment.scripts;
+package org.parabot.environment.scripts.framework;
 
 import java.util.Collection;
-
-import org.parabot.environment.scripts.framework.AbstractFramework;
-import org.parabot.environment.scripts.framework.LoopTask;
-import org.parabot.environment.scripts.framework.Strategy;
 
 /**
  * 

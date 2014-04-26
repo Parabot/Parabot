@@ -1,6 +1,8 @@
-package org.parabot.environment.scripts;
+package org.parabot.environment.scripts.executers;
 
 import java.lang.reflect.Constructor;
+
+import org.parabot.environment.scripts.Script;
 
 /**
  * 

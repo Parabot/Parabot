@@ -5,6 +5,7 @@ import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.AbstractFramework;
+import org.parabot.environment.scripts.framework.Frameworks;
 import org.parabot.environment.scripts.framework.LoopTask;
 import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;

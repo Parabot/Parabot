@@ -2,7 +2,7 @@ package org.parabot.core.parsers.servers;
 
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.environment.servers.ServerExecuter;
+import org.parabot.environment.servers.executers.ServerExecuter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

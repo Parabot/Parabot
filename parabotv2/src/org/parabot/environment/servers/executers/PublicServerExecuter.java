@@ -1,4 +1,4 @@
-package org.parabot.environment.servers;
+package org.parabot.environment.servers.executers;
 
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
@@ -12,6 +12,7 @@ import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
+import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
 import javax.swing.*;

@@ -1,4 +1,6 @@
-package org.parabot.environment.scripts;
+package org.parabot.environment.scripts.executers;
+
+import org.parabot.environment.scripts.Script;
 
 /**
  * 

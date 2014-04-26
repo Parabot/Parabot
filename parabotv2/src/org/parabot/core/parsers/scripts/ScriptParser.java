@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
-import org.parabot.environment.scripts.ScriptExecuter;
+import org.parabot.environment.scripts.executers.ScriptExecuter;
 
 /**
  * Abstract class for parsing scripts

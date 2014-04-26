@@ -6,8 +6,8 @@ import org.parabot.core.parsers.scripts.SDNScripts;
 import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.ui.LoginUI;
 import org.parabot.environment.api.utils.WebUtil;
-import org.parabot.environment.scripts.SDNScriptExecuter;
-import org.parabot.environment.servers.PublicServerExecuter;
+import org.parabot.environment.scripts.executers.SDNScriptExecuter;
+import org.parabot.environment.servers.executers.PublicServerExecuter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

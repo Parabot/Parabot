@@ -1,4 +1,4 @@
-package org.parabot.environment.scripts;
+package org.parabot.environment.scripts.executers;
 
 import java.lang.reflect.Constructor;
 import java.net.URL;
@@ -12,6 +12,7 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
+import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
 /**

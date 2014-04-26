@@ -5,7 +5,7 @@ import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.environment.api.utils.WebUtil;
-import org.parabot.environment.scripts.SDNScriptExecuter;
+import org.parabot.environment.scripts.executers.SDNScriptExecuter;
 
 import java.io.BufferedReader;
 import java.net.URL;

@@ -5,7 +5,7 @@ import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.environment.api.utils.WebUtil;
-import org.parabot.environment.servers.PublicServerExecuter;
+import org.parabot.environment.servers.executers.PublicServerExecuter;
 
 import java.io.BufferedReader;
 import java.net.URL;

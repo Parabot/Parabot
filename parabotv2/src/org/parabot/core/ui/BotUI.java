@@ -1,21 +1,28 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.Context;
-import org.parabot.core.ui.components.GamePanel;
-import org.parabot.core.ui.images.Images;
-import org.parabot.environment.scripts.Script;
-
-import javax.swing.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
+import org.parabot.core.Context;
+import org.parabot.core.ui.components.GamePanel;
+import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.utils.SwingUtil;
+import org.parabot.environment.scripts.Script;
 
 /**
  * 
@@ -43,25 +50,23 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		setTitle("Parabot");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
-
-        /** Adds the dock icon to mac users */
-        try {
-            Class util = Class.forName("com.apple.eawt.Application");
-            Method getApplication = util.getMethod("getApplication", new Class[0]);
-            Object application = getApplication.invoke(util);
-            Class params[] = new Class[1];
-            params[0] = Image.class;
-            Method setDockIconImage = util.getMethod("setDockIconImage", params);
-            setDockIconImage.invoke(application, Images.getResource("/org/parabot/core/ui/images/icon.png"));
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            // Ignore for windows
-        }
+		createMenu();
 
 		setLayout(new BorderLayout());
 		addComponentListener(this);
 		addWindowListener(this);
 
+		add(GamePanel.getInstance());
+		GamePanel.getInstance().addLoader();
+		
+		SwingUtil.setParabotIcons(this);
+
+		pack();
+		setLocationRelativeTo(null);
+		BotDialog.getInstance(this);
+	}
+	
+	private void createMenu() {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu file = new JMenu("File");
@@ -103,13 +108,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		menuBar.add(scripts);
 
 		setJMenuBar(menuBar);
-
-		add(GamePanel.getInstance());
-		GamePanel.getInstance().addLoader();
-
-		pack();
-		setLocationRelativeTo(null);
-		BotDialog.getInstance(this);
 	}
 
 	@Override

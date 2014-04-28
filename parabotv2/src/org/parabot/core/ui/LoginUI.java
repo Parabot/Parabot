@@ -23,6 +23,7 @@ import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.utils.SwingUtil;
 
 /**
  * 
@@ -88,8 +89,8 @@ public class LoginUI extends JFrame {
 		this.setLocationByPlatform(true);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
-		this.setIconImage(Images
-				.getResource("/org/parabot/core/ui/images/icon.png"));
+		 
+		SwingUtil.setParabotIcons(this);
 
 		int w = 250;
 		int x = 8;

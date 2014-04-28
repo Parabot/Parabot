@@ -1,19 +1,28 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.Context;
-import org.parabot.core.ui.components.GamePanel;
-import org.parabot.core.ui.images.Images;
-import org.parabot.environment.scripts.Script;
-
-import javax.swing.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
+import org.parabot.core.Context;
+import org.parabot.core.ui.components.GamePanel;
+import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.utils.SwingUtil;
+import org.parabot.environment.scripts.Script;
 
 /**
  * 
@@ -41,11 +50,23 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		setTitle("Parabot");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
+		createMenu();
+
 		setLayout(new BorderLayout());
 		addComponentListener(this);
 		addWindowListener(this);
 
+		add(GamePanel.getInstance());
+		GamePanel.getInstance().addLoader();
+		
+		SwingUtil.setParabotIcons(this);
+
+		pack();
+		setLocationRelativeTo(null);
+		BotDialog.getInstance(this);
+	}
+	
+	private void createMenu() {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu file = new JMenu("File");
@@ -87,13 +108,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		menuBar.add(scripts);
 
 		setJMenuBar(menuBar);
-
-		add(GamePanel.getInstance());
-		GamePanel.getInstance().addLoader();
-
-		pack();
-		setLocationRelativeTo(null);
-		BotDialog.getInstance(this);
 	}
 
 	@Override

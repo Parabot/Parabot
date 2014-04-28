@@ -20,21 +20,31 @@ public class Invoker implements Injectable {
 	private String argsDesc;
 	private String returnDesc;
 	private String methodName;
+	private boolean isInterface;
+	private String instanceCast;
+	
+	private String mName;
+	private String mDesc;
 
 	public Invoker(String methodLoc, String invMethName, String argsDesc,
 			String returnDesc, String methodName) {
 		this(methodLoc, methodLoc, invMethName, argsDesc, returnDesc,
-				methodName);
+				methodName, false, null);
 	}
 
 	public Invoker(String into, String methodLoc, String invMethName,
-			String argsDesc, String returnDesc, String methodName) {
+			String argsDesc, String returnDesc, String methodName, boolean isInterface, String instanceCast) {
 		this.into = ASMUtils.getClass(into);
 		this.methodLocation = ASMUtils.getClass(methodLoc);
 		this.mn = getMethod(this.methodLocation, invMethName, argsDesc);
 		this.returnDesc = returnDesc;
 		this.methodName = methodName;
 		this.argsDesc = argsDesc;
+		this.isInterface = isInterface;
+		this.instanceCast = instanceCast;
+		
+		this.mName = invMethName;
+		this.mDesc = argsDesc + returnDesc;
 	}
 
 	private static MethodNode getMethod(ClassNode into, String name, String desc) {
@@ -63,8 +73,8 @@ public class Invoker implements Injectable {
 	 * @return AddInvokerAdapter
 	 */
 	public AddInvokerAdapter getAdapter() {
-		return new AddInvokerAdapter(this.methodLocation, this.into, this.mn,
-				this.argsDesc, this.returnDesc, this.methodName);
+		return new AddInvokerAdapter(this.methodLocation, this.into, this.mn, this.mName, this.mDesc,
+				this.argsDesc, this.returnDesc, this.methodName, this.isInterface, this.instanceCast);
 	}
 
 }

@@ -22,16 +22,27 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 	private String argsDesc;
 	private String returnDesc;
 	private String methodName;
+	private boolean isInterface;
+	private String instanceCast;
+	private String mName;
+	private String mDesc;
+	
+	private boolean isStatic;
 
 	public AddInvokerAdapter(final ClassNode methodLocation,
-			final ClassNode into, final MethodNode mn, final String argsDesc,
-			final String returnDesc, final String methodName) {
+			final ClassNode into, final MethodNode mn, final String mName, final String mDesc, final String argsDesc,
+			final String returnDesc, final String methodName,
+			boolean isInterface, String instanceCast) {
 		this.into = into;
 		this.methodLocation = methodLocation;
+		this.mName = mName;
+		this.mDesc = mDesc;
 		this.mn = mn;
 		this.argsDesc = argsDesc;
 		this.returnDesc = returnDesc;
 		this.methodName = methodName;
+		this.isInterface = isInterface;
+		this.instanceCast = instanceCast;
 	}
 
 	@Override
@@ -39,28 +50,41 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 		MethodNode m = new MethodNode(ACC_PUBLIC, this.methodName,
 				this.argsDesc + this.returnDesc, null, null);
 
-		boolean isStatic = (this.mn.access & ACC_STATIC) != 0;
+		if(!isInterface) {
+			isStatic = (this.mn.access & ACC_STATIC) != 0;
+	
+			if (!Modifier.isPublic(mn.access)) {
+				if (Modifier.isPrivate(mn.access)) {
+					mn.access = mn.access & (~ACC_PRIVATE);
+				}
+				if (Modifier.isProtected(mn.access)) {
+					mn.access = mn.access & (~ACC_PROTECTED);
+				}
+				mn.access = mn.access | ACC_PUBLIC;
+			}
+		}
 		
-		if(!Modifier.isPublic(mn.access)) {
-			if(Modifier.isPrivate(mn.access)) {
-				mn.access = mn.access & (~ACC_PRIVATE);
-			}
-			if(Modifier.isProtected(mn.access)) {
-				mn.access = mn.access & (~ACC_PROTECTED);
-			}
-			mn.access = mn.access | ACC_PUBLIC;
+		if(!isStatic || isInterface) {
+			m.visitVarInsn(ALOAD, 0);
 		}
 
-		if (!isStatic)
-			m.visitVarInsn(ALOAD, 0);
 
-		if (!this.argsDesc.equals("()"))
-			for (int i = 1; i < this.argsDesc.length() - 1; i++)
+		if (!this.argsDesc.equals("()")) {
+			for (int i = 1; i < this.argsDesc.length() - 1; i++) {
 				m.visitVarInsn(ASMUtils.getLoadOpcode(this.argsDesc.substring(
 						i, i + 1)), i);
+			}
+		}
+		
+		if(instanceCast != null) {
+			m.visitTypeInsn(CHECKCAST, instanceCast);
+		}
 
-		m.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL,
-				methodLocation.name, mn.name, mn.desc);
+		if(isInterface) {
+			m.visitMethodInsn(INVOKEINTERFACE, instanceCast, mName, mDesc);
+		} else {
+			m.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, methodLocation.name, mn.name, mn.desc);
+		}
 		if (this.returnDesc.contains("L")) {
 			if (!this.returnDesc.contains("[")) {
 				m.visitTypeInsn(CHECKCAST, this.returnDesc

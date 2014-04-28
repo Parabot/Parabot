@@ -8,8 +8,9 @@ import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.Environment;
 
 import javax.swing.*;
-
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -49,6 +50,19 @@ public class ServerSelector extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
+
+        /** Adds the dock icon to mac users */
+        try {
+            Class util = Class.forName("com.apple.eawt.Application");
+            Method getApplication = util.getMethod("getApplication", new Class[0]);
+            Object application = getApplication.invoke(util);
+            Class params[] = new Class[1];
+            params[0] = Image.class;
+            Method setDockIconImage = util.getMethod("setDockIconImage", params);
+            setDockIconImage.invoke(application, Images.getResource("/org/parabot/core/ui/images/icon.png"));
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            // Ignore for windows
+        }
 
 		this.panel = new JPanel(new BorderLayout());
 		this.panel.setPreferredSize(new Dimension(600, 400));

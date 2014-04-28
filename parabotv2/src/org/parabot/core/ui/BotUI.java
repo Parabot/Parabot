@@ -14,6 +14,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * 
@@ -42,6 +44,20 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Images.getResource("/org/parabot/core/ui/images/icon.png"));
+
+        /** Adds the dock icon to mac users */
+        try {
+            Class util = Class.forName("com.apple.eawt.Application");
+            Method getApplication = util.getMethod("getApplication", new Class[0]);
+            Object application = getApplication.invoke(util);
+            Class params[] = new Class[1];
+            params[0] = Image.class;
+            Method setDockIconImage = util.getMethod("setDockIconImage", params);
+            setDockIconImage.invoke(application, Images.getResource("/org/parabot/core/ui/images/icon.png"));
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            // Ignore for windows
+        }
+
 		setLayout(new BorderLayout());
 		addComponentListener(this);
 		addWindowListener(this);

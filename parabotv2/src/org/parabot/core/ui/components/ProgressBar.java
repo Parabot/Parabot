@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -46,13 +47,18 @@ public class ProgressBar {
 		this.locX = (width / 100.0D) * value;
 
 		int val = (int) value;
-		if (value <= 50) {
+		/*if (value <= 50) {
 			this.progColor = new Color(255, (2 * val), 0);
 		} else {
 			val -= 50;
 			this.progColor = new Color((int) (255 - (5.1D * val)),
 					100 + (2 * val), 0);
-		}
+		}*/
+		
+		int r = (int) (((double) (225 - 218) * (double) val) / ((double) 100.D));
+		int g = (int) (((double) (253 - 165) * (double) val) / ((double) 100.D));
+		int b = (int) (((double) (145 - 32) * (double) val) / ((double) 100.D));
+		this.progColor = new Color(255 - r, 253 - g, 145 - b);
 	}
 
 	public double getValue() {
@@ -61,6 +67,9 @@ public class ProgressBar {
 
 	public void draw(Graphics g, int x, int y) {
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(
+		        RenderingHints.KEY_TEXT_ANTIALIASING,
+		        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		if (fontMetrics == null) {
 			fontMetrics = g2.getFontMetrics();
 		}

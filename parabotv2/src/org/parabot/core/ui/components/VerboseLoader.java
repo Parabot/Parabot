@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -24,11 +26,11 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 	private static String state = "Initializing loader...";
 	
 	private FontMetrics fontMetrics;
-	private BufferedImage bot_image;
+	private BufferedImage background;
 	private ProgressBar p;
 
 	public VerboseLoader() {
-		this.bot_image = Images.getResource("/org/parabot/core/ui/images/para.png");
+		this.background = Images.getResource("/org/parabot/core/ui/images/background.png");
 		this.p = new ProgressBar(400, 20);
 		setSize(775, 510);
 		setPreferredSize(new Dimension(775, 510));
@@ -41,22 +43,27 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 	 * Paints on this panel
 	 */
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics graphics) {
+		Graphics2D g = (Graphics2D) graphics;
+		g.setRenderingHint(
+		        RenderingHints.KEY_TEXT_ANTIALIASING,
+		        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		g.drawImage(background, 0, 0, null);
+		
 		p.draw(g, (getWidth() / 2) - 200, 220);
-		g.setFont(new Font("Courier New", Font.PLAIN, 14));
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		if (fontMetrics == null) {
 			fontMetrics = g.getFontMetrics();
 		}
 		g.setColor(Color.white);
 		int x = (getWidth() / 2) - (fontMetrics.stringWidth(state) / 2);
 		g.drawString(state, x, 200);
-		g.setFont(new Font("Calibri", Font.PLAIN, 12));
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		final String version = "v2.0";
 		g.drawString(version,
 				getWidth() - g.getFontMetrics().stringWidth(version) - 10,
 				getHeight() - 12);
-		x = (getWidth() / 2) - (bot_image.getWidth() / 2);
-		g.drawImage(bot_image, x, 80, null);
 	}
 
 	/**

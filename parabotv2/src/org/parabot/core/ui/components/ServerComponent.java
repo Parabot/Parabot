@@ -78,7 +78,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 	}
 
 	public void load(final ServerDescription desc) {
-		MainScreenComponent.get().switchState(MainScreenComponent.STATE_LOADING);
+		VerboseLoader.get().switchState(VerboseLoader.STATE_LOADING);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

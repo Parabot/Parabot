@@ -7,7 +7,7 @@ import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.lib.Library;
 import org.parabot.core.lib.javafx.JavaFX;
 import org.parabot.core.parsers.servers.ServerParser;
-import org.parabot.core.ui.components.MainScreenComponent;
+import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
 
 
@@ -33,8 +33,8 @@ public class Environment {
 		for(Library lib : libs) {
 			if(!lib.hasJar()) {
 				Core.verbose("Downloading " + lib.getLibraryName() + "...");
-				MainScreenComponent.setState("Downloading " + lib.getLibraryName() + "...");
-				WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), MainScreenComponent.get());
+				VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
+				WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
 				Core.verbose("Downloaded " + lib.getLibraryName() + ".");
 			}
 			Core.verbose("Initializing " + lib.getLibraryName());

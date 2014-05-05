@@ -33,9 +33,9 @@ import org.parabot.core.ui.images.Images;
  * @author Everel
  *
  */
-public class MainScreenComponent extends JPanel implements ProgressListener {
+public class VerboseLoader extends JPanel implements ProgressListener {
 	private static final long serialVersionUID = 7412412644921803896L;
-	private static MainScreenComponent current;
+	private static VerboseLoader current;
 	private static String state = "Initializing loader...";
 	
 	public static final int STATE_AUTHENTICATION = 0;
@@ -54,12 +54,12 @@ public class MainScreenComponent extends JPanel implements ProgressListener {
 
 		@Override
 		public final void setManager(AccountManager manager) {
-			MainScreenComponent.manager = manager;
+			VerboseLoader.manager = manager;
 		}
 
 	};
 
-	private MainScreenComponent(String username, String password) {
+	private VerboseLoader(String username, String password) {
 		if(current != null) {
 			throw new IllegalStateException("MainScreenComponent already made.");
 		}
@@ -205,16 +205,16 @@ public class MainScreenComponent extends JPanel implements ProgressListener {
 	 * Gets instance of this panel
 	 * @return instance of this panel
 	 */
-	public static MainScreenComponent get(String username, String password) {
-		return current == null ? new MainScreenComponent(username, password) : current;
+	public static VerboseLoader get(String username, String password) {
+		return current == null ? new VerboseLoader(username, password) : current;
 	}
 	
 	/**
 	 * Gets instance of this panel
 	 * @return instance of this panel
 	 */
-	public static MainScreenComponent get() {
-		return current == null ? new MainScreenComponent(null, null) : current;
+	public static VerboseLoader get() {
+		return current == null ? new VerboseLoader(null, null) : current;
 	}
 	
 

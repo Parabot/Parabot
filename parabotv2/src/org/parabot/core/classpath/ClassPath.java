@@ -26,7 +26,7 @@ import org.parabot.core.Directories;
 import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.io.SizeInputStream;
-import org.parabot.core.ui.components.MainScreenComponent;
+import org.parabot.core.ui.components.VerboseLoader;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class ClassPath {
 		try {
 			final int size = connection.getContentLength();
 			final SizeInputStream sizeInputStream = new SizeInputStream(
-					connection.getInputStream(), size, MainScreenComponent.get());
+					connection.getInputStream(), size, VerboseLoader.get());
 			final ZipInputStream zin = new ZipInputStream(sizeInputStream);
 			ZipEntry e;
 			while ((e = zin.getNextEntry()) != null) {
@@ -96,13 +96,13 @@ public class ClassPath {
 				} else {
 					loadResource(e.getName(), zin);
 				}
-				MainScreenComponent.setState("Downloading: " + e.getName());
+				VerboseLoader.setState("Downloading: " + e.getName());
 			}
 			zin.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		MainScreenComponent.get().onProgressUpdate(100);
+		VerboseLoader.get().onProgressUpdate(100);
 	}
 
 

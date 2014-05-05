@@ -1,16 +1,17 @@
 package org.parabot;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
-import org.parabot.core.ui.LoginUI;
+import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
-
-import javax.swing.*;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Parabot v2
@@ -51,14 +52,14 @@ public final class Landing {
         AccountManager.validate();
 
         if (username != null && password != null) {
-            new LoginUI(username, password);
+            new BotUI(username, password);
             username = null;
             password = null;
             return;
         }
 
         Core.verbose("Starting login gui...");
-        new LoginUI().setVisible(true);
+        new BotUI(null, null);
     }
 
     private static void parseArgs(String... args) {

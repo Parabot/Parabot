@@ -19,7 +19,6 @@ import org.parabot.core.Context;
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static GamePanel instance;
-	private static VerboseLoader loader = VerboseLoader.get();
 
 	private GamePanel() {
 		setFocusable(true);
@@ -54,16 +53,9 @@ public class GamePanel extends JPanel {
 	}
 
 	/**
-	 * Adds the loader applet
+	 * Removes all components
 	 */
-	public void addLoader() {
-		add(loader, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Removes the loader applet
-	 */
-	public void removeLoader() {
-		remove(loader);
+	public void removeComponents() {
+		removeAll();
 	}
 }

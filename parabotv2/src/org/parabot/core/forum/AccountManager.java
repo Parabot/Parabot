@@ -1,17 +1,17 @@
 package org.parabot.core.forum;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.SDNScripts;
 import org.parabot.core.parsers.servers.PublicServers;
-import org.parabot.core.ui.LoginUI;
+import org.parabot.core.ui.components.MainScreenComponent;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.SDNScriptExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 
 /**
  * Handles logging in to parabot forum, only certain classes may use this class.
@@ -39,7 +39,7 @@ public final class AccountManager {
 		Core.verbose("Initializing account manager accessors...");
 		final ArrayList<AccountManagerAccess> accessors = new ArrayList<AccountManagerAccess>();
 		accessors.add(SDNScripts.MANAGER_FETCHER);
-		accessors.add(LoginUI.MANAGER_FETCHER);
+		accessors.add(MainScreenComponent.MANAGER_FETCHER);
 		accessors.add(SDNScriptExecuter.MANAGER_FETCHER);
 		accessors.add(PublicServers.MANAGER_FETCHER);
 		accessors.add(PublicServerExecuter.MANAGER_FETCHER);

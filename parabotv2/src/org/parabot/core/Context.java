@@ -177,7 +177,7 @@ public class Context {
         BotUI.getInstance().pack();
         BotUI.getInstance().validate();
         
-        panel.removeLoader();
+        panel.removeComponents();
         gameApplet.setSize(appletSize);
         panel.add(gameApplet);
         panel.validate();

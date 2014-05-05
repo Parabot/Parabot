@@ -1,15 +1,19 @@
 package org.parabot.core.ui.components;
 
-import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.ui.BotUI;
-import org.parabot.core.ui.ServerSelector;
-import org.parabot.environment.Environment;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JPanel;
+
+import org.parabot.core.desc.ServerDescription;
+import org.parabot.environment.Environment;
 
 /**
  * A neat looking server component
@@ -74,8 +78,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 	}
 
 	public void load(final ServerDescription desc) {
-		ServerSelector.getInstance().dispose();
-		BotUI.getInstance();
+		MainScreenComponent.get().switchState(MainScreenComponent.STATE_LOADING);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

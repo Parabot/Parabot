@@ -20,6 +20,7 @@ import javax.swing.JPopupMenu;
 
 import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
+import org.parabot.core.ui.components.MainScreenComponent;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.scripts.Script;
@@ -41,10 +42,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 	private boolean runScript, pauseScript;
 
 	public static BotUI getInstance() {
-		return instance == null ? instance = new BotUI() : instance;
+		return instance;
 	}
 
-	private BotUI() {
+	public BotUI(String username, String password) {
+		if(instance != null) {
+			throw new IllegalStateException("BotUI already created");
+		}
+		instance = this;
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
 		setTitle("Parabot");
@@ -57,7 +62,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		addWindowListener(this);
 
 		add(GamePanel.getInstance());
-		GamePanel.getInstance().addLoader();
+		GamePanel.getInstance().add(MainScreenComponent.get(username, password), BorderLayout.CENTER);
 		
 		SwingUtil.setParabotIcons(this);
 

@@ -5,14 +5,12 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.ServerComponent;
-import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.Environment;
 
 /**
@@ -23,12 +21,10 @@ import org.parabot.environment.Environment;
  * 
  */
 
-public class ServerSelector extends JFrame {
+public class ServerSelector extends JPanel {
 	public static String initServer;
 	private static final long serialVersionUID = 5238720307271493899L;
 	private static ServerSelector instance;
-	
-	private JPanel panel;
 
 	public static ServerSelector getInstance() {
 		if (instance == null) {
@@ -46,15 +42,10 @@ public class ServerSelector extends JFrame {
 				return;
 			}
 		}
-
-		this.setTitle("Servers");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
 		
-		SwingUtil.setParabotIcons(this);
 
-		this.panel = new JPanel(new BorderLayout());
-		this.panel.setPreferredSize(new Dimension(600, 400));
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(600, 400));
 
 		JPanel interior = new JPanel(null);
 
@@ -79,10 +70,7 @@ public class ServerSelector extends JFrame {
 		scrlInterior
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		this.panel.add(scrlInterior, BorderLayout.CENTER);
-		this.add(panel);
-
-		SwingUtil.finalize(this);
+		add(scrlInterior, BorderLayout.CENTER);
 
 	}
 

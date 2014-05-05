@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 
 import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
-import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 
@@ -42,14 +41,6 @@ public class LoginUI extends JFrame {
 	private JButton cmdLogin;
 	private JButton cmdRegister;
 
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
-
-		@Override
-		public final void setManager(AccountManager manager) {
-			LoginUI.manager = manager;
-		}
-
-	};
 
 	public void attemptLogin() {
 		String username = txtUsername.getText();

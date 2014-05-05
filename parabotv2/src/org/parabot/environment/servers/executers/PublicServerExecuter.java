@@ -9,7 +9,7 @@ import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
-import org.parabot.core.ui.components.VerboseLoader;
+import org.parabot.core.ui.components.MainScreenComponent;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
@@ -76,7 +76,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
 			} else {
 				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get(), manager.getAccount().getUsername(), manager.getAccount().getPassword());
+						MainScreenComponent.get(), manager.getAccount().getUsername(), manager.getAccount().getPassword());
 				Core.verbose("Server provider downloaded...");
 			}
 

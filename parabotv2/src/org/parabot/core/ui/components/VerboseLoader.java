@@ -60,7 +60,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 		int x = (getWidth() / 2) - (fontMetrics.stringWidth(state) / 2);
 		g.drawString(state, x, 200);
 		g.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		final String version = "v2.0";
+		final String version = "v2.1";
 		g.drawString(version,
 				getWidth() - g.getFontMetrics().stringWidth(version) - 10,
 				getHeight() - 12);

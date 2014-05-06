@@ -100,9 +100,7 @@ public class Core {
                 Core.verbose("No updates available.");
                 return true;
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (NumberFormatException | IOException e) {
             e.printStackTrace();
         } finally {
             try {

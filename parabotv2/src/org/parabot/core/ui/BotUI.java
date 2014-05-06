@@ -1,29 +1,16 @@
 package org.parabot.core.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
+import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.scripts.Script;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * 
@@ -69,6 +56,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		pack();
 		setLocationRelativeTo(null);
 		BotDialog.getInstance(this);
+
+        // Uncompleted fix for non windows users
+        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
+            BotDialog.getInstance().setVisible(false);
+        }
 	}
 	
 	private void createMenu() {

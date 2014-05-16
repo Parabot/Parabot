@@ -348,9 +348,10 @@ public class XMLHookParser extends HookParser {
             
             final boolean isInterface = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String instanceCast = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
+            final String checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
             final Invoker invoker = new Invoker(into, className, invMethodName,
-                    argsDesc, returnDesc, methodName, isInterface, instanceCast);
+                    argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc);
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);

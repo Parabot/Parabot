@@ -3,6 +3,7 @@ package org.parabot.core.asm.adapters;
 import java.lang.reflect.Modifier;
 
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.parabot.core.asm.ASMUtils;
@@ -26,13 +27,14 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 	private String instanceCast;
 	private String mName;
 	private String mDesc;
+	private String argsCheckCast;
 	
 	private boolean isStatic;
 
 	public AddInvokerAdapter(final ClassNode methodLocation,
 			final ClassNode into, final MethodNode mn, final String mName, final String mDesc, final String argsDesc,
 			final String returnDesc, final String methodName,
-			boolean isInterface, String instanceCast) {
+			boolean isInterface, String instanceCast, String argsCheckCastDesc) {
 		this.into = into;
 		this.methodLocation = methodLocation;
 		this.mName = mName;
@@ -43,12 +45,16 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 		this.methodName = methodName;
 		this.isInterface = isInterface;
 		this.instanceCast = instanceCast;
+		this.argsCheckCast = argsCheckCastDesc;
+
 	}
 
 	@Override
 	public void inject() {
+		String mArgsDesc = argsCheckCast == null ? this.argsDesc : this.argsCheckCast;
+		
 		MethodNode m = new MethodNode(ACC_PUBLIC, this.methodName,
-				this.argsDesc + this.returnDesc, null, null);
+				mArgsDesc + this.returnDesc, null, null);
 
 		if(!isInterface) {
 			isStatic = (this.mn.access & ACC_STATIC) != 0;
@@ -73,9 +79,18 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 		}
 		
 		if (!this.argsDesc.equals("()")) {
-			for (int i = 1; i < this.argsDesc.length() - 1; i++) {
-				m.visitVarInsn(ASMUtils.getLoadOpcode(this.argsDesc.substring(
-						i, i + 1)), i);
+			Type[] castArgs = argsCheckCast == null ? null : Type.getArgumentTypes(argsCheckCast + "V");
+			Type[] methodArgs = Type.getArgumentTypes(argsDesc + "V");
+			
+			for(int i = 0; i < methodArgs.length; i++) {
+				m.visitVarInsn(ASMUtils.getLoadOpcode(methodArgs[i].getDescriptor()), i + 1);
+				if(castArgs != null && !castArgs[i].getDescriptor().equals(methodArgs[i].getDescriptor())) {
+					String cast = methodArgs[i].getDescriptor();
+					if(cast.startsWith("L")) {
+						cast = cast.substring(1).replace(";", "");
+					}
+					m.visitTypeInsn(CHECKCAST, cast);
+				}
 			}
 		}
 

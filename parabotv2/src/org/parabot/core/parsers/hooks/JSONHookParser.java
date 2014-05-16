@@ -185,7 +185,7 @@ public class JSONHookParser extends HookParser {
 				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
 				String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
-				i[j] = new Invoker(into, clazz, this.get(o, "invokemethod"), this.get(o, "argdesc"), this.get(o, "desc"), this.get(o, "method"), false, null);
+				i[j] = new Invoker(into, clazz, this.get(o, "invokemethod"), this.get(o, "argdesc"), this.get(o, "desc"), this.get(o, "method"), false, null, null);
 			}
 			return i;
 		}

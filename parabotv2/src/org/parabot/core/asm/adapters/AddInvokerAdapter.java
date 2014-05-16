@@ -67,17 +67,16 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 		if(!isStatic || isInterface) {
 			m.visitVarInsn(ALOAD, 0);
 		}
-
-
+		
+		if(instanceCast != null) {
+			m.visitTypeInsn(CHECKCAST, instanceCast);
+		}
+		
 		if (!this.argsDesc.equals("()")) {
 			for (int i = 1; i < this.argsDesc.length() - 1; i++) {
 				m.visitVarInsn(ASMUtils.getLoadOpcode(this.argsDesc.substring(
 						i, i + 1)), i);
 			}
-		}
-		
-		if(instanceCast != null) {
-			m.visitTypeInsn(CHECKCAST, instanceCast);
 		}
 
 		if(isInterface) {

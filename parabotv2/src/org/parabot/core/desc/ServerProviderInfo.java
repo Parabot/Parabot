@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+import org.parabot.core.Core;
 import org.parabot.environment.api.utils.WebUtil;
 
 /**
@@ -19,9 +20,11 @@ public class ServerProviderInfo {
 		this.properties = new Properties();
         try {
             String line;
+            Core.verbose("Reading info: " + providerInfo);
             BufferedReader br = WebUtil.getReader(providerInfo, username, password);
             while ((line = br.readLine()) != null) {
             	if(line.contains(": ")) {
+            		System.out.println(line);
             		properties.put(line.substring(0, line.indexOf(": ")), line.substring(line.indexOf(": ") + 2, line.length()));
             	}
             }

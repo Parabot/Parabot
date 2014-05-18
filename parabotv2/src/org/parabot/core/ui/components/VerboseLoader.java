@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
@@ -73,7 +74,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 		setOpaque(false);
 		
 		if(username != null && password != null) {
-			if(manager.login(username, password)) {
+			if(Core.inDebugMode() || manager.login(username, password)) {
 				currentState = STATE_SERVER_SELECT;
 			}
 		}

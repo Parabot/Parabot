@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.parabot.core.Core;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.wrappers.Callback;
@@ -189,6 +190,7 @@ public class XMLHookParser extends HookParser {
 	                    methodName, returnDesc, staticMethod, multiplier, fieldDesc);
 	            getterList.add(get);
 	        }
+	        Core.verbose("Fields hooked: " + getterList.size());
 	        return getterList.toArray(new Getter[getterList.size()]);
 	}
 

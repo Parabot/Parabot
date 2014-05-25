@@ -39,6 +39,14 @@ public class Mouse implements MouseListener, MouseMotionListener {
 		
 		moveMouse(x, y);
 		Time.sleep(50, 200);
+		pressMouse(x, y, left);
+		Time.sleep(10, 100);
+		releaseMouse(x, y, left);
+		Time.sleep(10, 100);
+		clickMouse(x, y, left);
+	}
+	
+	public void pressMouse(int x, int y, boolean left) {
 		MouseEvent me = new MouseEvent(component,
 				MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, x,
 				y, 1, false, left ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
@@ -47,10 +55,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
 				l.mousePressed(me);
 			}
 		}
-		Time.sleep(10, 100);
-		releaseMouse(x, y, left);
-		Time.sleep(10, 100);
-		clickMouse(x, y, left);
 	}
 	
 	public void click(final Point p, final boolean left) {
@@ -61,7 +65,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 		click(p.x, p.y, true);
 	}
 	
-	private void clickMouse(int x, int y, boolean left) {
+	public void clickMouse(int x, int y, boolean left) {
 		try {
 			
 			MouseEvent me = new MouseEvent(component,
@@ -77,7 +81,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 		}
 	}
 	
-	private void releaseMouse(int x, int y, boolean left) {
+	public void releaseMouse(int x, int y, boolean left) {
 		try {
 			
 			MouseEvent me = new MouseEvent(component,

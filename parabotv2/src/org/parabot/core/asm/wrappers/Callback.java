@@ -18,14 +18,16 @@ public class Callback implements Injectable {
 	private String invokeMethod;
 	private String desc;
 	private int[] args;
-
+	private boolean conditional;
+	
 	public Callback(final String className, final String methodName,
 			final String methodDesc, final String callbackClass,
-			final String callbackMethod, final String callbackDesc, String args) {
+			final String callbackMethod, final String callbackDesc, String args, final boolean conditional) {
 		this.method = ASMUtils.getMethod(className, methodName, methodDesc);
 		this.invokeClass = callbackClass;
 		this.invokeMethod = callbackMethod;
 		this.desc = callbackDesc;
+		this.conditional = conditional;
 		if (args.contains(",")) {
 			final String[] strArgs = args.split(",");
 			this.args = new int[strArgs.length];
@@ -44,7 +46,7 @@ public class Callback implements Injectable {
 
 	public AddCallbackAdapter getAdapter() {
 		return new AddCallbackAdapter(this.method, this.invokeClass,
-				this.invokeMethod, this.desc, this.args);
+				this.invokeMethod, this.desc, this.args, this.conditional);
 	}
 
 }

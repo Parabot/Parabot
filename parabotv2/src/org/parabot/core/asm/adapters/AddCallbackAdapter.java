@@ -6,6 +6,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -26,15 +28,17 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 	private String invokeMethod;
 	private String desc;
 	private int[] args;
+	private boolean conditional;
 
 	public AddCallbackAdapter(final MethodNode method,
 			final String invokeClass, final String invokeMethod,
-			final String desc, final int[] args) {
+			final String desc, final int[] args, final boolean conditional) {
 		this.method = method;
 		this.invokeClass = invokeClass;
 		this.invokeMethod = invokeMethod;
 		this.desc = desc;
 		this.args = args;
+		this.conditional = conditional;
 	}
 
 	@Override
@@ -60,6 +64,12 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 		inject.add(new MethodInsnNode(INVOKESTATIC,
 				this.invokeClass, this.invokeMethod,
 				this.desc));
+		if(this.conditional) {
+			LabelNode ln = new LabelNode(new Label()); 
+            inject.add(new JumpInsnNode(IFEQ, ln)); 
+            inject.add(new InsnNode(RETURN)); 
+            inject.add(ln);
+		}
 		this.method.instructions.insert(inject);
 	}
 

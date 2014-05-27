@@ -445,9 +445,10 @@ public class XMLHookParser extends HookParser {
             final String callDesc = getValue("calldesc", addCallback);
             final String callArgs = getValue("callargs", addCallback);
             final String desc = getValue("desc", addCallback);
+            final boolean conditional = isSet("conditional", addCallback);
 
             final Callback callback = new Callback(className, methodName, desc,
-                    callClass, callMethod, callDesc, callArgs);
+                    callClass, callMethod, callDesc, callArgs, conditional);
             callbackList.add(callback);
         }
         return callbackList.toArray(new Callback[callbackList.size()]);

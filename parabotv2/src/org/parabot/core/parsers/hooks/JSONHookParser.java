@@ -217,7 +217,7 @@ public class JSONHookParser extends HookParser {
 
 				String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
 
-				c[j] = new Callback(clazz, this.get(o, "method"), this.get(o, "callclass"), this.get(o, "callmethod"), this.get(o, "calldesc"), this.get(o, "callargs"), this.get(o, "desc"));
+				c[j] = new Callback(clazz, this.get(o, "method"), this.get(o, "callclass"), this.get(o, "callmethod"), this.get(o, "calldesc"), this.get(o, "callargs"), this.get(o, "desc"), false);
 			}
 			return c;
 		}

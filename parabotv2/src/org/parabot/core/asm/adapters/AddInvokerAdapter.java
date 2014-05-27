@@ -67,6 +67,7 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 					mn.access = mn.access & (~ACC_PROTECTED);
 				}
 				mn.access = mn.access | ACC_PUBLIC;
+				//mn.access = mn.access | ACC_SYNCHRONIZED;
 			}
 		}
 		

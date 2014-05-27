@@ -11,6 +11,7 @@ import java.io.IOException;
  * @author Everel
  */
 public class Core {
+	public static boolean mDebug;
     private static boolean debug;
     private static boolean verbose;
     private static boolean dump;
@@ -114,6 +115,8 @@ public class Core {
     }
     
     public static void debug(int i) {
-    	System.out.println("DEBUG: " + i);
+    	if(mDebug) {
+    		System.out.println("DEBUG: " + i);
+    	}
     }
 }

@@ -49,7 +49,8 @@ public class Context {
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
-      
+        
+        System.setProperty("sun.java.command", "");
         this.serverProvider = serverProvider;
         this.paintDebugger = new PaintDebugger();
         this.classPath = new ClassPath();

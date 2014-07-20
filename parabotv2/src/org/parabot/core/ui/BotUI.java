@@ -57,44 +57,46 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 		setLocationRelativeTo(null);
 		BotDialog.getInstance(this);
 
-        // Uncompleted fix for non windows users
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             BotDialog.getInstance().setVisible(false);
         }
 	}
 	
 	private void createMenu() {
-		JMenuBar menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
 
-		JMenu file = new JMenu("File");
-		JMenu scripts = new JMenu("Script");
-		
-		JMenuItem proxy = new JMenuItem("Network");
+        JMenu file = new JMenu("File");
+        JMenu scripts = new JMenu("Script");
+
+        JMenuItem proxy = new JMenuItem("Network");
         JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+        dialog.setSelected(true);
 
-		JMenuItem exit = new JMenuItem("Exit");
-		
-		run = new JMenuItem("Run");
-		run.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/run.png")));
-		
-		pause = new JMenuItem("Pause");
-		pause.setEnabled(false);
-		pause.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/pause.png")));
-		
-		stop = new JMenuItem("Stop");
-		stop.setEnabled(false);
-		stop.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/stop.png")));
-		
-		proxy.addActionListener(this);
-		dialog.addActionListener(this);
-		exit.addActionListener(this);
-		
-		run.addActionListener(this);
-		pause.addActionListener(this);
-		stop.addActionListener(this);
-		
-		file.add(proxy);
-        file.add(dialog);
+        JMenuItem exit = new JMenuItem("Exit");
+
+        run = new JMenuItem("Run");
+        run.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/run.png")));
+
+        pause = new JMenuItem("Pause");
+        pause.setEnabled(false);
+        pause.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/pause.png")));
+
+        stop = new JMenuItem("Stop");
+        stop.setEnabled(false);
+        stop.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/stop.png")));
+
+        proxy.addActionListener(this);
+        dialog.addActionListener(this);
+        exit.addActionListener(this);
+
+        run.addActionListener(this);
+        pause.addActionListener(this);
+        stop.addActionListener(this);
+
+        file.add(proxy);
+        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)){
+            file.add(dialog);
+        }
 		file.add(exit);
 		
 		scripts.add(run);

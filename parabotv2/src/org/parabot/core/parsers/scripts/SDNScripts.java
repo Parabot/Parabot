@@ -15,7 +15,7 @@ import java.net.URL;
 /**
  * Parses scripts stored on the sdn of Parabot
  *
- * @author Everel, Paradox
+ * @author Paradox, Everel
  */
 public class SDNScripts extends ScriptParser {
     private static AccountManager manager;
@@ -30,7 +30,7 @@ public class SDNScripts extends ScriptParser {
     };
 
     @Override
-    public void execute(){
+    public void execute() {
         if (!manager.isLoggedIn()) {
             System.err.println("Not logged in...");
             return;
@@ -43,8 +43,7 @@ public class SDNScripts extends ScriptParser {
 
             String line;
 
-
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 Object obj = parser.parse(line);
                 JSONObject jsonObject = (JSONObject) obj;
                 String jarName = String.valueOf(jsonObject.get("jarname"));

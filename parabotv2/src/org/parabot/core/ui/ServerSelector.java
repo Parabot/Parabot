@@ -1,17 +1,14 @@
 package org.parabot.core.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.ServerComponent;
 import org.parabot.environment.Environment;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 
@@ -42,7 +39,7 @@ public class ServerSelector extends JPanel {
 				return;
 			}
 		}
-		
+
 
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(600, 400));
@@ -99,7 +96,7 @@ public class ServerSelector extends JPanel {
 	 * @return widgets array
 	 */
 	public Queue<ServerComponent> getServers() {
-		final Queue<ServerComponent> widgets = new LinkedList<ServerComponent>();
+		final Queue<ServerComponent> widgets = new LinkedList<>();
 		ServerDescription[] servers = ServerParser.getDescriptions();
 		if (servers != null) {
 			for (ServerDescription desc : servers) {

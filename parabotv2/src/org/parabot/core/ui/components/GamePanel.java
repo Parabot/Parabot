@@ -1,13 +1,9 @@
 package org.parabot.core.ui.components;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.GroupLayout;
-import javax.swing.JPanel;
-
 import org.parabot.core.Context;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * 
@@ -37,7 +33,7 @@ public class GamePanel extends JPanel {
 	/**
 	 * Updates context of this panel and adds a different Applet to the panel
 	 * 
-	 * @param context
+	 * @param c
 	 */
 	public void setContext(final Context c) {
 		add(c.getApplet(), BorderLayout.CENTER);

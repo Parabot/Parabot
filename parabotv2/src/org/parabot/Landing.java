@@ -1,11 +1,5 @@
 package org.parabot;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
@@ -13,12 +7,16 @@ import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
 
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Parabot v2
  *
  * @author Everel/Parnassian/Clisprail
- * @author Matt, Dane
- * @version 2.04
+ * @author Matt, Dane, Paradox
+ * @version 2.09
  */
 public final class Landing {
     // forum account

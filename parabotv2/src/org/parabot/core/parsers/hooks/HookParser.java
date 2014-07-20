@@ -4,6 +4,7 @@ import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.asm.wrappers.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -37,39 +38,27 @@ public abstract class HookParser {
         ArrayList<Injectable> injectables = new ArrayList<Injectable>();
         Interface[] interfaces = getInterfaces();
         if (interfaces != null) {
-            for (Interface inf : interfaces) {
-                injectables.add(inf);
-            }
+            Collections.addAll(injectables, interfaces);
         }
         Getter[] getters = getGetters();
         if (getters != null) {
-            for (Getter get : getters) {
-                injectables.add(get);
-            }
+            Collections.addAll(injectables, getters);
         }
         Setter[] setters = getSetters();
         if (setters != null) {
-            for (Setter set : setters) {
-                injectables.add(set);
-            }
+            Collections.addAll(injectables, setters);
         }
         Super[] supers = getSupers();
         if (supers != null) {
-            for (Super sup : supers) {
-                injectables.add(sup);
-            }
+            Collections.addAll(injectables, supers);
         }
         Invoker[] invokers = getInvokers();
         if (invokers != null) {
-            for (Invoker vok : invokers) {
-                injectables.add(vok);
-            }
+            Collections.addAll(injectables, invokers);
         }
         Callback[] callbacks = getCallbacks();
         if (callbacks != null) {
-            for (Callback callback : callbacks) {
-                injectables.add(callback);
-            }
+            Collections.addAll(injectables, callbacks);
         }
         return injectables.toArray(new Injectable[injectables.size()]);
     }

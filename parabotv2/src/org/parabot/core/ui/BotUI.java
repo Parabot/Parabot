@@ -16,7 +16,7 @@ import java.awt.event.*;
  * 
  * The bot user interface
  * 
- * @author Dane, Everel
+ * @author Dane, Everel, Paradox
  * 
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
@@ -94,9 +94,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.addActionListener(this);
 
         file.add(proxy);
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)){
+        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS))
             file.add(dialog);
-        }
+
 		file.add(exit);
 		
 		scripts.add(run);

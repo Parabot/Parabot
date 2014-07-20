@@ -1,22 +1,11 @@
 package org.parabot.core.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.net.SocketException;
+import org.parabot.core.network.NetworkInterface;
+import org.parabot.core.network.proxy.ProxySocket;
+import org.parabot.core.network.proxy.ProxyType;
+import org.parabot.core.ui.utils.UILog;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -24,18 +13,15 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
-
-import org.parabot.core.network.NetworkInterface;
-import org.parabot.core.network.proxy.ProxySocket;
-import org.parabot.core.network.proxy.ProxyType;
-import org.parabot.core.ui.utils.UILog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.net.SocketException;
 
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		DocumentListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private static NetworkUI instance;

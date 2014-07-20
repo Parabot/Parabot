@@ -14,8 +14,7 @@ import java.io.IOException;
 /**
  * Parabot v2
  *
- * @author Everel/Parnassian/Clisprail
- * @author Matt, Dane, Paradox
+ * @author Everel/Parnassian/Clisprail, Paradox, Matt, Dane
  * @version 2.09
  */
 public final class Landing {

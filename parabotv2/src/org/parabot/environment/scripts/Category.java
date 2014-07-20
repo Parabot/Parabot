@@ -1,16 +1,16 @@
 package org.parabot.environment.scripts;
 
+import org.parabot.core.ui.images.Images;
+
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-
-import org.parabot.core.ui.images.Images;
 
 
 /**
  * 
  * Holds script categories
  * 
- * @author Dane
+ * @author Dane, Paradox
  * 
  */
 public enum Category
@@ -28,7 +28,7 @@ public enum Category
 
 	/**
 	 * Gets category icon image from filename
-	 * @param s
+	 * @param s Name of the image - used for the hashmap index
 	 * @return icon
 	 */
 	public static BufferedImage getIcon(String s) {
@@ -49,7 +49,7 @@ public enum Category
 	/**
 	 * Cache
 	 */
-	private static HashMap<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	private static HashMap<String, BufferedImage> images = new HashMap<>();
 
 	static {
 		images.put("script", Images.getResource("/org/parabot/core/ui/images/category/script.png"));

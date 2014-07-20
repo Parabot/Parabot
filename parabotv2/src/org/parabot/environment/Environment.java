@@ -1,7 +1,5 @@
 package org.parabot.environment;
 
-import java.util.LinkedList;
-
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.lib.Library;
@@ -9,6 +7,8 @@ import org.parabot.core.lib.javafx.JavaFX;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
+
+import java.util.LinkedList;
 
 
 /**
@@ -23,11 +23,11 @@ public class Environment {
 	/**
 	 * Loads a new environment
 	 * 
-	 * @param url
+	 * @param desc
 	 */
 	public static void load(final ServerDescription desc) {
 		
-		LinkedList<Library> libs = new LinkedList<Library>();
+		LinkedList<Library> libs = new LinkedList<>();
 		libs.add(new JavaFX());
 		
 		for(Library lib : libs) {

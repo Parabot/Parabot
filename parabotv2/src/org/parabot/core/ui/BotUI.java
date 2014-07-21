@@ -94,9 +94,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.addActionListener(this);
 
         file.add(proxy);
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS))
+        
+        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             file.add(dialog);
-
+        }
+        
 		file.add(exit);
 		
 		scripts.add(run);

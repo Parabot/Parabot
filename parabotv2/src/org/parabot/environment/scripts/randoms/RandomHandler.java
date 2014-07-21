@@ -11,7 +11,7 @@ public class RandomHandler {
     private ArrayList<Random> randoms;
     
     public RandomHandler() {
-    	randoms = new ArrayList<Random>();
+    	randoms = new ArrayList<>();
     }
 
     /**
@@ -23,7 +23,7 @@ public class RandomHandler {
     }
 
     /**
-     * Checks if random occures and runs it
+     * Checks if random occurs and runs it
      * @return returns <b>true</b> if a random has been executed, otherwise <b>false</b>
      */
     public boolean checkAndRun() {

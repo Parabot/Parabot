@@ -44,8 +44,7 @@ public class SDNScripts extends ScriptParser {
             String line;
 
             while ((line = br.readLine()) != null) {
-                Object obj = parser.parse(line);
-                JSONObject jsonObject = (JSONObject) obj;
+                JSONObject jsonObject = (JSONObject) parser.parse(line);
                 String jarName = String.valueOf(jsonObject.get("jarname"));
                 int sdnId = Integer.parseInt(String.valueOf(jsonObject.get("scriptid")));
                 String scriptName = String.valueOf(jsonObject.get("scriptname"));

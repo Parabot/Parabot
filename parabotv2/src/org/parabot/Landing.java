@@ -15,7 +15,7 @@ import java.io.IOException;
  * Parabot v2.1
  *
  * @author Everel/Parnassian/Clisprail, Paradox, Matt, Dane
- * @see <a href="http://www.parabot.org">Homepage</a>.
+ * @see <a href="http://www.parabot.org">Homepage</a>
  * @version 2.1
  */
 public final class Landing {

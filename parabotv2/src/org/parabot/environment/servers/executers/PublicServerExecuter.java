@@ -30,7 +30,7 @@ import java.net.URL;
  */
 public class PublicServerExecuter extends ServerExecuter {
 	private String serverName;
-	private String serverID;
+	private int serverID;
 	
 	private static AccountManager manager;
 
@@ -43,7 +43,7 @@ public class PublicServerExecuter extends ServerExecuter {
 
 	};
 
-	public PublicServerExecuter(final String serverName, final String serverID) {
+	public PublicServerExecuter(final String serverName, final int serverID) {
 		this.serverName = serverName;
 		this.serverID = serverID;
 	}
@@ -51,16 +51,6 @@ public class PublicServerExecuter extends ServerExecuter {
 	@Override
 	public void run() {
 		try {
-			try {
-				Integer.parseInt(this.serverID);
-			} catch (NumberFormatException e) {
-				UILog.log(
-						"Error",
-						"Failed to parse the server ID for the server provider, error: [Server ID is not an integer.]",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
 			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
 					+ this.serverID), manager.getAccount().getUsername(), manager.getAccount().getPassword());
 			
@@ -110,12 +100,7 @@ public class PublicServerExecuter extends ServerExecuter {
 						.newInstance();
 				Context.getInstance(serverProvider).setProviderInfo(serverProviderInfo);
 				super.finalize(serverProvider, this.serverName);
-			} catch (NoClassDefFoundError ignored) {
-				UILog.log(
-						"Error",
-						"Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (ClassNotFoundException ignored) {
+			} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",

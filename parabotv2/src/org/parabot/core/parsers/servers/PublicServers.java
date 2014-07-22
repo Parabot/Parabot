@@ -44,10 +44,11 @@ public class PublicServers extends ServerParser {
                 String name = String.valueOf(jsonObject.get("name"));
                 String author = String.valueOf(jsonObject.get("author"));
                 double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+                int serverID = Integer.parseInt(String.valueOf(jsonObject.get("id")));
 
                 ServerDescription desc = new ServerDescription(name,
                         author, version);
-                SERVER_CACHE.put(desc, new PublicServerExecuter(name, line));
+                SERVER_CACHE.put(desc, new PublicServerExecuter(name, serverID));
             }
 
             br.close();

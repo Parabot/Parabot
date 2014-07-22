@@ -1,9 +1,5 @@
 package org.parabot.core.forum;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.SDNScripts;
@@ -12,6 +8,10 @@ import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.SDNScriptExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Handles logging in to parabot forum, only certain classes may use this class.
@@ -62,7 +62,7 @@ public final class AccountManager {
 		if (account != null) {
 			throw new IllegalStateException("Already logged in.");
 		}
-		String contents = null;
+		String contents;
 		try {
 			contents = WebUtil.getContents(String.format(
                     Configuration.LOGIN_SERVER,

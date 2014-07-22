@@ -13,9 +13,9 @@ import java.io.BufferedReader;
 import java.net.URL;
 
 /**
- * Parses servers hosted on parabot
+ * Parses servers hosted on Parabot
  *
- * @author Everel
+ * @author Paradox, Everel
  */
 public class PublicServers extends ServerParser {
 

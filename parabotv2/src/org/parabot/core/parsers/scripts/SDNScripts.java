@@ -13,7 +13,7 @@ import java.io.BufferedReader;
 import java.net.URL;
 
 /**
- * Parses scripts stored on the sdn of Parabot
+ * Parses scripts stored on the SDN of Parabot
  *
  * @author Paradox, Everel
  */

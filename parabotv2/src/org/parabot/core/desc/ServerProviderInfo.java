@@ -14,8 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
- * @author Everel
+ * Gets the information for the selected server provider
+ *
+ * @author Paradox, Everel
  *
  */
 public class ServerProviderInfo {

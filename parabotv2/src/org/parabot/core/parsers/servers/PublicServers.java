@@ -1,5 +1,7 @@
 package org.parabot.core.parsers.servers;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.parabot.core.Configuration;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.forum.AccountManager;
@@ -16,51 +18,36 @@ import java.net.URL;
  * @author Everel
  */
 public class PublicServers extends ServerParser {
-	
-	private static AccountManager manager;
 
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
+    private static AccountManager manager;
 
-		@Override
-		public final void setManager(AccountManager manager) {
-			PublicServers.manager = manager;
-		}
+    public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 
-	};
+        @Override
+        public final void setManager(AccountManager manager) {
+            PublicServers.manager = manager;
+        }
+
+    };
 
     @Override
     public void execute() {
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SERVER_PROVIDERS), manager.getAccount().getUsername(), manager.getAccount().getPassword());
-            int count = 0;
+                    Configuration.GET_SERVER_PROVIDERS_JSON), manager.getAccount().getUsername(), manager.getAccount().getPassword());
             String line;
 
-            String name = null;
-            String author = null;
-            double version = 0D;
-
+            JSONParser parser = new JSONParser();
             while ((line = br.readLine()) != null) {
-                count++;
-                switch (count % 4) {
-                    case 1:
-                        // server name
-                        name = line;
-                        break;
-                    case 2:
-                        // author
-                        author = line;
-                        break;
-                    case 3:
-                        // version
-                        version = Double.parseDouble(line);
-                        break;
-                    case 0:
-                        // serverID
-                        ServerDescription desc = new ServerDescription(name,
-                                author, version);
-                        SERVER_CACHE.put(desc, new PublicServerExecuter(name, line));
-                }
+
+                JSONObject jsonObject = (JSONObject) parser.parse(line);
+                String name = String.valueOf(jsonObject.get("name"));
+                String author = String.valueOf(jsonObject.get("author"));
+                double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+
+                ServerDescription desc = new ServerDescription(name,
+                        author, version);
+                SERVER_CACHE.put(desc, new PublicServerExecuter(name, line));
             }
 
             br.close();

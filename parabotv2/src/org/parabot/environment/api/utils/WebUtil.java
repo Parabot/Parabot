@@ -1,20 +1,13 @@
 package org.parabot.environment.api.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.parabot.core.io.ProgressListener;
+import org.parabot.core.io.SizeInputStream;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import org.parabot.core.io.ProgressListener;
-import org.parabot.core.io.SizeInputStream;
 
 /**
  * 
@@ -158,8 +151,8 @@ public class WebUtil {
 	
 	public static BufferedReader getReader(final URL url, String username, String password) {
 		try {
-			String data = URLEncoder.encode("username", "UTF-8") + "=" + username;
-	        data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + password;
+			String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+	        data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 			
 			URLConnection connection = url.openConnection();
 		

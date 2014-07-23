@@ -151,8 +151,8 @@ public class WebUtil {
 	
 	public static BufferedReader getReader(final URL url, String username, String password) {
 		try {
-			String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
-	        data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+			String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") +
+	        "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 			
 			URLConnection connection = url.openConnection();
 		

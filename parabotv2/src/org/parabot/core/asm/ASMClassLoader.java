@@ -1,6 +1,10 @@
 package org.parabot.core.asm;
 
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+import org.parabot.core.classpath.ClassPath;
+
 import java.net.URL;
 import java.security.AllPermission;
 import java.security.CodeSource;
@@ -9,10 +13,6 @@ import java.security.ProtectionDomain;
 import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
-import org.parabot.core.classpath.ClassPath;
 
 /**
  * 
@@ -52,8 +52,8 @@ public class ASMClassLoader extends ClassLoader {
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
 		try {
-			return super.getSystemClassLoader().loadClass(name);
-		} catch (Exception e) {
+			return getSystemClassLoader().loadClass(name);
+		} catch (Exception ignored) {
 			
 		}
 		String key = name.replace('.', '/');
@@ -67,7 +67,7 @@ public class ASMClassLoader extends ClassLoader {
 			classCache.put(key, c);
 			return c;
 		}
-		return super.getSystemClassLoader().loadClass(name);
+		return getSystemClassLoader().loadClass(name);
 	}
 
 	private final Class<?> nodeToClass(ClassNode node) {

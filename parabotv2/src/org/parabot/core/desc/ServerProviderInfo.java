@@ -80,7 +80,7 @@ public class ServerProviderInfo {
 	public long getCRC32() {
         if (properties.get("crc32") != null) {
             return Long.parseLong(properties.get("crc32"));
-        }else{
+        } else {
             return (long) new Random().nextInt(2000) + 1;
         }
 	}

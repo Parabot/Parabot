@@ -113,10 +113,12 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 				.append(this.category).append(", version: ")
 				.append(this.version).append(", description: ")
 				.append(this.description).append(", servers: ");
-		for (int i = 0; i < this.servers.length; i++) {
-			b.append(this.servers[i]);
-			if (i < (this.servers.length - 1)) {
-				b.append(" ");
+		if(this.servers != null) {
+			for (int i = 0; i < this.servers.length; i++) {
+				b.append(this.servers[i]);
+				if (i < (this.servers.length - 1)) {
+					b.append(" ");
+				}
 			}
 		}
 		b.append(", vip: ")

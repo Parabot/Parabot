@@ -35,7 +35,7 @@ public class ServerProviderInfo {
             if ((line = br.readLine()) != null) {
                 JSONObject jsonObject = (JSONObject) parser.parse(line);
                 for (Object o : jsonObject.entrySet()) {
-                    Map.Entry pairs = (Map.Entry) o;
+                    Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
                     properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
                 }
             }else{

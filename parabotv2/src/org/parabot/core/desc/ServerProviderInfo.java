@@ -12,7 +12,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Gets the information for the selected server provider
@@ -81,7 +80,7 @@ public class ServerProviderInfo {
         if (properties.get("crc32") != null) {
             return Long.parseLong(properties.get("crc32"));
         } else {
-            return (long) new Random().nextInt(2000) + 1;
+            return System.currentTimeMillis() / 1000 / 60 / 60/ 24;
         }
 	}
 	

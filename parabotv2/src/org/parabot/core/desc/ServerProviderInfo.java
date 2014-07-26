@@ -37,7 +37,7 @@ public class ServerProviderInfo {
                     Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
                     properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
                 }
-            }else{
+            } else {
                 UILog.log(
                         "Error",
                         "Failed to load server provider, error: [No information about the provider found.]",
@@ -80,7 +80,7 @@ public class ServerProviderInfo {
         if (properties.get("crc32") != null) {
             return Long.parseLong(properties.get("crc32"));
         } else {
-            return System.currentTimeMillis() / 1000 / 60 / 60/ 24;
+            return System.currentTimeMillis() / 1000 / 60 / 60 / 24;
         }
 	}
 	

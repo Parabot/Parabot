@@ -7,7 +7,7 @@ package org.parabot.core;
  */
 public class Configuration {
     public static final String LOGIN_SERVER = "http://www.parabot.org/community/api/login.php?username=%s&password=%s";
-    public static final String SDN_SCRIPTS_JSON = "http://sdn.parabot.org/scripts.php?method=json&user=%s&type=hex";
+    public static final String SDN_SCRIPTS_JSON = "http://sdn.parabot.org/scripts.php?method=json&user=%s";
     public static final String GET_SDN_SCRIPT = "http://sdn.parabot.org/getscript.php?user=%s&pass=%s&scriptid=%d";
     public static final String GET_SERVER_PROVIDERS_JSON = "http://sdn.parabot.org/providers/index.php?method=json";
     public static final String GET_SERVER_PROVIDER = "http://sdn.parabot.org/providers/provider.php?id=";

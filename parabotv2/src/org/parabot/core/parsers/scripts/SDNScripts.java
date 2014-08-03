@@ -6,6 +6,7 @@ import org.parabot.core.Configuration;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
+import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.SDNScriptExecuter;
 
@@ -52,6 +53,11 @@ public class SDNScripts extends ScriptParser {
                 double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
                 String category = String.valueOf(jsonObject.get("category"));
                 String description = String.valueOf(jsonObject.get("description"));
+                
+                // convert hex encoded strings to normal strings
+                
+                scriptName = StringUtils.convertHexToString(scriptName);
+                description = StringUtils.convertHexToString(description);
 
                 final ScriptDescription desc = new ScriptDescription(jarName, scriptName,
                         author, category, version, description,

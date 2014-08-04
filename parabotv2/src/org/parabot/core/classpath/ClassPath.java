@@ -193,16 +193,14 @@ public class ClassPath {
 	 * @param inputstream
 	 * @throws IOException
 	 */
-	protected void loadClass(InputStream in) throws IOException {
-		ClassReader cr = new ClassReader(in);
-		ClassNode cn = new ClassNode();
-		cr.accept(cn, 0);
-		/*RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
-		ClassNode remapped = new ClassNode();
-		cn.accept(rca);*/
-		classNames.add(cn.name.replace('/', '.'));
-		classes.put(cn.name, cn);
-	}
+    protected void loadClass(InputStream in) throws IOException {
+        ClassReader cr = new ClassReader(in);
+        ClassNode cn = new ClassNode();
+        RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
+        cr.accept(rca, ClassReader.EXPAND_FRAMES);
+        classes.put(cn.name, cn);
+    }
+
 
 	/**
 	 * Determines if this classpath represents a jar file

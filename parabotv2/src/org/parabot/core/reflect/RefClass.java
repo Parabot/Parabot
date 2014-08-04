@@ -1,5 +1,8 @@
 package org.parabot.core.reflect;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 /**
@@ -11,19 +14,20 @@ import java.util.ArrayList;
  * @author Everel
  * 
  */
-public class RefClass {
+public class RefClass extends RefModifiers {
 	private Object instance;
 	private Class<?> clazz;
 
 	public RefClass(Class<?> clazz) {
-		this.clazz = clazz;
+		this(clazz, null);
 	}
 
 	public RefClass(Object instance) {
-		setInstance(instance);
+		this(instance.getClass(), instance);
 	}
 	
 	public RefClass(Class<?> clazz, Object instance) {
+		super(clazz.getModifiers());
 		this.clazz = clazz;
 		setInstance(instance);
 	}
@@ -44,13 +48,9 @@ public class RefClass {
 			}
 		}
 		this.instance = instance;
-		if (this.clazz == null) {
-			this.clazz = instance.getClass();
-		}
 	}
 	
 	/**
-	 * 
 	 * Gets the instance of this class
 	 * 
 	 * @return if an instance of this class is known it will return that instance, otherwise it will return null.
@@ -60,15 +60,169 @@ public class RefClass {
 	}
 	
 	/**
+	 * Gets the class which this RefClass is representing
+	 * 
+	 * @return class which this RefClass is representing
+	 */
+	public Class<?> getRepresentingClass() {
+		return this.clazz;
+	}
+	
+	public String getClassName() {
+		return this.clazz.getName();
+	}
+	
+	public String getSimpleName() {
+		return this.clazz.getSimpleName();
+	}
+	
+	public String getCanonicalName() {
+		return this.clazz.getCanonicalName();
+	}
+	
+	/**
+	 * Gets the type of this class
+	 * @return type of this class
+	 */
+	public org.objectweb.asm.Type getASMType() {
+		return org.objectweb.asm.Type.getType(this.clazz);
+	}
+	
+	/**
 	 * Gets the class' fields
 	 * @return all fields if an instance is provided, otherwise only static fields
 	 */
 	public RefField[] getFields() {
 		ArrayList<RefField> fields = new ArrayList<RefField>();
-		if(this.instance == null) {
-			return null;
+		// add all static fields
+		for(Field f : clazz.getDeclaredFields()) {
+			if(Modifier.isStatic(f.getModifiers())) {
+				fields.add(new RefField(f, instance));
+			}
+		}
+		if(this.instance != null) {
+			// add all non static fields
+			for(Field f : clazz.getDeclaredFields()) {
+				if(!Modifier.isStatic(f.getModifiers())) {
+					fields.add(new RefField(f, instance));
+				}
+			}
 		}
 		return fields.toArray(new RefField[fields.size()]);
+	}
+	
+	/**
+	 * Gets field by field name
+	 * @param name name of the field
+	 * @return the field if found
+	 */
+	public RefField getField(String name) {
+		return getField(name, null);
+	}
+	
+	/**
+	 * Gets field by field name and desc
+	 * @param name name of the field
+	 * @param desc desc type of the field
+	 * @return the field if found
+	 */
+	public RefField getField(String name, String desc) {
+		RefField[] fields = getFields();
+		for(RefField f : fields) {
+			if(f.getName().equals(name)) {
+				if(desc == null) {
+					return f;
+				}
+				if(desc.equals(f.getTypeDesc())) {
+					return f;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Determines if this class has a super class
+	 * @return <code>true</code> if this class has a super class and which is not the java/lang/Object class, otherwise <code>false.</code>
+	 */
+	public boolean hasSuperclass() {
+		return hasSuperclass(true);
+	}
+	
+	/**
+	 * Determines if this class has a super class
+	 * @param ignoreObjectClass if you want this method to return false when the superclass is the java/lang/Object class
+	 * @return <code>true</code> if this class has a superclass, otherwise <code>false</code>
+	 */
+	public boolean hasSuperclass(boolean ignoreObjectClass) {
+		if(!ignoreObjectClass) {
+			return !clazz.equals(Object.class);
+		}
+		Class<?> superClass = clazz.getSuperclass();
+		return !superClass.equals(Object.class);
+	}
+	
+	/**
+	 * Returns a new RefClass representing the superclass of this RefClass
+	 * @return superclass of this RefClass
+	 */
+	public RefClass getSuperclass() {
+		return new RefClass(clazz.getSuperclass(), instance);
+	}
+	
+	/**
+	 * Creates a new instance of this class
+	 * @return a RefClass representing a fresh created instance of that class
+	 */
+	public RefClass newInstance() {
+		try {
+			return new RefClass(clazz.newInstance());
+		} catch(Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets the empty (without parameters) constructor of this class if any
+	 * @return empty constructor if there, otherwise <code>null</code>
+	 */
+	public RefConstructor getConstructor() {
+		return getConstructor(new Class<?>[] { });
+	}
+
+	/**
+	 * Gets a RefConstructor from this class
+	 * @param parameters the constructor it's parameters
+	 * @return the retrieved constructor
+	 */
+	public RefConstructor getConstructor(Class<?>[] parameters) {
+		try {
+			return new RefConstructor(clazz.getDeclaredConstructor(parameters));
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets all constructors of this class
+	 * @return an array with all the constructors in this class
+	 */
+	public RefConstructor[] getConstructors() {
+		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+		RefConstructor[] refConstructors = new RefConstructor[constructors.length];
+		for(int i = 0; i < constructors.length; i++) {
+			refConstructors[i] = new RefConstructor(constructors[i]);
+		}
+		return refConstructors;
+	}
+	
+	public String toString() {
+		if(this.instance != null) {
+			return new StringBuilder().append(this.instance.toString()).append(" : ").append(this.clazz.toString()).toString();
+		}
+		return this.clazz.toString();
 	}
 
 }

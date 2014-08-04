@@ -2,6 +2,11 @@ package org.parabot.core.reflect;
 
 import java.lang.reflect.Modifier;
 
+/**
+ * 
+ * @author Everel
+ *
+ */
 public class RefModifiers {
 	private int modifiers;
 	

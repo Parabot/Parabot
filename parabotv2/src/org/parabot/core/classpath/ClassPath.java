@@ -198,8 +198,10 @@ public class ClassPath {
         ClassNode cn = new ClassNode();
         RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
         cr.accept(rca, ClassReader.EXPAND_FRAMES);
+        classNames.add(cn.name.replace('/', '.'));
         classes.put(cn.name, cn);
     }
+
 
 
 	/**

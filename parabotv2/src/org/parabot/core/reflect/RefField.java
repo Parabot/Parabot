@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 
 /**
  * 
- * A RefField represents a field in a class
+ * A <code>RefField</code> represents a field in a <code>RefClass</code>
  * 
  * @author Everel
  *

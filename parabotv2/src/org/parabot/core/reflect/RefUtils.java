@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * 
  * @author Everel
- *
+ * 
  */
 public class RefUtils {
 

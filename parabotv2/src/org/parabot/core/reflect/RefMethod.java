@@ -11,9 +11,16 @@ import java.lang.reflect.Method;
  */
 public class RefMethod extends RefModifiers {
 	private Method method;
+	private Object instance;
 
 	public RefMethod(Method method) {
+		this(method, null);
+	}
+	
+	public RefMethod(Method method, Object instance) {
 		super(method.getModifiers());
+		this.method = method;
+		this.instance = instance;
 	}
 	
 	/**
@@ -23,6 +30,23 @@ public class RefMethod extends RefModifiers {
 	 */
 	public boolean isAccessible() {
 		return method.isAccessible();
+	}
+	
+	/**
+	 * Determines if this method is a bridge method.
+	 * 
+	 * @return <code>true</code> if this method is a bridge method, otherwise <code>false</code>
+	 */
+	public boolean isBridge() {
+		return method.isBridge();
+	}
+	
+	/**
+	 * Determines if this method can take a variable amount of arguments
+	 * @return <code>true</code> if this method can take a variable amount of arguments
+	 */
+	public boolean isVarArgs() {
+		return method.isVarArgs();
 	}
 
 	/**
@@ -76,6 +100,35 @@ public class RefMethod extends RefModifiers {
 	 */
 	public Method getMethod() {
 		return this.method;
+	}
+	
+	/**
+	 * Invokes the method and returns it returned object
+	 * 
+	 * @return object returned by the method
+	 */
+	public Object invoke() {
+		return invoke(new Object[] { });
+	}
+	
+	/**
+	 * 
+	 * Invokes the method and returns it returned object
+	 * 
+	 * @param args arguments for the invokable method
+	 * @return object returned by the method
+	 */
+	public Object invoke(Object... args) {
+		if(!isStatic() && instance == null) {
+			throw new IllegalStateException("Can not invoke non static method without an instance.");
+		}
+		try {
+			Object retObject = method.invoke(instance, args);
+			return retObject;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String toGenericString() {

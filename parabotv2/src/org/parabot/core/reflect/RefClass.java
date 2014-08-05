@@ -2,6 +2,7 @@ package org.parabot.core.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
@@ -216,6 +217,62 @@ public class RefClass extends RefModifiers {
 			refConstructors[i] = new RefConstructor(constructors[i]);
 		}
 		return refConstructors;
+	}
+	
+	/**
+	 * Gets the class' methods
+	 * @return all methods if an instance is provided, otherwise only static methods
+	 */
+	public RefMethod[] getMethods() {
+		ArrayList<RefMethod> methods = new ArrayList<RefMethod>();
+		// add all static methods
+		for(Method m : clazz.getDeclaredMethods()) {
+			if(Modifier.isStatic(m.getModifiers())) {
+				methods.add(new RefMethod(m, instance));
+			}
+		}
+		if(this.instance != null) {
+			// add all non static methods
+			for(Method m : clazz.getDeclaredMethods()) {
+				if(!Modifier.isStatic(m.getModifiers())) {
+					methods.add(new RefMethod(m, instance));
+				}
+			}
+		}
+		return methods.toArray(new RefMethod[methods.size()]);
+	}
+	
+	/**
+	 * Finds and returns the first RefMethod match with given method name
+	 * @param name method its name
+	 * @return the first match, or if not found <code>null</code>
+	 */
+	public RefMethod getMethod(String name) {
+		return getMethod(name, null);
+	}
+	
+	/**
+	 * Finds a RefMethod in this RefClass
+	 * @param name the method its name
+	 * @param parameters the method its parameters
+	 * @return the matched method or if not found null <code>null</code>
+	 */
+	public RefMethod getMethod(String name, Class<?>[] parameters) {
+		try {
+			for(RefMethod method : getMethods()) {
+				if(method.getName().equals(name)) {
+					if(parameters == null) {
+						return method;
+					}
+					if(method.getParameterTypes().equals(parameters)) {
+						return method;
+					}
+				}
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String toString() {

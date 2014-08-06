@@ -178,6 +178,9 @@ public class RefClass extends RefModifiers {
 			return !clazz.equals(Object.class);
 		}
 		Class<?> superClass = clazz.getSuperclass();
+		if(superClass == null) {
+			return false;
+		}
 		return !superClass.equals(Object.class);
 	}
 

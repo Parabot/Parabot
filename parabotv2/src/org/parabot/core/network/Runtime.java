@@ -41,8 +41,12 @@ public class Runtime {
 		return rt.exec(cmdarray);
 	}
 	
-	public long freeMemory(){
+	public long freeMemory() {
 		return rt.freeMemory();
+	}
+	
+	public long totalMemory() {
+		return rt.totalMemory();
 	}
 	
 	public void gc(){

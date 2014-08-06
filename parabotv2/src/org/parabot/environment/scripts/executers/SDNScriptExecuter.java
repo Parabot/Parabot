@@ -1,11 +1,5 @@
 package org.parabot.environment.scripts.executers;
 
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.swing.JOptionPane;
-
 import org.parabot.core.Configuration;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.forum.AccountManager;
@@ -14,6 +8,11 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
+
+import javax.swing.*;
+import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * 
@@ -44,7 +43,7 @@ public class SDNScriptExecuter extends ScriptExecuter {
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
-			final URLConnection urlConnection = WebUtil.getConnection(new URL(String.format(Configuration.GET_SDN_SCRIPT, manager.getAccount().getUsername(), manager.getAccount().getPassword(), this.id)));
+			final URLConnection urlConnection = WebUtil.getConnection(new URL(String.format(Configuration.GET_SDN_SCRIPT, manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword(), this.id)));
 			final String contentType = urlConnection.getHeaderField("Content-type");
 			if(contentType.equals("text/html")) {
 				// failed to fetch script

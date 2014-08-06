@@ -34,7 +34,7 @@ public class PublicServers extends ServerParser {
     public void execute() {
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SERVER_PROVIDERS_JSON), manager.getAccount().getUsername(), manager.getAccount().getPassword());
+                    Configuration.GET_SERVER_PROVIDERS_JSON), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
             String line;
 
             JSONParser parser = new JSONParser();

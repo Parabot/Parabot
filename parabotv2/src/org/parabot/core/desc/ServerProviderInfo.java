@@ -29,7 +29,6 @@ public class ServerProviderInfo {
             Core.verbose("Reading info: " + providerInfo);
             BufferedReader br = WebUtil.getReader(new URL(providerInfo.toString() + "&method=json"), username, password);
 
-
             JSONParser parser = new JSONParser();
             if ((line = br.readLine()) != null) {
                 JSONObject jsonObject = (JSONObject) parser.parse(line);
@@ -59,14 +58,23 @@ public class ServerProviderInfo {
 		return null;
 	}
 	
-	public URL getHookFile() {
+	public URL getExtendenHookFile() {
 		try {
-			return new URL(properties.get("hooks"));
+			return new URL(properties.get("hooks") + "&extended=true");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+            return getHookFile();
 		}
-		return null;
 	}
+
+    public URL getHookFile() {
+        try {
+            return new URL(properties.get("hooks"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 	
 	public String getClientClass() {
 		return properties.get("clientClass");

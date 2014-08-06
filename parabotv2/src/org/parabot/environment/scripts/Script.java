@@ -154,7 +154,5 @@ public class Script implements Runnable {
 	public final void sleep(int ms) {
 		Time.sleep(ms);
 	}
-	
-	
 
 }

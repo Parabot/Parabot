@@ -72,6 +72,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
         dialog.setSelected(true);
 
+        JMenuItem explorer = new JMenuItem("Reflection explorer");
         JMenuItem exit = new JMenuItem("Exit");
 
         run = new JMenuItem("Run");
@@ -87,6 +88,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         proxy.addActionListener(this);
         dialog.addActionListener(this);
+        explorer.addActionListener(this);
         exit.addActionListener(this);
 
         run.addActionListener(this);
@@ -99,6 +101,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             file.add(dialog);
         }
         
+        file.add(explorer);
 		file.add(exit);
 		
 		scripts.add(run);
@@ -122,6 +125,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Network":
                 NetworkUI.getInstance().setVisible(true);
                 break;
+            case "Reflection explorer":
+            	new ReflectUI().setVisible(true);
+            	break;
             case "Run":
             	if(pauseScript) {
             		pauseScript = false;

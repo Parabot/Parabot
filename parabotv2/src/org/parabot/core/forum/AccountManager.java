@@ -9,7 +9,6 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.SDNScriptExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -74,12 +73,8 @@ public final class AccountManager {
 		}
 
 		if (contents.equals("correct")) {
-			try {
-				account = new Account(URLEncoder.encode(user, "UTF-8"), URLEncoder.encode(pass, "UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			return true;
+            account = new Account(user, pass);
+            return true;
 		}
 		return false;
 	}

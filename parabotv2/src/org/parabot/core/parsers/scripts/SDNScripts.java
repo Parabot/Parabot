@@ -39,7 +39,7 @@ public class SDNScripts extends ScriptParser {
         JSONParser parser = new JSONParser();
         try {
             BufferedReader br = WebUtil.getReader(new URL(String.format(Configuration.SDN_SCRIPTS_JSON, manager.getAccount()
-                    .getUsername())));
+                    .getURLUsername())));
 
             String line;
 

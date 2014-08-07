@@ -118,6 +118,15 @@ public class RefClass extends RefModifiers {
 		}
 		return fields.toArray(new RefField[fields.size()]);
 	}
+	
+	/**
+	 * Determines if a object is an instance of this class
+	 * @param object the object you want to check
+	 * @return <code>true</code> if the object is an instance of this class; <code>false</code> otherwise
+	 */
+	public boolean instanceOf(Object object) {
+		return this.clazz.isInstance(object);
+	}
 
 	/**
 	 * Gets field by field name

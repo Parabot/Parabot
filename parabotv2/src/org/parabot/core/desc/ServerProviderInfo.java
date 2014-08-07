@@ -58,7 +58,7 @@ public class ServerProviderInfo {
 		return null;
 	}
 	
-	public URL getExtendenHookFile() {
+	public URL getExtendedHookFile() {
 		try {
 			return new URL(properties.get("hooks") + "&extended=true");
 		} catch (MalformedURLException e) {

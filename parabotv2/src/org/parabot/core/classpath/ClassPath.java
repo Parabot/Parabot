@@ -35,7 +35,6 @@ import org.parabot.core.ui.components.VerboseLoader;
  * @author Everel
  * @author Matt
  */
-@SuppressWarnings("unused")
 public class ClassPath {
 	public final ArrayList<String> classNames;
 	public final HashMap<String, ClassNode> classes;

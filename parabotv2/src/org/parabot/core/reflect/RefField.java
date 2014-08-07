@@ -360,6 +360,14 @@ public class RefField extends RefModifiers {
 	public Field getField() {
 		return field;
 	}
+	
+	/**
+	 * Gets the declaring <code>RefClass</code> of this field
+	 * @return <code>RefClass</code> holding this field
+	 */
+	public RefClass getOwner() {
+		return new RefClass(field.getDeclaringClass(), instance);
+	}
 
 	public String toGenericString() {
 		return field.toGenericString();
@@ -368,5 +376,6 @@ public class RefField extends RefModifiers {
 	public String toString() {
 		return field.toString();
 	}
+	
 
 }

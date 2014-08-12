@@ -2,6 +2,8 @@ package org.parabot.environment.scripts.randoms;
 
 import java.util.ArrayList;
 
+import org.parabot.core.Core;
+
 /**
  * 
  * @author Everel
@@ -11,7 +13,7 @@ public class RandomHandler {
     private ArrayList<Random> randoms;
     
     public RandomHandler() {
-    	randoms = new ArrayList<>();
+    	this.randoms = new ArrayList<>();
     }
 
     /**
@@ -19,7 +21,23 @@ public class RandomHandler {
      * @param random
      */
     public void addRandom(Random random) {
+    	if(random == null) {
+    		throw new NullPointerException("Null random");
+    	}
+    	for(Random r : randoms) {
+    		if(r.getClass() == random.getClass()) {
+    			Core.verbose("Ignored added random, duplicate.");
+    			return;
+    		}
+    	}
         randoms.add(random);
+    }
+    
+    /**
+     * Clears all added randoms
+     */
+    public void clearRandoms() {
+    	randoms.clear();
     }
 
     /**

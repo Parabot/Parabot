@@ -9,6 +9,7 @@ import org.parabot.environment.scripts.framework.Frameworks;
 import org.parabot.environment.scripts.framework.LoopTask;
 import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;
+import org.parabot.environment.scripts.randoms.Random;
 
 import java.util.Collection;
 
@@ -58,6 +59,10 @@ public class Script implements Runnable {
 	
 	public final void setAbstractFrameWork(AbstractFramework f) {
 		this.frameWork = f;
+	}
+	
+	public final void addRandom(Random random) {
+		Context.getInstance().getRandomHandler().addRandom(random);
 	}
 
 	@Override

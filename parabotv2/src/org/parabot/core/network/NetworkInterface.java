@@ -10,29 +10,23 @@ public class NetworkInterface {
 	private static NetworkInterface cached;
 
 	static {
-        try {
-			mac = getRealHardwareAddress();
-		} catch (Exception ignored) {
-		}
+			try {
+				mac = getRealHardwareAddress();
+			} catch (SocketException ignored) {
+			}
 	}
 
 	public byte[] getHardwareAddress() {
 		return mac;
 	}
 
-	public static byte[] getRealHardwareAddress() throws SocketException {
+	public static byte[] getRealHardwareAddress() throws SocketException{
 		if (realMac != null)
 			return realMac;
-		Enumeration<java.net.NetworkInterface> nis = java.net.NetworkInterface
-				.getNetworkInterfaces();
-		while (nis.hasMoreElements()) {
-			try {
-				byte[] b = nis.nextElement().getHardwareAddress();
-				if (b.length == 0)
-					continue;
-				return realMac = b;
-			} catch (Exception e) {
-			}
+		try {
+			return realMac = java.net.NetworkInterface.getByInetAddress(
+					InetAddress.getLocalHost()).getHardwareAddress();
+		} catch (Exception e) {
 		}
 		return mac;
 	}

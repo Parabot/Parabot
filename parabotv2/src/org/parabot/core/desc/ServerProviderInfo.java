@@ -7,11 +7,12 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
+
 import java.io.BufferedReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Gets the information for the selected server provider
@@ -20,10 +21,10 @@ import java.util.Map;
  *
  */
 public class ServerProviderInfo {
-	private HashMap<String, String> properties;
+	private Properties properties;
 	
 	public ServerProviderInfo(URL providerInfo, String username, String password) {
-		this.properties = new HashMap<>();
+		this.properties = new Properties();
         try {
             String line;
             Core.verbose("Reading info: " + providerInfo);
@@ -51,7 +52,7 @@ public class ServerProviderInfo {
 	
 	public URL getClient() {
 		try {
-			return new URL(properties.get("client"));
+			return new URL(properties.getProperty("client"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +70,7 @@ public class ServerProviderInfo {
 
     public URL getHookFile() {
         try {
-            return new URL(properties.get("hooks"));
+            return new URL(properties.getProperty("hooks"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -77,30 +78,30 @@ public class ServerProviderInfo {
     }
 	
 	public String getClientClass() {
-		return properties.get("clientClass");
+		return properties.getProperty("clientClass");
 	}
 	
 	public String getServerName() {
-		return properties.get("serverName");
+		return properties.getProperty("serverName");
 	}
 	
 	public long getCRC32() {
         if (properties.get("crc32") != null) {
-            return Long.parseLong(properties.get("crc32"));
+            return Long.parseLong(properties.getProperty("crc32"));
         } else {
             return System.currentTimeMillis() / 1000 / 60 / 60 / 24;
         }
 	}
 	
 	public long getClientCRC32() {
-		return Long.parseLong(properties.get("clientCrc32"));
+		return Long.parseLong(properties.getProperty("clientCrc32"));
 	}
 	
 	public int getBankTabs() {
-		return Integer.parseInt(properties.get("bankTabs"));
+		return Integer.parseInt(properties.getProperty("bankTabs"));
 	}
 	
-	public HashMap<String, String> getProperties() {
+	public Properties getProperties() {
 		return this.properties;
 	}
 }

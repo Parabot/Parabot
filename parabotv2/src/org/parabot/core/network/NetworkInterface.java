@@ -2,7 +2,6 @@ package org.parabot.core.network;
 
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Enumeration;
 
 public class NetworkInterface {
 	public static byte[] mac = new byte[] { 11, 11, 11, 11, 11, 11 };

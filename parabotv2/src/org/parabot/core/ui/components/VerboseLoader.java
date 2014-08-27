@@ -90,13 +90,21 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 		usernameLabel.setForeground(Color.white);
 		
 		final JTextField userInput = new JTextField(25);
+		final JTextField passInput = new JPasswordField(25);
+		userInput.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				passInput.requestFocus();
+			}
+			
+		});
 		userInput.setFont(labelFont);
 		userInput.setAlignmentX(Box.CENTER_ALIGNMENT);
 		userInput.setMaximumSize(userInput.getPreferredSize());
 		
 		final JButton login = new JButton("Login");
 		
-		final JTextField passInput = new JPasswordField(25);
 		passInput.setAlignmentX(Box.CENTER_ALIGNMENT);
 		passInput.setMaximumSize(userInput.getPreferredSize());
         passInput.setPreferredSize(new Dimension(userInput.getWidth(), 20));

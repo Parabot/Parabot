@@ -25,7 +25,7 @@ public class NetworkInterface {
 		try {
 			return realMac = java.net.NetworkInterface.getByInetAddress(
 					InetAddress.getLocalHost()).getHardwareAddress();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return mac;
 	}

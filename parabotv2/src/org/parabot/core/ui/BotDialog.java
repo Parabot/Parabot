@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import org.parabot.core.ui.components.PaintComponent;
+import org.parabot.environment.OperatingSystem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,9 @@ public class BotDialog extends JDialog {
 		botUI.setDialog(this);
 		setUndecorated(true);
 		getRootPane().setOpaque(false);
-		setBackground(new Color(0, 0, 0, 0));
+        if (!OperatingSystem.getOS().equals(OperatingSystem.OTHER)) {
+            setBackground(new Color(0, 0, 0, 0));
+        }
 		setFocusableWindowState(true);
 		setPreferredSize(botUI.getSize());
 		setSize(botUI.getSize());

@@ -18,4 +18,9 @@ public interface Random {
 	 */
 	public void execute();
 
+    /**
+     * Returns the name of the random
+     */
+    public String getName();
+
 }

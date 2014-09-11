@@ -35,6 +35,8 @@ public class Directories {
         cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
         cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
         Core.verbose("Directories cached.");
+
+        clearCache(259200);
     }
     
     /**
@@ -172,6 +174,22 @@ public class Directories {
         temp.mkdirs();
         temp.deleteOnExit();
         return temp;
+    }
+
+    /**
+     * Clears the cache based on the latest modification
+     * @param remove A long that represents the amount of seconds that a file may have since the latest modification
+     */
+    private static void clearCache(int remove){
+        File[] cache = getCachePath().listFiles();
+        if (cache != null){
+            for (File f : cache){
+                if (f != null && System.currentTimeMillis() / 1000 - f.lastModified() / 1000 > remove){
+                    Core.verbose("Clearing " + f.getName() + " from cache...");
+                    f.delete();
+                }
+            }
+        }
     }
 
 }

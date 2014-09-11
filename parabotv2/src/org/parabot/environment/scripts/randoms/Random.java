@@ -20,7 +20,14 @@ public interface Random {
 
     /**
      * Returns the name of the random
+     * @return Name of the random
      */
     public String getName();
+
+    /**
+     * Returns the name of the server which the random is made for
+     * @return Name of the server
+     */
+    public String getServer();
 
 }

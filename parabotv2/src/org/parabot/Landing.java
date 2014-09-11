@@ -15,8 +15,8 @@ import java.io.IOException;
  * Parabot v2.1
  *
  * @author Everel/Parnassian/Clisprail, Paradox, Matt, Dane
- * @see <a href="http://www.parabot.org">Homepage</a>
  * @version 2.1
+ * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {
     // forum account
@@ -88,18 +88,28 @@ public final class Landing {
                     Core.setLoadLocal(true);
                     break;
                 case "-dump":
-                	Core.setDump(true);
-                	break;
+                    Core.setDump(true);
+                    break;
                 case "-scriptsbin":
-                	Directories.setScriptCompiledDirectory(new File(args[++i]));
-                	break;
+                    Directories.setScriptCompiledDirectory(new File(args[++i]));
+                    break;
                 case "-serversbin":
-                	Directories.setServerCompiledDirectory(new File(args[++i]));
-                	break;
+                    Directories.setServerCompiledDirectory(new File(args[++i]));
+                    break;
+                case "-clearcache":
+                    File[] cache = Directories.getCachePath().listFiles();
+                    if (cache != null) {
+                        for (File f : cache) {
+                            if (f.exists() && f.canWrite()) {
+                                f.delete();
+                            }
+                        }
+                    }
+                    break;
             }
 
         }
     }
-    
+
 
 }

@@ -16,7 +16,7 @@ public class Directories {
     private static Map<String, File> cached;
 
     static {
-    	cached = new HashMap<String, File>();
+    	cached = new HashMap<>();
 		switch (OperatingSystem.getOS()) {
 		case WINDOWS:
 			cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());

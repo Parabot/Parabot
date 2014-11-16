@@ -43,7 +43,9 @@ public class SDNScriptExecuter extends ScriptExecuter {
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
-			final URLConnection urlConnection = WebUtil.getConnection(new URL(String.format(Configuration.GET_SDN_SCRIPT, manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword(), this.id)));
+            final URLConnection urlConnection = WebUtil.getConnection(new URL(
+                    Configuration.GET_SCRIPT + this.id), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+
 			final String contentType = urlConnection.getHeaderField("Content-type");
 			if(contentType.equals("text/html")) {
 				// failed to fetch script

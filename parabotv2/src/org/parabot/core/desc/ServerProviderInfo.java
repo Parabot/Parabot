@@ -28,7 +28,7 @@ public class ServerProviderInfo {
         try {
             String line;
             Core.verbose("Reading info: " + providerInfo);
-            BufferedReader br = WebUtil.getReader(new URL(providerInfo.toString() + "&method=json"), username, password);
+            BufferedReader br = WebUtil.getReader(new URL(providerInfo.toString()), username, password);
 
             JSONParser parser = new JSONParser();
             if ((line = br.readLine()) != null) {
@@ -52,7 +52,7 @@ public class ServerProviderInfo {
 	
 	public URL getClient() {
 		try {
-			return new URL(properties.getProperty("client"));
+			return new URL(properties.getProperty("client_jar"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +61,7 @@ public class ServerProviderInfo {
 	
 	public URL getExtendedHookFile() {
 		try {
-			return new URL(properties.get("hooks") + "&extended=true");
+			return new URL(properties.getProperty("hooks") /*+ "&extended=true"*/);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
             return getHookFile();
@@ -78,27 +78,23 @@ public class ServerProviderInfo {
     }
 	
 	public String getClientClass() {
-		return properties.getProperty("clientClass");
+		return properties.getProperty("client_class");
 	}
 	
 	public String getServerName() {
-		return properties.getProperty("serverName");
+		return properties.getProperty("name");
 	}
 	
 	public long getCRC32() {
-        if (properties.get("crc32") != null) {
-            return Long.parseLong(properties.getProperty("crc32"));
-        } else {
-            return System.currentTimeMillis() / 1000 / 60 / 60 / 24;
-        }
+        return Long.parseLong(properties.getProperty("provider_crc32"));
 	}
 	
 	public long getClientCRC32() {
-		return Long.parseLong(properties.getProperty("clientCrc32"));
+		return Long.parseLong(properties.getProperty("client_crc32"));
 	}
 	
 	public int getBankTabs() {
-		return Integer.parseInt(properties.getProperty("bankTabs"));
+		return Integer.parseInt(properties.getProperty("bank_tabs"));
 	}
 	
 	public Properties getProperties() {

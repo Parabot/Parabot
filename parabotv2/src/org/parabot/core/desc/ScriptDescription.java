@@ -16,9 +16,8 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	public String isVip;
 	public String isPremium;
 	public int sdnId;
-	public String jarName;
 
-	/**
+    /**
 	 * The ScriptManifest
 	 * 
 	 * @param scriptName
@@ -32,13 +31,12 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 			final String category, final double version,
 			final String description, final String[] servers) {
 		this(scriptName, author, category, version, description, servers, null,
-				null, -1, null);
+				null, -1);
 	}
 
 	/**
 	 * Used for SDN script (see SDNScripts parser)
-	 * 
-	 * @param jarName
+	 *
 	 * @param scriptName
 	 * @param author
 	 * @param category
@@ -47,11 +45,11 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param servers
 	 * @param sdnId
 	 */
-	public ScriptDescription(final String jarName, final String scriptName,
+	public ScriptDescription(final String scriptName,
 			final String author, final String category, final double version,
 			final String description, final String[] servers, final int sdnId) {
 		this(scriptName, author, category, version, description, servers, null,
-				null, sdnId, jarName);
+				null, sdnId);
 	}
 
 	/**
@@ -72,7 +70,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 			final String description, final String[] servers, final String vip,
 			final String premium) {
 		this(scriptName, author, category, version, description, servers, vip,
-				premium, -1, null);
+				premium, -1);
 	}
 
 	/**
@@ -87,12 +85,11 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param vip
 	 * @param premium
 	 * @param sdnId
-	 * @param jarName
 	 */
 	public ScriptDescription(final String scriptName, final String author,
 			final String category, final double version,
 			final String description, final String[] servers, final String vip,
-			final String premium, final int sdnId, final String jarName) {
+			final String premium, final int sdnId) {
 		this.scriptName = scriptName;
 		this.author = author;
 		this.category = category;
@@ -102,8 +99,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 		this.isVip = vip;
 		this.isPremium = premium;
 		this.sdnId = sdnId;
-		this.jarName = jarName;
-	}
+    }
 
 	@Override
 	public String toString() {
@@ -127,8 +123,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 				.append(this.isPremium == null ? "unknown" : this.isPremium)
 				.append(", sdn id: ")
 				.append(this.sdnId == -1 ? "unknown" : Integer
-						.toString(this.sdnId)).append(", jarname: ")
-				.append(this.jarName == null ? "unknown" : this.jarName)
+						.toString(this.sdnId))
 				.append("]");
 
 		return b.toString();

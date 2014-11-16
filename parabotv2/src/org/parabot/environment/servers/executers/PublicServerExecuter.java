@@ -30,7 +30,6 @@ import java.net.URL;
  */
 public class PublicServerExecuter extends ServerExecuter {
 	private String serverName;
-	private int serverID;
 	
 	private static AccountManager manager;
 
@@ -43,21 +42,20 @@ public class PublicServerExecuter extends ServerExecuter {
 
 	};
 
-	public PublicServerExecuter(final String serverName, final int serverID) {
+	public PublicServerExecuter(final String serverName) {
 		this.serverName = serverName;
-		this.serverID = serverID;
 	}
 
 	@Override
 	public void run() {
 		try {
 			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
-					+ this.serverID), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+					+ this.serverName), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
 			
 			final File destination = new File(Directories.getCachePath(),
 					serverProviderInfo.getCRC32() + ".jar");
 			final String jarUrl = Configuration.GET_SERVER_PROVIDER
-					+ this.serverID;
+					+ this.serverName;
 
 			Core.verbose("Downloading: " + jarUrl + " ...");
 

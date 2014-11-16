@@ -134,7 +134,7 @@ public class WebUtil {
 
 	/**
 	 * Opens a connection
-	 * 
+	 *
 	 * @param url
 	 * @return URLConnection to URL
 	 */
@@ -148,7 +148,7 @@ public class WebUtil {
 		}
 		return null;
 	}
-	
+
 	public static BufferedReader getReader(final URL url, String username, String password) {
 		try {
 			String data = URLEncoder.encode("username", "UTF-8") + "=" + username;

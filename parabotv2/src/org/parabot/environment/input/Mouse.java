@@ -1,13 +1,12 @@
 package org.parabot.environment.input;
 
-import java.awt.Component;
-import java.awt.Point;
+import org.parabot.core.Context;
+import org.parabot.environment.api.utils.Time;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import org.parabot.core.Context;
-import org.parabot.environment.api.utils.Time;
 
 /**
  * 
@@ -138,7 +137,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+
 	}
 
 	@Override

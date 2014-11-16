@@ -34,7 +34,7 @@ public class PublicServers extends ServerParser {
     public void execute() {
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SERVER_PROVIDERS_JSON), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+                    Configuration.GET_SERVER_PROVIDERS), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
             String line;
 
             JSONParser parser = new JSONParser();
@@ -44,11 +44,10 @@ public class PublicServers extends ServerParser {
                 String name = String.valueOf(jsonObject.get("name"));
                 String author = String.valueOf(jsonObject.get("author"));
                 double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
-                int serverID = Integer.parseInt(String.valueOf(jsonObject.get("id")));
 
                 ServerDescription desc = new ServerDescription(name,
                         author, version);
-                SERVER_CACHE.put(desc, new PublicServerExecuter(name, serverID));
+                SERVER_CACHE.put(desc, new PublicServerExecuter(name));
             }
 
             br.close();

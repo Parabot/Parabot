@@ -19,7 +19,6 @@ import java.io.IOException;
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {
-    // forum account
     private static String username;
     private static String password;
 

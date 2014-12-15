@@ -182,7 +182,7 @@ public class Context {
         gameApplet.setSize(appletSize);
         panel.add(gameApplet);
         panel.validate();
-        
+
         gameApplet.init();
         gameApplet.start();
         java.util.Timer t = new java.util.Timer();

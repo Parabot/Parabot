@@ -45,8 +45,6 @@ parabotv2/src/META-INF/MANIFEST.MF
 *.idx3
 /bin
 
-.idea/uiDesigner.xml
-
 .idea/libraries/jfxrt.xml
 
 *.classpath
@@ -59,4 +57,4 @@ parabotv2/src/META-INF/MANIFEST.MF
 
 *.iml
 
-releases
+servers

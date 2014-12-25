@@ -140,5 +140,17 @@ public class ASMUtils implements Opcodes {
 			node.access = node.access | Opcodes.ACC_PUBLIC;
 		}
 	}
+	
+	public static void makePublic(FieldNode node) {
+		if (!Modifier.isPublic(node.access)) {
+			if (Modifier.isPrivate(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PRIVATE);
+			}
+			if (Modifier.isProtected(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PROTECTED);
+			}
+			node.access = node.access | Opcodes.ACC_PUBLIC;
+		}
+	}
 
 }

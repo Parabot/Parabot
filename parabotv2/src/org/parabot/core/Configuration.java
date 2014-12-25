@@ -14,6 +14,7 @@ public class Configuration {
     public static final String GET_SERVER_PROVIDER_INFO = "http://bdn.parabot.org/api/get.php?action=server_information&name=";
     public static final String GET_BOT_VERSION = "http://bot.parabot.org/version.txt";
     public static final String REGISTRATION_PAGE = "https://www.parabot.org/community/index.php?app=core&module=global&section=register";
+    public static final String GET_PASSWORD = "http://bdn.parabot.org/api/get.php?action=password";
 
     public static final double BOT_VERSION = 2.1;
 }

@@ -1,15 +1,19 @@
 package org.parabot;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Parabot v2.1
@@ -48,7 +52,13 @@ public final class Landing {
         Core.verbose("Validating account manager...");
         AccountManager.validate();
 
-        if (username != null && password != null) {
+        if (getCredentials() != null && getCredentials().length == 2){
+            if ((username = getCredentials()[0]) != null && (password = getCredentials()[1]) != null){
+                new BotUI(username, password);
+            }
+            username = null;
+            password = null;
+        }else if (username != null && password != null) {
             new BotUI(username, password);
             username = null;
             password = null;
@@ -57,6 +67,22 @@ public final class Landing {
 
         Core.verbose("Starting login gui...");
         new BotUI(null, null);
+    }
+
+    /**
+     * Returns an array of string containing only the username and password
+     * @return String array with username and password
+     */
+    private static String[] getCredentials(){
+        try {
+            BufferedReader bufferedReader = WebUtil.getReader(new URL(Configuration.GET_PASSWORD));
+            if (bufferedReader.readLine() != null){
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static void parseArgs(String... args) {

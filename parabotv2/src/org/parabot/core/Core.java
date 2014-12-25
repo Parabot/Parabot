@@ -120,25 +120,6 @@ public class Core {
                 e.printStackTrace();
             }
         }
-
-        //TODO Get checksum from BDN and verify
-//        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
-//        try {
-//            double version = Double.parseDouble(br.readLine());
-//            if (Configuration.BOT_VERSION != version) {
-//                Core.verbose("Updates available...");
-//                return false;
-//            }
-//        } catch (NumberFormatException | IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                br.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
         return true;
     }
 

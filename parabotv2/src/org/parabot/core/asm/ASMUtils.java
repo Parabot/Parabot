@@ -1,5 +1,7 @@
 package org.parabot.core.asm;
 
+import java.lang.reflect.Modifier;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -113,6 +115,30 @@ public class ASMUtils implements Opcodes {
 			return DLOAD;
 		}
 		throw new RuntimeException("eek " + c);
+	}
+	
+	public static void makePublic(ClassNode node) {
+		if (!Modifier.isPublic(node.access)) {
+			if (Modifier.isPrivate(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PRIVATE);
+			}
+			if (Modifier.isProtected(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PROTECTED);
+			}
+			node.access = node.access | Opcodes.ACC_PUBLIC;
+		}
+	}
+	
+	public static void makePublic(MethodNode node) {
+		if (!Modifier.isPublic(node.access)) {
+			if (Modifier.isPrivate(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PRIVATE);
+			}
+			if (Modifier.isProtected(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PROTECTED);
+			}
+			node.access = node.access | Opcodes.ACC_PUBLIC;
+		}
 	}
 
 }

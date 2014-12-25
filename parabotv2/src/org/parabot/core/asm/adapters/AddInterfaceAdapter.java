@@ -42,8 +42,8 @@ public class AddInterfaceAdapter implements Injectable {
 		addInterface(node, accessorPackage + interfaceClass);
 	}
 
-	protected static void addInterface(ClassNode cg, String i) {
-		cg.interfaces.add(i);
+	protected static void addInterface(ClassNode node, String i) {
+		node.interfaces.add(i);
 	}
 	
 	@Override

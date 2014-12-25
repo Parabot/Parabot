@@ -46,7 +46,7 @@ public class AddInterfaceAdapter implements Injectable {
 	protected static void addInterface(ClassNode node, String i) {
 		ASMUtils.makePublic(node);
 		for(MethodNode mn : node.methods) {
-			if(mn.desc.startsWith("<init")) {
+			if(mn.name.startsWith("<init")) {
 				ASMUtils.makePublic(mn);
 			}
 		}

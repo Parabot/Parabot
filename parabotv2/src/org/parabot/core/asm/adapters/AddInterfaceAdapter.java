@@ -1,5 +1,8 @@
 package org.parabot.core.asm.adapters;
 
+import java.lang.reflect.Modifier;
+
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.Core;
 import org.parabot.core.asm.ASMUtils;
@@ -42,8 +45,17 @@ public class AddInterfaceAdapter implements Injectable {
 		addInterface(node, accessorPackage + interfaceClass);
 	}
 
-	protected static void addInterface(ClassNode cg, String i) {
-		cg.interfaces.add(i);
+	protected static void addInterface(ClassNode node, String i) {
+		if (!Modifier.isPublic(node.access)) {
+			if (Modifier.isPrivate(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PRIVATE);
+			}
+			if (Modifier.isProtected(node.access)) {
+				node.access = node.access & (~Opcodes.ACC_PROTECTED);
+			}
+			node.access = node.access | Opcodes.ACC_PUBLIC;
+		}
+		node.interfaces.add(i);
 	}
 	
 	@Override

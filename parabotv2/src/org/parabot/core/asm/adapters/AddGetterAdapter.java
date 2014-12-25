@@ -129,16 +129,7 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 			method.visitVarInsn(ALOAD, 0);
 		}
 		if(staticField) {
-			if (!Modifier.isPublic(fieldNode.access)) {
-				if (Modifier.isPrivate(fieldNode.access)) {
-					fieldNode.access = fieldNode.access & (~ACC_PRIVATE);
-				}
-				if (Modifier.isProtected(fieldNode.access)) {
-					fieldNode.access = fieldNode.access & (~ACC_PROTECTED);
-				}
-				fieldNode.access = fieldNode.access | ACC_PUBLIC;
-				//mn.access = mn.access | ACC_SYNCHRONIZED;
-			}
+			ASMUtils.makePublic(fieldNode);
 		}
 		method.visitFieldInsn(staticField ? GETSTATIC : GETFIELD,
 				fieldLocation.name, fieldNode.name, fieldNode.desc);

@@ -32,6 +32,7 @@ public class Context {
     private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
     
     private static Context instance;
+    private static String username;
 
     public boolean added;
     private ASMClassLoader classLoader;
@@ -320,4 +321,11 @@ public class Context {
     	return this.randomHandler;
     }
 
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        Context.username = username;
+    }
 }

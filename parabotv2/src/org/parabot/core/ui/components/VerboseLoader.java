@@ -1,5 +1,6 @@
 package org.parabot.core.ui.components;
 
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
@@ -60,6 +61,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 		
 		if(username != null && password != null) {
 			if(Core.inDebugMode() || manager.login(username, password)) {
+				Context.setUsername(username);
 				currentState = STATE_SERVER_SELECT;
 			}
 		}

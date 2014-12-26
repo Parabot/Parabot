@@ -37,6 +37,15 @@ public class RandomHandler {
     		}
     	}
         randoms.add(random);
+        setActive(random);
+    }
+
+    /**
+     * Adds a random to the active randoms
+     * @param random
+     */
+    public void setActive(Random random){
+        this.activeRandoms.add(random);
     }
 
     /**

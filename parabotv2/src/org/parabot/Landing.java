@@ -70,6 +70,7 @@ public final class Landing {
     }
 
     /**
+     * TODO
      * Returns an array of string containing only the username and password
      * @return String array with username and password
      */

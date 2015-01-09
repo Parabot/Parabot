@@ -16,12 +16,12 @@ import java.net.URLConnection;
 
 /**
  * 
- * Loads a script from the SDN
+ * Loads a script from the BDN
  * 
  * @author Everel
  *
  */
-public class SDNScriptExecuter extends ScriptExecuter {
+public class BDNScriptsExecuter extends ScriptExecuter {
 	
 	private static AccountManager manager;
 
@@ -29,14 +29,14 @@ public class SDNScriptExecuter extends ScriptExecuter {
 
 		@Override
 		public final void setManager(AccountManager manager) {
-			SDNScriptExecuter.manager = manager;
+			BDNScriptsExecuter.manager = manager;
 		}
 
 	};
 	
 	private int id = -1;
 	
-	public SDNScriptExecuter(final int id) {
+	public BDNScriptsExecuter(final int id) {
 		this.id = id;
 	}
 
@@ -49,7 +49,7 @@ public class SDNScriptExecuter extends ScriptExecuter {
 			final String contentType = urlConnection.getHeaderField("Content-type");
 			if(contentType.equals("text/html")) {
 				// failed to fetch script
-				UILog.log("Error", new StringBuilder("Failed to load SDN script, error: [Page returned: ").append(WebUtil.getContents(urlConnection)).append("]").toString(), JOptionPane.ERROR_MESSAGE);
+				UILog.log("Error", "Failed to load BDN script, error: [Page returned: " + WebUtil.getContents(urlConnection) + "]", JOptionPane.ERROR_MESSAGE);
 			} else if(contentType.equals("application/jar")) {
 				
 				//// JAR LOADING PART ////////
@@ -62,10 +62,10 @@ public class SDNScriptExecuter extends ScriptExecuter {
 				final JavaScriptLoader loader = new JavaScriptLoader(classPath);
 				final String[] scriptClasses = loader.getScriptClassNames();
 				if(scriptClasses == null || scriptClasses.length == 0) {
-					UILog.log("Error", "Failed to load SDN script, error: [No script found in jar file.]", JOptionPane.ERROR_MESSAGE);
+					UILog.log("Error", "Failed to load BDN script, error: [No script found in jar file.]", JOptionPane.ERROR_MESSAGE);
 					return;
 				} else if(scriptClasses.length > 1) {
-					UILog.log("Error", "Failed to load SDN script, error: [Multiple scripts found in jar file.]");
+					UILog.log("Error", "Failed to load BDN script, error: [Multiple scripts found in jar file.]");
 					return;
 				}
 				
@@ -75,24 +75,22 @@ public class SDNScriptExecuter extends ScriptExecuter {
 					final Constructor<?> con = scriptClass.getConstructor();
 					final Script script = (Script) con.newInstance();
 					super.finalize(tg, script);
-				} catch (NoClassDefFoundError ignored) {
-					UILog.log("Error", "Failed to load SDN script, error: [This server provider does not support this script]", JOptionPane.ERROR_MESSAGE);
-				} catch(ClassNotFoundException ignored) {
-					UILog.log("Error", "Failed to load SDN script, error: [This server provider does not support this script]", JOptionPane.ERROR_MESSAGE);
+				} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
+					UILog.log("Error", "Failed to load BDN script, error: [This server provider does not support this script]", JOptionPane.ERROR_MESSAGE);
 				} catch (Throwable t) {
 					t.printStackTrace();
-					UILog.log("Error", "Failed to load SDN script, post the stacktrace/error on the parabot forums.", JOptionPane.ERROR_MESSAGE);
+					UILog.log("Error", "Failed to load BDN script, post the stacktrace/error on the parabot forums.", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				
 				//// END JAR LOADING ////
 				
 			} else {
-				UILog.log("Error", new StringBuilder("Failed to load SDN script, error: [Unknown content type: ").append(contentType).append("]").toString(), JOptionPane.ERROR_MESSAGE);
+				UILog.log("Error", "Failed to load BDN script, error: [Unknown content type: " + contentType + "]", JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
-			UILog.log("Error", "Failed to load SDN script, post the stacktrace/error on the parabot forums.", JOptionPane.ERROR_MESSAGE);
+			UILog.log("Error", "Failed to load BDN script, post the stacktrace/error on the parabot forums.", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

@@ -15,7 +15,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	public String[] servers;
 	public String isVip;
 	public String isPremium;
-	public int sdnId;
+	public int bdnId;
 
     /**
 	 * The ScriptManifest
@@ -35,7 +35,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	}
 
 	/**
-	 * Used for SDN script (see SDNScripts parser)
+	 * Used for BDN script (see BDNScripts parser)
 	 *
 	 * @param scriptName
 	 * @param author
@@ -43,17 +43,17 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param version
 	 * @param description
 	 * @param servers
-	 * @param sdnId
+	 * @param bdnId
 	 */
 	public ScriptDescription(final String scriptName,
 			final String author, final String category, final double version,
-			final String description, final String[] servers, final int sdnId) {
+			final String description, final String[] servers, final int bdnId) {
 		this(scriptName, author, category, version, description, servers, null,
-				null, sdnId);
+				null, bdnId);
 	}
 
 	/**
-	 * Used by bot (java scripts and python scripts) and SDN Manager (sdn
+	 * Used by bot (java scripts and python scripts) and BDN Manager (bdn
 	 * manager is a private program)
 	 * 
 	 * @param scriptName
@@ -84,12 +84,12 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 	 * @param servers
 	 * @param vip
 	 * @param premium
-	 * @param sdnId
+	 * @param bdnId
 	 */
 	public ScriptDescription(final String scriptName, final String author,
 			final String category, final double version,
 			final String description, final String[] servers, final String vip,
-			final String premium, final int sdnId) {
+			final String premium, final int bdnId) {
 		this.scriptName = scriptName;
 		this.author = author;
 		this.category = category;
@@ -98,7 +98,7 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 		this.servers = servers;
 		this.isVip = vip;
 		this.isPremium = premium;
-		this.sdnId = sdnId;
+		this.bdnId = bdnId;
     }
 
 	@Override
@@ -121,9 +121,9 @@ public class ScriptDescription implements Comparable<ScriptDescription> {
 				.append(this.isVip == null ? "unknown" : this.isVip)
 				.append(", premium: ")
 				.append(this.isPremium == null ? "unknown" : this.isPremium)
-				.append(", sdn id: ")
-				.append(this.sdnId == -1 ? "unknown" : Integer
-						.toString(this.sdnId))
+				.append(", bdn id: ")
+				.append(this.bdnId == -1 ? "unknown" : Integer
+						.toString(this.bdnId))
 				.append("]");
 
 		return b.toString();

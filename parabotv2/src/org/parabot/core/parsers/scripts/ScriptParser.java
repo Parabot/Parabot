@@ -25,11 +25,11 @@ public abstract class ScriptParser {
         final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
-            parsers.add(new SDNScripts());
+            parsers.add(new BDNScripts());
         } else if (Core.inDebugMode()) {
             parsers.add(new LocalJavaScripts());
         } else {
-            parsers.add(new SDNScripts());
+            parsers.add(new BDNScripts());
         }
 
         Core.verbose("Parsing scripts...");

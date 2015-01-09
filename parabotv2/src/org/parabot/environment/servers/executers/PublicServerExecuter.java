@@ -23,7 +23,7 @@ import java.net.URL;
 
 /**
  * 
- * Fetches a server provider from the Parabot SDN
+ * Fetches a server provider from the Parabot BDN
  * 
  * @author Everel
  * 

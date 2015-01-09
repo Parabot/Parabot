@@ -2,11 +2,11 @@ package org.parabot.core.forum;
 
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
-import org.parabot.core.parsers.scripts.SDNScripts;
+import org.parabot.core.parsers.scripts.BDNScripts;
 import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
-import org.parabot.environment.scripts.executers.SDNScriptExecuter;
+import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
 import java.net.URLEncoder;
@@ -37,9 +37,9 @@ public final class AccountManager {
 
 		Core.verbose("Initializing account manager accessors...");
 		final ArrayList<AccountManagerAccess> accessors = new ArrayList<AccountManagerAccess>();
-		accessors.add(SDNScripts.MANAGER_FETCHER);
+		accessors.add(BDNScripts.MANAGER_FETCHER);
 		accessors.add(VerboseLoader.MANAGER_FETCHER);
-		accessors.add(SDNScriptExecuter.MANAGER_FETCHER);
+		accessors.add(BDNScriptsExecuter.MANAGER_FETCHER);
 		accessors.add(PublicServers.MANAGER_FETCHER);
 		accessors.add(PublicServerExecuter.MANAGER_FETCHER);
 

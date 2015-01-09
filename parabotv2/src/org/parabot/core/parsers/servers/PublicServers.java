@@ -6,9 +6,11 @@ import org.parabot.core.Configuration;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
+import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.net.URL;
 
@@ -53,6 +55,7 @@ public class PublicServers extends ServerParser {
             br.close();
 
         } catch (Exception e) {
+            UILog.log("Error", "Failed to load public servers. Either disable your anti-virus or request support on the forums.", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

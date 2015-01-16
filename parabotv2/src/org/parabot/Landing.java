@@ -78,7 +78,6 @@ public final class Landing {
         try {
             BufferedReader bufferedReader = WebUtil.getReader(new URL(Configuration.GET_PASSWORD));
             if (bufferedReader.readLine() != null){
-
             }
         } catch (IOException e) {
             e.printStackTrace();

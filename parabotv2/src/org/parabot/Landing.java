@@ -91,8 +91,7 @@ public final class Landing {
             switch (arg.toLowerCase()) {
                 case "-createdirs":
                     Directories.validate();
-                    System.out
-                            .println("Directories created, you can now run parabot.");
+                    System.out.println("Directories created, you can now run parabot.");
                     System.exit(0);
                     break;
                 case "-debug":

@@ -28,18 +28,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 	private JMenuItem run, pause, stop;
 	private boolean runScript, pauseScript;
 
-	public static BotUI getInstance() {
-		return instance;
-	}
-
 	public BotUI(String username, String password) {
-		if(instance != null) {
+		if (instance != null) {
 			throw new IllegalStateException("BotUI already created");
 		}
 		instance = this;
 		//WebLookAndFeel.install();
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-		
+
 		setTitle("Parabot");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,16 +47,20 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 		add(GamePanel.getInstance());
 		GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
-		
+
 		SwingUtil.setParabotIcons(this);
 
 		pack();
 		setLocationRelativeTo(null);
 		BotDialog.getInstance(this);
 
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            BotDialog.getInstance().setVisible(false);
-        }
+		if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
+			BotDialog.getInstance().setVisible(false);
+		}
+	}
+
+	public static BotUI getInstance() {
+		return instance;
 	}
 	
 	private void createMenu() {
@@ -191,7 +191,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 	}
 	
 	private void setScriptState(int state) {
-		Context.getInstance().getRunningScript().setState(state);
+		if (Context.getInstance().getRunningScript() != null) {
+			Context.getInstance().getRunningScript().setState(state);
+		}
 	}
 
 	@Override

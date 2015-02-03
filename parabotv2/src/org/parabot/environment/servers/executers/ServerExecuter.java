@@ -1,6 +1,7 @@
 package org.parabot.environment.servers.executers;
 
 import org.parabot.core.Context;
+import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.components.PaintComponent;
 import org.parabot.environment.servers.ServerProvider;
 
@@ -23,6 +24,7 @@ public abstract class ServerExecuter {
 					Context context = Context.getInstance(provider);
 					context.load();
 					PaintComponent.getInstance().startPainting(context);
+					RandomParser.enable();
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}

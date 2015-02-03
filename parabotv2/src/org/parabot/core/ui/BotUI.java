@@ -7,10 +7,12 @@ import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.scripts.Script;
+import org.parabot.environment.scripts.randoms.Random;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * 
@@ -70,7 +72,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JMenu scripts = new JMenu("Script");
 
         JMenuItem proxy = new JMenuItem("Network");
-        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+		JMenuItem randoms = new JMenuItem("Randoms");
+		JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+
 		if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
 			dialog.setSelected(true);
 		}
@@ -90,7 +94,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.setIcon(new ImageIcon(Images.getResource("/org/parabot/core/ui/images/stop.png")));
 
         proxy.addActionListener(this);
-        dialog.addActionListener(this);
+		randoms.addActionListener(this);
+		dialog.addActionListener(this);
         explorer.addActionListener(this);
         exit.addActionListener(this);
 
@@ -99,9 +104,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.addActionListener(this);
 
         file.add(proxy);
-
+		file.add(randoms);
 		file.add(dialog);
-        
         file.add(explorer);
 		file.add(exit);
 		
@@ -126,7 +130,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Network":
                 NetworkUI.getInstance().setVisible(true);
                 break;
-            case "Reflection explorer":
+			case "Randoms":
+				ArrayList<String> randoms = new ArrayList<>();
+				for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+					randoms.add(r.getName());
+				}
+				RandomUI.getInstance().openFrame(randoms);
+				break;
+			case "Reflection explorer":
             	new ReflectUI().setVisible(true);
             	break;
             case "Run":

@@ -34,6 +34,7 @@ public class PublicRandoms extends RandomParser {
             Class<?> classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
             Method method = classToLoad.getDeclaredMethod("init", String.class);
             Object instance = classToLoad.newInstance();
+            System.out.println(server);
             method.invoke(instance, server);
             Core.verbose("Successfully parsed public random!");
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | MalformedURLException e) {

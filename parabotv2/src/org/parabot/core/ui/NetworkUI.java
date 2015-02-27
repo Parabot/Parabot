@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -66,6 +67,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 			proxyHost.setText(ProxySocket.getProxyAddress().getHostName());
 		proxyPort.setText("" + ProxySocket.getProxyPort());
 		proxyType.setSelectedItem(ProxySocket.getProxyType());
+		authCheckBox.setSelected(ProxySocket.auth);
 		setLocationRelativeTo(BotUI.getInstance());
 		super.setVisible(b);
 	}
@@ -224,12 +226,15 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		boolean b = false;
-		
+
 		if (arg0.getSource() == proxyType) {
-			authCheckBox.setEnabled(proxyType.getSelectedItem() == ProxyType.SOCKS5);
+			Object o = proxyType.getSelectedItem();
+			authCheckBox.setEnabled(o == ProxyType.SOCKS5);
+			proxyHost.setEnabled(o != ProxyType.NONE);
+			proxyPort.setEnabled(o != ProxyType.NONE);
 			b = true;
 		}
-		
+
 		if (b || arg0.getSource() == authCheckBox) {
 			b = authCheckBox.isSelected() && authCheckBox.isEnabled();
 			ProxySocket.auth = b;
@@ -237,8 +242,18 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 			authPassword.setEnabled(b);
 			return;
 		}
-		
-		ProxySocket.setLogin(authUsername.getText(), authPassword.getPassword());
+
+		if (proxyType.getSelectedItem() != ProxyType.NONE) {
+			if (proxyPort.getText().equals("")
+					|| proxyHost.getText().equals("")) {
+				UILog.log("Error", "Please supply proxy information!",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+
+		ProxySocket
+				.setLogin(authUsername.getText(), authPassword.getPassword());
 
 		byte[] mac = new byte[macList.length];
 		for (int i = 0; i < mac.length; i++)

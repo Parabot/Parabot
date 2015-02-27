@@ -24,7 +24,7 @@ public class ProxySocket extends Socket {
 
 	private static List<ProxySocket> connections = new ArrayList<ProxySocket>();
 
-	private static ProxyType proxyType = ProxyType.HTTP;
+	private static ProxyType proxyType = ProxyType.NONE;
 
 	private static int proxyPort = 0;
 
@@ -96,7 +96,7 @@ public class ProxySocket extends Socket {
 			this.addr = InetAddress.getByName(isa.getHostString());
 			this.port = isa.getPort();
 		}
-		if (proxyInetAddress != null && proxyPort > 0) {
+		if (proxyType != ProxyType.NONE) {
 			try {
 				super.connect(cachedAddr = new InetSocketAddress(
 						proxyInetAddress, proxyPort));

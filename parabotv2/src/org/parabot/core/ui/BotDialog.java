@@ -1,10 +1,12 @@
 package org.parabot.core.ui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JDialog;
+
 import org.parabot.core.ui.components.PaintComponent;
 import org.parabot.environment.OperatingSystem;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * 
@@ -21,19 +23,29 @@ public class BotDialog extends JDialog {
 		botUI.setDialog(this);
 		setUndecorated(true);
 		getRootPane().setOpaque(false);
-        if (!OperatingSystem.getOS().equals(OperatingSystem.OTHER)) {
-            setBackground(new Color(0, 0, 0, 0));
-        }
+		if (!OperatingSystem.getOS().equals(OperatingSystem.OTHER)) {
+			try {
+				setBackground(new Color(0, 0, 0, 0));
+			} catch (UnsupportedOperationException e) {
+				//My "fix" for the perpixel errors some user have when using VPSes
+				if (e.getMessage().contains("PERPIXEL_TRANS")) {
+					System.err
+							.println("WARNING: We were unable to set a translucent background!"
+									+ "\n\tThis generally occurs with old/outdated graphics drivers. Please consider updating them if possible."
+									+ "\n\tParabot will still attempt to run, however some GUI elements may or may not function.");
+				}
+			}
+		}
 		setFocusableWindowState(true);
 		setPreferredSize(botUI.getSize());
 		setSize(botUI.getSize());
 		setVisible(true);
 		setContentPane(PaintComponent.getInstance(botUI.getSize()));
 		botUI.setVisible(true);
-	
+
 	}
 
-    public void setDimensions(Dimension dimension) {
+	public void setDimensions(Dimension dimension) {
 		setUndecorated(true);
 		getRootPane().setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));
@@ -44,14 +56,13 @@ public class BotDialog extends JDialog {
 		setContentPane(PaintComponent.getInstance());
 		PaintComponent.getInstance().setDimensions(dimension);
 	}
-	
+
 	public static BotDialog getInstance(BotUI botUI) {
 		return instance == null ? instance = new BotDialog(botUI) : instance;
 	}
-	
+
 	public static BotDialog getInstance() {
 		return getInstance(null);
 	}
 
 }
-

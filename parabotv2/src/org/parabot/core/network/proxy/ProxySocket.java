@@ -31,6 +31,10 @@ public class ProxySocket extends Socket {
 	private InetAddress addr;
 	private int port;
 
+	private static String username = null, password = null;
+
+	public static boolean auth = false;
+
 	private static InetAddress proxyInetAddress = null;
 
 	private InetSocketAddress cachedAddr;
@@ -183,14 +187,32 @@ public class ProxySocket extends Socket {
 		DataOutputStream out = new DataOutputStream(getOutputStream());
 		DataInputStream in = new DataInputStream(getInputStream());
 		out.write(0x05); // the version
-		out.write(1); // number of authentication methods (no auth for now)
+		out.write(auth ? 2 : 1); // number of authentication methods (no auth
+									// for now)
 		out.write(0); // the authentication (none)
+		if (auth) {
+			out.write(2);
+		}
 		out.flush();
-
 		if (in.read() != 0x05) // remote proxy version
 			throw new IOException("Proxy server is not supported!");
-		if (in.read() != 0x00) // make sure shit is a vaild request
+		switch (in.read()) { // auth method
+		case 0:
+			break; // no auth
+		case 2:
+			// username and pass stuff
+			out.write(0x01); // user/pass version #
+			out.write(username.length());
+			out.write(username.getBytes());
+			out.write(password.length());
+			out.write(password.getBytes());
+			out.flush();
+			in.read(); // skip the version
+			if (in.read() == 0) // Successful login, continue
+				break;
+		default:
 			throw new IOException("Proxy server declined request!");
+		}
 
 		// now to write the actual request
 		out.write(0x05); // again the socks version
@@ -269,6 +291,15 @@ public class ProxySocket extends Socket {
 
 	public static int getConnectionCount() {
 		return connections.size();
+	}
+	
+	public static void setLogin(String user, char[] pass) {
+		setLogin(user,new String(pass));
+	}
+
+	public static void setLogin(String user, String pass) {
+		username = user;
+		password = pass;
 	}
 
 }

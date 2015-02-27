@@ -1,11 +1,24 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.network.NetworkInterface;
-import org.parabot.core.network.proxy.ProxySocket;
-import org.parabot.core.network.proxy.ProxyType;
-import org.parabot.core.ui.utils.UILog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.net.SocketException;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,11 +26,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.net.SocketException;
+
+import org.parabot.core.network.NetworkInterface;
+import org.parabot.core.network.proxy.ProxySocket;
+import org.parabot.core.network.proxy.ProxyType;
+import org.parabot.core.ui.utils.UILog;
 
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		DocumentListener {
@@ -31,8 +44,12 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 	private IntTextField proxyPort;
 	private JButton submitButton;
 
-	JList<String>[] macList;
-	JScrollPane[] macScrollList;
+	private JList<String>[] macList;
+	private JScrollPane[] macScrollList;
+
+	private JCheckBox authCheckBox;
+	private JTextField authUsername;
+	private JPasswordField authPassword;
 
 	private NetworkUI() {
 		initGUI();
@@ -57,6 +74,8 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 	private void initGUI() {
 		proxyType = new JComboBox<ProxyType>(ProxyType.values());
 		proxyType.setSelectedItem(ProxySocket.getProxyType());
+
+		proxyType.addActionListener(this);
 
 		proxyHost = new JTextField();
 		proxyHost.addKeyListener(this);
@@ -84,6 +103,15 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 			macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
 
 		}
+
+		authCheckBox = new JCheckBox("Auth");
+		authCheckBox.addActionListener(this);
+
+		authUsername = new JTextField();
+		authUsername.setEnabled(false);
+		authPassword = new JPasswordField();
+		authPassword.setEnabled(false);
+
 		JPanel p = createPanelUI();
 		add(p);
 		setResizable(false);
@@ -109,6 +137,19 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		port.add(new JLabel("Proxy Port: "));
 		port.add(proxyPort);
 
+		Box auth = Box.createHorizontalBox();
+		auth.add(authCheckBox);
+
+		auth.add(Box.createHorizontalStrut(3));
+
+		auth.add(new JLabel("User:"));
+		auth.add(authUsername);
+
+		auth.add(Box.createHorizontalStrut(3));
+
+		auth.add(new JLabel("Pass:"));
+		auth.add(authPassword);
+
 		Box macBox = Box.createHorizontalBox();
 		macBox.add(new JLabel("MAC:"));
 		for (int i = 0; i < macList.length; i++) {
@@ -126,6 +167,9 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 
 		main.add(Box.createVerticalStrut(5));
 		main.add(port);
+
+		main.add(Box.createVerticalStrut(5));
+		main.add(auth);
 
 		main.add(Box.createVerticalStrut(5));
 		main.add(macBox);
@@ -179,6 +223,23 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		boolean b = false;
+		
+		if (arg0.getSource() == proxyType) {
+			authCheckBox.setEnabled(proxyType.getSelectedItem() == ProxyType.SOCKS5);
+			b = true;
+		}
+		
+		if (b || arg0.getSource() == authCheckBox) {
+			b = authCheckBox.isSelected() && authCheckBox.isEnabled();
+			ProxySocket.auth = b;
+			authUsername.setEnabled(b);
+			authPassword.setEnabled(b);
+			return;
+		}
+		
+		ProxySocket.setLogin(authUsername.getText(), authPassword.getPassword());
+
 		byte[] mac = new byte[macList.length];
 		for (int i = 0; i < mac.length; i++)
 			mac[i] = (byte) Short.parseShort(

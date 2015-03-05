@@ -59,4 +59,19 @@ public class NetworkInterface {
 			cached = new NetworkInterface();
 		return cached;
 	}
+
+	public static void setMac(byte[] mac2) {
+		System.out.println("Setting mac address to:" + formatMac(mac2));
+		mac = mac2;
+	}
+	
+	public static String formatMac(byte[] mac){
+		StringBuffer b = new StringBuffer();
+		for(int i = 0; i < 6;i++){
+			b.append(String.format("%02X", mac[i]));
+			if(i < 5)
+				b.append(':');
+		}
+		return b.toString();
+	}
 }

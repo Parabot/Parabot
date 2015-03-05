@@ -90,11 +90,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		submitButton.addActionListener(this);
 
 		byte[] mac = new byte[6];
-		try {
-			mac = NetworkInterface.getRealHardwareAddress();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
+		mac = NetworkInterface.mac;
 		macList = new JList[mac.length];
 		macScrollList = new JScrollPane[mac.length];
 		for (int i = 0; i < mac.length; i++) {
@@ -259,7 +255,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 		for (int i = 0; i < mac.length; i++)
 			mac[i] = (byte) Short.parseShort(
 					(String) macList[i].getSelectedValue(), 16);
-		NetworkInterface.mac = mac;
+		NetworkInterface.setMac(mac);
 
 		try {
 			if (ProxySocket.getConnectionCount() > 0) {

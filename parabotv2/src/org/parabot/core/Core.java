@@ -99,7 +99,8 @@ public class Core {
      * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
-    private static boolean checksumValid(){
+    @SuppressWarnings("unused")
+	private static boolean checksumValid(){
         String checksum = "";
 
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());

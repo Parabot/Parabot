@@ -7,7 +7,6 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
-
 import java.io.BufferedReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,27 +20,35 @@ import java.util.Properties;
  *
  */
 public class ServerProviderInfo {
+
+	private Properties settings;
 	private Properties properties;
 	
 	public ServerProviderInfo(URL providerInfo, String username, String password) {
 		this.properties = new Properties();
+		this.settings = new Properties();
         try {
             String line;
             Core.verbose("Reading info: " + providerInfo);
             BufferedReader br = WebUtil.getReader(new URL(providerInfo.toString()), username, password);
 
+			//TODO Make this one line (web sided)
             JSONParser parser = new JSONParser();
             if ((line = br.readLine()) != null) {
                 JSONObject jsonObject = (JSONObject) parser.parse(line);
                 for (Object o : jsonObject.entrySet()) {
                     Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
-                    properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
+					if (String.valueOf(pairs.getKey()).equalsIgnoreCase("settings")){
+						settings.putAll((JSONObject) pairs.getValue());
+					}else {
+						properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
+					}
                 }
             } else {
                 UILog.log(
-                        "Error",
-                        "Failed to load server provider, error: [No information about the provider found.]",
-                        JOptionPane.ERROR_MESSAGE);
+						"Error",
+						"Failed to load server provider, error: [No information about the provider found.]",
+						JOptionPane.ERROR_MESSAGE);
                 return;
             }
             br.close();
@@ -99,5 +106,9 @@ public class ServerProviderInfo {
 	
 	public Properties getProperties() {
 		return this.properties;
+	}
+
+	public Properties getSettings(){
+		return this.settings;
 	}
 }

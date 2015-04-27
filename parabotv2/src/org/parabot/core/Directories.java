@@ -16,14 +16,14 @@ public class Directories {
     private static Map<String, File> cached;
 
     static {
-    	cached = new HashMap<>();
-		switch (OperatingSystem.getOS()) {
-		case WINDOWS:
-			cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
-			break;
-		default:
-			cached.put("Root", new File(System.getProperty("user.home")));
-		}
+        cached = new HashMap<>();
+        switch (OperatingSystem.getOS()) {
+            case WINDOWS:
+                cached.put("Root", new JFileChooser().getFileSystemView().getDefaultDirectory());
+                break;
+            default:
+                cached.put("Root", new File(System.getProperty("user.home")));
+        }
 
         Core.verbose("Caching directories...");
         cached.put("Root", getDefaultDirectory());
@@ -38,30 +38,31 @@ public class Directories {
 
         clearCache(259200);
     }
-    
+
     /**
      * Set script bin folder
+     *
      * @param f
      */
     public static void setScriptCompiledDirectory(File f) {
-    	if(!f.isDirectory()) {
-    		throw new IllegalArgumentException(f + "is not a directory.");
-    	}
-    	cached.put("Compiled", f);
+        if (!f.isDirectory()) {
+            throw new IllegalArgumentException(f + "is not a directory.");
+        }
+        cached.put("Compiled", f);
     }
-    
+
     /**
      * Set server bin folder
+     *
      * @param f
      */
     public static void setServerCompiledDirectory(File f) {
-    	if(!f.isDirectory()) {
-    		throw new IllegalArgumentException(f + "is not a directory.");
-    	}
-    	cached.put("Servers", f);
+        if (!f.isDirectory()) {
+            throw new IllegalArgumentException(f + "is not a directory.");
+        }
+        cached.put("Servers", f);
     }
-    
-   
+
 
     /**
      * Returns the root directory outside of the main Parabot folder.
@@ -178,13 +179,14 @@ public class Directories {
 
     /**
      * Clears the cache based on the latest modification
+     *
      * @param remove A long that represents the amount of seconds that a file may have since the latest modification
      */
-    private static void clearCache(int remove){
+    private static void clearCache(int remove) {
         File[] cache = getCachePath().listFiles();
-        if (cache != null){
-            for (File f : cache){
-                if (f != null && System.currentTimeMillis() / 1000 - f.lastModified() / 1000 > remove){
+        if (cache != null) {
+            for (File f : cache) {
+                if (f != null && System.currentTimeMillis() / 1000 - f.lastModified() / 1000 > remove) {
                     Core.verbose("Clearing " + f.getName() + " from cache...");
                     f.delete();
                 }

@@ -3,15 +3,13 @@ package org.parabot.core;
 import org.parabot.Landing;
 import org.parabot.environment.api.utils.WebUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * The core of parabot
@@ -146,6 +144,37 @@ public class Core {
         }
 
         return true;
+    }
+
+    private static boolean policyValid(){
+        return new File(Directories.getSettingsPath() + "/java.policy").exists();
+    }
+
+    private static void createPolicy(){
+        File policy = new File(Directories.getSettingsPath() + "/java.policy");
+        if (!policy.exists()){
+            try {
+                final BufferedReader in = WebUtil.getReader(Configuration.DATA_API + "policy");
+                if (in != null) {
+                    String line;
+                    PrintWriter printWriter = new PrintWriter(Directories.getSettingsPath() + "/java.policy");
+                    while ((line = in.readLine()) != null) {
+                        if (line.contains("%parabot_resources%")){
+                            line = line.replace("%parabot_resources%", Directories.getResourcesPath().getAbsolutePath());
+                        }
+                        printWriter.println(line);
+                    }
+                    printWriter.close();
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        createPolicy();
     }
 
     /**

@@ -3,6 +3,7 @@ package org.parabot.environment.servers.executers;
 import org.parabot.core.Context;
 import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.components.PaintComponent;
+import org.parabot.environment.scripts.executers.SecurityManagerDemo;
 import org.parabot.environment.servers.ServerProvider;
 
 /**

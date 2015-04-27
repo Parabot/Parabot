@@ -1,6 +1,7 @@
 package org.parabot.environment.scripts.randoms;
 
 import org.parabot.core.Core;
+import org.parabot.core.ui.Logger;
 
 import java.util.ArrayList;
 
@@ -89,7 +90,7 @@ public class RandomHandler {
     public boolean checkAndRun() {
         for(Random r : this.activeRandoms) {
             if(r.activate()) {
-                Core.verbose("Running random '" + r.getName() + "'.");
+                Logger.addMessage("Running random '" + r.getName() + "'.");
                 r.execute();
                 return true;
             }

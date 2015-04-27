@@ -4,11 +4,8 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.environment.api.utils.Time;
-import org.parabot.environment.scripts.framework.AbstractFramework;
+import org.parabot.environment.scripts.framework.*;
 import org.parabot.environment.scripts.framework.Frameworks;
-import org.parabot.environment.scripts.framework.LoopTask;
-import org.parabot.environment.scripts.framework.SleepCondition;
-import org.parabot.environment.scripts.framework.Strategy;
 import org.parabot.environment.scripts.randoms.Random;
 
 import java.util.Collection;
@@ -68,7 +65,15 @@ public class Script implements Runnable {
 	@Override
 	public final void run() {
 		Context context = Context.getInstance();
-		
+
+//		Core.verbose("Initializing security manager...");
+//		String previousPolicy = System.getProperty("java.security.policy");
+//		SecurityManager previousSecurityManager = System.getSecurityManager();
+
+//		System.setProperty("java.security.policy", Directories.getSettingsPath() + "/java.policy");
+//		SecurityManagerDemo sm = new SecurityManagerDemo();
+//		System.setSecurityManager(sm);
+
 		Core.verbose("Initializing script...");
 		context.getServerProvider().initScript(this);
 		Core.verbose("Done.");
@@ -122,6 +127,8 @@ public class Script implements Runnable {
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
 		BotUI.getInstance().toggleRun();
+//		System.setProperty("java.security.policy", previousPolicy);
+//		System.setSecurityManager(previousSecurityManager);
 		Core.verbose("Done.");
 	}
 	

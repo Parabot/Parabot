@@ -16,6 +16,8 @@ public class Configuration {
     public static final String REGISTRATION_PAGE = "https://www.parabot.org/community/index.php?app=core&module=global&section=register";
     public static final String GET_PASSWORD = "http://bdn.parabot.org/api/get.php?action=password";
     public static final String GET_RANDOMS = "http://bdn.parabot.org/api/get.php?action=randoms";
+    public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
+    public static final String ITEM_API = DATA_API + "items/";
 
     public static final double BOT_VERSION = 2.1;
 }

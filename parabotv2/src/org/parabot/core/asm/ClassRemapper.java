@@ -1,8 +1,8 @@
 package org.parabot.core.asm;
 
-import java.util.HashMap;
-
 import org.objectweb.asm.commons.Remapper;
+
+import java.util.HashMap;
 
 public class ClassRemapper extends Remapper {
 	private static HashMap<String, String> remapNames = new HashMap<String, String>();

@@ -49,6 +49,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 		add(GamePanel.getInstance());
 		GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
+		add(Logger.getInstance(), BorderLayout.SOUTH);
 
 		SwingUtil.setParabotIcons(this);
 

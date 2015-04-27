@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,12 +22,12 @@ import java.util.Properties;
  */
 public class ServerProviderInfo {
 
-	private Properties settings;
+	private HashMap<String, Integer> settings;
 	private Properties properties;
 	
 	public ServerProviderInfo(URL providerInfo, String username, String password) {
 		this.properties = new Properties();
-		this.settings = new Properties();
+		this.settings = new HashMap<>();
         try {
             String line;
             Core.verbose("Reading info: " + providerInfo);
@@ -39,7 +40,13 @@ public class ServerProviderInfo {
                 for (Object o : jsonObject.entrySet()) {
                     Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
 					if (String.valueOf(pairs.getKey()).equalsIgnoreCase("settings")){
-						settings.putAll((JSONObject) pairs.getValue());
+						JSONObject object = (JSONObject) pairs.getValue();
+						for (Object settingObject : object.entrySet()){
+							Map.Entry<?, ?> settingValue = (Map.Entry<?, ?>) settingObject;
+							String key = (String) settingValue.getKey();
+							long value = (Long) settingValue.getValue();
+							settings.put(key, (int) value);
+						}
 					}else {
 						properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
 					}
@@ -108,7 +115,7 @@ public class ServerProviderInfo {
 		return this.properties;
 	}
 
-	public Properties getSettings(){
-		return this.settings;
+	public HashMap<String, Integer> getSettings() {
+		return settings;
 	}
 }

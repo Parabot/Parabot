@@ -19,7 +19,8 @@ public abstract class ScriptExecuter {
 	 * @param script
 	 */
 	public final void finalize(final ThreadGroup tg, final Script script) {
-		new Thread(tg, script).start();
+		Thread thread = new Thread(tg, script);
+		thread.start();
 	}
 
 

@@ -6,7 +6,8 @@ package org.parabot.core;
  * @author Everel
  */
 public class Configuration {
-    public static final String LOGIN_SERVER = "https://www.parabot.org/community/api/login.php?username=%s&password=%s";
+//    public static final String LOGIN_SERVER = "https://www.parabot.org/community/api/login.php?username=%s&password=%s";
+    public static final String LOGIN_SERVER = "http://bdn.parabot.org/api/v2/users/login";
     public static final String GET_SCRIPTS = "http://bdn.parabot.org/api/get.php?action=scripts_scripts&server=";
     public static final String GET_SCRIPT = "http://bdn.parabot.org/api/get.php?action=scripts_script&id=";
     public static final String GET_SERVER_PROVIDERS = "http://bdn.parabot.org/api/get.php?action=server_providers";

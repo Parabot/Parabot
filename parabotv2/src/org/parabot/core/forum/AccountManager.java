@@ -1,5 +1,6 @@
 package org.parabot.core.forum;
 
+import org.json.simple.JSONObject;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.BDNScripts;
@@ -9,6 +10,8 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
+import java.io.BufferedReader;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -61,20 +64,25 @@ public final class AccountManager {
 		if (account != null) {
 			throw new IllegalStateException("Already logged in.");
 		}
-		String contents;
+		JSONObject result;
 		try {
-			contents = WebUtil.getContents(String.format(
-                    Configuration.LOGIN_SERVER,
-                    URLEncoder.encode(user, "UTF-8"),
-                    URLEncoder.encode(pass, "UTF-8")));
+			BufferedReader contents = WebUtil.getReader(WebUtil.getConnection(
+					new URL(Configuration.LOGIN_SERVER),
+					URLEncoder.encode(user, "UTF-8"),
+					URLEncoder.encode(pass, "UTF-8")));
+			result = (JSONObject) WebUtil.getJsonParser().parse(contents);
+
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
 		}
 
-		if (contents.equals("correct")) {
-            account = new Account(user, pass);
-            return true;
+		if (result != null){
+			if (result.get("complete") != null) {
+				String api = (String) ((JSONObject) result.get("data")).get("api");
+				account = new Account(user, pass, api);
+				return true;
+			}
 		}
 		return false;
 	}

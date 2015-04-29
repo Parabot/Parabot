@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
 
 import javax.swing.*;
@@ -46,5 +47,9 @@ public class Logger extends JPanel {
 
     public static void addMessage(String message){
         instance.model.addElement(message);
+
+        if (Context.getInstance().getUlirathaClient() != null) {
+            Context.getInstance().getUlirathaClient().sendMessage(message);
+        }
     }
 }

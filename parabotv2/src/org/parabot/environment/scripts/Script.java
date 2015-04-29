@@ -3,6 +3,7 @@ package org.parabot.environment.scripts;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
+import org.parabot.core.ui.Logger;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.*;
 import org.parabot.environment.scripts.framework.Frameworks;
@@ -66,14 +67,6 @@ public class Script implements Runnable {
 	public final void run() {
 		Context context = Context.getInstance();
 
-//		Core.verbose("Initializing security manager...");
-//		String previousPolicy = System.getProperty("java.security.policy");
-//		SecurityManager previousSecurityManager = System.getSecurityManager();
-
-//		System.setProperty("java.security.policy", Directories.getSettingsPath() + "/java.policy");
-//		SecurityManagerDemo sm = new SecurityManagerDemo();
-//		System.setSecurityManager(sm);
-
 		Core.verbose("Initializing script...");
 		context.getServerProvider().initScript(this);
 		Core.verbose("Done.");
@@ -102,7 +95,7 @@ public class Script implements Runnable {
 			frameWorkType = TYPE_OTHER;
 		}
 		Core.verbose("Running script...");
-		System.out.println("Script started.");
+		Logger.addMessage("Script started.");
 		try {
 			while(this.state != STATE_STOPPED) {
 				if(context.getRandomHandler().checkAndRun()) {
@@ -122,13 +115,17 @@ public class Script implements Runnable {
 		}
 		Core.verbose("Script stopped/finished, unloading and stopping...");
 		onFinish();
-		System.out.println("Script stopped.");
+		Logger.addMessage("Script stopped.");
 		context.getServerProvider().unloadScript(this);
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
+
+		if (context.getUlirathaClient() != null) {
+			context.getUlirathaClient().disconnect();
+			context.setUlirathaClient(null);
+		}
+
 		BotUI.getInstance().toggleRun();
-//		System.setProperty("java.security.policy", previousPolicy);
-//		System.setSecurityManager(previousSecurityManager);
 		Core.verbose("Done.");
 	}
 	
@@ -167,4 +164,7 @@ public class Script implements Runnable {
 		Time.sleep(ms);
 	}
 
+	public int getState() {
+		return state;
+	}
 }

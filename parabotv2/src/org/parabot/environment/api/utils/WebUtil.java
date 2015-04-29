@@ -1,5 +1,6 @@
 package org.parabot.environment.api.utils;
 
+import org.json.simple.parser.JSONParser;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.io.SizeInputStream;
 
@@ -17,6 +18,9 @@ import java.net.URLEncoder;
  * 
  */
 public class WebUtil {
+
+	private static JSONParser jsonParser;
+
 	private static String agent = "Mozilla/5.0 (Wind0ws NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
 
 	/**
@@ -267,4 +271,10 @@ public class WebUtil {
 		return null;
 	}
 
+	public static JSONParser getJsonParser() {
+		if (jsonParser == null){
+			jsonParser = new JSONParser();
+		}
+		return jsonParser;
+	}
 }

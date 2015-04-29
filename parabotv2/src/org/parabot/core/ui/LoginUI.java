@@ -52,7 +52,7 @@ public class LoginUI extends JFrame {
 		} else {
 			Core.verbose("Failed to log in.");
 			JOptionPane.showMessageDialog(null,
-					"Incorrect username or password.", "Error",
+					"Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 

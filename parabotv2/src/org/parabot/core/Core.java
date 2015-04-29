@@ -9,12 +9,11 @@ import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 /**
  * The core of parabot
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
 public class Core {
 	public static boolean mDebug;

@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 public class Account {
 	private String username;
 	private String password;
+    private String api;
 
 	/**
 	 * 
@@ -25,8 +26,14 @@ public class Account {
 		this.username = username;
 		this.password = password;
 	}
-	
-	/**
+
+    public Account(String username, String password, String api) {
+        this.username = username;
+        this.password = password;
+        this.api = api;
+    }
+
+    /**
 	 * Gets user's parabot account name
 	 * @return username.
 	 */
@@ -68,4 +75,7 @@ public class Account {
         return null;
     }
 
+    public String getApi() {
+        return api;
+    }
 }

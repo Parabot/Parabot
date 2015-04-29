@@ -4,6 +4,7 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.lib.Library;
 import org.parabot.core.lib.javafx.JavaFX;
+import org.parabot.core.lib.naga.Naga;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.WebUtil;
@@ -29,6 +30,7 @@ public class Environment {
 		
 		LinkedList<Library> libs = new LinkedList<>();
 		libs.add(new JavaFX());
+		libs.add(new Naga());
 		
 		for(Library lib : libs) {
 			if(!lib.hasJar()) {

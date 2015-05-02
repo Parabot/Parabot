@@ -10,9 +10,11 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
@@ -38,7 +40,7 @@ import org.parabot.core.ui.components.VerboseLoader;
 public class ClassPath {
 	public final ArrayList<String> classNames;
 	public final HashMap<String, ClassNode> classes;
-	public final Map<String, URL> resources;
+	public final Map<String, File> resources;
 	public URL lastParsed;
 	private ClassRemapper classRemapper;
 	private boolean isJar;
@@ -53,7 +55,7 @@ public class ClassPath {
 	public ClassPath(final boolean isJar) {
 		this.classNames = new ArrayList<String>();
 		this.classes = new HashMap<String, ClassNode>();
-		this.resources = new HashMap<String, URL>();
+		this.resources = new HashMap<String, File>();
 		this.classRemapper = new ClassRemapper();
 		this.parseJar = true;
 		this.jarFiles = new ArrayList<URL>();
@@ -247,7 +249,7 @@ public class ClassPath {
 				out.write(buffer, 0, len);
 		} catch (IOException e) {
 		}
-		this.resources.put(name, f.toURI().toURL());
+		this.resources.put(name, f);
 	}
 
 	/**
@@ -292,6 +294,11 @@ public class ClassPath {
 				ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 				cn.accept(cw);
 				out.write(cw.toByteArray());
+			}
+			for(Entry<String, File> entry : this.resources.entrySet()) {
+				JarEntry je = new JarEntry(entry.getKey());
+				out.putNextEntry(je);
+				out.write(Files.readAllBytes(entry.getValue().toPath()));
 			}
 			out.close();
 			stream.close();

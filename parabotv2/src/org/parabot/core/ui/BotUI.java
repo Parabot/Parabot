@@ -74,6 +74,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JMenuItem proxy = new JMenuItem("Network");
         JMenuItem randoms = new JMenuItem("Randoms");
         JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+        JMenuItem logger = new JCheckBoxMenuItem("Logger");
 
         JMenuItem api = new JMenuItem("Set API key");
 
@@ -99,6 +100,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         proxy.addActionListener(this);
         randoms.addActionListener(this);
         dialog.addActionListener(this);
+        logger.addActionListener(this);
         explorer.addActionListener(this);
         exit.addActionListener(this);
 
@@ -111,6 +113,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         file.add(proxy);
         file.add(randoms);
         file.add(dialog);
+        file.add(logger);
         file.add(explorer);
         file.add(exit);
 
@@ -171,6 +174,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Stop":
                 setScriptState(Script.STATE_STOPPED);
                 break;
+            case "Logger":
+            	Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
+            	BotUI.getInstance().pack();
+            	BotUI.getInstance().revalidate();
+            	break;
             case "Disable dialog":
                 BotDialog.getInstance().setVisible(!dialog.isVisible());
                 break;

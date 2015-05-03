@@ -38,7 +38,6 @@ public class UlirathaClient extends Thread {
 
     private void connect() {
         try {
-            System.out.println("Connecting....");
             NIOService service = new NIOService();
             service.setExceptionObserver(new ExceptionObserver() {
                 @Override
@@ -90,8 +89,11 @@ public class UlirathaClient extends Thread {
 
                 public void connectionBroken(NIOSocket nioSocket, Exception exception) {
                     if (valid) {
+                        Logger.addMessage("We lost connection with the Uliratha server, reconnecting...");
                         reconnect();
                         connected = false;
+                    }else{
+                        Logger.addMessage("We're disconnected from the Uliratha server");
                     }
                 }
             });

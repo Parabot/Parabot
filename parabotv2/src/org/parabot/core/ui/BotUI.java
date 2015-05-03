@@ -75,8 +75,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JMenuItem randoms = new JMenuItem("Randoms");
         JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
 
-        JMenuItem api = new JMenuItem("Set API key");
-
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             dialog.setSelected(true);
         }
@@ -105,7 +103,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         run.addActionListener(this);
         pause.addActionListener(this);
         stop.addActionListener(this);
-        api.addActionListener(this);
 
         file.add(screenshot);
         file.add(proxy);
@@ -117,7 +114,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         scripts.add(run);
         scripts.add(pause);
         scripts.add(stop);
-        scripts.add(api);
 
         menuBar.add(file);
         menuBar.add(scripts);
@@ -130,9 +126,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         String command = e.getActionCommand();
 
         switch (command) {
-            case "Set API key":
-                String api = JOptionPane.showInputDialog(this, "You can gather your API key from http://bdn.parabot.org/account/");
-                break;
             case "Create screenshot":
                 JOptionPane.showMessageDialog(this, "We are still working on this...");
                 break;

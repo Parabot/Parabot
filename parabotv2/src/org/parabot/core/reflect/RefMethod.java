@@ -130,6 +130,9 @@ public class RefMethod extends RefModifiers {
 			throw new IllegalStateException(
 					"Can not invoke non static method without an instance.");
 		}
+		if(!isAccessible()) {
+			method.setAccessible(true);
+		}
 		try {
 			Object retObject = method.invoke(instance, args);
 			return retObject;

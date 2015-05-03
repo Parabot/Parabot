@@ -5,6 +5,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.core.classpath.ClassPath;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AllPermission;
 import java.security.CodeSource;
@@ -36,7 +37,12 @@ public class ASMClassLoader extends ClassLoader {
 	protected URL findResource(String name) {
 		if (getSystemResource(name) == null) {
 			if (classPath.resources.containsKey(name)) {
-				return classPath.resources.get(name);
+				try {
+					return classPath.resources.get(name).toURI().toURL();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					return null;
+				}
 			} else {
 				return null;
 			}

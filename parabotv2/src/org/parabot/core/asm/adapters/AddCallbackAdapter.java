@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -67,10 +68,31 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 		if(this.conditional) {
 			LabelNode ln = new LabelNode(new Label()); 
             inject.add(new JumpInsnNode(IFEQ, ln)); 
-            inject.add(new InsnNode(RETURN)); 
+            if(Type.getReturnType(method.desc).equals(Type.BOOLEAN_TYPE)) {
+            	inject.add(new InsnNode(ICONST_1)); 
+            	inject.add(new InsnNode(IRETURN)); 
+            } else {
+            	inject.add(new InsnNode(RETURN)); 
+            }
             inject.add(ln);
 		}
-		this.method.instructions.insert(inject);
+		
+		if(method.name.startsWith("<") && !Modifier.isStatic(method.access)) {
+			// find target
+			AbstractInsnNode target = null;
+			for(AbstractInsnNode node : this.method.instructions.toArray()) {
+				if(node.getOpcode() == Opcodes.INVOKESPECIAL) {
+					target = node;
+					break;
+				}
+			}
+			
+			if(target != null) {
+				this.method.instructions.insert(target, inject);
+			}
+		} else {
+			this.method.instructions.insert(inject);
+		}
 	}
 
 }

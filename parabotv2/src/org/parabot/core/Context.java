@@ -171,10 +171,24 @@ public class Context {
         	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
         	Core.verbose("Done.");
         }
-        gameApplet = serverProvider.fetchApplet();
-        if (getClient() == null) {
+        Applet applet = serverProvider.fetchApplet();
+        // if applet is null the server provider will call setApplet itself
+        if(applet != null) {
+        	setApplet(applet);
+        }
+    }
+    
+    /**
+     * Sets the bot target applet
+     * @param applet
+     */
+    public void setApplet(final Applet applet) {
+    	gameApplet = applet;
+    	
+    	if (getClient() == null) {
             setClientInstance(gameApplet);
         }
+    	
         Core.verbose("Applet fetched.");
         
         final GamePanel panel = GamePanel.getInstance();

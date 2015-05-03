@@ -1,21 +1,11 @@
 package org.parabot.core.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
-
 import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
+import org.parabot.environment.scripts.uliratha.UlirathaClient;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author JKetelaar
@@ -24,10 +14,11 @@ public class Logger extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static Logger instance;
     private final DefaultListModel<String> model;
+    private final JList<String>  list;
 
     private Logger(){
         setLayout(new BorderLayout());
-        JList<String> list = new JList<>();
+        list = new JList<>();
 
         JScrollPane pane = new JScrollPane(list);
         add(pane, BorderLayout.CENTER);
@@ -61,11 +52,35 @@ public class Logger extends JPanel {
         return instance == null ? instance = new Logger() : instance;
     }
 
-    public static void addMessage(String message){
+    /**
+     * Logs a message in the logger ui
+     * @param message
+     * @param uliratha Determines if this should be sent to the uliratha server
+     */
+    public static void addMessage(String message, boolean uliratha){
         instance.model.addElement(message);
 
-        if (Context.getInstance().getUlirathaClient() != null) {
-            Context.getInstance().getUlirathaClient().sendMessage(message);
+        if (uliratha){
+            UlirathaClient client;
+            if ((client = Context.getInstance().getUlirathaClient()) != null) {
+                client.sendMessage(message);
+            }
         }
+
+        int last = instance.list.getModel().getSize() - 1;
+        if (last >= 0) {
+            instance.list.ensureIndexIsVisible(last);
+        }
+        if (instance.list.getModel().getSize() > 100 && instance.list.getModel().getElementAt(0) != null){
+            instance.model.remove(0);
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param message
+     */
+    public static void addMessage(String message){
+        addMessage(message, true);
     }
 }

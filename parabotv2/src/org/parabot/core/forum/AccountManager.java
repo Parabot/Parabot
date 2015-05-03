@@ -82,6 +82,9 @@ public final class AccountManager {
 				String api = (String) ((JSONObject) result.get("data")).get("api");
 				account = new Account(user, pass, api);
 				return true;
+			}else if (result.get("error") != null){
+				Core.verbose((String) result.get("error"));
+				return false;
 			}
 		}
 		return false;

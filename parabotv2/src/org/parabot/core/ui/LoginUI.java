@@ -5,6 +5,7 @@ import org.parabot.core.Core;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
+import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,15 @@ public class LoginUI extends JFrame {
 		String password = new String(txtPassword.getPassword());
 
 		if (username.length() > 0 && password.length() > 0) {
-			attempt(username, password);
+			if (manager.login(username, password)) {
+				Core.verbose("Logged in.");
+				instance.dispose();
+				Core.verbose("Running server selector.");
+				ServerSelector.getInstance();
+			} else {
+				Core.verbose("Failed to log in.");
+				UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -51,9 +60,7 @@ public class LoginUI extends JFrame {
 			ServerSelector.getInstance();
 		} else {
 			Core.verbose("Failed to log in.");
-			JOptionPane.showMessageDialog(null,
-					"Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

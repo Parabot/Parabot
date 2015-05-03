@@ -7,6 +7,7 @@ import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -134,6 +135,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 			public void actionPerformed(ActionEvent e) {
 				if(manager.login(userInput.getText(), passInput.getText())) {
 					switchState(STATE_SERVER_SELECT);
+				} else {
+					Core.verbose("Failed to log in.");
+					UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			

@@ -168,10 +168,16 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 setScriptState(Script.STATE_STOPPED);
                 break;
             case "Logger":
-            	Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
-            	BotUI.getInstance().pack();
-            	BotUI.getInstance().revalidate();
-            	break;
+                Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
+                BotUI.getInstance().pack();
+                BotUI.getInstance().revalidate();
+                if (!Logger.getInstance().isClearable()) {
+                    Logger.getInstance().setClearable();
+                } else if(Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
+                    Logger.clearLogger();
+                    Logger.addMessage("Logger started", false);
+                }
+                break;
             case "Disable dialog":
                 BotDialog.getInstance().setVisible(!dialog.isVisible());
                 break;

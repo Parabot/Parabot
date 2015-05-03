@@ -16,6 +16,8 @@ public class Logger extends JPanel {
     private final DefaultListModel<String> model;
     private final JList<String>  list;
 
+    private boolean clearable;
+
     private Logger(){
         setLayout(new BorderLayout());
         list = new JList<>();
@@ -82,5 +84,17 @@ public class Logger extends JPanel {
      */
     public static void addMessage(String message){
         addMessage(message, true);
+    }
+
+    protected static void clearLogger(){
+        instance.model.clear();
+    }
+
+    public boolean isClearable() {
+        return clearable;
+    }
+
+    public void setClearable() {
+        this.clearable = true;
     }
 }

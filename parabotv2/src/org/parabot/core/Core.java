@@ -1,12 +1,13 @@
 package org.parabot.core;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
 import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.DigestInputStream;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -46,10 +47,10 @@ public class Core {
     public static void setDebug(final boolean debug) {
         Core.debug = debug;
     }
-    
+
     /**
      * Enables dump mode
-     * 
+     *
      * @param dump
      */
     public static void setDump(final boolean dump) {
@@ -69,7 +70,7 @@ public class Core {
     public static boolean inVerboseMode() {
         return verbose;
     }
-    
+
     /**
      * @return if parabot should dump injected jar
      */
@@ -104,17 +105,35 @@ public class Core {
         if (f.isFile()) {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
-                try (InputStream is = Files.newInputStream(Paths.get(f.getAbsolutePath()))) {
-                    DigestInputStream dis = new DigestInputStream(is, md);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                byte[] digest = md.digest();
+                File location = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                if (location.exists()) {
+                    FileInputStream fis = new FileInputStream(location);
+                    byte[] dataBytes = new byte[1024];
 
-                for (byte aDigest : digest) {
-                    checksum += Integer.toString((aDigest & 0xff) + 0x100, 16).substring(1);
+                    int nread;
+
+                    while ((nread = fis.read(dataBytes)) != -1) {
+                        md.update(dataBytes, 0, nread);
+                    }
+
+                    byte[] mdbytes = md.digest();
+
+                    StringBuilder sb = new StringBuilder("");
+                    for (int i = 0; i < mdbytes.length; i++) {
+                        sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+                    }
+
+                    String result;
+                    if ((result = WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/checksum", "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
+                        JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
+                        if (!(boolean) object.get("result")){
+                            Core.verbose("Latest checksum: " + sb.toString());
+                            Core.verbose("Latest checksum: " + object.get("current"));
+                            return false;
+                        }
+                    }
                 }
-            } catch (NoSuchAlgorithmException e) {
+            } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
         }
@@ -128,15 +147,23 @@ public class Core {
     private static boolean versionValid(){
         BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
         try {
-            double version = Double.parseDouble(br.readLine());
-            if (Configuration.BOT_VERSION < version) {
+            String version = null;
+            if (br != null) {
+                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
+                version = (String) object.get("result");
+            }
+            if (!Configuration.BOT_VERSION.equals(version)) {
+                Core.verbose("Our version: " + Configuration.BOT_VERSION);
+                Core.verbose("Latest version: " + version);
                 return false;
             }
-        } catch (NumberFormatException | IOException e) {
+        } catch (NumberFormatException | IOException | ParseException e) {
             e.printStackTrace();
         } finally {
             try {
-                br.close();
+                if (br != null) {
+                    br.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -192,7 +219,7 @@ public class Core {
             return false;
         }
     }
-    
+
     public static void debug(int i) {
     	if(mDebug) {
     		System.out.println("DEBUG: " + i);

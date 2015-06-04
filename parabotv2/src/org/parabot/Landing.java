@@ -14,9 +14,11 @@ import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -46,8 +48,17 @@ public final class Landing {
 		if (!Core.inDebugMode() && !Core.isValid()) {
 			UILog.log(
 					"Updates",
-					"Please download the newest version of parabot at http://www.parabot.org/",
+					"Please download the newest version of Parabot at " + Configuration.DOWNLOAD_BOT,
 					JOptionPane.INFORMATION_MESSAGE);
+			URI uri = URI
+					.create(Configuration.DOWNLOAD_BOT);
+			try {
+				Desktop.getDesktop().browse(uri);
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(null, "Connection Error",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
 			return;
 		}
 

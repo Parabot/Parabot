@@ -53,6 +53,10 @@ public class WebUtil {
 		return getContents(new URL(location));
 	}
 
+	public static String getContents(final String location, String parameters) throws MalformedURLException {
+		return getContents(new URL(location), parameters);
+	}
+
 	/**
 	 * Get contents from URL
 	 * 
@@ -61,6 +65,10 @@ public class WebUtil {
 	 */
 	public static String getContents(final URL url) {
 		return getContents(getConnection(url));
+	}
+
+	public static String getContents(final URL url, final String parameters) {
+		return getContents(getConnection(url), parameters);
 	}
 
 	/**
@@ -74,10 +82,33 @@ public class WebUtil {
 			final BufferedReader in = getReader(urlConnection);
 			final StringBuilder builder = new StringBuilder();
 			String line;
+			if (in != null) {
+				while ((line = in.readLine()) != null) {
+                    builder.append(line);
+                }
+				in.close();
+			}
+			return builder.toString();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String getContents(URLConnection urlConnection, String parameters) {
+		try {
+			urlConnection.setDoOutput(true);
+			OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
+			wr.write(parameters);
+			wr.flush();
+			wr.close();
+
+			final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			final StringBuilder builder = new StringBuilder();
+			String line;
 			while ((line = in.readLine()) != null) {
 				builder.append(line);
 			}
-			in.close();
 			return builder.toString();
 		} catch (Throwable t) {
 			t.printStackTrace();

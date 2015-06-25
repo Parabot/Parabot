@@ -47,11 +47,14 @@ public class NetworkInterface {
 		if (realMac != null)
 			return realMac;
 		try {
-			return realMac = java.net.NetworkInterface.getByInetAddress(
+			byte[] b = java.net.NetworkInterface.getByInetAddress(
 					InetAddress.getLocalHost()).getHardwareAddress();
+			if(b == null)
+				b = mac;
+			realMac = b;
 		} catch (Exception ignored) {
 		}
-		return mac;
+		return realMac = mac;
 	}
 
 	public static NetworkInterface getByInetAddress(InetAddress addr) {

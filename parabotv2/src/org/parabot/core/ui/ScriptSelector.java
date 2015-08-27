@@ -4,6 +4,7 @@ import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.parsers.scripts.ScriptParser;
+import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Category;
 
 import javax.swing.*;
@@ -16,6 +17,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
@@ -156,6 +160,11 @@ public final class ScriptSelector extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String s = getScriptName(tree.getSelectionPath().toString());
 				if (s != null) {
+					try {
+						WebUtil.getContents("http://bdn.parabot.org/api/v2/scripts/local", "script=" + URLEncoder.encode(s, "UTF-8") + "&username=" + URLEncoder.encode(Context.getUsername(), "UTF-8"));
+					} catch (MalformedURLException | UnsupportedEncodingException e1) {
+						e1.printStackTrace();
+					}
 					runScript(format.get(s));
 				}
 			}

@@ -194,4 +194,13 @@ public class Directories {
         }
     }
 
+    public static void clearCache() {
+        File[] cache = getCachePath().listFiles();
+        if (cache != null) {
+            for (File f : cache) {
+                Core.verbose("Clearing " + f.getName() + " from cache...");
+                f.delete();
+            }
+        }
+    }
 }

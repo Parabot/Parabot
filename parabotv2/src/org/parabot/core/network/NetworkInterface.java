@@ -12,10 +12,10 @@ public class NetworkInterface {
 	private static NetworkInterface cached;
 
 	static {
-			try {
-				mac = getRealHardwareAddress();
-			} catch (SocketException ignored) {
-			}
+		try {
+			mac = getRealHardwareAddress();
+		} catch (SocketException ignored) {
+		}
 	}
 
 	public byte[] getHardwareAddress() {
@@ -47,14 +47,11 @@ public class NetworkInterface {
 		if (realMac != null)
 			return realMac;
 		try {
-			byte[] b = java.net.NetworkInterface.getByInetAddress(
+			return realMac = java.net.NetworkInterface.getByInetAddress(
 					InetAddress.getLocalHost()).getHardwareAddress();
-			if(b == null)
-				b = mac;
-			realMac = b;
 		} catch (Exception ignored) {
 		}
-		return realMac = mac;
+		return mac;
 	}
 
 	public static NetworkInterface getByInetAddress(InetAddress addr) {
@@ -67,7 +64,7 @@ public class NetworkInterface {
 		System.out.println("Setting mac address to:" + formatMac(mac2));
 		mac = mac2;
 	}
-	
+
 	public static String formatMac(byte[] mac){
 		StringBuffer b = new StringBuffer();
 		for(int i = 0; i < 6;i++){

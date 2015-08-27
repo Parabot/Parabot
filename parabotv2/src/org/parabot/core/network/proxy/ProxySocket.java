@@ -1,24 +1,13 @@
 package org.parabot.core.network.proxy;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
+import org.parabot.core.ui.utils.UILog;
+
+import javax.swing.*;
+import java.io.*;
+import java.net.*;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import org.parabot.core.ui.utils.UILog;
 
 public class ProxySocket extends Socket {
 
@@ -294,7 +283,7 @@ public class ProxySocket extends Socket {
 	}
 	
 	public static void setLogin(String user, char[] pass) {
-		setLogin(user,new String(pass));
+		setLogin(user, new String(pass));
 	}
 
 	public static void setLogin(String user, String pass) {

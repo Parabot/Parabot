@@ -39,7 +39,7 @@ public class LoginUI extends JFrame {
 		String password = new String(txtPassword.getPassword());
 
 		if (username.length() > 0 && password.length() > 0) {
-			if (manager.login(username, password)) {
+			if (manager.login(username, password, false)) {
 				Core.verbose("Logged in.");
 				instance.dispose();
 				Core.verbose("Running server selector.");
@@ -53,7 +53,7 @@ public class LoginUI extends JFrame {
 
 	private void attempt(String user, String pass) {
 		Core.verbose("Logging in...");
-		if (manager.login(user, pass)) {
+		if (manager.login(user, pass, false)) {
 			Core.verbose("Logged in.");
 			instance.dispose();
 			Core.verbose("Running server selector.");

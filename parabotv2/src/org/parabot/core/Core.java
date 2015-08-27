@@ -6,6 +6,7 @@ import org.parabot.Landing;
 import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -99,8 +100,6 @@ public class Core {
      */
     @SuppressWarnings("unused")
 	private static boolean checksumValid(){
-        String checksum = "";
-
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
         if (f.isFile()) {
             try {
@@ -152,10 +151,12 @@ public class Core {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
                 version = (String) object.get("result");
             }
-            if (!Configuration.BOT_VERSION.equals(version)) {
-                Core.verbose("Our version: " + Configuration.BOT_VERSION);
-                Core.verbose("Latest version: " + version);
-                return false;
+            if (version != null) {
+                if (!Configuration.BOT_VERSION.equals(version)) {
+                    Core.verbose("Our version: " + Configuration.BOT_VERSION);
+                    Core.verbose("Latest version: " + version);
+                    return false;
+                }
             }
         } catch (NumberFormatException | IOException | ParseException e) {
             e.printStackTrace();
@@ -172,35 +173,29 @@ public class Core {
         return true;
     }
 
-    private static boolean policyValid(){
-        return new File(Directories.getSettingsPath() + "/java.policy").exists();
-    }
-
-    private static void createPolicy(){
-        File policy = new File(Directories.getSettingsPath() + "/java.policy");
-        if (!policy.exists()){
-            try {
-                final BufferedReader in = WebUtil.getReader(Configuration.DATA_API + "policy");
-                if (in != null) {
-                    String line;
-                    PrintWriter printWriter = new PrintWriter(Directories.getSettingsPath() + "/java.policy");
-                    while ((line = in.readLine()) != null) {
-                        if (line.contains("%parabot_resources%")){
-                            line = line.replace("%parabot_resources%", Directories.getResourcesPath().getAbsolutePath());
-                        }
-                        printWriter.println(line);
-                    }
-                    printWriter.close();
-                    in.close();
+    private static void validateCache(){
+        File[] cache = Directories.getCachePath().listFiles();
+        Integer lowest = null;
+        if (cache != null) {
+            for (File f : cache) {
+                int date = (int) (f.lastModified()/ 1000);
+                if (lowest == null || date < lowest){
+                    lowest = date;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
-    }
 
-    public static void main(String[] args){
-        createPolicy();
+        try {
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/cache", "date=" + lowest));
+            if ((boolean) object.get("result")){
+                Core.verbose("Making space for the latest cache files");
+                Directories.clearCache();
+            }else{
+                Core.verbose("Cache is up to date");
+            }
+        } catch (MalformedURLException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -210,6 +205,7 @@ public class Core {
      */
     public static boolean isValid() {
         Core.verbose("Checking for updates...");
+        validateCache();
 
         if (versionValid() && checksumValid()){
             Core.verbose("No updates available.");

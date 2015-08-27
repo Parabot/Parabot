@@ -10,21 +10,17 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
-import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * Parabot v2.1
  *
- * @author Everel/Parnassian/Clisprail, Paradox, Matt, Dane
+ * @author Everel/Parnassian/Clisprail, Paradox/JKetelaar, Matt, Dane
  * @version 2.1
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
@@ -91,14 +87,14 @@ public final class Landing {
 	 * @return String array with username and password
 	 */
 	private static String[] getCredentials() {
-		try {
-			BufferedReader bufferedReader = WebUtil.getReader(new URL(
-					Configuration.GET_PASSWORD));
-			if (bufferedReader.readLine() != null) {
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			BufferedReader bufferedReader = WebUtil.getReader(new URL(
+//					Configuration.GET_PASSWORD));
+//			if (bufferedReader.readLine() != null) {
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 

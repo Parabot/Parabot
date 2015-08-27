@@ -4,6 +4,7 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.Logger;
+import org.parabot.environment.api.utils.PBPreferences;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.*;
 import org.parabot.environment.scripts.framework.Frameworks;
@@ -12,9 +13,9 @@ import org.parabot.environment.scripts.randoms.Random;
 import java.util.Collection;
 
 /**
- * 
+ *
  * Script template, scripts are 'add-ons' which executes various tasks in-game
- * 
+ *
  * @author Everel
  *
  */
@@ -22,43 +23,45 @@ public class Script implements Runnable {
 	public static final int TYPE_STRATEGY = 0;
 	public static final int TYPE_LOOP = 1;
 	public static final int TYPE_OTHER = 2;
-	
+
 	public static final int STATE_RUNNING = 0;
 	public static final int STATE_PAUSE = 1;
 	public static final int STATE_STOPPED = 2;
-	
+
 	private Collection<Strategy> strategies;
+	private PBPreferences preferences;
 	private AbstractFramework frameWork;
 	private int state;
 	private int frameWorkType;
-	
+	private int scriptID;
+
 	public boolean onExecute() {
 		return true;
 	}
-	
+
 	public void onFinish() {
-		
+
 	}
-	
+
 	public final void provide(final Collection<Strategy> strategies) {
 		this.strategies = strategies;
 	}
-	
+
 	public final int getFrameWorkType() {
 		return frameWorkType;
 	}
-	
+
 	public final void setFrameWork(int frameWorkType) {
 		if(frameWorkType < 0 || frameWorkType > 2) {
 			throw new RuntimeException("Invalid framework type");
 		}
 		this.frameWorkType = frameWorkType;
 	}
-	
+
 	public final void setAbstractFrameWork(AbstractFramework f) {
 		this.frameWork = f;
 	}
-	
+
 	public final void addRandom(Random random) {
 		Context.getInstance().getRandomHandler().addRandom(random);
 	}
@@ -70,7 +73,7 @@ public class Script implements Runnable {
 		Core.verbose("Initializing script...");
 		context.getServerProvider().initScript(this);
 		Core.verbose("Done.");
-		
+
 		if(!onExecute()) {
 			Core.verbose("Script#onExecute returned false, unloading and stopping script...");
 			context.getServerProvider().unloadScript(this);
@@ -78,7 +81,7 @@ public class Script implements Runnable {
 			Core.verbose("Done.");
 			return;
 		}
-		
+
 		Core.verbose("Detecting script framework...");
 		context.setRunningScript(this);
 		BotUI.getInstance().toggleRun();
@@ -101,7 +104,7 @@ public class Script implements Runnable {
 				if(context.getRandomHandler().checkAndRun()) {
 					continue;
 				}
-				
+
 				if(this.state == STATE_PAUSE) {
 					sleep(500);
 					continue;
@@ -128,12 +131,12 @@ public class Script implements Runnable {
 		BotUI.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}
-	
+
 	/**
 	 * Sleeps until the SleepCondition is valid.
-	 * 
+	 *
 	 * <B>DEPRECATED!</b> use {@link Time#sleep(SleepCondition, int)}
-	 * 
+	 *
 	 * @param conn
 	 *            the condition.
 	 * @param timeout
@@ -144,7 +147,7 @@ public class Script implements Runnable {
 	public final boolean sleep(SleepCondition conn, int timeout) {
 		return Time.sleep(conn, timeout);
 	}
-	
+
 	/**
 	 * Sets the script's state
 	 * @param state
@@ -155,7 +158,7 @@ public class Script implements Runnable {
 		}
 		this.state = state;
 	}
-	
+
 	/**
 	 * Sleeps for an amount of milliseconds
 	 * @param ms
@@ -166,5 +169,16 @@ public class Script implements Runnable {
 
 	public int getState() {
 		return state;
+	}
+
+	public PBPreferences getPreferences(){
+		if (this.preferences == null){
+			this.preferences = new PBPreferences(scriptID);
+		}
+		return this.preferences;
+	}
+
+	public void setScriptID(int scriptID){
+		this.scriptID = scriptID;
 	}
 }

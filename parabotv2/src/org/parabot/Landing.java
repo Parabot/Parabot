@@ -150,6 +150,7 @@ public final class Landing {
 				if (str.toLowerCase().equals("random")) {
 					new java.util.Random().nextBytes(mac);
 				} else {
+					i--;
 					for(int j = 0; j < 6;j++){
 						mac[j] = Byte.parseByte(args[++i], 16); // parses a hex number
 					}

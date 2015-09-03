@@ -1,8 +1,0 @@
-machine:
-  java:
-    version: oraclejdk7
-general:
-  build_dir: parabotv2
-dependencies:
-  post:
-    - java ./parabotv2/libs

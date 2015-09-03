@@ -1,3 +1,5 @@
 machine:
   java:
     version: oraclejdk7
+general:
+  build_dir: parabotv2

@@ -3,3 +3,6 @@ machine:
     version: oraclejdk7
 general:
   build_dir: parabotv2
+dependencies:
+  post:
+    - python ./parabotv2/libs

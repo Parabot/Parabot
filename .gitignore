@@ -47,8 +47,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-releases/
-
 ### Eclipse template
 *.pydevproject
 .metadata
@@ -99,5 +97,7 @@ local.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-
-
+### Custom
+parabotv2
+deploy
+releases

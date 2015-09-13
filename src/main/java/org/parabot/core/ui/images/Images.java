@@ -1,9 +1,8 @@
 package org.parabot.core.ui.images;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-
-import javax.imageio.ImageIO;
 
 /**
  * 

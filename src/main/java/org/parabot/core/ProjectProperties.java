@@ -23,7 +23,7 @@ public class ProjectProperties {
             String propertiesFileName = "/app.properties";
 
             Properties properties = new Properties();
-            InputStream inputStream = this.getClass().getClassLoader()
+            InputStream inputStream = ProjectProperties.class.getClassLoader()
                     .getResourceAsStream(propertiesFileName);
 
             cached.load(inputStream);

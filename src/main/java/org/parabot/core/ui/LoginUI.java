@@ -95,7 +95,7 @@ public class LoginUI extends JFrame {
 						RenderingHints.KEY_INTERPOLATION,
 						RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 				g.drawImage(Images
-						.getResource("/org/parabot/core/ui/images/para.png"),
+						.getResource("/images/para.png"),
 						0, 8, 250, 45, null);
 			}
 		};

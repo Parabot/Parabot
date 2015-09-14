@@ -1,5 +1,6 @@
 package org.parabot;
 
+import com.sun.deploy.util.WinRegistry;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
@@ -28,8 +29,22 @@ public final class Landing {
 	private static String username;
 	private static String password;
 
+	private static void removeKeys(){
+		try{
+			boolean value = WinRegistry.deleteKey(
+					WinRegistry.HKEY_CURRENT_USER,
+					"Software\\JavaSoft\\Prefs\\org\\parabot");
+			if (value) {
+				System.err.println("Ikov key removed");
+			}
+		}catch (Exception ignored){
+
+		}
+	}
+
 	public static void main(String... args) throws IOException {
 		parseArgs(args);
+		removeKeys();
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());
 

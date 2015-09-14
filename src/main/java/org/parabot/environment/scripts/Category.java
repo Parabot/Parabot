@@ -33,7 +33,7 @@ public enum Category
 	 */
 	public static BufferedImage getIcon(String s) {
 		if (images.get(s) == null) {
-			images.put(s, Images.getResource("/storage/resources/images/category/" + s + ".png"));
+			images.put(s, Images.getResource("/storage/images/category/" + s + ".png"));
 		}
 		return images.get(s);
 	}

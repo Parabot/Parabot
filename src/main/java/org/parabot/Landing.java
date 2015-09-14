@@ -1,6 +1,5 @@
 package org.parabot;
 
-import com.sun.deploy.util.WinRegistry;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
@@ -31,13 +30,10 @@ public final class Landing {
 
 	private static void removeKeys(){
 		try{
-			boolean value = WinRegistry.deleteKey(
+			WinRegistry.deleteKey(
 					WinRegistry.HKEY_CURRENT_USER,
 					"Software\\JavaSoft\\Prefs"
 			);
-			if (value) {
-				System.err.println("Ikov key removed");
-			}
 		}catch (Exception ignored){
 
 		}

@@ -98,7 +98,7 @@ public class Script implements Runnable {
 			frameWorkType = TYPE_OTHER;
 		}
 		Core.verbose("Running script...");
-		Logger.addMessage("Script started.");
+		Logger.addMessage("Script started.", true);
 		try {
 			while(this.state != STATE_STOPPED) {
 				if(context.getRandomHandler().checkAndRun()) {
@@ -118,7 +118,7 @@ public class Script implements Runnable {
 		}
 		Core.verbose("Script stopped/finished, unloading and stopping...");
 		onFinish();
-		Logger.addMessage("Script stopped.");
+		Logger.addMessage("Script stopped.", false);
 		context.getServerProvider().unloadScript(this);
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);

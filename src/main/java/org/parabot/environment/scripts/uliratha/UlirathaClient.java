@@ -70,7 +70,7 @@ public class UlirathaClient extends Thread {
                             case 75:
                                 valid = stream.readBoolean();
                                 if (valid) {
-                                    Logger.addMessage("We're connected with the Uliratha server!");
+                                    Logger.addMessage("We're connected with the Uliratha server!", false);
                                     connected = true;
                                 }else{
                                     socket.close();
@@ -89,11 +89,11 @@ public class UlirathaClient extends Thread {
 
                 public void connectionBroken(NIOSocket nioSocket, Exception exception) {
                     if (valid) {
-                        Logger.addMessage("We lost connection with the Uliratha server, reconnecting...");
+                        Logger.addMessage("We lost connection with the Uliratha server, reconnecting...", false);
                         reconnect();
                         connected = false;
                     }else{
-                        Logger.addMessage("We're disconnected from the Uliratha server");
+                        Logger.addMessage("We're disconnected from the Uliratha server", false);
                     }
                 }
             });

@@ -90,7 +90,7 @@ public class RandomHandler {
     public boolean checkAndRun() {
         for(Random r : this.activeRandoms) {
             if(r.activate()) {
-                Logger.addMessage("Running random '" + r.getName() + "'");
+                Logger.addMessage("Running random '" + r.getName() + "'", true);
                 r.execute();
                 return true;
             }

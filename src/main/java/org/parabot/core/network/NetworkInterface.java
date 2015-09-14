@@ -61,12 +61,12 @@ public class NetworkInterface {
 	}
 
 	public static void setMac(byte[] mac2) {
-		System.out.println("Setting mac address to:" + formatMac(mac2));
+		System.out.println("Setting mac address to: " + formatMac(mac2));
 		mac = mac2;
 	}
 
 	public static String formatMac(byte[] mac){
-		StringBuffer b = new StringBuffer();
+		StringBuilder b = new StringBuilder();
 		for(int i = 0; i < 6;i++){
 			b.append(String.format("%02X", mac[i]));
 			if(i < 5)

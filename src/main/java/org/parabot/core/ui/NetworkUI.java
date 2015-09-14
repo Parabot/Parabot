@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         DocumentListener {
@@ -36,6 +37,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     private JCheckBox authCheckBox;
     private JTextField authUsername;
     private JPasswordField authPassword;
+    private JButton randomize;
 
     private NetworkUI() {
         initGUI();
@@ -84,8 +86,24 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             macList[i].setSelectedIndex(value);
             macScrollList[i] = new JScrollPane(macList[i]);
             macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
-
         }
+
+        randomize = new JButton("Randomize MAC");
+        randomize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Random rand = new Random();
+                byte[] macAddr = new byte[6];
+                rand.nextBytes(macAddr);
+                macAddr[0] = (byte)(macAddr[0] & (byte)254);
+                for (int i = 0; i < macAddr.length; i++) {
+                    int value = macAddr[i] & 0xFF;
+                    macList[i].setSelectedIndex(value);
+                    macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
+                }
+            }
+        });
+
 
         authCheckBox = new JCheckBox("Auth");
         authCheckBox.setSelected(ProxySocket.auth);
@@ -143,6 +161,8 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         }
 
         Box submit = Box.createHorizontalBox();
+        main.add(Box.createVerticalStrut(5));
+        submit.add(randomize);
         submit.add(submitButton);
 
         main.add(type);

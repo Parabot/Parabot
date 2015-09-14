@@ -29,7 +29,7 @@ public class SwingUtil {
 	}
 	
 	public static void setParabotIcons(JFrame f) {
-		f.setIconImage(Images.getResource("/images/icon.png"));
+		f.setIconImage(Images.getResource("/storage/images/icon.png"));
 		
 		if(OperatingSystem.getOS() == OperatingSystem.MAC) {
 	        /** Adds the dock icon to mac users */
@@ -37,7 +37,7 @@ public class SwingUtil {
 	            Class<?> util = Class.forName("com.apple.eawt.Application");
 	            Object application = util.getMethod("getApplication", new Class[] { }).invoke(null);
 	            Method setDockIconImage = util.getMethod("setDockIconImage", new Class[] { Image.class });
-	            setDockIconImage.invoke(application, Images.getResource("/images/icon.png"));
+	            setDockIconImage.invoke(application, Images.getResource("/storage/images/icon.png"));
 	        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
 	        } catch (Throwable t) {
 	        	t.printStackTrace();

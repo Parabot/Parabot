@@ -6,7 +6,6 @@ import java.util.Properties;
 
 /**
  * @author JKetelaar
- * @deprecated
  */
 public class ProjectProperties {
 
@@ -20,13 +19,12 @@ public class ProjectProperties {
     private void setProperties(){
         InputStream input;
         try {
-            String propertiesFileName = "/app.properties";
+            String propertiesFileName = "storage/app.properties";
 
-            Properties properties = new Properties();
-            InputStream inputStream = ProjectProperties.class.getClassLoader()
+            input = getClass().getClassLoader()
                     .getResourceAsStream(propertiesFileName);
 
-            cached.load(inputStream);
+            cached.load(input);
         } catch (IOException e) {
             e.printStackTrace();
         }

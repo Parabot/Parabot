@@ -33,7 +33,7 @@ public enum Category
 	 */
 	public static BufferedImage getIcon(String s) {
 		if (images.get(s) == null) {
-			images.put(s, Images.getResource("/images/category/" + s + ".png"));
+			images.put(s, Images.getResource("/resources/images/category/" + s + ".png"));
 		}
 		return images.get(s);
 	}
@@ -52,7 +52,7 @@ public enum Category
 	private static HashMap<String, BufferedImage> images = new HashMap<>();
 
 	static {
-		images.put("script", Images.getResource("/images/category/script.png"));
+		images.put("script", Images.getResource("/storage/images/category/script.png"));
 	}
 
 }

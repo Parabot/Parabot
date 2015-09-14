@@ -51,7 +51,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 			throw new IllegalStateException("MainScreenComponent already made.");
 		}
 		current = this;
-		this.background = Images.getResource("/images/background.png");
+		this.background = Images.getResource("/storage/images/background.png");
 		this.progressBar = new ProgressBar(400, 20);
 		setLayout(new GridBagLayout());
 		setSize(775, 510);

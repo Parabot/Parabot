@@ -84,15 +84,15 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JMenuItem exit = new JMenuItem("Exit");
 
         run = new JMenuItem("Run");
-        run.setIcon(new ImageIcon(Images.getResource("/images/run.png")));
+        run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
 
         pause = new JMenuItem("Pause");
         pause.setEnabled(false);
-        pause.setIcon(new ImageIcon(Images.getResource("/images/pause.png")));
+        pause.setIcon(new ImageIcon(Images.getResource("/storage/images/pause.png")));
 
         stop = new JMenuItem("Stop");
         stop.setEnabled(false);
-        stop.setIcon(new ImageIcon(Images.getResource("/images/stop.png")));
+        stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
         screenshot.addActionListener(this);
         proxy.addActionListener(this);

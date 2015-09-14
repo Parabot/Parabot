@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.parabot</groupId>
-    <artifactId>parabot-client</artifactId>
-    <version>2.2.3</version>
+    <artifactId>client</artifactId>
+    <version>2.2.32</version>
 
     <packaging>jar</packaging>
 
@@ -52,6 +52,20 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>deploy</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>deploy.bat</exclude>
+                    <exclude>package.bat</exclude>
+                    <exclude>clean.bat</exclude>
+                </excludes>
+                <!--<includes>-->
+                    <!--<include>deploy.bat</include>-->
+                    <!--<include>package.bat</include>-->
+                    <!--<include>clean.bat</include>-->
+                <!--</includes>-->
             </resource>
         </resources>
 

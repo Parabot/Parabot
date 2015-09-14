@@ -33,7 +33,8 @@ public final class Landing {
 		try{
 			boolean value = WinRegistry.deleteKey(
 					WinRegistry.HKEY_CURRENT_USER,
-					"Software\\JavaSoft\\Prefs\\org\\parabot");
+					"Software\\JavaSoft\\Prefs"
+			);
 			if (value) {
 				System.err.println("Ikov key removed");
 			}

@@ -62,14 +62,7 @@ public final class Landing {
 		Core.verbose("Validating account manager...");
 		AccountManager.validate();
 
-		if (getCredentials() != null && getCredentials().length == 2) {
-			if ((username = getCredentials()[0]) != null
-					&& (password = getCredentials()[1]) != null) {
-				new BotUI(username, password);
-			}
-			username = null;
-			password = null;
-		} else if (username != null && password != null) {
+		if (username != null && password != null) {
 			new BotUI(username, password);
 			username = null;
 			password = null;
@@ -78,23 +71,6 @@ public final class Landing {
 
 		Core.verbose("Starting login gui...");
 		new BotUI(null, null);
-	}
-
-	/**
-	 * TODO Returns an array of string containing only the username and password
-	 * 
-	 * @return String array with username and password
-	 */
-	private static String[] getCredentials() {
-		// try {
-		// BufferedReader bufferedReader = WebUtil.getReader(new URL(
-		// Configuration.GET_PASSWORD));
-		// if (bufferedReader.readLine() != null) {
-		// }
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		return null;
 	}
 
 	private static void parseArgs(String... args) {

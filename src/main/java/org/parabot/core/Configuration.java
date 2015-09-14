@@ -21,5 +21,5 @@ public class Configuration {
     public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
     public static final String ITEM_API = DATA_API + "items/";
 
-    public static final String BOT_VERSION = "2.2.3";
+    public static final String BOT_VERSION = "2.2.33";
 }

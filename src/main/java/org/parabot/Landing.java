@@ -27,21 +27,8 @@ import java.net.URI;
 public final class Landing {
 	private static String username;
 	private static String password;
-
-	private static void removeKeys(){
-		try{
-			WinRegistry.deleteKey(
-					WinRegistry.HKEY_CURRENT_USER,
-					"Software\\JavaSoft\\Prefs"
-			);
-		}catch (Exception ignored){
-
-		}
-	}
-
 	public static void main(String... args) throws IOException {
 		parseArgs(args);
-		removeKeys();
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());
 

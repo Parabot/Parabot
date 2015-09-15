@@ -28,8 +28,17 @@ public class Core {
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
 
+    private static boolean validate = true;
     private static boolean secure = true;
-    
+
+    public static void disableValidation() {
+        Core.validate = false;
+    }
+
+    public static boolean hasValidation() {
+        return validate;
+    }
+
     /**
      * Enabled loadLocal mode
      *
@@ -118,7 +127,6 @@ public class Core {
      * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
-    @SuppressWarnings("unused")
 	private static boolean checksumValid(){
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
         if (f.isFile()) {

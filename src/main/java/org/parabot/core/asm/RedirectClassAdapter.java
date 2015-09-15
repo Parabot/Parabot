@@ -107,6 +107,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 			
 			if(class_out != null)
 				class_out.println(owner);
+
 			super.visitMethodInsn(opcode, owner, name, desc);
 		}
 		

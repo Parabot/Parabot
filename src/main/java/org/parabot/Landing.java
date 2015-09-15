@@ -40,7 +40,7 @@ public final class Landing {
 			t.printStackTrace();
 		}
 
-		if (!Core.inDebugMode() && !Core.isValid()) {
+		if (!Core.inDebugMode() && !Core.isValid() && Core.hasValidation()) {
 			UILog.log("Updates",
 					"Please download the newest version of Parabot at "
 							+ Configuration.DOWNLOAD_BOT,
@@ -76,81 +76,83 @@ public final class Landing {
 		for (int i = 0; i < args.length; i++) {
 			final String arg = args[i].toLowerCase();
 			switch (arg.toLowerCase()) {
-			case "-createdirs":
-				Directories.validate();
-				System.out
-						.println("Directories created, you can now run parabot.");
-				System.exit(0);
-				break;
-			case "-debug":
-				Core.setDebug(true);
-				break;
-			case "-v":
-			case "-verbose":
-				Core.setVerbose(true);
-				break;
-			case "-server":
-				ServerSelector.initServer = args[++i];
-				break;
-			case "-login":
-				username = args[++i];
-				password = args[++i];
-				break;
-			case "-loadlocal":
-				Core.setLoadLocal(true);
-				break;
-			case "-dump":
-				Core.setDump(true);
-				break;
-			case "-scriptsbin":
-				Directories.setScriptCompiledDirectory(new File(args[++i]));
-				break;
-			case "-serversbin":
-				Directories.setServerCompiledDirectory(new File(args[++i]));
-				break;
-			case "-clearcache":
-				File[] cache = Directories.getCachePath().listFiles();
-				if (cache != null) {
-					for (File f : cache) {
-						if (f.exists() && f.canWrite()) {
-							f.delete();
+				case "-createdirs":
+					Directories.validate();
+					System.out
+							.println("Directories created, you can now run parabot.");
+					System.exit(0);
+					break;
+				case "-debug":
+					Core.setDebug(true);
+					break;
+				case "-v":
+				case "-verbose":
+					Core.setVerbose(true);
+					break;
+				case "-server":
+					ServerSelector.initServer = args[++i];
+					break;
+				case "-login":
+					username = args[++i];
+					password = args[++i];
+					break;
+				case "-loadlocal":
+					Core.setLoadLocal(true);
+					break;
+				case "-dump":
+					Core.setDump(true);
+					break;
+				case "-scriptsbin":
+					Directories.setScriptCompiledDirectory(new File(args[++i]));
+					break;
+				case "-serversbin":
+					Directories.setServerCompiledDirectory(new File(args[++i]));
+					break;
+				case "-clearcache":
+					File[] cache = Directories.getCachePath().listFiles();
+					if (cache != null) {
+						for (File f : cache) {
+							if (f.exists() && f.canWrite()) {
+								f.delete();
+							}
 						}
 					}
-				}
-				break;
-			case "-mac":
-				byte[] mac = new byte[6];
-				String str = args[++i];
-				if (str.toLowerCase().equals("random")) {
-					new java.util.Random().nextBytes(mac);
-				} else {
-					i--;
-					for (int j = 0; j < 6; j++) {
-						mac[j] = Byte.parseByte(args[++i], 16); // parses a hex
-																// number
+					break;
+				case "-mac":
+					byte[] mac = new byte[6];
+					String str = args[++i];
+					if (str.toLowerCase().equals("random")) {
+						new java.util.Random().nextBytes(mac);
+					} else {
+						i--;
+						for (int j = 0; j < 6; j++) {
+							mac[j] = Byte.parseByte(args[++i], 16); // parses a hex
+							// number
+						}
 					}
-				}
-				NetworkInterface.setMac(mac);
-				break;
-			case "-proxy":
-				ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
-				if (type == null) {
-					System.err.println("Invalid proxy type:" + args[i]);
-					System.exit(1);
-					return;
-				}
-				ProxySocket.setProxy(type, args[++i],
-						Integer.parseInt(args[++i]));
-				break;
-			case "-auth":
-				ProxySocket.auth = true;
-				ProxySocket.setLogin(args[++i], args[++i]);
-				break;
-			case "-no_sec":
-				Core.disableSec();
-				break;
+					NetworkInterface.setMac(mac);
+					break;
+				case "-proxy":
+					ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
+					if (type == null) {
+						System.err.println("Invalid proxy type:" + args[i]);
+						System.exit(1);
+						return;
+					}
+					ProxySocket.setProxy(type, args[++i],
+							Integer.parseInt(args[++i]));
+					break;
+				case "-auth":
+					ProxySocket.auth = true;
+					ProxySocket.setLogin(args[++i], args[++i]);
+					break;
+				case "-no_sec":
+					Core.disableSec();
+					break;
+				case "-no_validation":
+					Core.disableValidation();
+					break;
 			}
-
 		}
 	}
 }

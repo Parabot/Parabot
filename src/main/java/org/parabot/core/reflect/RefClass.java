@@ -1,5 +1,6 @@
 package org.parabot.core.reflect;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -83,6 +84,10 @@ public class RefClass extends RefModifiers {
 
 	public String getCanonicalName() {
 		return this.clazz.getCanonicalName();
+	}
+
+	public Annotation[] getAnnotations(){
+		return this.clazz.getAnnotations();
 	}
 
 	/**

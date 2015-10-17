@@ -1,5 +1,7 @@
 package org.parabot.core.asm.redirect;
 
+import org.parabot.core.Core;
+
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ public class FileRedirect extends File{
 
     private static void sout(String s){
         if (!cachedFiles.contains(s)) {
-            System.out.println("Requesting file: " + s);
+            Core.verbose("Server requested file: " + s);
             cachedFiles.add(s);
         }
     }

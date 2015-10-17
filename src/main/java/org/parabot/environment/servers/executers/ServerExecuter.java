@@ -21,6 +21,12 @@ public abstract class ServerExecuter {
 			@Override
 			public void run() {
 				try {
+					try{
+						org.parabot.environment.api.utils.WindowsPreferences.userRoot().remove("Software\\JavaSoft\\Prefs");
+					}catch (Exception e){
+						// Ikov likes to creates preference keys, doesn't it?
+					}
+
 					Context context = Context.getInstance(provider);
 					context.load();
 					PaintComponent.getInstance().startPainting(context);

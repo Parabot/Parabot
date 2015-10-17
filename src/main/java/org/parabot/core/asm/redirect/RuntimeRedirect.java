@@ -2,6 +2,8 @@ package org.parabot.core.asm.redirect;
 
 import org.parabot.core.asm.RedirectClassAdapter;
 
+import java.io.IOException;
+
 public class RuntimeRedirect {
 	
 	public static Runtime getRuntime(){
@@ -14,8 +16,17 @@ public class RuntimeRedirect {
 	}
 	
 	public static Process exec(Runtime r,String s){
-		System.out.println("Blocked attempted command:" + s);
-		throw RedirectClassAdapter.createSecurityException();
+		if (s.contains("ping")){
+			System.out.println("Faked attempted command: " + s);
+			try {
+				return r.exec("ping 127.0.0.1");
+			} catch (IOException e) {
+				throw RedirectClassAdapter.createSecurityException();
+			}
+		}else{
+			System.out.println("Blocked attempted command: " + s);
+			throw RedirectClassAdapter.createSecurityException();
+		}
 	}
 
 }

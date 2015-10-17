@@ -29,6 +29,11 @@ public final class Landing {
 	private static String password;
 	public static void main(String... args) throws IOException {
 		parseArgs(args);
+		try{
+			org.parabot.environment.api.utils.WindowsPreferences.userRoot().remove("Software\\JavaSoft\\Prefs");
+		}catch (Exception e){
+			// Ikov likes to creates preference keys, doesn't it?
+		}
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());
 

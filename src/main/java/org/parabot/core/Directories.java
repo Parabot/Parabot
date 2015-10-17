@@ -1,10 +1,16 @@
 package org.parabot.core;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.parabot.environment.OperatingSystem;
+import org.parabot.environment.api.utils.StringUtils;
+import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
-
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -15,6 +21,7 @@ import java.util.*;
  */
 public class Directories {
     private static Map<String, File> cached;
+    private static String tempDir;
 
     static {
         cached = new HashMap<>();
@@ -35,10 +42,37 @@ public class Directories {
         cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
         cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
         cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
-        cached.put("Home", new File(cached.get("Root"), "/temp/"));
         Core.verbose("Directories cached.");
 
         clearCache(259200);
+        setHomeDirectory();
+    }
+
+    private static void setHomeDirectory(){
+        File cache;
+        tempDir = StringUtils.randomString(12);
+        try {
+            if ((cache = new File(Directories.getCachePath(), "cache.json")).exists()){
+                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));
+                String temp;
+                if ((temp = (String) object.get("homedir")) != null){
+                    cached.put("Home", new File(cached.get("Root"), "/" + temp + "/"));
+                }
+            }else{
+                cache.createNewFile();
+                JSONObject object = new JSONObject();
+                object.put("homedir", tempDir);
+                FileWriter file = new FileWriter(cache);
+                file.write(object.toJSONString());
+                file.flush();
+                file.close();
+                cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
+            }
+        } catch (IOException | ParseException ignored) {
+            cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
+        }
+        System.out.println("Setting server cache directory to: " + cached.get("Home"));
+        cached.get("Home").mkdirs();
     }
 
     /**

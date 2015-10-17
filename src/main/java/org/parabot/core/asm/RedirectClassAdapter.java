@@ -32,6 +32,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 				StackTraceElementRedirect.class);
 		redirects.put("java/lang/ProcessBuilder", ProcessBuilderRedirect.class);
 		redirects.put("java/lang/System", SystemRedirect.class);
+		redirects.put("java/io/File", FileRedirect.class);
 	}
 
 	public RedirectClassAdapter(ClassVisitor cv) {
@@ -43,6 +44,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		if(class_out == null && Core.shouldDump())
 			try {
 				class_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"classes.txt")));
@@ -57,8 +59,9 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 			String superName, String[] interfaces) {
 		this.className = name;
 		super.visit(version, access, name, signature, superName, interfaces);
-		if(class_out != null)
+		if(class_out != null) {
 			class_out.println(className + " References:");
+		}
 	}
 	
 	@Override

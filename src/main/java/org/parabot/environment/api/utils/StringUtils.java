@@ -1,11 +1,12 @@
 package org.parabot.environment.api.utils;
 
 /**
- * 
- * @author mkyong
- *
+ * @author mkyong, JKetelaar
  */
 public class StringUtils {
+
+	private static java.util.Random random = new java.util.Random();
+	private static char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
 
 	public static String convertHexToString(String hex) {
 
@@ -27,4 +28,12 @@ public class StringUtils {
 		return sb.toString();
 	}
 
+	public static String randomString(final int length) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 20; i++) {
+			char c = chars[random.nextInt(chars.length)];
+			sb.append(c);
+		}
+		return sb.toString();
+	}
 }

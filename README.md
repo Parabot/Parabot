@@ -39,3 +39,4 @@ If you'd like to have either or both the client and the API in your project, use
         </dependency>
     </dependencies>
 ```
+For the latest versions of our dependencies, please check our examples on [the Maven Repository](https://github.com/Parabot/Maven-Repository/tree/master/examples)

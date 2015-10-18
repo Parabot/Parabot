@@ -1,6 +1,6 @@
 # Parabot
 
-Parabot V2.2.
+Parabot V2.5.
 
 #### Website
 
@@ -17,7 +17,7 @@ If you've an issues regarding the bot itself, please report them [here](https://
 Parabot supports Maven as of September 2015. All information is included in the POM.xml.
 The API that is supported by Parabot is also published on a Maven repository.
 If you'd like to have either or both the client and the API in your project, use the following repository and dependecy tags:
-~```
+```
     <repositories>
         <repository>
             <id>git-parabot</id>
@@ -38,5 +38,5 @@ If you'd like to have either or both the client and the API in your project, use
             <version>1.0</version>
         </dependency>
     </dependencies>
-```~
+```
 **For the latest versions of our dependencies, please check our examples on [the Maven Repository](https://github.com/Parabot/Maven-Repository/tree/master/examples)**

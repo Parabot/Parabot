@@ -45,7 +45,7 @@ public final class Landing {
 					"Please download the newest version of Parabot at "
 							+ Configuration.DOWNLOAD_BOT,
 					JOptionPane.INFORMATION_MESSAGE);
-			URI uri = URI.create(Configuration.DOWNLOAD_BOT);
+			URI uri = URI.create(Configuration.API_DOWNLOAD_BOT);
 			try {
 				Desktop.getDesktop().browse(uri);
 			} catch (IOException e1) {

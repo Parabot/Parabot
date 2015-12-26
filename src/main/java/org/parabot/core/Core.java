@@ -208,6 +208,11 @@ public class Core {
         return true;
     }
 
+    /**
+     * Compares the latest version from the BDN and the current version
+     *
+     * @return True if the current version is equal or higher than the latest version, false if lower than the latest version
+     */
     public static boolean validVersion() {
         BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
         try {
@@ -238,6 +243,9 @@ public class Core {
         return true;
     }
 
+    /**
+     * Validates the cache and removes the cache contents if required
+     */
     private static void validateCache(){
         File[] cache = Directories.getCachePath().listFiles();
         Integer lowest = null;

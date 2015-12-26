@@ -176,6 +176,7 @@ public class Core {
      * @Deprecated use #validVersion instead
      *
      * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
+     *
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
     private static boolean versionValid(){

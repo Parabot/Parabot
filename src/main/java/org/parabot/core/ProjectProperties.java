@@ -1,5 +1,7 @@
 package org.parabot.core;
 
+import org.parabot.environment.api.utils.Version;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -34,9 +36,8 @@ public class ProjectProperties {
         return cached;
     }
 
-    public static Object getProjectVersion(){
-        System.out.println(getInstance().getCached().getProperty("application.version"));
-        return getInstance().getCached().getProperty("application.version");
+    public static Version getProjectVersion(){
+        return new Version(getInstance().getCached().getProperty("application.version"));
     }
 
     public static ProjectProperties getInstance(){

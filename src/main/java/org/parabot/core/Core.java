@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.BufferedReader;
@@ -21,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Everel, JKetelaar
  */
+@SuppressWarnings("Duplicates")
 public class Core {
 	public static boolean mDebug;
     private static boolean debug;
@@ -30,6 +32,9 @@ public class Core {
 
     private static boolean validate = true;
     private static boolean secure = true;
+
+    private static Version currentVersion = Configuration.BOT_VERSION;
+    private static Version latestVersion;
 
     public static void disableValidation() {
         Core.validate = false;
@@ -168,6 +173,8 @@ public class Core {
     }
 
     /**
+     * @Deprecated use #validVersion instead
+     *
      * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
@@ -183,6 +190,36 @@ public class Core {
                 if (!Configuration.BOT_VERSION.equals(version)) {
                     Core.verbose("Our version: " + Configuration.BOT_VERSION);
                     Core.verbose("Latest version: " + version);
+                    return false;
+                }
+            }
+        } catch (NumberFormatException | IOException | ParseException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validVersion() {
+        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
+        try {
+            latestVersion = null;
+            if (br != null) {
+                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
+                latestVersion = new Version((String) object.get("result"));
+            }
+            if (latestVersion != null) {
+                if (Configuration.BOT_VERSION.compareTo(latestVersion) < 0) {
+                    Core.verbose("Our version: " + Configuration.BOT_VERSION.get());
+                    Core.verbose("Latest version: " + latestVersion.get());
                     return false;
                 }
             }
@@ -235,7 +272,7 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
-        if (versionValid() && checksumValid()){
+        if ((validVersion() && checksumValid()) || (!checksumValid() && currentVersion.compareTo(latestVersion) >= 0)){
             Core.verbose("No updates available.");
             return true;
         }else{

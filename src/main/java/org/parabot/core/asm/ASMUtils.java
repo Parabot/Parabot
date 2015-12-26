@@ -18,9 +18,10 @@ import java.lang.reflect.Modifier;
 public class ASMUtils implements Opcodes {
 
 	public static FieldNode getField(ClassNode node, String fieldName) {
-		for (final FieldNode fieldNode : node.fields) {
-			if (fieldNode.name.equals(fieldName)) {
-				return fieldNode;
+		for (final Object fieldNode : node.fields) {
+			FieldNode fieldNodeObject = (FieldNode) fieldNode;
+			if (fieldNodeObject.name.equals(fieldName)) {
+				return fieldNodeObject;
 			}
 		}
 		return null;
@@ -30,9 +31,10 @@ public class ASMUtils implements Opcodes {
 		if(desc == null) {
 			return getField(node, fieldName);
 		}
-		for (final FieldNode fieldNode : node.fields) {
-			if (fieldNode.name.equals(fieldName) && fieldNode.desc.equals(desc)) {
-				return fieldNode;
+		for (final Object fieldNode : node.fields) {
+			FieldNode fieldNodeObject = (FieldNode) fieldNode;
+			if (fieldNodeObject.name.equals(fieldName) && fieldNodeObject.desc.equals(desc)) {
+				return fieldNodeObject;
 			}
 		}
 		return null;
@@ -55,9 +57,10 @@ public class ASMUtils implements Opcodes {
 
 	public static MethodNode getMethod(final ClassNode location,
 			final String methodName, final String methodDesc) {
-		for (MethodNode mn : location.methods) {
-			if (mn.name.equals(methodName) && mn.desc.equals(methodDesc)) {
-				return mn;
+		for (Object mn : location.methods) {
+			MethodNode methodNode = (MethodNode) mn;
+			if (methodNode.name.equals(methodName) && methodNode.desc.equals(methodDesc)) {
+				return methodNode;
 			}
 		}
 		return null;

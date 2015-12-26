@@ -67,6 +67,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.bugsnag</groupId>
+            <artifactId>bugsnag</artifactId>
+            <version>1.2.8</version>
+        </dependency>
     </dependencies>
 
     <build>

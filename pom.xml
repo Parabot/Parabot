@@ -28,8 +28,9 @@
 
     <repositories>
         <repository>
-            <id>my-local-repo</id>
-            <url>file://${basedir}/libs</url>
+            <id>git-parabot</id>
+            <name>Parabot's Git based repo</name>
+            <url>https://github.com/parabot/Maven-Repository/raw/master/</url>
         </repository>
     </repositories>
 
@@ -40,8 +41,8 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>jfxrt</groupId>
-            <artifactId>jfxrt</artifactId>
+            <groupId>javafx</groupId>
+            <artifactId>javafx</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

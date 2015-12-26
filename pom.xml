@@ -28,8 +28,9 @@
 
     <repositories>
         <repository>
-            <id>my-local-repo</id>
-            <url>file://${basedir}/libs</url>
+            <id>git-parabot</id>
+            <name>Parabot's Git based repo</name>
+            <url>https://github.com/parabot/Maven-Repository/raw/master/</url>
         </repository>
     </repositories>
 

@@ -39,11 +39,13 @@
             <groupId>naga</groupId>
             <artifactId>naga</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javafx</groupId>
             <artifactId>javafx</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
@@ -113,8 +115,8 @@
                         </goals>
                     </execution>
                 </executions>
+
             </plugin>
         </plugins>
     </build>
-
 </project>

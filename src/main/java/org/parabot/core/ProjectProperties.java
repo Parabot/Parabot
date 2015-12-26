@@ -14,11 +14,11 @@ public class ProjectProperties {
     private static ProjectProperties instance;
     private Properties cached = new Properties();
 
-    private ProjectProperties(){
+    private ProjectProperties() {
         setProperties();
     }
 
-    private void setProperties(){
+    private void setProperties() {
         InputStream input;
         try {
             String propertiesFileName = "storage/app.properties";
@@ -32,15 +32,15 @@ public class ProjectProperties {
         }
     }
 
-    private Properties getCached(){
+    private Properties getCached() {
         return cached;
     }
 
-    public static Version getProjectVersion(){
+    public static Version getProjectVersion() {
         return new Version(getInstance().getCached().getProperty("application.version"));
     }
 
-    public static ProjectProperties getInstance(){
+    public static ProjectProperties getInstance() {
         return instance == null ? instance = new ProjectProperties() : instance;
     }
 }

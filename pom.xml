@@ -41,8 +41,8 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>jfxrt</groupId>
-            <artifactId>jfxrt</artifactId>
+            <groupId>javafx</groupId>
+            <artifactId>javafx</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -5,5 +5,3 @@ production:
   script:
     - mvn -U package -Dsettings.security=/home/ci/settings.xml
   type: deploy
-  only:
-    - master

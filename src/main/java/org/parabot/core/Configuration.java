@@ -22,6 +22,7 @@ public class Configuration {
     public static final String GET_RANDOMS = "http://bdn.parabot.org/api/get.php?action=randoms";
     public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
     public static final String ITEM_API = DATA_API + "items/";
+    public static final String BUGSNAG_API = "d79752cf94dd4beb24c3d312a8609f53";
 
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
 }

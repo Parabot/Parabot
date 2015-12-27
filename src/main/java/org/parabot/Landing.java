@@ -1,5 +1,6 @@
 package org.parabot;
 
+import com.bugsnag.Client;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
@@ -28,6 +29,8 @@ public final class Landing {
 	private static String username;
 	private static String password;
 	public static void main(String... args) throws IOException {
+		Core.initiateBugsnagInstance();
+
 		parseArgs(args);
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());

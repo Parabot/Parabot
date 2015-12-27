@@ -1,5 +1,6 @@
 package org.parabot.core;
 
+import com.bugsnag.Client;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
@@ -35,6 +36,8 @@ public class Core {
 
     private static Version currentVersion = Configuration.BOT_VERSION;
     private static Version latestVersion;
+
+    private static Client bugsnagInstance;
 
     public static void disableValidation() {
         Core.validate = false;
@@ -281,6 +284,8 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
+        setBugsnagVersion();
+
         if ((validVersion() && checksumValid()) || (!checksumValid() && currentVersion.compareTo(latestVersion) >= 0)){
             Core.verbose("No updates available.");
             return true;
@@ -288,6 +293,19 @@ public class Core {
             Core.verbose("Updates available...");
             return false;
         }
+    }
+
+    public static void initiateBugsnagInstance() {
+        bugsnagInstance = new Client(Configuration.BUGSNAG_API);
+        bugsnagInstance.setSendThreads(true);
+    }
+
+    public static void setBugsnagVersion(){
+        Core.bugsnagInstance.setReleaseStage(currentVersion.compareTo(latestVersion) >= 0 ? "development" : "production");
+    }
+
+    public static void setBugsnagUser(String id, String email, String username){
+        Core.bugsnagInstance.setUser(id, email, username);
     }
 
     public static void debug(int i) {

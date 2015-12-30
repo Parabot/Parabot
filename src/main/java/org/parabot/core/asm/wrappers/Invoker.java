@@ -50,10 +50,11 @@ public class Invoker implements Injectable {
 	}
 
 	private static MethodNode getMethod(ClassNode into, String name, String desc) {
-		for (MethodNode m : into.methods) {
-			String s = m.desc.substring(0, m.desc.indexOf(')') + 1);
-			if (m.name.equals(name) && s.equals(desc)) {
-				return m;
+		for (Object m : into.methods) {
+			MethodNode methodNode = (MethodNode) m;
+			String s = methodNode.desc.substring(0, methodNode.desc.indexOf(')') + 1);
+			if (methodNode.name.equals(name) && s.equals(desc)) {
+				return methodNode;
 			}
 		}
 		return null;

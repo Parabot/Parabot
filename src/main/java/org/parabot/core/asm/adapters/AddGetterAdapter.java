@@ -33,7 +33,7 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 	 *            - classnode to inject getter method in
 	 * @param fieldLocation
 	 *            - classnode where field is located
-	 * @param fieldName
+	 * @param fieldNode
 	 *            - field name to get
 	 * @param methodName
 	 *            - method name of getter
@@ -102,9 +102,10 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 					.append("()");
 			throw new RuntimeException(sb.toString());
 		}
-		for (final MethodNode methodNode : into.methods) {
-			if (methodNode.name.equals(methodName)) {
-				final Type[] args = Type.getArgumentTypes(methodNode.desc);
+		for (final Object methodNode : into.methods) {
+			MethodNode methodNodeObject = (MethodNode) methodNode;
+			if (methodNodeObject.name.equals(methodName)) {
+				final Type[] args = Type.getArgumentTypes(methodNodeObject.desc);
 				if (args != null && args.length != 0) {
 					continue;
 				}

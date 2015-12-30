@@ -58,4 +58,11 @@ public class ToolkitRedirect {
 		return clipboard;
 	}
 
+	public static void sync(Toolkit toolkit){
+		toolkit.sync();
+	}
+
+	public static void sync(){
+		Toolkit.getDefaultToolkit().sync();
+	}
 }

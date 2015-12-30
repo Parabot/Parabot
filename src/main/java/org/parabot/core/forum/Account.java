@@ -1,5 +1,7 @@
 package org.parabot.core.forum;
 
+import org.parabot.core.Core;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -31,6 +33,8 @@ public class Account {
         this.username = username;
         this.password = password;
         this.api = api;
+
+        Core.setBugsnagUser("Null", this.username, "Null");
     }
 
     /**

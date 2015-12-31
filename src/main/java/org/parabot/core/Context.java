@@ -54,8 +54,8 @@ public class Context {
     private UlirathaClient ulirathaClient;
     private JSONParser jsonParser;
 
-    public static PrintStream defaultOut = System.out;
-    public static PrintStream defaultErr = System.err;
+    private PrintStream defaultOut;
+    private PrintStream defaultErr = System.err;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
@@ -68,7 +68,9 @@ public class Context {
         this.randomHandler = new RandomHandler();
 
         this.jsonParser = new JSONParser();
-   
+
+        this.defaultOut = System.out;
+        this.defaultErr = System.err;
     }
 
     public static Context getInstance(ServerProvider serverProvider) {
@@ -228,8 +230,8 @@ public class Context {
         
         BotDialog.getInstance().validate();
 
-        System.setOut(defaultOut);
-        System.setErr(defaultErr);
+        System.setOut(this.defaultOut);
+        System.setErr(this.defaultErr);
     }
 
     /**

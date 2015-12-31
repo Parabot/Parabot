@@ -48,7 +48,6 @@ public class AddGetterAdapter implements Opcodes, Injectable {
 			final ClassNode fieldLocation, final FieldNode fieldNode,
 			final String methodName, final String returnDesc,
 			final boolean staticMethod, final long multiplier) {
-		System.out.println(fieldNode.name);
 		this.into = into;
 		this.fieldLocation = fieldLocation;
 		this.fieldNode = fieldNode;

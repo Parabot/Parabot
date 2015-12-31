@@ -5,6 +5,8 @@ import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.components.PaintComponent;
 import org.parabot.environment.servers.ServerProvider;
 
+import java.io.PrintStream;
+
 /**
  * 
  * Executes a server provider
@@ -21,12 +23,6 @@ public abstract class ServerExecuter {
 			@Override
 			public void run() {
 				try {
-					try{
-						org.parabot.environment.api.utils.WindowsPreferences.userRoot().remove("Software\\JavaSoft\\Prefs");
-					}catch (Exception e){
-						// Ikov likes to creates preference keys, doesn't it?
-					}
-
 					Context context = Context.getInstance(provider);
 					context.load();
 					PaintComponent.getInstance().startPainting(context);

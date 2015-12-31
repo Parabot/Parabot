@@ -20,6 +20,8 @@ import org.parabot.environment.servers.ServerProvider;
 import java.applet.Applet;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -51,6 +53,9 @@ public class Context {
     private ServerProviderInfo providerInfo;
     private UlirathaClient ulirathaClient;
     private JSONParser jsonParser;
+
+    public static PrintStream defaultOut = System.out;
+    public static PrintStream defaultErr = System.err;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
@@ -222,6 +227,9 @@ public class Context {
         Core.verbose("Done.");
         
         BotDialog.getInstance().validate();
+
+        System.setOut(defaultOut);
+        System.setErr(defaultErr);
     }
 
     /**

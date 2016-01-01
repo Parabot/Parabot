@@ -45,7 +45,9 @@ public class Directories {
         Core.verbose("Directories cached.");
 
         clearCache(259200);
-        setHomeDirectory();
+        if (Core.isSecure()) {
+            setHomeDirectory();
+        }
     }
 
     private static void setHomeDirectory(){

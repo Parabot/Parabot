@@ -38,7 +38,6 @@ public class Context {
     private static Context instance;
     private static String username;
 
-    public boolean added;
     private ASMClassLoader classLoader;
     private ClassPath classPath;
     private ServerProvider serverProvider;

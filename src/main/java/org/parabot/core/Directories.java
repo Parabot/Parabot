@@ -11,9 +11,10 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Holds parabot's used directories
+ * Holds and manages Parabot's used directories
  *
  * @author Everel
+ * @author JKetelaar
  * @author Matt
  */
 public class Directories {

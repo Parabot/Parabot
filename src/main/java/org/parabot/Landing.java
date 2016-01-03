@@ -112,14 +112,7 @@ public final class Landing {
 					Directories.setServerCompiledDirectory(new File(args[++i]));
 					break;
 				case "-clearcache":
-					File[] cache = Directories.getCachePath().listFiles();
-					if (cache != null) {
-						for (File f : cache) {
-							if (f.exists() && f.canWrite()) {
-								f.delete();
-							}
-						}
-					}
+					Directories.clearCache();
 					break;
 				case "-mac":
 					byte[] mac = new byte[6];

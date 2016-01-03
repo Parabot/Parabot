@@ -1,6 +1,7 @@
 package org.parabot.core;
 
 import org.json.simple.parser.JSONParser;
+import org.parabot.Test;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
@@ -228,6 +229,16 @@ public class Context {
         Core.verbose("Done.");
         
         BotDialog.getInstance().validate();
+
+        try {
+            Test.invokeQC(getClient().getClass(), getClient());
+            Test.invokeD(getClient().getClass(), getClient());
+            Test.invokeU(getClient().getClass(), getClient());
+            Test.invokeXD(getClient().getClass(), getClient());
+            Test.invokeTB(getClient().getClass(), getClient());
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchFieldException e) {
+//            e.printStackTrace(); // This is just for testing purpose
+        }
 
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);

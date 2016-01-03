@@ -112,7 +112,7 @@
                 <version>2.4.1</version>
                 <configuration>
                     <descriptorRefs>
-                        <descriptorRef>fat</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive>
                         <manifest>

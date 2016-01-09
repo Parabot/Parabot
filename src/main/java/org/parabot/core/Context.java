@@ -217,34 +217,34 @@ public class Context {
         gameApplet.init();
         gameApplet.start();
 
-        if (false) { // Should be deleted on push
-//        try {
-            try {
-                Test.initiate();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            Applet get = (Applet) Context.getInstance().getClient();
-//            get.getName();
-            panel.removeAll();
-            setClientInstance(get);
-            gameApplet = get;
-            gameApplet.setSize(appletSize);
-            panel.add(gameApplet);
-            panel.validate();
-
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
+//        if (false) { // Should be deleted on push
+////        try {
+//            try {
+//                Test.initiate();
+//            } catch (NoSuchMethodException e) {
+//                e.printStackTrace();
+//            } catch (InvocationTargetException e) {
+//                e.printStackTrace();
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//            Applet get = (Applet) Context.getInstance().getClient();
+////            get.getName();
+//            panel.removeAll();
+//            setClientInstance(get);
+//            gameApplet = get;
+//            gameApplet.setSize(appletSize);
+//            panel.add(gameApplet);
+//            panel.validate();
+//
+////        } catch (NoSuchMethodException e) {
+////            e.printStackTrace();
+////        } catch (InvocationTargetException e) {
+////            e.printStackTrace();
+////        } catch (IllegalAccessException e) {
+////            e.printStackTrace();
+////        }
 //        }
-        }
 
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {

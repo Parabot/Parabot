@@ -177,14 +177,19 @@ public class Context {
         	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
         	Core.verbose("Done.");
         }
-        try {
-            Applet applet = Test.invokeZBU();
-            if(applet != null) {
-                setApplet(applet);
-            }
-        } catch (NoSuchMethodException | InvocationTargetException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException | InstantiationException e) {
-            e.printStackTrace();
+        Applet applet = serverProvider.fetchApplet();
+        // if applet is null the server provider will call setApplet itself
+        if(applet != null) {
+            setApplet(applet);
         }
+//        try {
+//            Applet applet = Test.invokeZBU();
+//            if(applet != null) {
+//                setApplet(applet);
+//            }
+//        } catch (NoSuchMethodException | InvocationTargetException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException | InstantiationException e) {
+//            e.printStackTrace();
+//        }
     }
     
     /**

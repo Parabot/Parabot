@@ -278,25 +278,30 @@ public class Directories {
     }
 
     /**
-     * TODO Solve this
-     *
      * @param file Directory to be removed
      */
-    private static void removeDirectory(File file){
-        File[] files;
-        if ((files = file.listFiles()) != null){
-            for(File f : files){
-                if (f != null){
-                    File[] dirFiles;
-                    if (f.isDirectory() && (dirFiles = f.listFiles()) != null && dirFiles.length > 0){
-                        System.out.println(dirFiles.length);
-                        removeDirectory(f);
-                    }else{
-                        System.out.println("Deleting " + f.getAbsolutePath());
-                        f.delete();
-                    }
+    private static void removeDirectory(File file) {
+        if (file.isDirectory()) {
+            if (file.list().length == 0) {
+                file.delete();
+                Core.verbose("Directory is deleted : "
+                        + file.getAbsolutePath());
+            } else {
+                String files[] = file.list();
+                for (String temp : files) {
+                    File fileDelete = new File(file, temp);
+                    removeDirectory(fileDelete);
+                }
+
+                if (file.list().length == 0) {
+                    file.delete();
+                    Core.verbose("Directory is deleted : "
+                            + file.getAbsolutePath());
                 }
             }
+        } else {
+            file.delete();
+            Core.verbose("File is deleted : " + file.getAbsolutePath());
         }
     }
 }

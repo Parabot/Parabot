@@ -304,4 +304,23 @@ public class Directories {
             Core.verbose("File is deleted : " + file.getAbsolutePath());
         }
     }
+
+    /**
+     * Returns an array of files with from a given directory and a given extension
+     *
+     * @param directory The directory where should be searched
+     * @param extension The extension to be searched for, including the dot (like .json)
+     * @return An array of of files that match the request
+     */
+    private File[] listFilesWithExtension(File directory, final String extension){
+        return directory.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename) {
+                return filename.endsWith(extension);
+            }
+        });
+    }
+
+    private File[] listJSONFiles(File directory) {
+        return listFilesWithExtension(directory, ".json");
+    }
 }

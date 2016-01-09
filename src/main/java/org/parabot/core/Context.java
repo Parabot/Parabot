@@ -18,10 +18,9 @@ import org.parabot.environment.scripts.uliratha.UlirathaClient;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.File;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -29,7 +28,7 @@ import java.util.TimerTask;
 /**
  * Game context
  *
- * @author Everel
+ * @author Everel, JKetelaar, Matt
  */
 public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
@@ -182,14 +181,6 @@ public class Context {
         if(applet != null) {
             setApplet(applet);
         }
-//        try {
-//            Applet applet = Test.invokeZBU();
-//            if(applet != null) {
-//                setApplet(applet);
-//            }
-//        } catch (NoSuchMethodException | InvocationTargetException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException | InstantiationException e) {
-//            e.printStackTrace();
-//        }
     }
     
     /**
@@ -221,35 +212,6 @@ public class Context {
         gameApplet.init();
         gameApplet.start();
 
-//        if (false) { // Should be deleted on push
-////        try {
-//            try {
-//                Test.initiate();
-//            } catch (NoSuchMethodException e) {
-//                e.printStackTrace();
-//            } catch (InvocationTargetException e) {
-//                e.printStackTrace();
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//            Applet get = (Applet) Context.getInstance().getClient();
-////            get.getName();
-//            panel.removeAll();
-//            setClientInstance(get);
-//            gameApplet = get;
-//            gameApplet.setSize(appletSize);
-//            panel.add(gameApplet);
-//            panel.validate();
-//
-////        } catch (NoSuchMethodException e) {
-////            e.printStackTrace();
-////        } catch (InvocationTargetException e) {
-////            e.printStackTrace();
-////        } catch (IllegalAccessException e) {
-////            e.printStackTrace();
-////        }
-//        }
-
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -266,19 +228,6 @@ public class Context {
         Core.verbose("Done.");
         
         BotDialog.getInstance().validate();
-
-//        try {
-//            Test.invokeQC(getClient().getClass(), getClient());
-//            Test.invokeD(getClient().getClass(), getClient());
-//            Test.invokeU(getClient().getClass(), getClient());
-//            Test.invokeXD(getClient().getClass(), getClient());
-//            Test.invokeTB(getClient().getClass(), getClient());
-//            Test.invokeC(getClient().getClass(), getClient());
-//            Test.invokeZBU(getClient().getClass(), getClient());
-//        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchFieldException e) {
-//            e.printStackTrace(); // This is just for testing purpose
-//        }
-
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);
     }

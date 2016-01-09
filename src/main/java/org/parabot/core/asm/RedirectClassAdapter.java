@@ -3,7 +3,6 @@ package org.parabot.core.asm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.parabot.Test;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.asm.redirect.*;
@@ -95,8 +94,6 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 					str_out.println(className + " " + o);
 					if (!className.toLowerCase().contains("parabot")) {
 						dec_out.println(o + ":");
-						dec_out.println("\t" + Test.C((String) o));
-						dec_out.println("\t" + Test.C2((String) o));
 						dec_out.println();
 					}
 				}

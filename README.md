@@ -1,4 +1,4 @@
-# Parabot
+# Parabots
 
 Parabot V2.4.
 

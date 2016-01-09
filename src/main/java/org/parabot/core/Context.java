@@ -1,7 +1,6 @@
 package org.parabot.core;
 
 import org.json.simple.parser.JSONParser;
-import org.parabot.Test;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;

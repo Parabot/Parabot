@@ -67,5 +67,4 @@ public class JavaFX extends Library {
 	public static boolean isValid() {
 		return valid;
 	}
-
 }

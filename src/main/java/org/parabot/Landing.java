@@ -11,6 +11,7 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.JavaUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,7 @@ public final class Landing {
 	private static String username;
 	private static String password;
 	public static void main(String... args) throws IOException {
+		System.out.println(JavaUtil.JAVA_VERSION);
 		Core.initiateBugsnagInstance();
 
 		parseArgs(args);

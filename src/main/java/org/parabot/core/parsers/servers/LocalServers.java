@@ -1,13 +1,18 @@
 package org.parabot.core.parsers.servers;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.parabot.core.Directories;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerManifest;
 import org.parabot.environment.servers.executers.LocalServerExecuter;
 import org.parabot.environment.servers.loader.ServerLoader;
@@ -66,7 +71,20 @@ public class LocalServers extends ServerParser {
             }
         }
 
+        for (File file : Directories.listJSONFiles(Directories.getServerPath())){
+            try {
+                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
+                String name = (String) object.get("name");
+                String clientClass = (String) object.get("client-class");
 
+                JSONObject locations = (JSONObject) object.get("locations");
+                String server = (String) locations.get("server");
+                String hooks = (String) locations.get("hooks");
+
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

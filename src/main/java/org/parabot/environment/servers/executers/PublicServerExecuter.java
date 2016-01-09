@@ -56,10 +56,8 @@ public class PublicServerExecuter extends ServerExecuter {
 					serverProviderInfo.getCRC32() + ".jar");
 			final String jarUrl = Configuration.GET_SERVER_PROVIDER
 					+ this.serverName;
-			System.out.println(jarUrl);
 
 			Core.verbose("Downloading: " + jarUrl + " ...");
-
 			
 			if(destination.exists()) {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");

@@ -2,12 +2,15 @@ package org.parabot.core.desc;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -29,40 +32,44 @@ public class ServerProviderInfo {
 		this.properties = new Properties();
 		this.settings = new HashMap<>();
         try {
-            String line;
             Core.verbose("Reading info: " + providerInfo);
             BufferedReader br = WebUtil.getReader(new URL(providerInfo.toString()), username, password);
 
-			//TODO Make this one line (web sided)
-            JSONParser parser = new JSONParser();
-            if ((line = br.readLine()) != null) {
-                JSONObject jsonObject = (JSONObject) parser.parse(line);
-                for (Object o : jsonObject.entrySet()) {
-                    Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
-					if (String.valueOf(pairs.getKey()).equalsIgnoreCase("settings")){
-						JSONObject object = (JSONObject) pairs.getValue();
-						for (Object settingObject : object.entrySet()){
-							Map.Entry<?, ?> settingValue = (Map.Entry<?, ?>) settingObject;
-							String key = (String) settingValue.getKey();
-							long value = (Long) settingValue.getValue();
-							settings.put(key, (int) value);
-						}
-					}else {
-						properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
-					}
-                }
-            } else {
-                UILog.log(
-						"Error",
-						"Failed to load server provider, error: [No information about the provider found.]",
-						JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            br.close();
-        } catch (Exception e) {
+			JSONObject jsonObject = (JSONObject) WebUtil.getJsonParser().parse(br);
+			for (Object o : jsonObject.entrySet()) {
+				Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) o;
+				if (String.valueOf(pairs.getKey()).equalsIgnoreCase("settings")){
+					JSONObject object = (JSONObject) pairs.getValue();
+					parseSettings(object);
+				}else {
+					properties.put(String.valueOf(pairs.getKey()), String.valueOf(pairs.getValue()));
+				}
+			}
+			if (br != null) {
+				br.close();
+			}
+		} catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+	public ServerProviderInfo(){
+		try {
+			BufferedReader br = WebUtil.getReader(new URL(Configuration.GET_SERVER_SETTINGS));
+			JSONObject settings = (JSONObject) WebUtil.getJsonParser().parse(br);
+		} catch (ParseException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void parseSettings(JSONObject object){
+		for (Object settingObject : object.entrySet()){
+			Map.Entry<?, ?> settingValue = (Map.Entry<?, ?>) settingObject;
+			String key = (String) settingValue.getKey();
+			long value = (Long) settingValue.getValue();
+			settings.put(key, (int) value);
+		}
+	}
 	
 	public URL getClient() {
 		try {

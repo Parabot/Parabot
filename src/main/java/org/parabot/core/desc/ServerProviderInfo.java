@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.zip.CRC32;
 
 /**
  * Gets the information for the selected server provider
@@ -53,13 +54,32 @@ public class ServerProviderInfo {
         }
     }
 
-	public ServerProviderInfo(){
+	public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs){
+		this.properties = new Properties();
+		this.settings = new HashMap<>();
+
 		try {
 			BufferedReader br = WebUtil.getReader(new URL(Configuration.GET_SERVER_SETTINGS));
 			JSONObject settings = (JSONObject) WebUtil.getJsonParser().parse(br);
+			parseSettings(settings);
 		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		}
+
+		this.properties.setProperty("client_jar", clientJar);
+		this.properties.setProperty("hooks", hooks);
+		this.properties.setProperty("name", name);
+		this.properties.setProperty("client_class", clientClass);
+		this.properties.setProperty("provider_crc32", String.valueOf(getCRC32(name, "provider")));
+		this.properties.setProperty("client_crc32", String.valueOf(getCRC32(name, "client")));
+		this.properties.setProperty("bank_tabs", String.valueOf(bankTabs));
+	}
+
+	private long getCRC32(String name, String type){
+		CRC32 crc = new CRC32();
+		name += "-" + type;
+		crc.update(name.getBytes());
+		return crc.getValue();
 	}
 
 	private void parseSettings(JSONObject object){
@@ -107,7 +127,7 @@ public class ServerProviderInfo {
 	}
 	
 	public long getCRC32() {
-        return Long.parseLong(properties.getProperty("provider_crc32"));
+		return Long.parseLong(properties.getProperty("provider_crc32"));
 	}
 	
 	public long getClientCRC32() {

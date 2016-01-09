@@ -43,7 +43,6 @@ public class Environment {
 			lib.init();
 		}
 		
-		
 		Core.verbose("Loading server: " + desc.toString());
 
 		ServerParser.SERVER_CACHE.get(desc).run();

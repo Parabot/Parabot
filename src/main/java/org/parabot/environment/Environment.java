@@ -33,7 +33,7 @@ public class Environment {
 		libs.add(new Naga());
 		
 		for(Library lib : libs) {
-			if(!lib.hasJar()) {
+			if(!lib.hasJar() && lib.requiresJar()) {
 				Core.verbose("Downloading " + lib.getLibraryName() + "...");
 				VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
 				WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());

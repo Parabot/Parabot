@@ -57,6 +57,11 @@ public class Naga extends Library {
     }
 
     @Override
+    public boolean requiresJar() {
+        return true;
+    }
+
+    @Override
     public String getLibraryName() {
         return "Naga";
     }

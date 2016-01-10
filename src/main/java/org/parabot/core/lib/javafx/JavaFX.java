@@ -7,6 +7,7 @@ import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.lib.Library;
+import org.parabot.environment.api.utils.JavaUtil;
 
 /**
  * 
@@ -60,6 +61,11 @@ public class JavaFX extends Library {
 	}
 
 	@Override
+	public boolean requiresJar() {
+		return JavaUtil.JAVA_VERSION <= 1.7;
+	}
+
+	@Override
 	public String getLibraryName() {
 		return "JavaFX";
 	}
@@ -67,5 +73,4 @@ public class JavaFX extends Library {
 	public static boolean isValid() {
 		return valid;
 	}
-
 }

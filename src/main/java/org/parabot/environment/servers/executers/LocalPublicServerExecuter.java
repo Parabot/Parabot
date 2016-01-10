@@ -11,62 +11,74 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.FileUtil;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
 import javax.swing.*;
-
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 
 /**
  * 
- * Fetches a server provider from the Parabot BDN
+ * Fetches a server provider from the local config file
  * 
- * @author Everel
+ * @author JKetelaar
  * 
  */
-public class PublicServerExecuter extends ServerExecuter {
+public class LocalPublicServerExecuter extends ServerExecuter {
 	private String serverName;
-	
-	private static AccountManager manager;
+	private String serverUrl;
+	private String providerUrl;
+	private ServerProviderInfo serverProviderInfo;
 
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
-
-		@Override
-		public final void setManager(AccountManager manager) {
-			PublicServerExecuter.manager = manager;
-		}
-
-	};
-
-	public PublicServerExecuter(final String serverName) {
+	public LocalPublicServerExecuter(final String serverName, final ServerProviderInfo serverProviderInfo, String serverUrl, String providerUrl) {
 		this.serverName = serverName;
+		this.serverUrl = serverUrl;
+		this.providerUrl = providerUrl;
+		this.serverProviderInfo = serverProviderInfo;
 	}
 
 	@Override
 	public void run() {
 		try {
-			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
-					+ this.serverName), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
-			
 			final File destination = new File(Directories.getCachePath(),
 					serverProviderInfo.getCRC32() + ".jar");
-			final String jarUrl = Configuration.GET_SERVER_PROVIDER
-					+ this.serverName;
 
-			Core.verbose("Downloading: " + jarUrl + " ...");
+			Core.verbose("Downloading: " + providerUrl + " ...");
 			
 			if(destination.exists()) {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
 			} else {
-				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get(), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
-				Core.verbose("Server provider downloaded...");
+				File local;
+				if ((local = new File(providerUrl)).exists()){
+					FileUtil.copyFile(local, destination);
+					Core.verbose("Server provider copied...");
+				}else {
+					WebUtil.downloadFile(new URL(providerUrl), destination, VerboseLoader.get());
+					Core.verbose("Server provider downloaded...");
+				}
 			}
 
+			final File clientDestination = new File(Directories.getCachePath(),
+					serverProviderInfo.getClientCRC32() + ".jar");
+
+			Core.verbose("Downloading: " + serverUrl + " ...");
+
+			if(clientDestination.exists()) {
+				Core.verbose("Found cached client [CRC32: " + serverProviderInfo.getClientCRC32() + "]");
+			} else {
+				File local;
+				if ((local = new File(serverUrl)).exists()){
+					FileUtil.copyFile(local, clientDestination);
+					Core.verbose("Server client copied...");
+				}else {
+					WebUtil.downloadFile(new URL(serverUrl), clientDestination, VerboseLoader.get());
+					Core.verbose("Server client downloaded...");
+				}
+			}
 
 			final ClassPath classPath = new ClassPath();
 			classPath.addJar(destination);
@@ -75,7 +87,7 @@ public class PublicServerExecuter extends ServerExecuter {
 
 			ServerLoader serverLoader = new ServerLoader(classPath);
 			final String[] classNames = serverLoader.getServerClassNames();
-			if (classNames == null || classNames.length == 0) {
+			if (classNames.length == 0) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [No provider found in jar file.]",
@@ -100,13 +112,13 @@ public class PublicServerExecuter extends ServerExecuter {
 			} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
 				UILog.log(
 						"Error",
-						"Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",
+						"Failed to load server provider, error: [This server provider is not compatible with this version of parabot]",
 						JOptionPane.ERROR_MESSAGE);
 			} catch (Throwable t) {
 				t.printStackTrace();
 				UILog.log(
 						"Error",
-						"Failed to load server provider, post the stacktrace/error on the parabot forums.",
+						"Failed to load server provider.",
 						JOptionPane.ERROR_MESSAGE);
 			}
 

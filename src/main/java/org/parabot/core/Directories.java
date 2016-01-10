@@ -7,16 +7,14 @@ import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
- * Holds parabot's used directories
+ * Holds and manages Parabot's used directories
  *
  * @author Everel
+ * @author JKetelaar
  * @author Matt
  */
 public class Directories {
@@ -45,34 +43,48 @@ public class Directories {
         Core.verbose("Directories cached.");
 
         clearCache(259200);
-        setHomeDirectory();
+        if (Core.isSecure()) {
+            setHomeDirectory();
+        }
     }
 
     private static void setHomeDirectory(){
         File cache;
         tempDir = StringUtils.randomString(12);
         try {
-            if ((cache = new File(Directories.getCachePath(), "cache.json")).exists()){
+            if ((cache = new File(Directories.getSettingsPath(), "cache.json")).exists()){
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cache));
                 String temp;
                 if ((temp = (String) object.get("homedir")) != null){
                     cached.put("Home", new File(cached.get("Root"), "/" + temp + "/"));
                 }
             }else{
-                cache.createNewFile();
-                JSONObject object = new JSONObject();
-                object.put("homedir", tempDir);
-                FileWriter file = new FileWriter(cache);
-                file.write(object.toJSONString());
-                file.flush();
-                file.close();
-                cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
+                cached.put("Home", createCacheDirectory(cache));
             }
         } catch (IOException | ParseException ignored) {
             cached.put("Home", new File(cached.get("Root"), "/" + tempDir + "/"));
         }
-        System.out.println("Setting server cache directory to: " + cached.get("Home"));
-        cached.get("Home").mkdirs();
+        if (!cached.get("Home").exists()) {
+            cached.get("Home").mkdirs();
+        }
+        System.out.println("Set temporary cache directory to: " + cached.get("Home"));
+    }
+
+    private static File createCacheDirectory(File cacheFile) throws IOException {
+        cacheFile.createNewFile();
+        JSONObject object = new JSONObject();
+        object.put("homedir", tempDir);
+        FileWriter file = new FileWriter(cacheFile);
+        file.write(object.toJSONString());
+        file.flush();
+        file.close();
+
+        File cacheDir = new File(cached.get("Root"), "/" + tempDir + "/");
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();
+        }
+
+        return cacheDir;
     }
 
     /**
@@ -219,8 +231,9 @@ public class Directories {
      * Clears the cache based on the latest modification
      *
      * @param remove A long that represents the amount of seconds that a file may have since the latest modification
+     * @param force Defines if the cache folder, within user.home, should also be removed
      */
-    private static void clearCache(int remove) {
+    public static void clearCache(int remove, boolean force){
         File[] cache = getCachePath().listFiles();
         if (cache != null) {
             for (File f : cache) {
@@ -230,15 +243,84 @@ public class Directories {
                 }
             }
         }
+
+        if (force){
+            File cacheFile;
+
+            if ((cacheFile = new File(Directories.getSettingsPath(), "cache.json")).exists()){
+                try {
+                    JSONObject jsonObject = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(cacheFile));
+                    if (jsonObject != null){
+                        Object dirObject;
+                        if ((dirObject = jsonObject.get("homedir")) != null) {
+                            String dir = (String) dirObject;
+                            if (dir.length() > 0) {
+                                File cacheDir = new File(cached.get("Root"), "/" + dir + "/");
+                                removeDirectory(cacheDir);
+                                createCacheDirectory(cacheFile);
+                            }
+                        }
+                    }
+
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void clearCache(int remove) {
+        clearCache(remove, false);
     }
 
     public static void clearCache() {
-        File[] cache = getCachePath().listFiles();
-        if (cache != null) {
-            for (File f : cache) {
-                Core.verbose("Clearing " + f.getName() + " from cache...");
-                f.delete();
+        clearCache(0, true);
+    }
+
+    /**
+     * @param file Directory to be removed
+     */
+    private static void removeDirectory(File file) {
+        if (file.isDirectory()) {
+            if (file.list().length == 0) {
+                file.delete();
+                Core.verbose("Directory is deleted : "
+                        + file.getAbsolutePath());
+            } else {
+                String files[] = file.list();
+                for (String temp : files) {
+                    File fileDelete = new File(file, temp);
+                    removeDirectory(fileDelete);
+                }
+
+                if (file.list().length == 0) {
+                    file.delete();
+                    Core.verbose("Directory is deleted : "
+                            + file.getAbsolutePath());
+                }
             }
+        } else {
+            file.delete();
+            Core.verbose("File is deleted : " + file.getAbsolutePath());
         }
+    }
+
+    /**
+     * Returns an array of files with from a given directory and a given extension
+     *
+     * @param directory The directory where should be searched
+     * @param extension The extension to be searched for, including the dot (like .json)
+     * @return An array of of files that match the request
+     */
+    public static File[] listFilesWithExtension(File directory, final String extension){
+        return directory.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename) {
+                return filename.endsWith(extension);
+            }
+        });
+    }
+
+    public static File[] listJSONFiles(File directory) {
+        return listFilesWithExtension(directory, ".json");
     }
 }

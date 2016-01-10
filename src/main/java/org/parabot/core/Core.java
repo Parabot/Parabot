@@ -1,6 +1,8 @@
 package org.parabot.core;
 
+import com.bugsnag.BeforeNotify;
 import com.bugsnag.Client;
+import com.bugsnag.Error;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
@@ -301,11 +303,21 @@ public class Core {
     }
 
     public static void setBugsnagVersion(){
-        Core.bugsnagInstance.setReleaseStage(currentVersion.compareTo(latestVersion) >= 0 ? "development" : "production");
+        Core.bugsnagInstance.setReleaseStage(currentVersion != latestVersion ? "development" : "production");
     }
 
     public static void setBugsnagUser(String id, String email, String username){
-        Core.bugsnagInstance.setUser(id, email, username);
+        // TODO Check order of parameters
+        Core.bugsnagInstance.setUser(username, email, id);
+    }
+
+    public static void setBugsnagServer(String server){
+        Core.setBugsnagInformation("Server", "Server", server);
+    }
+
+    public static void setBugsnagInformation(String tab, String key, String value){
+        // TODO Should be checked if correct
+        Core.bugsnagInstance.addToTab(tab, key, value);
     }
 
     public static void debug(int i) {

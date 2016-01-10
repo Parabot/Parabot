@@ -20,7 +20,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
 	private String className;
 
-	private static PrintStream str_out, class_out;
+	private static PrintStream str_out, class_out, dec_out;
 
 	static {
 		redirects.put("java/awt/Toolkit", ToolkitRedirect.class);
@@ -40,6 +40,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 		if (str_out == null && Core.shouldDump())
 			try {
 				str_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"strings.txt")));
+				dec_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"decrypted_strings.txt")));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,8 +90,13 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
 		@Override
 		public void visitLdcInsn(Object o) {
-				if (o instanceof String && str_out != null)
+				if (o instanceof String && str_out != null) {
 					str_out.println(className + " " + o);
+					if (!className.toLowerCase().contains("parabot")) {
+						dec_out.println(o + ":");
+						dec_out.println();
+					}
+				}
 			super.visitLdcInsn(o);
 		}
 

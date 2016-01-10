@@ -11,6 +11,7 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.JavaUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,14 +113,7 @@ public final class Landing {
 					Directories.setServerCompiledDirectory(new File(args[++i]));
 					break;
 				case "-clearcache":
-					File[] cache = Directories.getCachePath().listFiles();
-					if (cache != null) {
-						for (File f : cache) {
-							if (f.exists() && f.canWrite()) {
-								f.delete();
-							}
-						}
-					}
+					Directories.clearCache();
 					break;
 				case "-mac":
 					byte[] mac = new byte[6];

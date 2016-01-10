@@ -1,9 +1,12 @@
 package org.parabot.environment.servers.executers;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.components.PaintComponent;
 import org.parabot.environment.servers.ServerProvider;
+
+import java.io.PrintStream;
 
 /**
  * 
@@ -21,11 +24,7 @@ public abstract class ServerExecuter {
 			@Override
 			public void run() {
 				try {
-					try{
-						org.parabot.environment.api.utils.WindowsPreferences.userRoot().remove("Software\\JavaSoft\\Prefs");
-					}catch (Exception e){
-						// Ikov likes to creates preference keys, doesn't it?
-					}
+					Core.setBugsnagServer(serverName);
 
 					Context context = Context.getInstance(provider);
 					context.load();

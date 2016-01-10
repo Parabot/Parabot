@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
  * @author Everel
  * 
  */
+@SuppressWarnings("Duplicates")
+@Deprecated
 public class LocalServerExecuter extends ServerExecuter {
 	private final ServerProvider serverProvider;
 	private ClassPath classPath;

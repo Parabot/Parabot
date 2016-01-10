@@ -41,6 +41,12 @@ public abstract class Library {
 	 * @return url
 	 */
 	public abstract URL getDownloadLink();
+
+	/**
+	 * Defines if the system requires a jar
+	 * @return boolean
+     */
+	public abstract boolean requiresJar();
 	
 	
 	/**

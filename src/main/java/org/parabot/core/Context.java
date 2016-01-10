@@ -18,8 +18,9 @@ import org.parabot.environment.scripts.uliratha.UlirathaClient;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -27,7 +28,7 @@ import java.util.TimerTask;
 /**
  * Game context
  *
- * @author Everel
+ * @author Everel, JKetelaar, Matt
  */
 public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
@@ -36,7 +37,6 @@ public class Context {
     private static Context instance;
     private static String username;
 
-    public boolean added;
     private ASMClassLoader classLoader;
     private ClassPath classPath;
     private ServerProvider serverProvider;
@@ -52,6 +52,9 @@ public class Context {
     private UlirathaClient ulirathaClient;
     private JSONParser jsonParser;
 
+    private PrintStream defaultOut;
+    private PrintStream defaultErr = System.err;
+
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
         
@@ -63,7 +66,9 @@ public class Context {
         this.randomHandler = new RandomHandler();
 
         this.jsonParser = new JSONParser();
-   
+
+        this.defaultOut = System.out;
+        this.defaultErr = System.err;
     }
 
     public static Context getInstance(ServerProvider serverProvider) {
@@ -174,7 +179,7 @@ public class Context {
         Applet applet = serverProvider.fetchApplet();
         // if applet is null the server provider will call setApplet itself
         if(applet != null) {
-        	setApplet(applet);
+            setApplet(applet);
         }
     }
     
@@ -188,7 +193,7 @@ public class Context {
     	if (getClient() == null) {
             setClientInstance(gameApplet);
         }
-    	
+
         Core.verbose("Applet fetched.");
         
         final GamePanel panel = GamePanel.getInstance();
@@ -206,6 +211,7 @@ public class Context {
 
         gameApplet.init();
         gameApplet.start();
+
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -222,6 +228,8 @@ public class Context {
         Core.verbose("Done.");
         
         BotDialog.getInstance().validate();
+        System.setOut(this.defaultOut);
+        System.setErr(this.defaultErr);
     }
 
     /**

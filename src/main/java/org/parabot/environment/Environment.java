@@ -33,7 +33,7 @@ public class Environment {
 		libs.add(new Naga());
 		
 		for(Library lib : libs) {
-			if(!lib.hasJar()) {
+			if(!lib.hasJar() && lib.requiresJar()) {
 				Core.verbose("Downloading " + lib.getLibraryName() + "...");
 				VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
 				WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
@@ -43,8 +43,7 @@ public class Environment {
 			lib.init();
 		}
 		
-		
-		Core.verbose("Loading server: " + desc.toString());
+		Core.verbose("Loading server: " + desc.toString() + "...");
 
 		ServerParser.SERVER_CACHE.get(desc).run();
 		

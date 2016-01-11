@@ -1,6 +1,6 @@
 # Parabot
 
-Parabot V2.4
+Parabot V2.4.
 
 #### Website
 

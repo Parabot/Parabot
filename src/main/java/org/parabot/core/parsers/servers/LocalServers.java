@@ -87,6 +87,7 @@ public class LocalServers extends ServerParser {
         }
 
         for (File file : Directories.listJSONFiles(Directories.getServerPath())){
+            Core.verbose("[Local server in]: " + file.getName());
             try {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
                 String name = (String) object.get("name");
@@ -104,9 +105,9 @@ public class LocalServers extends ServerParser {
                 String provider = (String) locations.get("provider");
                 String hooks = (String) locations.get("hooks");
 
+                Core.verbose("[Local server]: " + name);
                 ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs);
 
-                System.out.println(server);
                 ServerDescription desc = new ServerDescription(name,
                         author, version);
                 SERVER_CACHE.put(desc, new LocalPublicServerExecuter(name, serverProviderInfo, server, provider));

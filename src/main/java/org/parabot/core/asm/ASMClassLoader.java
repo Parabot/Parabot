@@ -88,7 +88,12 @@ public class ASMClassLoader extends ClassLoader {
 	}
 
 	private final ProtectionDomain getDomain() {
-		CodeSource code = new CodeSource(null, (Certificate[]) null);
+		CodeSource code = null;
+		try {
+			code = new CodeSource(new URL("http://www.url.com/"), (Certificate[]) null);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 		return new ProtectionDomain(code, getPermissions());
 	}
 

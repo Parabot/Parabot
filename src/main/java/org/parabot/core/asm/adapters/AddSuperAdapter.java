@@ -49,7 +49,9 @@ public class AddSuperAdapter implements Injectable {
 					AbstractInsnNode ain = (AbstractInsnNode) ili.next();
 					if (ain.getOpcode() == Opcodes.INVOKESPECIAL) {
 						MethodInsnNode min = (MethodInsnNode) ain;
-						min.owner = superClass;
+						if(!min.owner.equals(node.name)) {
+							min.owner = superClass;
+						}
 						break;
 					}
 				}

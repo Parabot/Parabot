@@ -84,14 +84,14 @@
             <resource>
                 <directory>deploy</directory>
                 <filtering>true</filtering>
-                <excludes>
-                    <exclude>deploy.bat</exclude>
-                    <exclude>package.bat</exclude>
-                    <exclude>clean.bat</exclude>
-                </excludes>
-                <!--<includes>-->
-                    <!--<include>deploy.bat</include>-->
-                <!--</includes>-->
+                <!--<excludes>-->
+                    <!--<exclude>deploy.bat</exclude>-->
+                    <!--<exclude>package.bat</exclude>-->
+                    <!--<exclude>clean.bat</exclude>-->
+                <!--</excludes>-->
+                <includes>
+                    <include>deploy.bat</include>
+                </includes>
             </resource>
         </resources>
 

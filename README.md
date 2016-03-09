@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Parabot/Parabot.svg?branch=master)](https://travis-ci.org/Parabot/Parabot)
+
 # Parabot
 
 Parabot V2.4.

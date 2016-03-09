@@ -5,3 +5,6 @@ jdk:
   - oraclejdk7
   
 script: mvn -U package
+
+notifications:
+  slack: parabot:Cy7XTamm92M5iWlIis76f5FG

@@ -1,10 +1,8 @@
 language: java
-
 jdk:
-  - oraclejdk8
-  - oraclejdk7
-  
+- oraclejdk8
+- oraclejdk7
 script: mvn -U package
-
 notifications:
-  slack: parabot:Cy7XTamm92M5iWlIis76f5FG
+  slack:
+    secure: dILYG3yqJddCzvRUmMI+nkZa+fIj2IX+5qipK5b85phj6BIkUV9FdzUmsa+Bl94D/qbctQQek6LcHRWmDqnXMGvglSrJFiJdgXN9txaNDPPN0dPfPYdo8otTrGJ8IIG7qpZ6zID/K0fftBSdO6ZEePJNgrcA9DNuDN6GrQRVS8g=

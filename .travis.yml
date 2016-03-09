@@ -6,3 +6,10 @@ script: mvn -U package
 notifications:
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
+deploy:
+  provider: releases
+  api_key:
+    secure: XMOl0aLTqHHEIZY5X0Q5lgUxwJtzdpNG8E6dGeyiW4fqDhh58/IR3GOimtsuncTGUdpNhFFgqmtZwn3k79gpzZTREdwgPcK6ZvNN1nlX7XaFP8rfDzUOzmqwAVTgJETXz7cAsiLdO3J/UcQUF3TjqvWnWDbVNH8i9+iZdMKd/X0=
+  file: target/Parabot-V*.jar
+  on:
+    repo: Parabot/Parabot

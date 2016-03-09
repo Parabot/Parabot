@@ -5,4 +5,4 @@ jdk:
 script: mvn -U package
 notifications:
   slack:
-    secure: dILYG3yqJddCzvRUmMI+nkZa+fIj2IX+5qipK5b85phj6BIkUV9FdzUmsa+Bl94D/qbctQQek6LcHRWmDqnXMGvglSrJFiJdgXN9txaNDPPN0dPfPYdo8otTrGJ8IIG7qpZ6zID/K0fftBSdO6ZEePJNgrcA9DNuDN6GrQRVS8g=
+    secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=

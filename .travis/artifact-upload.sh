@@ -5,4 +5,4 @@ local_path="$(ls $TRAVIS_BUILD_DIR/target/final/Parabot-V*.jar | head -n 1 | xar
 target_url='ftp://$FTP_HOST/~/uploads/version_control/$local_file'
  
 echo "Uploading $local_file to $target_url"
-curl -u $FTP_USER:$FTP_PASSWORD -T "$local_path" "$target_url"
+curl -u $FTP_USERNAME:$FTP_PASSWORD -T "$local_path" "$target_url"

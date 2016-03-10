@@ -119,6 +119,7 @@
                             <mainClass>org.parabot.Landing</mainClass>
                         </manifest>
                     </archive>
+                    <outputDirectory>${project.build.directory}/final/</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

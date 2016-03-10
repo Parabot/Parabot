@@ -6,10 +6,8 @@ script: mvn -U package
 notifications:
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
-deploy:
-  provider: releases
-  api_key:
-    secure: XMOl0aLTqHHEIZY5X0Q5lgUxwJtzdpNG8E6dGeyiW4fqDhh58/IR3GOimtsuncTGUdpNhFFgqmtZwn3k79gpzZTREdwgPcK6ZvNN1nlX7XaFP8rfDzUOzmqwAVTgJETXz7cAsiLdO3J/UcQUF3TjqvWnWDbVNH8i9+iZdMKd/X0=
-  file: target/Parabot-V*.jar
-  on:
-    repo: Parabot/Parabot
+env:
+  global:
+  - secure: GbLXxHZsHWciBzx2ghVEJNfzO3rara/92SXKfw4ScrhaWwH9ASVV9BwQkiwrSAoxejshvLt8qZvXqTGIDJcbZ7IrwZ6A7gg8uau+8eWScppIP3DPXm1mb+yYnUFDuMFehCEViKFhy9zK8LPJH+bcJ8kSWaefzQ4ISChgRjgjMwM=
+  - secure: Yiy6xR/NARlpFvgtofcMJOqfelFgD52G1MN8lBEUE/Cci9k/c0IWUI3deWneF+EhlZbbG89Aw1bGwZ2BjABzupWSSUfOfPaEwZ67t/SN7o1vNa0v9xGhRN9RV9rqH/3F4vaXk3ZPTV55MlxrXI4yRz/FLrdBdO8JC8dGH6cxY3A=
+  - secure: fWj0pqDsuKmOfWfWvliPDyHvKn6bZVw/NDopmv+InCq9PQanv/EotgfImp431GWSWouLtj3JCxX9A7hxImfg5vDbJZUwepU8SotCNMasnGtMlgm0ZJ23UW8Lda64XjRvwHl9DkC+N/e7CbL4GARGd3tJqEqTyHj4p8XTtlsFi48=

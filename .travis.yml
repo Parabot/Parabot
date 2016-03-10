@@ -1,11 +1,18 @@
 language: java
+
 jdk:
-- oraclejdk8
-- oraclejdk7
+  - oraclejdk8
+  - oraclejdk7
+
 script: mvn -U package
+
 notifications:
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
+  webhooks:
+    urls:
+      - http://v3.bdn.parabot.org/api/client/build
+
 env:
   global:
   - secure: GbLXxHZsHWciBzx2ghVEJNfzO3rara/92SXKfw4ScrhaWwH9ASVV9BwQkiwrSAoxejshvLt8qZvXqTGIDJcbZ7IrwZ6A7gg8uau+8eWScppIP3DPXm1mb+yYnUFDuMFehCEViKFhy9zK8LPJH+bcJ8kSWaefzQ4ISChgRjgjMwM=

@@ -12,6 +12,9 @@ notifications:
   webhooks:
     urls:
       - http://v3.bdn.parabot.org/api/client/build
+    on_success: always
+    on_failure: never
+    on_start: never
 
 env:
   global:

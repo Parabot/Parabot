@@ -1,33 +1,24 @@
 package org.parabot.core.ui;
 
-import java.awt.Dimension;
-import java.util.HashMap;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 import org.parabot.core.Context;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.reflect.RefClass;
 import org.parabot.core.reflect.RefField;
 
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.util.HashMap;
+
 /**
- *
  * A Reflection explorer
  *
  * @author Everel
- *
  */
 public class ReflectUI extends JFrame {
     private static final long serialVersionUID = 98565034137367257L;
@@ -74,17 +65,17 @@ public class ReflectUI extends JFrame {
             public void valueChanged(TreeSelectionEvent event) {
                 TreePath path = event.getPath();
                 Object[] pathElements = path.getPath();
-                Object element = pathElements[pathElements.length-1];
-                if(pathElements.length == 2) {
+                Object element = pathElements[pathElements.length - 1];
+                if (pathElements.length == 2) {
                     // class
                     setClassInfo(classes.get(element));
                 }
-                if(pathElements.length == 3) {
+                if (pathElements.length == 3) {
                     // field
                     RefField field = fields.get(element);
                     setFieldInfo(field);
                     DefaultMutableTreeNode el = (DefaultMutableTreeNode) element;
-                    el.setUserObject("Field: " + field.getName() + " [type: " + field.getASMType()  + "] [value: " + field.asObject() + "]");
+                    el.setUserObject("Field: " + field.getName() + " [type: " + field.getASMType() + "] [value: " + field.asObject() + "]");
 
                 }
             }
@@ -138,12 +129,12 @@ public class ReflectUI extends JFrame {
                 Class<?> clazz = classLoader.loadClass(className);
 
                 RefClass refClass = new RefClass(clazz);
-                if(refClass.instanceOf(this.instance)) {
+                if (refClass.instanceOf(this.instance)) {
                     refClass.setInstance(this.instance);
                 }
 
                 for (RefField field : refClass.getFields()) {
-                    fieldNode = new DefaultMutableTreeNode("Field: " + field.getName() + " [type: " + field.getASMType()  + "] [value: " + field.asObject() + "]");
+                    fieldNode = new DefaultMutableTreeNode("Field: " + field.getName() + " [type: " + field.getASMType() + "] [value: " + field.asObject() + "]");
                     classNode.add(fieldNode);
                     fields.put(fieldNode, field);
                 }
@@ -185,7 +176,7 @@ public class ReflectUI extends JFrame {
     private void setClassInfo(RefClass refClass) {
         StringBuilder builder = new StringBuilder();
         builder.append("<h1>").append(refClass.getClassName()).append("</h1><br/>");
-        if(refClass.getClassName().contains(".")) {
+        if (refClass.getClassName().contains(".")) {
             builder.append("<b>Package: </b>").append(refClass.getClassName().substring(0, refClass.getClassName().lastIndexOf("."))).append("<br/>");
         }
         builder.append("<b>Abstract: </b>").append(refClass.isAbstract() ? "yes" : "no").append("<br/>");

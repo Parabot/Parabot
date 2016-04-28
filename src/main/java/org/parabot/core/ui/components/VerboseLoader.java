@@ -32,8 +32,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     public static final int STATE_LOADING = 1;
     private static final int STATE_SERVER_SELECT = 2;
     private int currentState;
-    private static final String titleName = "Parabot";
-    private static final String sloganText = "The best RuneScape private server bot";
 
     private static AccountManager manager;
 
@@ -216,11 +214,11 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 
         g.setFont(Fonts.getResource("leelawadee.ttf", 30));
         g.getFont().deriveFont(Font.BOLD);
-        g.drawString(titleName, 20, 50);
+        g.drawString(Configuration.BOT_TITLE, 20, 50);
 
         g.setFont(Fonts.getResource("leelawadee.ttf", 15));
         g.getFont().deriveFont(Font.ITALIC);
-        g.drawString(sloganText, 20, 85);
+        g.drawString(Configuration.BOT_SLOGAN, 20, 85);
 
         if (fontMetrics == null) {
             fontMetrics = g.getFontMetrics();

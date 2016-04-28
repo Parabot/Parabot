@@ -225,10 +225,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
 
         if (currentState == STATE_AUTHENTICATION) {
-            /*g.setColor(new Color(74, 74, 72, 100));
-            g.fillRect(loginPanel.getX() - 10, loginPanel.getY(), loginPanel.getWidth() + 20, loginPanel.getHeight());
-            g.setColor(Color.black);
-            g.drawRect(loginPanel.getX() - 10, loginPanel.getY(), loginPanel.getWidth() + 20, loginPanel.getHeight());*/
             g.drawImage(loginBox, loginPanel.getX() - 30, loginPanel.getY() - 22, null);
         }
 
@@ -236,7 +232,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 
         if (currentState == STATE_LOADING) {
             progressBar.draw(g, (getWidth() / 2) - 200, 220);
-            g.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+            g.setFont(Fonts.getResource("leelawadee.ttf"));
             int x = (getWidth() / 2) - (fontMetrics.stringWidth(state) / 2);
             g.drawString(state, x, 200);
         }

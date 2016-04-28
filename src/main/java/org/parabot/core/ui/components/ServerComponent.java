@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
 
 /**
@@ -61,13 +62,13 @@ public class ServerComponent extends JPanel implements MouseListener,
 		g2d.setColor(bgColor);
 		g2d.fillRect(0, 0, w, h);
 		g.setColor(Color.black);
-		Font title = new Font("Arial", Font.BOLD, 16);
+		Font title = Fonts.getResource("leelawadee.ttf", 16);
 		g.setFont(title);
 		String serverName = desc.getServerName();
 		int sw = g.getFontMetrics().stringWidth(serverName);
 		g.drawString(serverName, (w / 2) - (sw / 2), 30);
 
-		Font normal = new Font("Arial", Font.PLAIN, 12);
+		Font normal = Fonts.getResource("leelawadee.ttf");
 		g.setFont(normal);
 		FontMetrics fm = g.getFontMetrics();
 		String author = "Author: " + desc.getAuthor();

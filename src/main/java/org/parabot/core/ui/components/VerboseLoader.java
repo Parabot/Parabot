@@ -199,7 +199,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.drawImage(background, 0, 0, null);
-        float[] scales = { 1f, 1f, 1f, 0.9f };
+        float[] scales = {1f, 1f, 1f, 0.9f};
         float[] offsets = new float[4];
         RescaleOp rop = new RescaleOp(scales, offsets, null);
         g.drawImage(banner, rop, 0, 0);

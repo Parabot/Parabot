@@ -7,7 +7,7 @@ import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.images.Images;
-import org.parabot.core.ui.utils.Fonts;
+import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;

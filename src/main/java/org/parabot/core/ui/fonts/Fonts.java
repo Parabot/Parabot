@@ -1,14 +1,10 @@
-package org.parabot.core.ui.utils;
-
-import org.parabot.core.ui.fonts.ParabotFont;
+package org.parabot.core.ui.fonts;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
- * Created by Capslock
- * On 28/04/16
- * With IntelliJ
+ * @author Capslock
  */
 public class Fonts {
     private static final java.util.List<ParabotFont> FONT_CACHE = new ArrayList<>();
@@ -19,7 +15,7 @@ public class Fonts {
      * @param resource
      * @return
      */
-    public static Font getResource(final String resource){
+    public static Font getResource(final String resource) {
         return getResource(resource, 12f);
     }
 
@@ -27,12 +23,12 @@ public class Fonts {
         ParabotFont parabotFont = null;
 
         for (ParabotFont font : FONT_CACHE) {
-            if (font.getLocation().equalsIgnoreCase(fileName) && font.getSize() == size){
+            if (font.getLocation().equalsIgnoreCase(fileName) && font.getSize() == size) {
                 parabotFont = font;
             }
         }
 
-        if (parabotFont == null){
+        if (parabotFont == null) {
             parabotFont = new ParabotFont(fileName, size);
             FONT_CACHE.add(parabotFont);
         }

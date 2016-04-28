@@ -1,7 +1,5 @@
 package org.parabot.core.ui.fonts;
 
-import org.parabot.core.ui.utils.Fonts;
-
 import java.awt.*;
 import java.io.IOException;
 
@@ -10,12 +8,11 @@ import java.io.IOException;
  */
 public class ParabotFont {
 
-    private String name;
     private String location;
     private Font font;
 
     public ParabotFont(String location, float size) {
-        if (!location.toLowerCase().startsWith("/storage/fonts/")){
+        if (!location.toLowerCase().startsWith("/storage/fonts/")) {
             location = "/storage/fonts/" + location;
         }
         this.location = location;
@@ -39,10 +36,6 @@ public class ParabotFont {
         return location;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Font getFont() {
         return font;
     }
@@ -52,10 +45,8 @@ public class ParabotFont {
         if (obj != null) {
             if (obj instanceof ParabotFont) {
                 ParabotFont otherFont = (ParabotFont) obj;
-                if (otherFont.getName().equalsIgnoreCase(this.getName())) {
-                    if (otherFont.getSize() == this.getSize()) {
-                        return true;
-                    }
+                if (otherFont.getSize() == this.getSize()) {
+                    return true;
                 }
             }
         }

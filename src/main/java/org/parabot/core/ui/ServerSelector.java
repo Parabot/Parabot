@@ -42,7 +42,7 @@ public class ServerSelector extends JPanel {
 
 
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(600, 400));
+		setPreferredSize(new Dimension(600, 350));
 
 		JPanel interior = new JPanel(null);
 
@@ -66,8 +66,7 @@ public class ServerSelector extends JPanel {
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrlInterior
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-		add(scrlInterior, BorderLayout.CENTER);
+		add(scrlInterior);
 
 	}
 

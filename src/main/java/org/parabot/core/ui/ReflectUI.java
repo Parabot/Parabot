@@ -11,12 +11,13 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * A Reflection explorer
@@ -25,6 +26,7 @@ import java.util.Objects;
  */
 public class ReflectUI extends JFrame {
     private static final long serialVersionUID = 98565034137367257L;
+    private JTree tree;
     private DefaultMutableTreeNode root;
     private DefaultTreeModel model;
     private JEditorPane basicInfoPane;
@@ -34,10 +36,6 @@ public class ReflectUI extends JFrame {
 
     private HashMap<DefaultMutableTreeNode, RefClass> classes;
     private HashMap<DefaultMutableTreeNode, RefField> fields;
-
-    public static void main(String args[]) {
-        new ReflectUI();
-    }
 
     public ReflectUI() {
         this.root = new DefaultMutableTreeNode("Classes");
@@ -62,34 +60,75 @@ public class ReflectUI extends JFrame {
         JPanel infoContent = new JPanel();
         infoContent.setLayout(new BoxLayout(infoContent, BoxLayout.Y_AXIS));
 
-        final JTextField searchFunction = new JTextField();
+        JPanel searchContent = new JPanel();
+        searchContent.setLayout(new BoxLayout(searchContent, BoxLayout.X_AXIS));
+
+        final JTextField searchFunction = new JTextField(10);
         searchFunction.setHorizontalAlignment(JTextField.CENTER);
-        searchFunction.setText("Search");
+        searchFunction.setSize(30, 30);
+        searchFunction.setColumns(1);
+        searchFunction.setPreferredSize(new Dimension(30, 30));
+
+        final JButton searchButton = new JButton("Search");
         searchFunction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Context context = Context.getInstance();
-                ClassPath classPath = context.getClassPath();
-                ASMClassLoader classLoader = context.getASMClassLoader();
-                for (String className : classPath.classNames) {
-                    Class<?> clazz;
-                    try {
-                        clazz = classLoader.loadClass(className);
-                        RefClass refClass = new RefClass(clazz);
+                searchButton.getActionListeners()[0].actionPerformed(e);
+            }
+        });
 
-                        for (RefField field : refClass.getFields()) {
-                            if (Objects.equals(field.asObject(), searchFunction.getText().toLowerCase())) {
-                                setFieldInfo(field);
-                            }
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RefField result = null;
+                String search = searchFunction.getText();
+                for (RefField f : fields.values()) {
+                    if (f != null && (f.asObject()) != null) {
+                        String value;
+                        if ((value = f.asObject().toString()).equalsIgnoreCase(search)) {
+                            result = f;
+                        } else if (value.toLowerCase().startsWith(search.toLowerCase())) {
+                            result = f;
+                        } else if (value.toLowerCase().endsWith(search.toLowerCase())) {
+                            result = f;
                         }
-                    } catch (ClassNotFoundException e1) {
-                        e1.printStackTrace();
                     }
+                }
+                if (result != null) {
+                    setFieldInfo(result);
                 }
             }
         });
 
-        JTree tree = new JTree();
+
+        final JButton adjustClasses = new JButton("Expand");
+        adjustClasses.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Enumeration<?> topLevelNodes
+                        = ((TreeNode) tree.getModel().getRoot()).children();
+                while (topLevelNodes.hasMoreElements()) {
+                    DefaultMutableTreeNode node
+                            = (DefaultMutableTreeNode) topLevelNodes.nextElement();
+                    TreePath treePath = new TreePath(node.getPath());
+                    if (adjustClasses.getText().equalsIgnoreCase("expand")) {
+                        tree.expandPath(treePath);
+                    } else {
+                        tree.collapsePath(treePath);
+                    }
+                }
+
+                adjustClasses.setText(adjustClasses.getText().equalsIgnoreCase("expand") ? "Collapse" : "Expand");
+            }
+        });
+
+        searchContent.add(adjustClasses);
+        searchContent.add(searchFunction);
+        searchContent.setMaximumSize(new Dimension(500, (int) searchContent.getPreferredSize().getHeight()));
+        searchContent.add(searchButton);
+
+
+        tree = new JTree();
         tree.setRootVisible(true);
         tree.setShowsRootHandles(true);
         tree.setModel(model);
@@ -101,16 +140,12 @@ public class ReflectUI extends JFrame {
                 Object[] pathElements = path.getPath();
                 Object element = pathElements[pathElements.length - 1];
                 if (pathElements.length == 2) {
-                    // class
                     setClassInfo(classes.get(element));
-                }
-                if (pathElements.length == 3) {
-                    // field
+                } else if (pathElements.length == 3) {
                     RefField field = fields.get(element);
                     setFieldInfo(field);
                     DefaultMutableTreeNode el = (DefaultMutableTreeNode) element;
                     el.setUserObject("Field: " + field.getName() + " [type: " + field.getASMType() + "] [value: " + field.asObject() + "]");
-
                 }
             }
 
@@ -140,7 +175,7 @@ public class ReflectUI extends JFrame {
         exploreContent.add(infoContent);
 
         content.add(exploreContent);
-        content.add(searchFunction);
+        content.add(searchContent);
 
         JScrollPane contentPane = new JScrollPane(content);
         Dimension prefSize = content.getPreferredSize();

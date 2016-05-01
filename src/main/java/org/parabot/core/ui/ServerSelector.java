@@ -31,7 +31,6 @@ public class ServerSelector extends JPanel {
 	}
 
 	public ServerSelector() {
-
 		Queue<ServerComponent> widgets = getServers();
 		if (initServer != null) {
 			if (runServer(widgets)) {

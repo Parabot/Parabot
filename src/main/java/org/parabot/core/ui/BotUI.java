@@ -38,7 +38,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         setTitle("Parabot");
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createMenu();
 
         setLayout(new BorderLayout());

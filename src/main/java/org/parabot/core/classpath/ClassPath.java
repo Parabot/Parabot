@@ -196,7 +196,7 @@ public class ClassPath {
 	 * @throws IOException
 	 */
     protected void loadClass(InputStream in) throws IOException {
-        ClassReader cr = new ClassReader(in);
+		ClassReader cr = new ClassReader(in);
         ClassNode cn = new ClassNode();
         RemappingClassAdapter rca = new RemappingClassAdapter(cn,classRemapper);
         RedirectClassAdapter redir = new RedirectClassAdapter(rca);

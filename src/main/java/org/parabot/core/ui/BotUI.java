@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import org.parabot.core.Context;
+import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
@@ -65,27 +66,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         return instance;
     }
 
-    public static boolean deleteDirectory(File directory) {
-        if (directory.exists()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    if (files[i].isDirectory()) {
-                        deleteDirectory(files[i]);
-                    } else {
-                        files[i].delete();
-                    }
-                }
-            }
-        }
-        return (directory.delete());
-    }
 
-    public static void createDirectory(File directory) {
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-    }
 
     private void createMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -214,8 +195,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 BotDialog.getInstance().setVisible(!dialog.isVisible());
                 break;
             case "Clear cache":
-                    deleteDirectory(new File("C:/Users/Eric/Documents/Parabot/cache"));
-                    createDirectory(new File("C:/Users/Eric/Documents/Parabot/cache"));
+                Directories.clearCache();
                 break;
             default:
                 System.out.println("Invalid command: " + command);

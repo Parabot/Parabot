@@ -21,7 +21,7 @@ import java.awt.image.RescaleOp;
 /**
  * An informative JPanel which tells the user what bot is doing
  *
- * @author Everel, EmmaStone
+ * @author Everel
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
     private static final long serialVersionUID = 7412412644921803896L;
@@ -144,6 +144,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         login.setOpaque(false);
 
         login.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (manager.login(userInput.getText(), passInput.getText(), false)) {
@@ -156,17 +157,17 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 
         });
 
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         loginPanel.add(usernameLabel);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         loginPanel.add(userInput);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         loginPanel.add(passwordLabel);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         loginPanel.add(passInput);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 2)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         loginPanel.add(login);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
+        loginPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         add(loginPanel, new GridBagConstraints());
     }
@@ -204,10 +205,10 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         g.setStroke(new BasicStroke(5));
         g.setPaint(Color.WHITE);
 
-        g.draw(new Line2D.Float(0, 1, this.getWidth(), 1)); //TOP
-        g.draw(new Line2D.Float(0, 0, 0, 120)); //LEFT
-        g.draw(new Line2D.Float(0, 120, this.getWidth(), 120)); //BOTTOM
-        g.draw(new Line2D.Float(this.getWidth() - 6, 0, this.getWidth() - 6, 120)); //RIGHT
+        g.draw(new Line2D.Float(0, 0, this.getWidth(), 0));
+        g.draw(new Line2D.Float(0, 0, 0, 120));
+        g.draw(new Line2D.Float(0, 120, this.getWidth(), 120));
+        g.draw(new Line2D.Float(this.getWidth() - 6, 0, this.getWidth() - 6, 120));
 
         g.setColor(Color.white);
 

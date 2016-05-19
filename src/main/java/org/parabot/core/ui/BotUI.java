@@ -12,6 +12,7 @@ import org.parabot.environment.scripts.randoms.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +26,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private static BotUI instance;
     private static JDialog dialog;
 
-    private JMenuItem run, pause, stop;
+    private JMenuItem run, pause, stop, cacheClear;
     private boolean runScript, pauseScript;
 
     public BotUI(String username, String password) {
@@ -64,11 +65,34 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         return instance;
     }
 
+    public static boolean deleteDirectory(File directory) {
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isDirectory()) {
+                        deleteDirectory(files[i]);
+                    } else {
+                        files[i].delete();
+                    }
+                }
+            }
+        }
+        return (directory.delete());
+    }
+
+    public static void createDirectory(File directory) {
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+    }
+
     private void createMenu() {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu file = new JMenu("File");
         JMenu scripts = new JMenu("Script");
+        JMenu features = new JMenu("Features");
 
         JMenuItem screenshot = new JMenuItem("Create screenshot");
         JMenuItem proxy = new JMenuItem("Network");
@@ -94,6 +118,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.setEnabled(false);
         stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
+        cacheClear = new JMenuItem("Clear cache");
+        cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
+
         screenshot.addActionListener(this);
         proxy.addActionListener(this);
         randoms.addActionListener(this);
@@ -101,6 +128,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         logger.addActionListener(this);
         explorer.addActionListener(this);
         exit.addActionListener(this);
+        cacheClear.addActionListener(this);
 
         run.addActionListener(this);
         pause.addActionListener(this);
@@ -118,8 +146,12 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         scripts.add(pause);
         scripts.add(stop);
 
+        features.add(cacheClear);
+
         menuBar.add(file);
         menuBar.add(scripts);
+        menuBar.add(features);
+
 
         setJMenuBar(menuBar);
     }
@@ -173,13 +205,17 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 BotUI.getInstance().revalidate();
                 if (!Logger.getInstance().isClearable()) {
                     Logger.getInstance().setClearable();
-                } else if(Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
+                } else if (Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
                     Logger.clearLogger();
                     Logger.addMessage("Logger started", false);
                 }
                 break;
             case "Disable dialog":
                 BotDialog.getInstance().setVisible(!dialog.isVisible());
+                break;
+            case "Clear cache":
+                    deleteDirectory(new File("C:/Users/Eric/Documents/Parabot/cache"));
+                    createDirectory(new File("C:/Users/Eric/Documents/Parabot/cache"));
                 break;
             default:
                 System.out.println("Invalid command: " + command);
@@ -274,4 +310,5 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     @Override
     public void windowOpened(WindowEvent arg0) {
     }
+
 }

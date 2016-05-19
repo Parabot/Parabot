@@ -20,5 +20,3 @@ env:
 
 before_install:
   - chmod +x ./.travis/artifact-upload.sh
-
-after_success: sh ./.travis/artifact-upload.sh

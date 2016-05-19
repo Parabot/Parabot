@@ -2,7 +2,7 @@
 
 # Parabot
 
-Parabot V2.4.
+Parabot V2.5.
 
 #### Website
 

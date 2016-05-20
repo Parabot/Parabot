@@ -151,10 +151,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
                     BufferedImage image = robot.createScreenCapture(parabotScreen);
                     ImageIO.write(image, "png", new File(Directories.getScreenshotDir().getPath() + "/" + StringUtils.randomString(10) + ".png"));
-                } catch (IOException k) {
+                } catch (IOException | AWTException k) {
                     k.printStackTrace();
-                } catch (AWTException e1) {
-                    e1.printStackTrace();
                 }
                 break;
             case "Exit":

@@ -7,13 +7,17 @@ import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
+import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.randoms.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,272 +27,280 @@ import java.util.ArrayList;
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
-    private static final long serialVersionUID = -2126184292879805519L;
-    private static BotUI instance;
-    private static JDialog dialog;
+	private static final long serialVersionUID = -2126184292879805519L;
+	private static BotUI instance;
+	private static JDialog dialog;
 
-    private JMenuItem run, pause, stop, cacheClear;
-    private boolean runScript, pauseScript;
+	private JMenuItem run, pause, stop, cacheClear;
+	private boolean runScript, pauseScript;
 
-    public BotUI(String username, String password) {
-        if (instance != null) {
-            throw new IllegalStateException("BotUI already created");
-        }
-        instance = this;
-        //WebLookAndFeel.install();
-        JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+	public BotUI(String username, String password) {
+		if (instance != null) {
+			throw new IllegalStateException("BotUI already created");
+		}
+		instance = this;
+		//WebLookAndFeel.install();
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-        setTitle("Parabot");
-        setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createMenu();
+		setTitle("Parabot");
+		setResizable(false);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		createMenu();
 
-        setLayout(new BorderLayout());
-        addComponentListener(this);
-        addWindowListener(this);
+		setLayout(new BorderLayout());
+		addComponentListener(this);
+		addWindowListener(this);
 
-        add(GamePanel.getInstance());
-        GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
-        add(Logger.getInstance(), BorderLayout.SOUTH);
+		add(GamePanel.getInstance());
+		GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
+		add(Logger.getInstance(), BorderLayout.SOUTH);
 
-        SwingUtil.setParabotIcons(this);
+		SwingUtil.setParabotIcons(this);
 
-        pack();
-        setLocationRelativeTo(null);
-        BotDialog.getInstance(this);
+		pack();
+		setLocationRelativeTo(null);
+		BotDialog.getInstance(this);
 
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            BotDialog.getInstance().setVisible(false);
-        }
-    }
+		if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
+			BotDialog.getInstance().setVisible(false);
+		}
+	}
 
-    public static BotUI getInstance() {
-        return instance;
-    }
-
-
-
-    private void createMenu() {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu file = new JMenu("File");
-        JMenu scripts = new JMenu("Script");
-        JMenu features = new JMenu("Features");
-
-        JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy = new JMenuItem("Network");
-        JMenuItem randoms = new JMenuItem("Randoms");
-        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger = new JCheckBoxMenuItem("Logger");
-
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            dialog.setSelected(true);
-        }
-
-        JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit = new JMenuItem("Exit");
-
-        run = new JMenuItem("Run");
-        run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
-
-        pause = new JMenuItem("Pause");
-        pause.setEnabled(false);
-        pause.setIcon(new ImageIcon(Images.getResource("/storage/images/pause.png")));
-
-        stop = new JMenuItem("Stop");
-        stop.setEnabled(false);
-        stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
-
-        cacheClear = new JMenuItem("Clear cache");
-        cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
-
-        screenshot.addActionListener(this);
-        proxy.addActionListener(this);
-        randoms.addActionListener(this);
-        dialog.addActionListener(this);
-        logger.addActionListener(this);
-        explorer.addActionListener(this);
-        exit.addActionListener(this);
-        cacheClear.addActionListener(this);
-
-        run.addActionListener(this);
-        pause.addActionListener(this);
-        stop.addActionListener(this);
-
-        file.add(screenshot);
-        file.add(proxy);
-        file.add(randoms);
-        file.add(dialog);
-        file.add(logger);
-        file.add(explorer);
-        file.add(exit);
-
-        scripts.add(run);
-        scripts.add(pause);
-        scripts.add(stop);
-
-        features.add(cacheClear);
-
-        menuBar.add(file);
-        menuBar.add(scripts);
-        menuBar.add(features);
+	public static BotUI getInstance() {
+		return instance;
+	}
 
 
-        setJMenuBar(menuBar);
-    }
+	private void createMenu() {
+		JMenuBar menuBar = new JMenuBar();
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
+		JMenu file = new JMenu("File");
+		JMenu scripts = new JMenu("Script");
+		JMenu features = new JMenu("Features");
 
-        switch (command) {
-            case "Create screenshot":
-                JOptionPane.showMessageDialog(this, "We are still working on this...");
-                break;
-            case "Exit":
-                System.exit(0);
-                break;
-            case "Network":
-                NetworkUI.getInstance().setVisible(true);
-                break;
-            case "Randoms":
-                ArrayList<String> randoms = new ArrayList<>();
-                for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
-                    randoms.add(r.getName());
-                }
-                RandomUI.getInstance().openFrame(randoms);
-                break;
-            case "Reflection explorer":
-                new ReflectUI().setVisible(true);
-                break;
-            case "Run":
-                if (pauseScript) {
-                    pauseScript = false;
-                    pause.setEnabled(true);
-                    run.setEnabled(false);
-                    setScriptState(Script.STATE_RUNNING);
-                    break;
-                }
-                new ScriptSelector().setVisible(true);
-                break;
-            case "Pause":
-                setScriptState(Script.STATE_PAUSE);
-                pause.setEnabled(false);
-                run.setEnabled(true);
-                pauseScript = true;
-                break;
-            case "Stop":
-                setScriptState(Script.STATE_STOPPED);
-                break;
-            case "Logger":
-                Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
-                BotUI.getInstance().pack();
-                BotUI.getInstance().revalidate();
-                if (!Logger.getInstance().isClearable()) {
-                    Logger.getInstance().setClearable();
-                } else if (Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
-                    Logger.clearLogger();
-                    Logger.addMessage("Logger started", false);
-                }
-                break;
-            case "Disable dialog":
-                BotDialog.getInstance().setVisible(!dialog.isVisible());
-                break;
-            case "Clear cache":
-                Directories.clearCache();
-                break;
-            default:
-                System.out.println("Invalid command: " + command);
-        }
-    }
+		JMenuItem screenshot = new JMenuItem("Create screenshot");
+		JMenuItem proxy = new JMenuItem("Network");
+		JMenuItem randoms = new JMenuItem("Randoms");
+		JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
+		JMenuItem logger = new JCheckBoxMenuItem("Logger");
 
-    protected void setDialog(JDialog dialog) {
-        BotUI.dialog = dialog;
-    }
+		if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
+			dialog.setSelected(true);
+		}
 
-    @Override
-    public void componentMoved(ComponentEvent e) {
-        if (dialog == null || !isVisible()) {
-            return;
-        }
-        Point gameLocation = GamePanel.getInstance().getLocationOnScreen();
-        dialog.setLocation(gameLocation.x, gameLocation.y);
-    }
+		JMenuItem explorer = new JMenuItem("Reflection explorer");
+		JMenuItem exit = new JMenuItem("Exit");
 
-    public void toggleRun() {
-        runScript = !runScript;
-        if (runScript) {
-            scriptRunning();
-        } else {
-            scriptStopped();
-        }
-    }
+		run = new JMenuItem("Run");
+		run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
 
-    private void scriptRunning() {
-        run.setEnabled(false);
-        pause.setEnabled(true);
-        stop.setEnabled(true);
-    }
+		pause = new JMenuItem("Pause");
+		pause.setEnabled(false);
+		pause.setIcon(new ImageIcon(Images.getResource("/storage/images/pause.png")));
 
-    private void scriptStopped() {
-        run.setEnabled(true);
-        pause.setEnabled(false);
-        stop.setEnabled(false);
-    }
+		stop = new JMenuItem("Stop");
+		stop.setEnabled(false);
+		stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
-    private void setScriptState(int state) {
-        if (Context.getInstance().getRunningScript() != null) {
-            Context.getInstance().getRunningScript().setState(state);
-        }
-    }
+		cacheClear = new JMenuItem("Clear cache");
+		cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
 
-    @Override
-    public void componentResized(ComponentEvent e) {
-        if (isVisible()) {
-            BotDialog.getInstance().setSize(getSize());
-        }
-    }
+		screenshot.addActionListener(this);
+		proxy.addActionListener(this);
+		randoms.addActionListener(this);
+		dialog.addActionListener(this);
+		logger.addActionListener(this);
+		explorer.addActionListener(this);
+		exit.addActionListener(this);
+		cacheClear.addActionListener(this);
 
-    @Override
-    public void componentShown(ComponentEvent e) {
-    }
+		run.addActionListener(this);
+		pause.addActionListener(this);
+		stop.addActionListener(this);
 
-    @Override
-    public void componentHidden(ComponentEvent e) {
-    }
+		file.add(screenshot);
+		file.add(proxy);
+		file.add(randoms);
+		file.add(dialog);
+		file.add(logger);
+		file.add(explorer);
+		file.add(exit);
 
-    @Override
-    public void windowActivated(WindowEvent arg0) {
-    }
+		scripts.add(run);
+		scripts.add(pause);
+		scripts.add(stop);
 
-    @Override
-    public void windowClosed(WindowEvent arg0) {
-    }
+		features.add(cacheClear);
 
-    @Override
-    public void windowClosing(WindowEvent e) {
-    }
+		menuBar.add(file);
+		menuBar.add(scripts);
+		menuBar.add(features);
 
-    @Override
-    public void windowDeactivated(WindowEvent arg0) {
 
-    }
+		setJMenuBar(menuBar);
+	}
 
-    @Override
-    public void windowDeiconified(WindowEvent arg0) {
-        if (isVisible()) {
-            BotDialog.getInstance().setVisible(false);
-            BotDialog.getInstance().setVisible(true);
-        }
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
 
-    @Override
-    public void windowIconified(WindowEvent arg0) {
+		switch (command) {
+			case "Create screenshot":
+				try {
+					Robot robot = new Robot();
+					Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
+					BufferedImage image = robot.createScreenCapture(parabotScreen);
+					ImageIO.write(image, "png", new File(Directories.getScreenshotDir().getPath() + "/" + StringUtils.randomString(10) + ".png"));
+				} catch (IOException k) {
+					k.printStackTrace();
+				} catch (AWTException e1) {
+					e1.printStackTrace();
+				}
+				break;
+			case "Exit":
+				System.exit(0);
+				break;
+			case "Network":
+				NetworkUI.getInstance().setVisible(true);
+				break;
+			case "Randoms":
+				ArrayList<String> randoms = new ArrayList<>();
+				for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+					randoms.add(r.getName());
+				}
+				RandomUI.getInstance().openFrame(randoms);
+				break;
+			case "Reflection explorer":
+				new ReflectUI().setVisible(true);
+				break;
+			case "Run":
+				if (pauseScript) {
+					pauseScript = false;
+					pause.setEnabled(true);
+					run.setEnabled(false);
+					setScriptState(Script.STATE_RUNNING);
+					break;
+				}
+				new ScriptSelector().setVisible(true);
+				break;
+			case "Pause":
+				setScriptState(Script.STATE_PAUSE);
+				pause.setEnabled(false);
+				run.setEnabled(true);
+				pauseScript = true;
+				break;
+			case "Stop":
+				setScriptState(Script.STATE_STOPPED);
+				break;
+			case "Logger":
+				Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
+				BotUI.getInstance().pack();
+				BotUI.getInstance().revalidate();
+				if (!Logger.getInstance().isClearable()) {
+					Logger.getInstance().setClearable();
+				} else if (Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
+					Logger.clearLogger();
+					Logger.addMessage("Logger started", false);
+				}
+				break;
+			case "Disable dialog":
+				BotDialog.getInstance().setVisible(!dialog.isVisible());
+				break;
+			case "Clear cache":
+				Directories.clearCache();
+				break;
+			default:
+				System.out.println("Invalid command: " + command);
+		}
+	}
 
-    }
+	protected void setDialog(JDialog dialog) {
+		BotUI.dialog = dialog;
+	}
 
-    @Override
-    public void windowOpened(WindowEvent arg0) {
-    }
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		if (dialog == null || !isVisible()) {
+			return;
+		}
+		Point gameLocation = GamePanel.getInstance().getLocationOnScreen();
+		dialog.setLocation(gameLocation.x, gameLocation.y);
+	}
+
+	public void toggleRun() {
+		runScript = !runScript;
+		if (runScript) {
+			scriptRunning();
+		} else {
+			scriptStopped();
+		}
+	}
+
+	private void scriptRunning() {
+		run.setEnabled(false);
+		pause.setEnabled(true);
+		stop.setEnabled(true);
+	}
+
+	private void scriptStopped() {
+		run.setEnabled(true);
+		pause.setEnabled(false);
+		stop.setEnabled(false);
+	}
+
+	private void setScriptState(int state) {
+		if (Context.getInstance().getRunningScript() != null) {
+			Context.getInstance().getRunningScript().setState(state);
+		}
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		if (isVisible()) {
+			BotDialog.getInstance().setSize(getSize());
+		}
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+		if (isVisible()) {
+			BotDialog.getInstance().setVisible(false);
+			BotDialog.getInstance().setVisible(true);
+		}
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
+	}
 
 }

@@ -151,11 +151,22 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
                     BufferedImage image = robot.createScreenCapture(parabotScreen);
                     String randString = StringUtils.randomString(10);
-                    for (int x = 0; x < Directories.getScreenshotDir().listFiles().length; x++) {
-                        if (Directories.getScreenshotDir().listFiles()[x].getAbsoluteFile().getName().contains(randString)) {
-                            randString = randString + StringUtils.randomString(4);
+                        boolean search = true;
+                        boolean duplicate = false;
+                        while(search == true){
+                            for (File f : Directories.getScreenshotDir().listFiles()){
+                                if (f.getAbsoluteFile().getName().contains(randString)) {
+                                    duplicate = true;
+                                    break;
+                                }
+                            }
+                            if (!duplicate){
+                                search = false;
+                            } else {
+                                randString = StringUtils.randomString(10);
+                                duplicate = false;
+                            }
                         }
-                    }
                     File file = new File(Directories.getScreenshotDir().getPath() + "/" + randString + ".png");
                     ImageIO.write(image, "png", file);
 

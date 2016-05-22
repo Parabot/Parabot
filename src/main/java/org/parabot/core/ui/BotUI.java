@@ -7,13 +7,17 @@ import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
+import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.randoms.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -65,7 +69,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     public static BotUI getInstance() {
         return instance;
     }
-
 
 
     private void createMenu() {
@@ -143,7 +146,33 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         switch (command) {
             case "Create screenshot":
-                JOptionPane.showMessageDialog(this, "We are still working on this...");
+                try {
+                    Robot robot = new Robot();
+                    Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
+                    BufferedImage image = robot.createScreenCapture(parabotScreen);
+                    String randString = StringUtils.randomString(10);
+                    boolean search = true;
+                    boolean duplicate = false;
+                    while (search == true) {
+                        for (File f : Directories.getScreenshotDir().listFiles()) {
+                            if (f.getAbsoluteFile().getName().contains(randString)) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if (!duplicate) {
+                            search = false;
+                        } else {
+                            randString = StringUtils.randomString(10);
+                            duplicate = false;
+                        }
+                    }
+                    File file = new File(Directories.getScreenshotDir().getPath() + "/" + randString + ".png");
+                    ImageIO.write(image, "png", file);
+
+                } catch (IOException | AWTException k) {
+                    k.printStackTrace();
+                }
                 break;
             case "Exit":
                 System.exit(0);

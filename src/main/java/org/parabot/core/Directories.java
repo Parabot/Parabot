@@ -40,6 +40,7 @@ public class Directories {
         cached.put("Settings", new File(cached.get("Root"), "/Parabot/settings/"));
         cached.put("Servers", new File(cached.get("Root"), "/Parabot/servers/"));
         cached.put("Cache", new File(cached.get("Root"), "/Parabot/cache/"));
+        cached.put("Screenshots", new File(cached.get("Root"), "/Parabot/screenshots/"));
         Core.verbose("Directories cached.");
 
         clearCache(259200);
@@ -191,6 +192,16 @@ public class Directories {
 	public static File getHomeDir() {
 		return cached.get("Home");
 	}
+
+
+     /**
+     * Returns the screenshot folder.
+     *
+     * @return
+     */
+    public static File getScreenshotDir() {
+        return cached.get("Screenshots");
+    }
 
     /**
      * Validates all directories and makes them if necessary

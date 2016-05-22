@@ -153,20 +153,20 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     String randString = StringUtils.randomString(10);
                     boolean search = true;
                     boolean duplicate = false;
-                        while(search == true){
-                            for (File f : Directories.getScreenshotDir().listFiles()){
-                                if (f.getAbsoluteFile().getName().contains(randString)) {
-                                    duplicate = true;
-                                    break;
-                                }
-                            }
-                            if (!duplicate){
-                                search = false;
-                            } else {
-                                randString = StringUtils.randomString(10);
-                                duplicate = false;
+                    while (search == true) {
+                        for (File f : Directories.getScreenshotDir().listFiles()) {
+                            if (f.getAbsoluteFile().getName().contains(randString)) {
+                                duplicate = true;
+                                break;
                             }
                         }
+                        if (!duplicate) {
+                            search = false;
+                        } else {
+                            randString = StringUtils.randomString(10);
+                            duplicate = false;
+                        }
+                    }
                     File file = new File(Directories.getScreenshotDir().getPath() + "/" + randString + ".png");
                     ImageIO.write(image, "png", file);
 

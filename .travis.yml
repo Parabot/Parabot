@@ -1,7 +1,10 @@
 language: java
+
 jdk:
 - oraclejdk7
+
 script: ./.travis/maven-build.sh
+
 notifications:
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=

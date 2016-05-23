@@ -12,6 +12,7 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
+        <build.version></build.version>
     </properties>
 
     <name>Parabot client</name>
@@ -75,7 +76,7 @@
     </dependencies>
 
     <build>
-        <finalName>Parabot-V${version}</finalName>
+        <finalName>Parabot-V${version}${build.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -84,14 +85,14 @@
             <resource>
                 <directory>deploy</directory>
                 <filtering>true</filtering>
-                <!--<excludes>-->
-                    <!--<exclude>deploy.bat</exclude>-->
-                    <!--<exclude>package.bat</exclude>-->
-                    <!--<exclude>clean.bat</exclude>-->
-                <!--</excludes>-->
-                <includes>
-                    <include>deploy.bat</include>
-                </includes>
+                <excludes>
+                    <exclude>deploy.bat</exclude>
+                    <exclude>package.bat</exclude>
+                    <exclude>clean.bat</exclude>
+                </excludes>
+                <!--<includes>-->
+                    <!--<include>deploy.bat</include>-->
+                <!--</includes>-->
             </resource>
         </resources>
 
@@ -120,7 +121,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>${version}</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -130,7 +131,7 @@
                             <mainClass>org.parabot.Landing</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>${project.build.directory}/final/</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>

@@ -3,5 +3,5 @@
 if [ "$TRAVIS_BRANCH" == "master" ]; then
     mvn -U package
 else
-    mvn -Dversion="$TRAVIS_COMMIT" -U package
+    mvn -Dversion="-RC-$TRAVIS_COMMIT" -U package
 fi

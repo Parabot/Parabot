@@ -3,6 +3,7 @@ jdk:
 - oraclejdk7
 script: mvn -U package
 notifications:
+  webhooks: https://dockbit.com/webhooks/7PrMKazLtLw5hhpXvakVKWoq
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
   webhooks:

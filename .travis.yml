@@ -3,14 +3,13 @@ jdk:
 - oraclejdk7
 script: mvn -U package
 notifications:
-  webhooks: https://dockbit.com/webhooks/7PrMKazLtLw5hhpXvakVKWoq
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
   webhooks:
     urls:
-      - http://v3.bdn.parabot.org/api/client/build
+      - https://dockbit.com/webhooks/7PrMKazLtLw5hhpXvakVKWoq
     on_success: always
-    on_failure: never
+    on_failure: always
     on_start: never
 
 env:

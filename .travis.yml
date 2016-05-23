@@ -7,9 +7,9 @@ notifications:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
   webhooks:
     urls:
-      - http://v3.bdn.parabot.org/api/client/build
+      - https://dockbit.com/webhooks/7PrMKazLtLw5hhpXvakVKWoq
     on_success: always
-    on_failure: never
+    on_failure: always
     on_start: never
 
 env:
@@ -20,5 +20,12 @@ env:
 
 before_install:
   - chmod +x ./.travis/artifact-upload.sh
+  
+addons:
+  artifacts: true
+    s3_region: "us-west-1"
 
-after_success: sh ./.travis/artifact-upload.sh
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2

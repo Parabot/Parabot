@@ -20,3 +20,6 @@ env:
 
 before_install:
   - chmod +x ./.travis/artifact-upload.sh
+  
+addons:
+  artifacts: true

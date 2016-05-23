@@ -24,3 +24,8 @@ before_install:
 addons:
   artifacts: true
     s3_region: "us-west-1"
+
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2

@@ -27,6 +27,7 @@ env:
 
 addons:
   artifacts:
+    paths: /home/travis/build/Parabot/Parabot/target/final/
     s3_region: "us-west-1"
 
 cache:

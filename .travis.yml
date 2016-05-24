@@ -10,6 +10,7 @@ before_install:
 script: ./.travis/maven-build.sh
 
 notifications:
+  email: false
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
   webhooks:
@@ -18,7 +19,6 @@ notifications:
     on_success: always
     on_failure: always
     on_start: never
-    on_change: never
 
 env:
   global:

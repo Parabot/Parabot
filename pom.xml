@@ -59,24 +59,16 @@
             <version>1.1.1</version>
             <exclusions>
                 <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.bugsnag</groupId>
-            <artifactId>bugsnag</artifactId>
-            <version>1.2.8</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -90,14 +82,6 @@
             <resource>
                 <directory>deploy</directory>
                 <filtering>true</filtering>
-                <excludes>
-                    <exclude>deploy.bat</exclude>
-                    <exclude>package.bat</exclude>
-                    <exclude>clean.bat</exclude>
-                </excludes>
-                <!--<includes>-->
-                    <!--<include>deploy.bat</include>-->
-                <!--</includes>-->
             </resource>
         </resources>
 
@@ -139,6 +123,7 @@
                     <outputDirectory>${project.build.directory}/final/</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
+
                 <executions>
                     <execution>
                         <id>make-assembly</id>

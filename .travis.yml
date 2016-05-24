@@ -5,7 +5,7 @@ jdk:
 
 before_install:
   - chmod +x ./.travis/artifact-upload.sh
-  - chmod +x ./.travis/maven-build.shs
+  - chmod +x ./.travis/maven-build.sh
 
 script: ./.travis/maven-build.sh
 

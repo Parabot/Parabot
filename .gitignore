@@ -122,3 +122,4 @@ releases
 ._*
 
 Test.java
+*.DS_Store

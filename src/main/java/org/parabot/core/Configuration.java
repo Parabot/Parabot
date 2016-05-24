@@ -26,4 +26,7 @@ public class Configuration {
     public static final String BUGSNAG_API = "d79752cf94dd4beb24c3d312a8609f53";
 
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
+
+    public static final String BOT_TITLE = "Parabot";
+    public static final String BOT_SLOGAN = "The best RuneScape private server bot";
 }

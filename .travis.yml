@@ -33,7 +33,7 @@ addons:
   artifacts:
     paths: ./target/final/
     s3_region: "us-west-1"
-    target_paths: ./artifacts/Parabot/
+    target_paths: ./artifacts/client/
 
 cache:
   directories:

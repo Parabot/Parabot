@@ -12,7 +12,6 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
-        <type.name>Parabot</type.name>
         <build.version></build.version>
     </properties>
 

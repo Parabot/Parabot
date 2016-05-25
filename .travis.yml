@@ -6,8 +6,11 @@ jdk:
 before_install:
   - chmod +x ./.travis/artifact-upload.sh
   - chmod +x ./.travis/maven-build.sh
+  - chmod +x ./.travis/call-creation.sh
 
 script: ./.travis/maven-build.sh
+
+#after_script: ./.travis/call-creation.sh
 
 notifications:
   email: false

@@ -12,11 +12,12 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
+        <type.name>Parabot</type.name>
         <build.version></build.version>
     </properties>
 
     <name>Parabot client</name>
-    <description>This is the Parabot client for all kind of RSPS'. This does not contain the API.</description>
+    <description>The only perfect open source (Runescape private server) bot!</description>
     <url>http://www.parabot.org/</url>
 
     <licenses>
@@ -120,7 +121,7 @@
                             <mainClass>org.parabot.Landing</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>${project.build.directory}/final/</outputDirectory>
+                    <outputDirectory>${project.build.directory}/final/${type.name}/</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
 

@@ -121,7 +121,7 @@
                             <mainClass>org.parabot.Landing</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>${project.build.directory}/final/${type.name}/</outputDirectory>
+                    <outputDirectory>${project.build.directory}/final/</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
 

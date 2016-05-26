@@ -7,6 +7,7 @@ before_install:
   - chmod +x ./.travis/artifact-upload.sh
   - chmod +x ./.travis/maven-build.sh
   - chmod +x ./.travis/call-creation.sh
+  - mvn clean
 
 script: "./.travis/maven-build.sh"
 
@@ -44,6 +45,7 @@ deploy:
   local-dir: "./target/final/"
   upload-dir: "./artifacts/client/"
   region: us-west-1
+  detect_encoding: true
   on:
     repo: Parabot/Parabot
     all_branches: true

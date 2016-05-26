@@ -46,3 +46,4 @@ deploy:
   region: us-west-1
   on:
     repo: Parabot/Parabot
+    all_branches: true

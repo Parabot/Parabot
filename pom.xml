@@ -16,7 +16,7 @@
     </properties>
 
     <name>Parabot client</name>
-    <description>This is the Parabot client for all kind of RSPS'. This does not contain the API.</description>
+    <description>The only perfect open source (Runescape private server) bot!</description>
     <url>http://www.parabot.org/</url>
 
     <licenses>

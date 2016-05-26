@@ -41,9 +41,12 @@ deploy:
   secret_access_key:
     secure: MTOqhji8t8DcGRsfZEitMTqMemqxIag4a3dI0SBeWKBMpDCcKOokhGbXFCUBvMukU6tKIFfMo15z2wERZQxCVAxMt7dr1cyuWb49Sdy+mnBR6Z3EsJ2suilBe6b+9odLJVplCQVRPz9VyKnllWwO9D5j/ZpQaf8fb1675PB6feY=
   bucket: parabot
+  skip_cleanup: true
   local-dir: "./target/final/"
+  upload-dir: "artifacts/client/"
   region: us-west-1
   detect_encoding: true
+  acl: public_read
   on:
     repo: Parabot/Parabot
     all_branches: true

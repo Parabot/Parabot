@@ -45,7 +45,6 @@ deploy:
   local-dir: "./target/final/"
   region: us-west-1
   detect_encoding: true
-  acl: public_read
   on:
     repo: Parabot/Parabot
     all_branches: true

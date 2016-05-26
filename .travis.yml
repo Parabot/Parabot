@@ -10,7 +10,7 @@ before_install:
 
 script: ./.travis/maven-build.sh
 
-#after_script: ./.travis/call-creation.sh
+after_script: ./.travis/call-creation.sh
 
 notifications:
   email: false

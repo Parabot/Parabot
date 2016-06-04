@@ -9,6 +9,9 @@ before_install:
   - chmod +x ./.travis/call-creation.sh
   - mvn clean
 
+install:
+  - sudo apt-get update && sudo apt-get --assume-yes install zip unzip
+
 script: "./.travis/maven-build.sh"
 
 after_deploy: "./.travis/call-creation.sh"

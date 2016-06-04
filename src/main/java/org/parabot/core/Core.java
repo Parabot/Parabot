@@ -220,7 +220,7 @@ public class Core {
             latestVersion = null;
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                latestVersion = new Version((String) object.get("result"));
+                latestVersion = new Version((String) object.get("version"));
             }
             if (latestVersion != null) {
                 if (Configuration.BOT_VERSION.compareTo(latestVersion) < 0) {

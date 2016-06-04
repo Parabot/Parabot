@@ -67,4 +67,4 @@ deploy:
     acl: public_read
     on:
       repo: Parabot/Parabot
-      all_branches: true
+      branch: master

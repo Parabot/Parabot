@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
  */
 @SuppressWarnings("Duplicates")
 public class Core {
-	public static boolean mDebug;
+    
     private static boolean debug;
     private static boolean verbose;
     private static boolean dump;
@@ -75,21 +75,21 @@ public class Core {
      * @param dump
      */
     public static void setDump(final boolean dump) {
-    	Core.dump = dump;
+        Core.dump = dump;
     }
-    
-    public static void disableSec(){
-		UILog.log(
-				"Security Warning",
-				"Disabling the securty manager is ill advised.\n"
-						+ " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
-						+ "The security manager protects you from malicous code within the client, without it you are exposed!\n"
-						+ "\nPlease contact Parabot staff to resolve whatever problem you are having!");
-    	Core.secure = false;
+
+    public static void disableSec() {
+        UILog.log(
+                "Security Warning",
+                "Disabling the securty manager is ill advised.\n"
+                        + " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
+                        + "The security manager protects you from malicous code within the client, without it you are exposed!\n"
+                        + "\nPlease contact Parabot staff to resolve whatever problem you are having!");
+        Core.secure = false;
     }
-    
-    public static boolean isSecure(){
-    	return secure;
+
+    public static boolean isSecure() {
+        return secure;
     }
 
     /**
@@ -110,7 +110,7 @@ public class Core {
      * @return if parabot should dump injected jar
      */
     public static boolean shouldDump() {
-    	return dump;
+        return dump;
     }
 
     /**
@@ -130,9 +130,10 @@ public class Core {
 
     /**
      * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
+     *
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
-	private static boolean checksumValid(){
+    private static boolean checksumValid() {
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
         if (f.isFile()) {
             try {
@@ -158,7 +159,7 @@ public class Core {
                     String result;
                     if ((result = WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/checksum", "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        if (!(boolean) object.get("result")){
+                        if (!(boolean) object.get("result")) {
                             Core.verbose("Latest checksum: " + sb.toString());
                             Core.verbose("Latest checksum: " + object.get("current"));
                             return false;
@@ -173,13 +174,12 @@ public class Core {
     }
 
     /**
-     * @Deprecated use #validVersion instead
-     *
-     * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
-     *
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
+     * @Deprecated use #validVersion instead
+     * <p>
+     * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
      */
-    private static boolean versionValid(){
+    private static boolean versionValid() {
         BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
         try {
             String version = null;
@@ -215,21 +215,20 @@ public class Core {
      * @return True if the current version is equal or higher than the latest version, false if lower than the latest version
      */
     public static boolean validVersion() {
-        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
+        String url = String.format(Configuration.COMPARE_VERSION_URL, "client", currentVersion.get());
+
+        BufferedReader br = WebUtil.getReader(url);
         try {
             latestVersion = null;
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                latestVersion = new Version((String) object.get("version"));
-            }
-            if (latestVersion != null) {
-                if (Configuration.BOT_VERSION.compareTo(latestVersion) < 0) {
-                    Core.verbose("Our version: " + Configuration.BOT_VERSION.get());
-                    Core.verbose("Latest version: " + latestVersion.get());
-                    return false;
+                boolean latest = Boolean.parseBoolean((String) object.get("result"));
+                if (!latest){
+                    Directories.clearCache();
                 }
+                return latest;
             }
-        } catch (NumberFormatException | IOException | ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -247,13 +246,13 @@ public class Core {
     /**
      * Validates the cache and removes the cache contents if required
      */
-    private static void validateCache(){
+    private static void validateCache() {
         File[] cache = Directories.getCachePath().listFiles();
         Integer lowest = null;
         if (cache != null) {
             for (File f : cache) {
-                int date = (int) (f.lastModified()/ 1000);
-                if (lowest == null || date < lowest){
+                int date = (int) (f.lastModified() / 1000);
+                if (lowest == null || date < lowest) {
                     lowest = date;
                 }
             }
@@ -261,10 +260,10 @@ public class Core {
 
         try {
             JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/cache", "date=" + lowest));
-            if ((boolean) object.get("result")){
+            if ((boolean) object.get("result")) {
                 Core.verbose("Making space for the latest cache files");
                 Directories.clearCache();
-            }else{
+            } else {
                 Core.verbose("Cache is up to date");
             }
         } catch (MalformedURLException | ParseException e) {
@@ -281,18 +280,12 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
-        if ((validVersion() && checksumValid()) || (!checksumValid() && currentVersion.compareTo(latestVersion) >= 0)){
+        if (validVersion() && checksumValid()) {
             Core.verbose("No updates available.");
             return true;
-        }else{
+        } else {
             Core.verbose("Updates available...");
             return false;
         }
-    }
-
-    public static void debug(int i) {
-    	if(mDebug) {
-    		System.out.println("DEBUG: " + i);
-    	}
     }
 }

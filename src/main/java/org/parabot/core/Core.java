@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
  */
 @SuppressWarnings("Duplicates")
 public class Core {
-    
+
     private static boolean debug;
     private static boolean verbose;
     private static boolean dump;
@@ -170,42 +170,6 @@ public class Core {
                 e.printStackTrace();
             }
         }
-        return true;
-    }
-
-    /**
-     * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
-     * @Deprecated use #validVersion instead
-     * <p>
-     * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
-     */
-    private static boolean versionValid() {
-        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
-        try {
-            String version = null;
-            if (br != null) {
-                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                version = (String) object.get("result");
-            }
-            if (version != null) {
-                if (!Configuration.BOT_VERSION.equals(version)) {
-                    Core.verbose("Our version: " + Configuration.BOT_VERSION);
-                    Core.verbose("Latest version: " + version);
-                    return false;
-                }
-            }
-        } catch (NumberFormatException | IOException | ParseException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         return true;
     }
 

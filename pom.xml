@@ -109,6 +109,25 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doctitle>${project.name} V${project.version}</doctitle>
+                    <failOnError>false</failOnError>
+                    <quiet>true</quiet>
+                    <outputDirectory>${project.build.directory}/apidocs/${project.version}</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${version}</version>
                 <configuration>

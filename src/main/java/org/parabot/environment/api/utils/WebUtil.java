@@ -5,10 +5,7 @@ import org.parabot.core.io.ProgressListener;
 import org.parabot.core.io.SizeInputStream;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 
 /**
  * 
@@ -307,5 +304,19 @@ public class WebUtil {
 			jsonParser = new JSONParser();
 		}
 		return jsonParser;
+	}
+
+	public static URI appendUri(String uri, String appendQuery) throws URISyntaxException {
+		URI oldUri = new URI(uri);
+
+		String newQuery = oldUri.getQuery();
+		if (newQuery == null) {
+			newQuery = appendQuery;
+		} else {
+			newQuery += "&" + appendQuery;
+		}
+
+		return new URI(oldUri.getScheme(), oldUri.getAuthority(),
+				oldUri.getPath(), newQuery, oldUri.getFragment());
 	}
 }

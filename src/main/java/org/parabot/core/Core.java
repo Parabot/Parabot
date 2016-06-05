@@ -152,8 +152,8 @@ public class Core {
                     byte[] mdbytes = md.digest();
 
                     StringBuilder sb = new StringBuilder("");
-                    for (int i = 0; i < mdbytes.length; i++) {
-                        sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+                    for (byte mdbyte : mdbytes) {
+                        sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
                     }
 
                     String result;
@@ -183,7 +183,7 @@ public class Core {
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
                 boolean latest = Boolean.parseBoolean((String) object.get("result"));
-                if (!latest){
+                if (!latest) {
                     Directories.clearCache();
                 }
                 return latest;

@@ -22,7 +22,9 @@ public class Configuration {
     public static final String GET_RANDOMS = "http://v3.bdn.parabot.org/api/bot/download/randoms";
     public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
     public static final String ITEM_API = DATA_API + "items/";
+
     public static final String COMPARE_VERSION_URL = "http://v3.bdn.parabot.org/api/bot/compare/%s/%s";
+    public static final String COMPARE_CHECKSUM_URL = "http://v3.bdn.parabot.org/api/bot/checksum/%s/%s";
 
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
 

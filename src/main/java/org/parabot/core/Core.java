@@ -157,13 +157,9 @@ public class Core {
                     }
 
                     String result;
-                    if ((result = WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/checksum", "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
+                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        if (!(boolean) object.get("result")) {
-                            Core.verbose("Latest checksum: " + sb.toString());
-                            Core.verbose("Latest checksum: " + object.get("current"));
-                            return false;
-                        }
+                        return Boolean.parseBoolean((String) object.get("result"));
                     }
                 }
             } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {

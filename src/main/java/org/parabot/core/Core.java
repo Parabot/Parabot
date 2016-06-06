@@ -35,7 +35,7 @@ public class Core {
 
     private static Version currentVersion = Configuration.BOT_VERSION;
     private static Version latestVersion;
-
+    
     public static void disableValidation() {
         Core.validate = false;
     }
@@ -159,6 +159,7 @@ public class Core {
                     String result;
                     if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
+                        System.out.println(object.get("result"));
                         return Boolean.parseBoolean((String) object.get("result"));
                     }
                 }
@@ -179,7 +180,6 @@ public class Core {
 
         BufferedReader br = WebUtil.getReader(url);
         try {
-            latestVersion = null;
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
                 boolean latest = Boolean.parseBoolean((String) object.get("result"));
@@ -240,12 +240,17 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
-        if (validVersion() && checksumValid()) {
-            Core.verbose("No updates available.");
+        if (validate) {
+            if (validVersion() && checksumValid()) {
+                Core.verbose("No updates available.");
+                return true;
+            } else {
+                Core.verbose("Updates available...");
+                return false;
+            }
+        }else{
+            Core.verbose("Validation disabled");
             return true;
-        } else {
-            Core.verbose("Updates available...");
-            return false;
         }
     }
 }

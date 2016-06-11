@@ -39,7 +39,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             throw new IllegalStateException("BotUI already created");
         }
         instance = this;
-        //WebLookAndFeel.install();
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
         setTitle("Parabot");

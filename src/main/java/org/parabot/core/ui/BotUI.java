@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * The bot user interface
  *
- * @author Dane, Everel, Paradox
+ * @author Dane, Everel, JKetelaar
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 

@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
@@ -41,7 +42,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         instance = this;
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-        setTitle("Parabot");
+        setTitle(Configuration.BOT_TITLE);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createMenu();

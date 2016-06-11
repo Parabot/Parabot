@@ -31,7 +31,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private static BotUI instance;
     private static JDialog dialog;
 
-    private JMenuItem run, pause, stop, cacheClear;
+    private JMenuItem run, pause, stop;
     private boolean runScript, pauseScript;
 
     public BotUI(String username, String password) {
@@ -101,7 +101,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.setEnabled(false);
         stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
-        cacheClear = new JMenuItem("Clear cache");
+        JMenuItem cacheClear = new JMenuItem("Clear cache");
         cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
 
         screenshot.addActionListener(this);

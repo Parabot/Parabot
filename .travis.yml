@@ -4,7 +4,6 @@ jdk:
   - oraclejdk7
 
 before_install:
-  - chmod +x ./.travis/artifact-upload.sh
   - chmod +x ./.travis/maven-build.sh
   - chmod +x ./.travis/call-creation.sh
   - mvn clean

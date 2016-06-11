@@ -153,11 +153,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     String randString = StringUtils.randomString(10);
                     boolean search = true;
                     boolean duplicate = false;
-                    while (search == true) {
-                        for (File f : Directories.getScreenshotDir().listFiles()) {
-                            if (f.getAbsoluteFile().getName().contains(randString)) {
-                                duplicate = true;
-                                break;
+                    while (search) {
+                        File[] files;
+                        if ((files = Directories.getScreenshotDir().listFiles()) != null) {
+                            for (File f : files) {
+                                if (f.getAbsoluteFile().getName().contains(randString)) {
+                                    duplicate = true;
+                                    break;
+                                }
                             }
                         }
                         if (!duplicate) {

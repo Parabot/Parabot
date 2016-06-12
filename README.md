@@ -42,3 +42,7 @@ If you'd like to have either or both the client and the API in your project, use
     </dependencies>
 ```
 **For the latest versions of our dependencies, please check our examples on [the Maven Repository](https://github.com/Parabot/Maven-Repository/tree/master/examples)**
+
+
+#### Labels
+Labels are created with [GHLabel](https://github.com/jimmycuadra/ghlabel), whereas the yml is located in the .github directory

@@ -123,11 +123,6 @@ public class Script implements Runnable {
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
 
-		if (context.getUlirathaClient() != null) {
-			context.getUlirathaClient().disconnect();
-			context.setUlirathaClient(null);
-		}
-
 		BotUI.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}

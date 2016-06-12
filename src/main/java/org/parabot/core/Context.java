@@ -14,7 +14,6 @@ import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.randoms.RandomHandler;
-import org.parabot.environment.scripts.uliratha.UlirathaClient;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
@@ -49,7 +48,6 @@ public class Context {
     private Mouse mouse;
     private Keyboard keyboard;
     private ServerProviderInfo providerInfo;
-    private UlirathaClient ulirathaClient;
     private JSONParser jsonParser;
 
     private PrintStream defaultOut;
@@ -352,14 +350,6 @@ public class Context {
 
     public static String getUsername() {
         return username;
-    }
-
-    public UlirathaClient getUlirathaClient() {
-        return ulirathaClient;
-    }
-
-    public void setUlirathaClient(UlirathaClient ulirathaClient) {
-        this.ulirathaClient = ulirathaClient;
     }
 
     public static void setUsername(String username) {

@@ -6,6 +6,7 @@ import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.api.utils.StringUtils;
@@ -35,6 +36,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private JMenuItem run, pause, stop;
     private boolean runScript, pauseScript;
 
+    private PBKeyListener keyListener;
+
     public BotUI(String username, String password) {
         if (instance != null) {
             throw new IllegalStateException("BotUI already created");
@@ -50,6 +53,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         setLayout(new BorderLayout());
         addComponentListener(this);
         addWindowListener(this);
+
+        this.keyListener = new PBKeyListener();
+        addKeyListener(keyListener);
 
         add(GamePanel.getInstance());
         GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
@@ -142,8 +148,10 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
+        this.performCommand(e.getActionCommand());
+    }
 
+    public void performCommand(String command){
         switch (command) {
             case "Create screenshot":
                 try {

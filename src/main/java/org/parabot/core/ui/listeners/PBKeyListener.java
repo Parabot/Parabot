@@ -63,9 +63,7 @@ public class PBKeyListener implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("test before");
         if (e.getKeyCode() == mainKey) {
-            System.out.println("Test");
             for (Binding binding : bindings) {
                 if (binding.getKey() == e.getKeyCode()) {
                     binding.perform();

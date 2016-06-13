@@ -22,6 +22,10 @@ public class Version implements Comparable<Version> {
         return this.version;
     }
 
+    public boolean isNightly(){
+        return this.version.contains("RC");
+    }
+
     @Override
     public int compareTo(Version that) {
         if (that == null) {

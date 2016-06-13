@@ -1,0 +1,30 @@
+- name: priority:low
+  color: bfe5bf
+- name: priority:medium
+  color: bfe5bf
+- name: priority:high
+  color: bfe5bf
+- name: status:accepted
+  color: fef2c0
+- name: status:unconfirmed
+  color: fef2c0
+- name: status:needs more info
+  color: fef2c0
+- name: status:rejected
+  color: fef2c0
+- name: status:under consideration
+  color: fef2c0
+- name: type:bug
+  color: f7c6c7
+- name: type:feature
+  color: f7c6c7
+- name: type:improvement
+  color: f7c6c7
+- name: type:question
+  color: f7c6c7
+- name: os:windows
+  color: "666699"
+- name: os:mac
+  color: "666699"
+- name: os:other
+  color: "666699"

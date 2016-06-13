@@ -4,6 +4,7 @@ import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
+import org.parabot.core.io.NoProgressListener;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.environment.api.utils.WebUtil;
 
@@ -51,17 +52,7 @@ public class PublicRandoms extends RandomParser {
                 return;
             }
             String downloadLink = Configuration.GET_RANDOMS;
-            WebUtil.downloadFile(new URL(downloadLink), random, new ProgressListener() {
-                @Override
-                public void onProgressUpdate(double v) {
-
-                }
-
-                @Override
-                public void updateDownloadSpeed(double v) {
-
-                }
-            });
+            WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {
             e.printStackTrace();
         }

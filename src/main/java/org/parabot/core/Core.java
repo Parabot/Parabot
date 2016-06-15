@@ -159,8 +159,7 @@ public class Core {
                     String result;
                     if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        System.out.println(object.get("result"));
-                        return Boolean.parseBoolean((String) object.get("result"));
+                        return (boolean) object.get("result");
                     }
                 }
             } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {

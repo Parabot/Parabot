@@ -32,7 +32,6 @@ import org.parabot.core.io.SizeInputStream;
 import org.parabot.core.ui.components.VerboseLoader;
 
 /**
- * 
  * Manages, parses and dumps class files & jars
  * 
  * @author Everel
@@ -83,7 +82,7 @@ public class ClassPath {
 	/**
 	 * Adds a jar to this classpath
 	 * 
-	 * @param url
+	 * @param connection
 	 */
 	public void addJar(final URLConnection connection) {
 		try {
@@ -148,7 +147,7 @@ public class ClassPath {
 	/**
 	 * Finds and loads all classes/jar files in folder
 	 * 
-	 * @param file
+	 * @param f
 	 *            to find class / jar files
 	 * @param root
 	 */
@@ -191,10 +190,10 @@ public class ClassPath {
 
 	/**
 	 * Loads class from input stream
-	 * 
-	 * @param inputstream
+	 *
+	 * @param in
 	 * @throws IOException
-	 */
+     */
     protected void loadClass(InputStream in) throws IOException {
 		ClassReader cr = new ClassReader(in);
         ClassNode cn = new ClassNode();

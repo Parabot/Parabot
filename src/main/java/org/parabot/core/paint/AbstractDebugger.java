@@ -15,11 +15,11 @@ public abstract class AbstractDebugger implements Paintable {
 	 * Toggles this debugger
 	 */
 	public abstract void toggle();
-	
+
 	/**
-	 * 
-	 * @return <b>true</b> if this debugger is enabled, otherwise <b>false</b>
-	 */
+	 *
+	 * @return True if this debugger is enabled, otherwise false
+     */
 	public abstract boolean isEnabled();
 
 }

@@ -126,6 +126,7 @@
 
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <id>attach-descriptor</id>
@@ -185,7 +186,7 @@
         <site>
             <id>parabot-maven</id>
             <name>Frontend Parabot Maven</name>
-            <url>ftp://maven.parabot.org/sites/${artifactId}/</url>
+            <url>ftp://maven.parabot.org/docs/${artifactId}/</url>
         </site>
     </distributionManagement>
 

@@ -149,5 +149,23 @@
                 </executions>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
     </build>
+
+    <distributionManagement>
+        <downloadUrl>https://maven.parabot.org/</downloadUrl>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>parabot-maven</id>
+            <name>Custom Maven Repository</name>
+            <url>ftp://maven.parabot.org</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
 </project>

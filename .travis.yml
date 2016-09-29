@@ -1,15 +1,22 @@
 language: java
 
 jdk:
-- oraclejdk7
+  - oraclejdk7
 
 before_install:
-  - chmod +x ./.travis/artifact-upload.sh
   - chmod +x ./.travis/maven-build.sh
+  - chmod +x ./.travis/call-creation.sh
+  - mvn clean
 
-script: ./.travis/maven-build.sh
+install:
+  - sudo apt-get update && sudo apt-get --assume-yes install zip unzip
+
+script: "./.travis/maven-build.sh"
+
+after_deploy: "./.travis/call-creation.sh"
 
 notifications:
+  email: false
   slack:
     secure: ciAOsdv9lf/IbAwyzeR/z2nlBSevmBHBqca6tf0Yh2DIyAx/uUo1ojon0W7Kv6tCECGhSTdfQAnZ+nFjjqaRs+Jq4svd9WKYrFuZyOWmT31iSJ/nvPymRvevSsgwpSKr0nJS9dxePKto/T3ozW29kx88eaJQH17zOaX2rfuIje4=
   webhooks:
@@ -24,13 +31,39 @@ env:
     - secure: UG+b1tEgc8xv9x4r//2OAIK1RrYv6n209KTTFMMwcnAa7DI8HaP8nljRa5/VhDhuKHdlVrYH/tI90v7UVBs0GDVNwK5V17Io0fMm3FUGZekSthTCqqno5wAGa9r6a6mMLtSaSmIFeIKi0+0d2ZwplRuhj/dtEYjjBBj+kK8g4nE=
     - secure: St/fecUDInFBCRriYqgp2F8PU9/SooorgxD9Mrs+b0EsC7AbtSsQXvdIv2Lp6xzdQ0VSXPcLIhULPOYrmBKnGQ/NjXTIZXxnroyQxxnI6xyEWIZwiHRY/bKRJDRbQTxD9NL32szKiDSwnw7pu6llF4D64UqQvziq4Gm6VohU75M=
     - secure: bD15GVZWowiknbfLavh8CxSh0GsnF5kT4kZ6ggCuUDGyj0mzqf7dNRnchQIKkCG0WRYyTrFN4pEiygeywWsipEeAVv9Xhx3cuUZmzeQaR5KCWabSwJ8gK6jZd1YhcWmM9vrdPHobZr65MP0y/8mu/Fovgky9dY7KDf4G3SebNrM=
-
-addons:
-  artifacts:
-    paths: ./target/final/
-    s3_region: "us-west-1"
+    - PARABOT_VERSION=2.6
 
 cache:
   directories:
-  - .autoconf
-  - $HOME/.m2
+    - ".autoconf"
+    - "$HOME/.m2"
+
+deploy:
+  - provider: s3
+    access_key_id: AKIAJDZLZNH2PIKHUKOA
+    secret_access_key:
+      secure: MTOqhji8t8DcGRsfZEitMTqMemqxIag4a3dI0SBeWKBMpDCcKOokhGbXFCUBvMukU6tKIFfMo15z2wERZQxCVAxMt7dr1cyuWb49Sdy+mnBR6Z3EsJ2suilBe6b+9odLJVplCQVRPz9VyKnllWwO9D5j/ZpQaf8fb1675PB6feY=
+    bucket: parabot
+    skip_cleanup: true
+    local-dir: "./target/final/"
+    upload-dir: "artifacts/client"
+    region: us-west-1
+    detect_encoding: true
+    acl: public_read
+    on:
+      repo: Parabot/Parabot
+      all_branches: true
+  - provider: s3
+    access_key_id: AKIAJDZLZNH2PIKHUKOA
+    secret_access_key:
+      secure: MTOqhji8t8DcGRsfZEitMTqMemqxIag4a3dI0SBeWKBMpDCcKOokhGbXFCUBvMukU6tKIFfMo15z2wERZQxCVAxMt7dr1cyuWb49Sdy+mnBR6Z3EsJ2suilBe6b+9odLJVplCQVRPz9VyKnllWwO9D5j/ZpQaf8fb1675PB6feY=
+    bucket: parabot
+    skip_cleanup: true
+    local-dir: "./target/apidocs/zips/"
+    upload-dir: "artifacts/apidocs"
+    region: us-west-1
+    detect_encoding: true
+    acl: public_read
+    on:
+      repo: Parabot/Parabot
+      branch: master

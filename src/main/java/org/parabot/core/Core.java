@@ -1,8 +1,5 @@
 package org.parabot.core;
 
-import com.bugsnag.BeforeNotify;
-import com.bugsnag.Client;
-import com.bugsnag.Error;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
@@ -38,8 +35,6 @@ public class Core {
 
     private static Version currentVersion = Configuration.BOT_VERSION;
     private static Version latestVersion;
-
-    private static Client bugsnagInstance;
 
     public static void disableValidation() {
         Core.validate = false;
@@ -225,7 +220,7 @@ public class Core {
             latestVersion = null;
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                latestVersion = new Version((String) object.get("result"));
+                latestVersion = new Version((String) object.get("version"));
             }
             if (latestVersion != null) {
                 if (Configuration.BOT_VERSION.compareTo(latestVersion) < 0) {
@@ -286,8 +281,6 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
-        setBugsnagVersion();
-
         if ((validVersion() && checksumValid()) || (!checksumValid() && currentVersion.compareTo(latestVersion) >= 0)){
             Core.verbose("No updates available.");
             return true;
@@ -295,29 +288,6 @@ public class Core {
             Core.verbose("Updates available...");
             return false;
         }
-    }
-
-    public static void initiateBugsnagInstance() {
-        bugsnagInstance = new Client(Configuration.BUGSNAG_API);
-        bugsnagInstance.setSendThreads(true);
-    }
-
-    public static void setBugsnagVersion(){
-        Core.bugsnagInstance.setReleaseStage(currentVersion != latestVersion ? "development" : "production");
-    }
-
-    public static void setBugsnagUser(String id, String email, String username){
-        // TODO Check order of parameters
-        Core.bugsnagInstance.setUser(username, email, id);
-    }
-
-    public static void setBugsnagServer(String server){
-        Core.setBugsnagInformation("Server", "Server", server);
-    }
-
-    public static void setBugsnagInformation(String tab, String key, String value){
-        // TODO Should be checked if correct
-        Core.bugsnagInstance.addToTab(tab, key, value);
     }
 
     public static void debug(int i) {

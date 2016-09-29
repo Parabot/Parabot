@@ -24,8 +24,6 @@ public abstract class ServerExecuter {
 			@Override
 			public void run() {
 				try {
-					Core.setBugsnagServer(serverName);
-
 					Context context = Context.getInstance(provider);
 					context.load();
 					PaintComponent.getInstance().startPainting(context);

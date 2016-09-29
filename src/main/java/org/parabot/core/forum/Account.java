@@ -33,8 +33,6 @@ public class Account {
         this.username = username;
         this.password = password;
         this.api = api;
-
-        Core.setBugsnagUser("Null", this.username, "Null");
     }
 
     /**

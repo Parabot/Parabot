@@ -194,8 +194,8 @@ public class Directories {
 	}
 
 
-     /**
-     * Returns the screenshot folder.
+	/**
+	 * Returns the screenshot folder.
      *
      * @return
      */

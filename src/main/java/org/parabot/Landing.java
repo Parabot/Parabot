@@ -8,6 +8,7 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
+import org.parabot.core.ui.BotTray;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
@@ -33,6 +34,8 @@ public final class Landing {
 		Core.initiateBugsnagInstance();
 
 		parseArgs(args);
+
+
 
 		Core.verbose("Debug mode: " + Core.inDebugMode());
 
@@ -74,6 +77,7 @@ public final class Landing {
 
 		Core.verbose("Starting login gui...");
 		new BotUI(null, null);
+		new BotTray();
 	}
 
 	private static void parseArgs(String... args) {

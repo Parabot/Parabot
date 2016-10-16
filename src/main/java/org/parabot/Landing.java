@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * Parabot v2.1
+ * Parabot v2.6
  *
- * @author Everel/Parnassian/Clisprail, Paradox/JKetelaar, Matt, Dane
- * @version 2.1
+ * @author Everel, JKetelaar, Matt, Dane
+ * @version 2.6
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {
@@ -60,6 +60,7 @@ public final class Landing {
 
         Core.verbose("Validating directories...");
         Directories.validate();
+
         Core.verbose("Validating account manager...");
         AccountManager.validate();
 

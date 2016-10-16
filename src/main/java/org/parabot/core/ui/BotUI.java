@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  * The bot user interface
  *
- * @author Dane, Everel, Paradox
+ * @author Dane, Everel, Paradox, EmmaStone
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
@@ -42,7 +43,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         //WebLookAndFeel.install();
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-        setTitle("Parabot");
+        setTitle(Configuration.BOT_TITLE);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createMenu();
@@ -153,7 +154,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     String randString = StringUtils.randomString(10);
                     boolean search = true;
                     boolean duplicate = false;
-                    while (search == true) {
+                    while (search) {
                         for (File f : Directories.getScreenshotDir().listFiles()) {
                             if (f.getAbsoluteFile().getName().contains(randString)) {
                                 duplicate = true;
@@ -207,6 +208,12 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 pauseScript = true;
                 break;
             case "Stop":
+                if (pauseScript) {
+                    pauseScript = false;
+                    pause.setEnabled(false);
+                    run.setEnabled(true);
+                    stop.setEnabled(false);
+                }
                 setScriptState(Script.STATE_STOPPED);
                 break;
             case "Logger":

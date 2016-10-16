@@ -34,6 +34,11 @@
             <name>Parabot its Maven Repository</name>
             <url>http://maven.parabot.org/</url>
         </repository>
+        <repository>
+            <id>git-parabot</id>
+            <name>Parabot's Git based repo</name>
+            <url>https://github.com/parabot/Maven-Repository/raw/master/</url>
+        </repository>
     </repositories>
 
     <dependencies>

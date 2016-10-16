@@ -151,7 +151,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         this.performCommand(e.getActionCommand());
     }
 
-    public void performCommand(String command){
+    public void performCommand(String command) {
         switch (command) {
             case "Create screenshot":
                 try {
@@ -218,6 +218,12 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 pauseScript = true;
                 break;
             case "Stop":
+                if (pauseScript) {
+                    pauseScript = false;
+                    pause.setEnabled(false);
+                    run.setEnabled(true);
+                    stop.setEnabled(false);
+                }
                 setScriptState(Script.STATE_STOPPED);
                 break;
             case "Logger":

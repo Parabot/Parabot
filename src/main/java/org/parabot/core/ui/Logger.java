@@ -4,6 +4,8 @@ import org.parabot.core.ui.components.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author JKetelaar
@@ -22,6 +24,16 @@ public class Logger extends JPanel {
 
         JScrollPane pane = new JScrollPane(list);
         add(pane, BorderLayout.CENTER);
+
+        JButton button = new JButton("Clear Logger");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearLogger();
+                addMessage("Logger started", false);
+            }
+        });
+        add(button, BorderLayout.SOUTH);
 
         list.setCellRenderer(getRenderer());
 

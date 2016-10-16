@@ -1,8 +1,6 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
-import org.parabot.environment.scripts.uliratha.UlirathaClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,10 +61,7 @@ public class Logger extends JPanel {
         instance.model.addElement(message);
 
         if (uliratha){
-            UlirathaClient client;
-            if ((client = Context.getInstance().getUlirathaClient()) != null) {
-                client.sendMessage(message);
-            }
+            // TODO: Implement latest Uliratha
         }
 
         int last = instance.list.getModel().getSize() - 1;

@@ -123,11 +123,6 @@ public class Script implements Runnable {
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
 
-		if (context.getUlirathaClient() != null) {
-			context.getUlirathaClient().disconnect();
-			context.setUlirathaClient(null);
-		}
-
 		BotUI.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}
@@ -156,7 +151,6 @@ public class Script implements Runnable {
 		if(state < 0 || state > 2) {
 			throw new IllegalArgumentException("Illegal state");
 		}
-		Core.setBugsnagInformation("Script", "State", String.valueOf(state));
 		this.state = state;
 	}
 
@@ -181,6 +175,5 @@ public class Script implements Runnable {
 
 	public void setScriptID(int scriptID){
 		this.scriptID = scriptID;
-		Core.setBugsnagInformation("Script", "State", String.valueOf(scriptID));
 	}
 }

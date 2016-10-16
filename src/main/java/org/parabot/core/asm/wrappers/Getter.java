@@ -27,7 +27,7 @@ public class Getter implements Injectable {
 	 * 
 	 * @param into - classnode to inject getter method in
 	 * @param fieldLocation - classnode where field is located
-	 * @param fieldName - field name to get
+	 * @param fieldNode - field name to get
 	 * @param methodName - method name of getter
 	 * @param returnDesc - return type of method, can be null for default return
 	 * @param staticMethod - pass true if you want the method to be static

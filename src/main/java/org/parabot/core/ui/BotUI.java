@@ -1,10 +1,12 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.images.Images;
+import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.api.utils.StringUtils;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 /**
  * The bot user interface
  *
- * @author Dane, Everel, Paradox
+ * @author Dane, Everel, JKetelaar
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
@@ -31,18 +33,19 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private static BotUI instance;
     private static JDialog dialog;
 
-    private JMenuItem run, pause, stop, cacheClear;
+    private JMenuItem run, pause, stop;
     private boolean runScript, pauseScript;
+
+    private PBKeyListener keyListener;
 
     public BotUI(String username, String password) {
         if (instance != null) {
             throw new IllegalStateException("BotUI already created");
         }
         instance = this;
-        //WebLookAndFeel.install();
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-        setTitle("Parabot");
+        setTitle(Configuration.BOT_TITLE);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createMenu();
@@ -50,6 +53,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         setLayout(new BorderLayout());
         addComponentListener(this);
         addWindowListener(this);
+
+        this.keyListener = new PBKeyListener();
+        addKeyListener(keyListener);
 
         add(GamePanel.getInstance());
         GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
@@ -102,7 +108,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.setEnabled(false);
         stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
-        cacheClear = new JMenuItem("Clear cache");
+        JMenuItem cacheClear = new JMenuItem("Clear cache");
         cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
 
         screenshot.addActionListener(this);
@@ -142,8 +148,10 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
+        this.performCommand(e.getActionCommand());
+    }
 
+    public void performCommand(String command){
         switch (command) {
             case "Create screenshot":
                 try {
@@ -153,11 +161,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     String randString = StringUtils.randomString(10);
                     boolean search = true;
                     boolean duplicate = false;
-                    while (search == true) {
-                        for (File f : Directories.getScreenshotDir().listFiles()) {
-                            if (f.getAbsoluteFile().getName().contains(randString)) {
-                                duplicate = true;
-                                break;
+                    while (search) {
+                        File[] files;
+                        if ((files = Directories.getScreenshotDir().listFiles()) != null) {
+                            for (File f : files) {
+                                if (f.getAbsoluteFile().getName().contains(randString)) {
+                                    duplicate = true;
+                                    break;
+                                }
                             }
                         }
                         if (!duplicate) {

@@ -30,7 +30,7 @@ public class Logger extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearLogger();
-                addMessage("Logger cleared", false);
+                addMessage("Logger started", false);
             }
         });
         add(button, BorderLayout.SOUTH);

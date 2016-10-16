@@ -131,7 +131,7 @@ public final class Landing {
                 case "-proxy":
                     ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
                     if (type == null) {
-                        System.err.println("Invalid proxy type:" + args[i]);
+                        System.err.println("Invalid proxy type: " + args[i]);
                         System.exit(1);
                         return;
                     }

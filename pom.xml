@@ -30,9 +30,9 @@
 
     <repositories>
         <repository>
-            <id>git-parabot</id>
-            <name>Parabot's Git based repo</name>
-            <url>https://github.com/parabot/Maven-Repository/raw/master/</url>
+            <id>parabot-maven</id>
+            <name>Parabot its Maven Repository</name>
+            <url>http://maven.parabot.org/</url>
         </repository>
     </repositories>
 
@@ -64,6 +64,11 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.parabot</groupId>
+            <artifactId>internal-api</artifactId>
+            <version>1.02.7</version>
         </dependency>
     </dependencies>
 

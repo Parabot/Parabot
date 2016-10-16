@@ -234,7 +234,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                     Logger.getInstance().setClearable();
                 } else if (Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
                     Logger.clearLogger();
-                    Logger.addMessage("Logger started", false);
+                    Logger.addMessage("Logger initialised", false);
                 }
                 break;
             case "Disable dialog":

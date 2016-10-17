@@ -123,6 +123,9 @@ public class Script implements Runnable {
 		this.state = STATE_STOPPED;
 		context.setRunningScript(null);
 
+		Core.verbose("Resetting key bindings...");
+		Context.getInstance().getPbKeyListener().resetBindings();
+
 		BotUI.getInstance().toggleRun();
 		Core.verbose("Done.");
 	}

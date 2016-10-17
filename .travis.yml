@@ -54,3 +54,4 @@ deploy:
     on:
       repo: Parabot/Parabot
       all_branches: true
+      jdk: 'oraclejdk7'

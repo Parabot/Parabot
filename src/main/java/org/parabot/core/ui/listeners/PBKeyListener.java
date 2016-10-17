@@ -31,6 +31,11 @@ public class PBKeyListener implements KeyListener {
     }
 
     public void addBinding(Binding binding) {
+        for (Binding bind : this.bindings){
+            if (bind.getKey() == binding.getKey()){
+                return;
+            }
+        }
         this.bindings.add(binding);
     }
 

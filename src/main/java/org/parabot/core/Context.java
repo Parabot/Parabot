@@ -9,6 +9,7 @@ import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.components.GamePanel;
+import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
@@ -47,6 +48,7 @@ public class Context {
     private PaintDebugger paintDebugger;
     private Mouse mouse;
     private Keyboard keyboard;
+    private PBKeyListener pbKeyListener;
     private ServerProviderInfo providerInfo;
     private JSONParser jsonParser;
 
@@ -225,6 +227,10 @@ public class Context {
         Core.verbose("Initializing keyboard...");
         serverProvider.initKeyboard();
         Core.verbose("Done.");
+
+        Core.verbose("Initializing key listener...");
+        this.pbKeyListener = new PBKeyListener();
+        applet.addKeyListener(this.pbKeyListener);
         
         BotDialog.getInstance().validate();
         System.setOut(this.defaultOut);
@@ -358,5 +364,9 @@ public class Context {
 
     public JSONParser getJsonParser() {
         return jsonParser;
+    }
+
+    public PBKeyListener getPbKeyListener() {
+        return pbKeyListener;
     }
 }

@@ -34,7 +34,6 @@ public class Core {
     private static boolean secure = true;
 
     private static Version currentVersion = Configuration.BOT_VERSION;
-    private static Version latestVersion;
 
     public static void disableValidation() {
         Core.validate = false;

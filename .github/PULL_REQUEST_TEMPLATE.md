@@ -17,9 +17,6 @@ What types of changes does your code introduce? Check all the boxes that apply:
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
 - [ ] Cleanup (non-breaking change which cleans up the code)
 
-### Description
-...
-
 ### Final checklist
 Go over all the following points and check all the boxes that apply.
 If you're unsure about any of these, don't hesitate to ask. We're here to help! 
@@ -35,3 +32,6 @@ Your pull request will be tested via Travis CI to automatically indicate that yo
 If it reports back that there are problems, you go to [the Travis system](https://travis-ci.org/Parabot/Parabot) and check the log report for your pull request to see what the problem was.
 If you add new code to fix a Travis building issue/problem, then take note that you need to check the next pull request in the Travis system.
 Travis issue numbers are different from GitHub issue numbers.
+
+### Description
+...

@@ -7,18 +7,6 @@ package org.parabot.core.io;
  * @author Everel
  *
  */
-public interface ProgressListener {
-	
-	/**
-	 * Called when progress increased
-	 * @param value
-	 */
-	public void onProgressUpdate(double value);
-	
-	/**
-	 * Updates upload speed
-	 * @param mbPerSecond
-	 */
-	public void updateDownloadSpeed(double mbPerSecond);
+public interface ProgressListener extends org.parabot.api.io.ProgressListener{
 
 }

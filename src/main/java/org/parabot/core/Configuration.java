@@ -7,7 +7,7 @@ import org.parabot.environment.api.utils.Version;
  *
  * @author Everel
  */
-public class Configuration {
+public class Configuration extends org.parabot.api.Configuration {
     public static final String LOGIN_SERVER = "http://bdn.parabot.org/api/v2/users/login";
     public static final String GET_SCRIPTS = "http://bdn.parabot.org/api/get.php?action=scripts_scripts&server=";
     public static final String GET_SCRIPT = "http://bdn.parabot.org/api/get.php?action=scripts_script&id=";
@@ -23,13 +23,7 @@ public class Configuration {
     public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
     public static final String ITEM_API = DATA_API + "items/";
 
-    public static final String COMPARE_VERSION_URL = "http://v3.bdn.parabot.org/api/bot/compare/%s/%s";
-    public static final String COMPARE_CHECKSUM_URL = "http://v3.bdn.parabot.org/api/bot/checksum/%s/%s";
-
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
-
-    public static final String BOT_TITLE = "Parabot";
-    public static final String BOT_SLOGAN = "The best RuneScape private server bot";
 
     public static final String NIGHTLY_APPEND = "nightly=true";
 }

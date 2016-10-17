@@ -43,7 +43,7 @@ public final class Landing {
             t.printStackTrace();
         }
 
-        if (!Core.inDebugMode() && !Core.isValid() && Core.hasValidation()) {
+        if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
             UILog.log(TranslationHelper.translate("UPDATES"),
                     TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
                             + Configuration.DOWNLOAD_BOT,

@@ -1,5 +1,6 @@
 package org.parabot;
 
+import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
@@ -32,10 +33,10 @@ public final class Landing {
 
         parseArgs(args);
 
-        Core.verbose("Debug mode: " + Core.inDebugMode());
+        Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
 
         try {
-            Core.verbose("Setting look and feel: "
+            Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
                     + UIManager.getSystemLookAndFeelClassName());
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Throwable t) {
@@ -43,25 +44,25 @@ public final class Landing {
         }
 
         if (!Core.inDebugMode() && !Core.isValid() && Core.hasValidation()) {
-            UILog.log("Updates",
-                    "Please download the newest version of Parabot at "
+            UILog.log(TranslationHelper.translate("UPDATES"),
+                    TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
                             + Configuration.DOWNLOAD_BOT,
                     JOptionPane.INFORMATION_MESSAGE);
             URI uri = URI.create(Configuration.API_DOWNLOAD_BOT);
             try {
                 Desktop.getDesktop().browse(uri);
             } catch (IOException e1) {
-                JOptionPane.showMessageDialog(null, "Connection Error",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, TranslationHelper.translate("CONNECTION_ERROR"),
+                        TranslationHelper.translate("ERROR"), JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
             return;
         }
 
-        Core.verbose("Validating directories...");
+        Core.verbose(TranslationHelper.translate("VALIDATING_DIRECTORIES"));
         Directories.validate();
 
-        Core.verbose("Validating account manager...");
+        Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
         AccountManager.validate();
 
         if (username != null && password != null) {
@@ -71,7 +72,7 @@ public final class Landing {
             return;
         }
 
-        Core.verbose("Starting login gui...");
+        Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
         new BotUI(null, null);
     }
 
@@ -82,7 +83,7 @@ public final class Landing {
                 case "-createdirs":
                     Directories.validate();
                     System.out
-                            .println("Directories created, you can now run parabot.");
+                            .println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
                     System.exit(0);
                     break;
                 case "-debug":
@@ -131,7 +132,7 @@ public final class Landing {
                 case "-proxy":
                     ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
                     if (type == null) {
-                        System.err.println("Invalid proxy type: " + args[i]);
+                        System.err.println(TranslationHelper.translate("INVALID_PROXY_TYPE") + args[i]);
                         System.exit(1);
                         return;
                     }

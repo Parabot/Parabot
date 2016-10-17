@@ -1,6 +1,7 @@
 package org.parabot.core;
 
 import org.json.simple.parser.JSONParser;
+import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
@@ -164,18 +165,18 @@ public class Context {
      */
     public void load() {
         BotUI.getInstance().getJMenuBar().remove(2);
-        Core.verbose("Parsing server jar...");
+        Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
         serverProvider.init();
         serverProvider.parseJar();
-        Core.verbose("Done.");
-        Core.verbose("Injecting hooks...");
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
         serverProvider.injectHooks();
-        Core.verbose("Done.");
-        Core.verbose("Fetching game applet...");
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
         if(Core.shouldDump()) {
-        	Core.verbose("Dumping injected client...");
+        	Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
         	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
-        	Core.verbose("Done.");
+        	Core.verbose(TranslationHelper.translate("DONE"));
         }
         Applet applet = serverProvider.fetchApplet();
         // if applet is null the server provider will call setApplet itself
@@ -195,7 +196,7 @@ public class Context {
             setClientInstance(gameApplet);
         }
 
-        Core.verbose("Applet fetched.");
+        Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
         
         final GamePanel panel = GamePanel.getInstance();
         final Dimension appletSize = serverProvider.getGameDimensions();
@@ -221,14 +222,14 @@ public class Context {
             }
         }, 1000);
         
-        Core.verbose("Initializing mouse...");
+        Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
         serverProvider.initMouse();
-        Core.verbose("Done.");
-        Core.verbose("Initializing keyboard...");
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("INIT_KEYBOARD"));
         serverProvider.initKeyboard();
-        Core.verbose("Done.");
+        Core.verbose(TranslationHelper.translate("DONE"));
 
-        Core.verbose("Initializing key listener...");
+        Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
         this.pbKeyListener = new PBKeyListener();
         applet.addKeyListener(this.pbKeyListener);
         

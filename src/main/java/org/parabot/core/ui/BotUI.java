@@ -36,8 +36,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private JMenuItem run, pause, stop;
     private boolean runScript, pauseScript;
 
-    private PBKeyListener keyListener;
-
     public BotUI(String username, String password) {
         if (instance != null) {
             throw new IllegalStateException("BotUI already created");
@@ -53,9 +51,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         setLayout(new BorderLayout());
         addComponentListener(this);
         addWindowListener(this);
-
-        this.keyListener = new PBKeyListener();
-        addKeyListener(keyListener);
 
         add(GamePanel.getInstance());
         GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);

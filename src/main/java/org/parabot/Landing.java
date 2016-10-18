@@ -44,18 +44,7 @@ public final class Landing {
         }
 
         if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
-            UILog.log(TranslationHelper.translate("UPDATES"),
-                    TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
-                            + Configuration.DOWNLOAD_BOT,
-                    JOptionPane.INFORMATION_MESSAGE);
-            URI uri = URI.create(Configuration.API_DOWNLOAD_BOT);
-            try {
-                Desktop.getDesktop().browse(uri);
-            } catch (IOException e1) {
-                JOptionPane.showMessageDialog(null, TranslationHelper.translate("CONNECTION_ERROR"),
-                        TranslationHelper.translate("ERROR"), JOptionPane.ERROR_MESSAGE);
-                e1.printStackTrace();
-            }
+            Core.downloadNewVersion();
             return;
         }
 

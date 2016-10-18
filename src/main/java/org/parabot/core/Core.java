@@ -3,15 +3,19 @@ package org.parabot.core;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
+import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -226,6 +230,21 @@ public class Core {
             }
         } catch (MalformedURLException | ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void downloadNewVersion(){
+        UILog.log(TranslationHelper.translate("UPDATES"),
+                TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
+                        + Configuration.DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
+                JOptionPane.INFORMATION_MESSAGE);
+        URI uri = URI.create(Configuration.API_DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""));
+        try {
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException e1) {
+            JOptionPane.showMessageDialog(null, TranslationHelper.translate("CONNECTION_ERROR"),
+                    TranslationHelper.translate("ERROR"), JOptionPane.ERROR_MESSAGE);
+            e1.printStackTrace();
         }
     }
 

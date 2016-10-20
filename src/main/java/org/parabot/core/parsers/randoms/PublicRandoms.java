@@ -5,7 +5,6 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.io.NoProgressListener;
-import org.parabot.core.io.ProgressListener;
 import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.File;
@@ -46,12 +45,17 @@ public class PublicRandoms extends RandomParser {
 
     private void download() {
         try {
-            File random = new File(Directories.getCachePath() + "/randoms.jar");
+            File random = new File(Directories.getCachePath() + File.separator + "randoms.jar");
             if (random.exists()) {
                 Core.verbose("Public random dependency already exists, no need to download it...");
                 return;
             }
+
             String downloadLink = Configuration.GET_RANDOMS;
+            if (Configuration.BOT_VERSION.isNightly()) {
+                downloadLink = Configuration.GET_RANDOMS + "?stable=false";
+            }
+
             WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,11 +1,11 @@
 package org.parabot.core.parsers.randoms;
 
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.io.NoProgressListener;
-import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -51,10 +51,7 @@ public class PublicRandoms extends RandomParser {
                 return;
             }
 
-            String downloadLink = Configuration.GET_RANDOMS;
-            if (Configuration.BOT_VERSION.isNightly()) {
-                downloadLink = Configuration.GET_RANDOMS + "?stable=false";
-            }
+            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + "?stable=false" : Configuration.GET_RANDOMS);
 
             WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {

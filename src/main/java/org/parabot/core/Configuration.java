@@ -24,6 +24,4 @@ public class Configuration extends org.parabot.api.Configuration {
     public static final String ITEM_API = DATA_API + "items/";
 
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
-
-    public static final String NIGHTLY_APPEND = "?nightly=true";
 }

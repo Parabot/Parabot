@@ -19,9 +19,11 @@ import java.net.URLClassLoader;
  */
 public class PublicRandoms extends RandomParser {
 
+    private String fileName = ((Configuration.BOT_VERSION.isNightly()) ? "randoms-nightly.jar" : "randoms.jar");
+
     @Override
     public void parse() {
-        File myJar = new File(Directories.getCachePath() + "/randoms.jar");
+        File myJar = new File(Directories.getCachePath() + File.separator + fileName);
         if (!myJar.exists() || !myJar.canRead()) {
             download();
         }
@@ -45,13 +47,13 @@ public class PublicRandoms extends RandomParser {
 
     private void download() {
         try {
-            File random = new File(Directories.getCachePath() + File.separator + "randoms.jar");
+            File random = new File(Directories.getCachePath() + File.separator + fileName);
             if (random.exists()) {
                 Core.verbose("Public random dependency already exists, no need to download it...");
                 return;
             }
 
-            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + "?stable=false" : Configuration.GET_RANDOMS);
+            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + Configuration.NIGHTLY_APPEND : Configuration.GET_RANDOMS);
 
             WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {

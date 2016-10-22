@@ -62,7 +62,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
 			} else {
 				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get(), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+						VerboseLoader.get());
 				Core.verbose("Server provider downloaded...");
 			}
 

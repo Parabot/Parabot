@@ -184,7 +184,7 @@ public class Core {
         try {
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                boolean latest = Boolean.parseBoolean((String) object.get("result"));
+                boolean latest = (Boolean) object.get("result");
                 if (!latest) {
                     Directories.clearCache();
                 }
@@ -233,7 +233,7 @@ public class Core {
         }
     }
 
-    public static void downloadNewVersion(){
+    public static void downloadNewVersion() {
         UILog.log(TranslationHelper.translate("UPDATES"),
                 TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
                         + Configuration.DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
@@ -265,7 +265,7 @@ public class Core {
                 Core.verbose("Updates available...");
                 return false;
             }
-        }else{
+        } else {
             Core.verbose("Validation disabled");
             return true;
         }

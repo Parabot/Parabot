@@ -1,12 +1,11 @@
 package org.parabot.core.parsers.randoms;
 
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.io.NoProgressListener;
-import org.parabot.core.io.ProgressListener;
-import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -20,9 +19,11 @@ import java.net.URLClassLoader;
  */
 public class PublicRandoms extends RandomParser {
 
+    private String fileName = ((Configuration.BOT_VERSION.isNightly()) ? "randoms-nightly.jar" : "randoms.jar");
+
     @Override
     public void parse() {
-        File myJar = new File(Directories.getCachePath() + "/randoms.jar");
+        File myJar = new File(Directories.getCachePath() + File.separator + fileName);
         if (!myJar.exists() || !myJar.canRead()) {
             download();
         }
@@ -46,12 +47,14 @@ public class PublicRandoms extends RandomParser {
 
     private void download() {
         try {
-            File random = new File(Directories.getCachePath() + "/randoms.jar");
+            File random = new File(Directories.getCachePath() + File.separator + fileName);
             if (random.exists()) {
                 Core.verbose("Public random dependency already exists, no need to download it...");
                 return;
             }
-            String downloadLink = Configuration.GET_RANDOMS;
+
+            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + Configuration.NIGHTLY_APPEND : Configuration.GET_RANDOMS);
+
             WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {
             e.printStackTrace();

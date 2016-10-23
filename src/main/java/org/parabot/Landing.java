@@ -33,6 +33,8 @@ public final class Landing {
 
         parseArgs(args);
 
+        Directories.validate();
+
         Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
 
         try {
@@ -47,9 +49,6 @@ public final class Landing {
             Core.downloadNewVersion();
             return;
         }
-
-        Core.verbose(TranslationHelper.translate("VALIDATING_DIRECTORIES"));
-        Directories.validate();
 
         Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
         AccountManager.validate();

@@ -1,11 +1,11 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.Context;
 import org.parabot.core.ui.components.GamePanel;
-import org.parabot.environment.scripts.uliratha.UlirathaClient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author JKetelaar
@@ -25,12 +25,22 @@ public class Logger extends JPanel {
         JScrollPane pane = new JScrollPane(list);
         add(pane, BorderLayout.CENTER);
 
+        JButton button = new JButton("Clear Logger");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearLogger();
+                addMessage("Logger initialised", false);
+            }
+        });
+        add(button, BorderLayout.SOUTH);
+
         list.setCellRenderer(getRenderer());
 
         model = new DefaultListModel<>();
         list.setModel(model);
         setPreferredSize(new Dimension((int) GamePanel.getInstance().getPreferredSize().getWidth(), 150));
-        model.addElement("Logger started");
+        model.addElement("Logger initialised");
         
         setVisible(false);
     }
@@ -63,10 +73,7 @@ public class Logger extends JPanel {
         instance.model.addElement(message);
 
         if (uliratha){
-            UlirathaClient client;
-            if ((client = Context.getInstance().getUlirathaClient()) != null) {
-                client.sendMessage(message);
-            }
+            // TODO: Implement latest Uliratha
         }
 
         int last = instance.list.getModel().getSize() - 1;

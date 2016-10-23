@@ -1,20 +1,21 @@
 package org.parabot.core;
 
-import com.bugsnag.BeforeNotify;
-import com.bugsnag.Client;
-import com.bugsnag.Error;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
+import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -27,7 +28,7 @@ import java.security.NoSuchAlgorithmException;
  */
 @SuppressWarnings("Duplicates")
 public class Core {
-	public static boolean mDebug;
+
     private static boolean debug;
     private static boolean verbose;
     private static boolean dump;
@@ -37,9 +38,6 @@ public class Core {
     private static boolean secure = true;
 
     private static Version currentVersion = Configuration.BOT_VERSION;
-    private static Version latestVersion;
-
-    private static Client bugsnagInstance;
 
     public static void disableValidation() {
         Core.validate = false;
@@ -80,21 +78,21 @@ public class Core {
      * @param dump
      */
     public static void setDump(final boolean dump) {
-    	Core.dump = dump;
+        Core.dump = dump;
     }
-    
-    public static void disableSec(){
-		UILog.log(
-				"Security Warning",
-				"Disabling the securty manager is ill advised.\n"
-						+ " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
-						+ "The security manager protects you from malicous code within the client, without it you are exposed!\n"
-						+ "\nPlease contact Parabot staff to resolve whatever problem you are having!");
-    	Core.secure = false;
+
+    public static void disableSec() {
+        UILog.log(
+                "Security Warning",
+                "Disabling the securty manager is ill advised.\n"
+                        + " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
+                        + "The security manager protects you from malicous code within the client, without it you are exposed!\n"
+                        + "\nPlease contact Parabot staff to resolve whatever problem you are having!");
+        Core.secure = false;
     }
-    
-    public static boolean isSecure(){
-    	return secure;
+
+    public static boolean isSecure() {
+        return secure;
     }
 
     /**
@@ -115,7 +113,7 @@ public class Core {
      * @return if parabot should dump injected jar
      */
     public static boolean shouldDump() {
-    	return dump;
+        return dump;
     }
 
     /**
@@ -135,9 +133,10 @@ public class Core {
 
     /**
      * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
+     *
      * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
      */
-	private static boolean checksumValid(){
+    private static boolean checksumValid() {
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
         if (f.isFile()) {
             try {
@@ -156,18 +155,14 @@ public class Core {
                     byte[] mdbytes = md.digest();
 
                     StringBuilder sb = new StringBuilder("");
-                    for (int i = 0; i < mdbytes.length; i++) {
-                        sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+                    for (byte mdbyte : mdbytes) {
+                        sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
                     }
 
                     String result;
-                    if ((result = WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/checksum", "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
+                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        if (!(boolean) object.get("result")){
-                            Core.verbose("Latest checksum: " + sb.toString());
-                            Core.verbose("Latest checksum: " + object.get("current"));
-                            return false;
-                        }
+                        return (boolean) object.get("result");
                     }
                 }
             } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
@@ -178,63 +173,24 @@ public class Core {
     }
 
     /**
-     * @Deprecated use #validVersion instead
-     *
-     * Checks the version of the bot using a variable comparison from the bot code and the Parabot website
-     *
-     * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
-     */
-    private static boolean versionValid(){
-        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
-        try {
-            String version = null;
-            if (br != null) {
-                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                version = (String) object.get("result");
-            }
-            if (version != null) {
-                if (!Configuration.BOT_VERSION.equals(version)) {
-                    Core.verbose("Our version: " + Configuration.BOT_VERSION);
-                    Core.verbose("Latest version: " + version);
-                    return false;
-                }
-            }
-        } catch (NumberFormatException | IOException | ParseException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Compares the latest version from the BDN and the current version
      *
      * @return True if the current version is equal or higher than the latest version, false if lower than the latest version
      */
     public static boolean validVersion() {
-        BufferedReader br = WebUtil.getReader(Configuration.GET_BOT_VERSION);
+        String url = String.format(Configuration.COMPARE_VERSION_URL, "client", currentVersion.get());
+
+        BufferedReader br = WebUtil.getReader(url);
         try {
-            latestVersion = null;
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                latestVersion = new Version((String) object.get("result"));
-            }
-            if (latestVersion != null) {
-                if (Configuration.BOT_VERSION.compareTo(latestVersion) < 0) {
-                    Core.verbose("Our version: " + Configuration.BOT_VERSION.get());
-                    Core.verbose("Latest version: " + latestVersion.get());
-                    return false;
+                boolean latest = (Boolean) object.get("result");
+                if (!latest) {
+                    Directories.clearCache();
                 }
+                return latest;
             }
-        } catch (NumberFormatException | IOException | ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -252,13 +208,13 @@ public class Core {
     /**
      * Validates the cache and removes the cache contents if required
      */
-    private static void validateCache(){
+    private static void validateCache() {
         File[] cache = Directories.getCachePath().listFiles();
         Integer lowest = null;
         if (cache != null) {
             for (File f : cache) {
-                int date = (int) (f.lastModified()/ 1000);
-                if (lowest == null || date < lowest){
+                int date = (int) (f.lastModified() / 1000);
+                if (lowest == null || date < lowest) {
                     lowest = date;
                 }
             }
@@ -266,14 +222,29 @@ public class Core {
 
         try {
             JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/cache", "date=" + lowest));
-            if ((boolean) object.get("result")){
+            if ((boolean) object.get("result")) {
                 Core.verbose("Making space for the latest cache files");
                 Directories.clearCache();
-            }else{
+            } else {
                 Core.verbose("Cache is up to date");
             }
         } catch (MalformedURLException | ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void downloadNewVersion() {
+        UILog.log(TranslationHelper.translate("UPDATES"),
+                TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
+                        + Configuration.DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
+                JOptionPane.INFORMATION_MESSAGE);
+        URI uri = URI.create(Configuration.API_DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""));
+        try {
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException e1) {
+            JOptionPane.showMessageDialog(null, TranslationHelper.translate("CONNECTION_ERROR"),
+                    TranslationHelper.translate("ERROR"), JOptionPane.ERROR_MESSAGE);
+            e1.printStackTrace();
         }
     }
 
@@ -286,43 +257,17 @@ public class Core {
         Core.verbose("Checking for updates...");
         validateCache();
 
-        setBugsnagVersion();
-
-        if ((validVersion() && checksumValid()) || (!checksumValid() && currentVersion.compareTo(latestVersion) >= 0)){
-            Core.verbose("No updates available.");
+        if (validate) {
+            if (validVersion() && checksumValid()) {
+                Core.verbose("No updates available.");
+                return true;
+            } else {
+                Core.verbose("Updates available...");
+                return false;
+            }
+        } else {
+            Core.verbose("Validation disabled");
             return true;
-        }else{
-            Core.verbose("Updates available...");
-            return false;
         }
-    }
-
-    public static void initiateBugsnagInstance() {
-        bugsnagInstance = new Client(Configuration.BUGSNAG_API);
-        bugsnagInstance.setSendThreads(true);
-    }
-
-    public static void setBugsnagVersion(){
-        Core.bugsnagInstance.setReleaseStage(currentVersion != latestVersion ? "development" : "production");
-    }
-
-    public static void setBugsnagUser(String id, String email, String username){
-        // TODO Check order of parameters
-        Core.bugsnagInstance.setUser(username, email, id);
-    }
-
-    public static void setBugsnagServer(String server){
-        Core.setBugsnagInformation("Server", "Server", server);
-    }
-
-    public static void setBugsnagInformation(String tab, String key, String value){
-        // TODO Should be checked if correct
-        Core.bugsnagInstance.addToTab(tab, key, value);
-    }
-
-    public static void debug(int i) {
-    	if(mDebug) {
-    		System.out.println("DEBUG: " + i);
-    	}
     }
 }

@@ -54,8 +54,7 @@ public class PublicServerExecuter extends ServerExecuter {
 			
 			final File destination = new File(Directories.getCachePath(),
 					serverProviderInfo.getCRC32() + ".jar");
-			final String jarUrl = Configuration.GET_SERVER_PROVIDER
-					+ this.serverName;
+			final String jarUrl = String.format(Configuration.GET_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
 
 			Core.verbose("Downloading: " + jarUrl + " ...");
 			
@@ -63,7 +62,7 @@ public class PublicServerExecuter extends ServerExecuter {
 				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
 			} else {
 				WebUtil.downloadFile(new URL(jarUrl), destination,
-						VerboseLoader.get(), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+						VerboseLoader.get());
 				Core.verbose("Server provider downloaded...");
 			}
 

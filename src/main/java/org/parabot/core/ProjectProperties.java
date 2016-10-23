@@ -21,7 +21,7 @@ public class ProjectProperties {
     private void setProperties() {
         InputStream input;
         try {
-            String propertiesFileName = "storage/app.properties";
+            String propertiesFileName = "storage/parabot.properties";
 
             input = getClass().getClassLoader()
                     .getResourceAsStream(propertiesFileName);

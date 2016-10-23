@@ -14,7 +14,7 @@ public class Timer {
 	/**
 	 * Timer Constructor
 	 * 
-	 * @param start
+	 * @param end
 	 */
 	public Timer(long end) {
 

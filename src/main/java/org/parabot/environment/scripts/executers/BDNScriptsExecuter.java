@@ -8,7 +8,6 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
-import org.parabot.environment.scripts.uliratha.UlirathaExecuter;
 
 import javax.swing.*;
 import java.lang.reflect.Constructor;
@@ -77,9 +76,6 @@ public class BDNScriptsExecuter extends ScriptExecuter {
 						script.setScriptID(this.id);
 						super.finalize(tg, script);
 
-						if (manager.getAccount().getApi() != null) {
-							new UlirathaExecuter(manager.getAccount().getApi()).start(this.id);
-						}
 					} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
 						UILog.log("Error", "Failed to load BDN script, error: [This server provider does not support this script]", JOptionPane.ERROR_MESSAGE);
 					} catch (Throwable t) {

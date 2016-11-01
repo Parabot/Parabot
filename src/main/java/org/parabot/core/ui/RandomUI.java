@@ -2,7 +2,7 @@ package org.parabot.core.ui;
 
 import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.environment.scripts.randoms.Random;
+import org.parabot.environment.randoms.Random;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

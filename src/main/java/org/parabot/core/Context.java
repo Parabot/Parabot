@@ -14,8 +14,8 @@ import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
+import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.scripts.Script;
-import org.parabot.environment.scripts.randoms.RandomHandler;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;

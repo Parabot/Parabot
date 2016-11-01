@@ -1,6 +1,5 @@
 package org.parabot.environment.randoms;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.Logger;
@@ -53,7 +52,7 @@ public class RandomHandler {
      */
     @Deprecated
     public void addRandom(org.parabot.environment.scripts.randoms.Random random) {
-        new InvalidArgumentException(new String[]{"This type of random is deprecated"}).printStackTrace();
+        new IllegalArgumentException("This type of random is deprecated").printStackTrace();
     }
 
     /**
@@ -126,7 +125,7 @@ public class RandomHandler {
      */
     @Deprecated
     public boolean checkAndRun() {
-        new InvalidArgumentException(new String[]{"This method is deprecated"}).printStackTrace();
+        new IllegalArgumentException("This method is deprecated").printStackTrace();
         return false;
     }
 

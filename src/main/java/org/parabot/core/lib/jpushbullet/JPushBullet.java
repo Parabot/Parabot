@@ -57,7 +57,7 @@ public class JPushBullet extends Library {
 
     @Override
     public boolean requiresJar() {
-        return false;
+        return true;
     }
 
     @Override

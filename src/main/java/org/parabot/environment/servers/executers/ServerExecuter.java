@@ -27,7 +27,8 @@ public abstract class ServerExecuter {
 					Context context = Context.getInstance(provider);
 					context.load();
 					PaintComponent.getInstance().startPainting(context);
-					RandomParser.enable();
+
+					Context.getInstance().getRandomHandler().init();
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}

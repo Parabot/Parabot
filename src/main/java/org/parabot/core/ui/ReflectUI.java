@@ -5,6 +5,7 @@ import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.reflect.RefClass;
 import org.parabot.core.reflect.RefField;
+import org.parabot.environment.api.utils.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -90,6 +91,8 @@ public class ReflectUI extends JFrame {
                         } else if (value.toLowerCase().startsWith(search.toLowerCase())) {
                             result = f;
                         } else if (value.toLowerCase().endsWith(search.toLowerCase())) {
+                            result = f;
+                        } else if (value.toLowerCase().contains(search.toLowerCase())){
                             result = f;
                         }
                     }
@@ -238,6 +241,13 @@ public class ReflectUI extends JFrame {
         builder.append("<b>Type: </b>").append(refField.getASMType().getClassName()).append("<br/>");
         builder.append("<b>Static: </b>").append(refField.isStatic() ? "yes" : "no").append("<br/>");
         builder.append("<b>Array: </b>").append(refField.isArray() ? refField.getArrayDimensions() + " dimension(s)" : "no").append("<br/>");
+
+        if (refField.isArray() && refField.getASMType().getClassName().contains("String") && refField.getArrayDimensions() == 1){
+            String[] strings = (String[]) refField.asObject();
+            String values = StringUtils.implode(", ", strings);
+
+            builder.append("<b>Values: </b>").append(values).append("<br/>");
+        }
         selectionInfoPane.setText(builder.toString());
 
         fillBasicInfoPane();

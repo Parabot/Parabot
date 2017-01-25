@@ -27,7 +27,10 @@ public class SystemRedirect {
         String value;
         switch (s) {
             case "user.home":
-                value = Directories.getHomeDir().getAbsolutePath();
+                value = Directories.getCachePath().getAbsolutePath();
+                break;
+            case "java.class.path":
+                value = ".";
                 break;
             default:
                 value = System.getProperty(s);
@@ -40,14 +43,20 @@ public class SystemRedirect {
         String value = null;
         switch (s2) {
             case "user.home":
-                value = Directories.getHomeDir().getAbsolutePath();
+                value = Directories.getCachePath().getAbsolutePath();
+                break;
+            case "java.class.path":
+                value = ".";
                 break;
         }
 
         if (value == null) {
             switch (s) {
                 case "user.home":
-                    value = Directories.getHomeDir().getAbsolutePath();
+                    value = Directories.getCachePath().getAbsolutePath();
+                    break;
+                case "java.class.path":
+                    value = ".";
                     break;
                 default:
                     value = System.getProperty(s);
@@ -62,18 +71,18 @@ public class SystemRedirect {
     }
 
     public static String setProperty(String s1, String s2) {
-        System.out.printf("SetSystemProp %s = %s", s1, s2);
+        System.out.printf("SetSystemProp %s = %s\n", s1, s2);
         return System.setProperty(s1, s2);
     }
 
     public static String getenv(String string) {
+        System.out.printf("getEnv %s = %s\n", string, System.getenv(string));
         return System.getenv(string);
     }
 
     public static void setOut(PrintStream printStream) {
 
     }
-
 
     public static void setErr(PrintStream printStream) {
 

@@ -92,7 +92,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
 		@Override
 		public void visitMethodInsn(int opcode, String owner, String name,
-									String desc) {
+									String desc, boolean itf) {
 			if (Core.isSecure()) {
 				if (redirects.containsKey(owner) && !name.equals("<init>")
 						&& !name.equals("<clinit>")) {
@@ -109,7 +109,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 				class_out.println(owner);
 			}
 
-			super.visitMethodInsn(opcode, owner, name, desc);
+			super.visitMethodInsn(opcode, owner, name, desc, itf);
 		}
 
 		@Override

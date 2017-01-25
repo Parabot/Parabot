@@ -11,8 +11,15 @@ public class RuntimeRedirect {
 	}
 	
 	public static int availableProcessors(Runtime r){
-		//lol faking it, fuck ikov
 		return 2;
+	}
+
+	public static long totalMemory(Runtime runtime){
+		return (long) 1024;
+	}
+
+	public static long freeMemory(Runtime runtime){
+		return (long) 1024;
 	}
 	
 	public static Process exec(Runtime r,String s){

@@ -21,6 +21,7 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getDeclaredField(s);
         }
+
         System.out.println(c.getName() + "." + c.getDeclaredField(s) + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
@@ -29,6 +30,7 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getDeclaredMethod(name, params);
         }
+
         System.out.println(c.getName() + "#" + c.getDeclaredMethod(name, params) + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }

@@ -1,86 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="500.0" prefHeight="503.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <TabPane>
-         <tabs>
-            <Tab closable="false" text="Scripts">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <top>
-                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <items>
-                              <TextField promptText="Search query" />
-                              <Separator prefHeight="30.0" prefWidth="25.0" visible="false" />
-                              <ComboBox prefWidth="150.0" promptText="Category" />
-                              <Separator prefHeight="30.0" prefWidth="25.0" visible="false" />
-                              <CheckBox mnemonicParsing="false" text="All servers" />
-                              <Separator prefHeight="30.0" prefWidth="25.0" visible="false" />
-                              <CheckBox mnemonicParsing="false" text="Include local scripts" />
-                              <Separator prefHeight="30.0" prefWidth="25.0" visible="false" />
-                              <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Search" />
-                           </items>
-                        </ToolBar>
-                     </top>
-                     <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="Name" />
-                            <TableColumn prefWidth="75.0" text="Category" />
-                              <TableColumn prefWidth="75.0" text="Price" />
-                          </columns>
-                           <contextMenu>
-                              <ContextMenu>
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="View information" />
-                                </items>
-                              </ContextMenu>
-                           </contextMenu>
-                        </TableView>
-                     </center>
-                     <bottom>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="735.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="Start" />
-                              <Separator prefHeight="4.0" prefWidth="35.0" visible="false" />
-                           </children>
-                        </HBox>
-                     </bottom>
-                  </BorderPane>
-               </content>
-            </Tab>
-            <Tab text="JKChicken">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
-   </center>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0"
+            minWidth="500.0"
+            prefHeight="503.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/8">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane>
+            <tabs>
+                <Tab closable="false" text="Scripts">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <top>
+                                <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <items>
+                                        <TextField promptText="Search query"/>
+                                        <Separator prefHeight="30.0" prefWidth="25.0" visible="false"/>
+                                        <ComboBox prefWidth="150.0" promptText="Category"/>
+                                        <Separator prefHeight="30.0" prefWidth="25.0" visible="false"/>
+                                        <CheckBox mnemonicParsing="false" text="All servers"/>
+                                        <Separator prefHeight="30.0" prefWidth="25.0" visible="false"/>
+                                        <CheckBox mnemonicParsing="false" text="Include local scripts"/>
+                                        <Separator prefHeight="30.0" prefWidth="25.0" visible="false"/>
+                                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Search"/>
+                                    </items>
+                                </ToolBar>
+                            </top>
+                            <center>
+                                <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                    <columns>
+                                        <TableColumn prefWidth="75.0" text="Name"/>
+                                        <TableColumn prefWidth="75.0" text="Category"/>
+                                        <TableColumn prefWidth="75.0" text="Price"/>
+                                    </columns>
+                                    <contextMenu>
+                                        <ContextMenu>
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="View information"/>
+                                            </items>
+                                        </ContextMenu>
+                                    </contextMenu>
+                                </TableView>
+                            </center>
+                            <bottom>
+                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="735.0"
+                                      BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0"
+                                                text="Start"/>
+                                        <Separator prefHeight="4.0" prefWidth="35.0" visible="false"/>
+                                    </children>
+                                </HBox>
+                            </bottom>
+                        </BorderPane>
+                    </content>
+                </Tab>
+                <Tab text="JKChicken">
+                    <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0"/>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
 </BorderPane>

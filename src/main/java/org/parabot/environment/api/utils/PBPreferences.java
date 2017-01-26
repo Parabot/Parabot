@@ -19,16 +19,14 @@ import java.util.Properties;
 public class PBPreferences {
 
     private static AccountManager manager;
-
-    private Properties properties;
-    private int scriptID;
-
     public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
         @Override
         public final void setManager(AccountManager manager) {
             PBPreferences.manager = manager;
         }
     };
+    private Properties properties;
+    private int scriptID;
 
     public PBPreferences(int scriptID) {
         this.scriptID = scriptID;
@@ -45,7 +43,7 @@ public class PBPreferences {
 
             JSONArray resultArray;
             if ((resultArray = ((JSONArray) result.get("result"))) != null) {
-                for(Object rObject : resultArray) {
+                for (Object rObject : resultArray) {
                     JSONObject resultObject = (JSONObject) rObject;
                     for (Object map : resultObject.entrySet()) {
                         Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) map;
@@ -60,6 +58,7 @@ public class PBPreferences {
 
     /**
      * Change a setting
+     *
      * @param key
      * @param value
      */
@@ -69,27 +68,30 @@ public class PBPreferences {
 
     /**
      * Get a setting value
+     *
      * @param key
      * @return
      */
-    public Object getSetting(Object key){
+    public Object getSetting(Object key) {
         return this.properties.get(key);
     }
 
     /**
      * Get a setting value as string
+     *
      * @param key
      * @return
      */
-    public String getSetting(String key){
+    public String getSetting(String key) {
         return this.properties.getProperty(key);
     }
 
     /**
      * Remove a setting
+     *
      * @param key
      */
-    public void removeSetting(Object key){
+    public void removeSetting(Object key) {
         try {
             JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(
                     WebUtil.getContents("http://bdn.parabot.org/api/v2/user/preferences/set/",
@@ -98,7 +100,7 @@ public class PBPreferences {
                                     "&script=" + String.valueOf(scriptID)
                     )
             );
-            if ((boolean)result.get("result")){
+            if ((boolean) result.get("result")) {
                 this.properties.remove(key);
             }
         } catch (ParseException | MalformedURLException | UnsupportedEncodingException e) {
@@ -108,10 +110,11 @@ public class PBPreferences {
 
     /**
      * Add a setting
+     *
      * @param key
      * @param value
      */
-    public void addSetting(Object key, Object value){
+    public void addSetting(Object key, Object value) {
         try {
             JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(
                     WebUtil.getContents("http://bdn.parabot.org/api/v2/user/preferences/set/",
@@ -121,7 +124,7 @@ public class PBPreferences {
                                     "&script=" + String.valueOf(scriptID)
                     )
             );
-            if ((boolean)result.get("result")){
+            if ((boolean) result.get("result")) {
                 this.properties.put(key, value);
             }
         } catch (ParseException | MalformedURLException | UnsupportedEncodingException e) {

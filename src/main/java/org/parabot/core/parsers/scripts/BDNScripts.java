@@ -40,7 +40,7 @@ public class BDNScripts extends ScriptParser {
         JSONParser parser = new JSONParser();
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SCRIPTS + Context.getInstance().getServerProviderInfo().getServerName()),
+                            Configuration.GET_SCRIPTS + Context.getInstance().getServerProviderInfo().getServerName()),
                     manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
 
             String line;

@@ -149,18 +149,6 @@ public class Script implements Runnable {
     }
 
     /**
-     * Sets the script's state
-     *
-     * @param state
-     */
-    public final void setState(final int state) {
-        if (state < 0 || state > 2) {
-            throw new IllegalArgumentException("Illegal state");
-        }
-        this.state = state;
-    }
-
-    /**
      * Sleeps for an amount of milliseconds
      *
      * @param ms
@@ -171,6 +159,18 @@ public class Script implements Runnable {
 
     public int getState() {
         return state;
+    }
+
+    /**
+     * Sets the script's state
+     *
+     * @param state
+     */
+    public final void setState(final int state) {
+        if (state < 0 || state > 2) {
+            throw new IllegalArgumentException("Illegal state");
+        }
+        this.state = state;
     }
 
     public PBPreferences getPreferences() {

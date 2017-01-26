@@ -25,7 +25,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 	static {
 		redirects.put("java/awt/Toolkit", ToolkitRedirect.class);
 		redirects.put("java/lang/Class", ClassRedirect.class);
-		redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
+//		redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
 		redirects.put("java/lang/Runtime", RuntimeRedirect.class);
 		redirects.put("java/lang/Thread", ThreadRedirect.class);
 		redirects.put("java/lang/StackTraceElement",

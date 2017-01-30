@@ -23,10 +23,7 @@ The nightly builds are automatically created from the last commits of the develo
 If you've an issues regarding the bot itself, please report them [here](https://github.com/Parabot/Parabot/issues).
 
 #### Maven
-Parabot supports Maven as of September 2015. All information is included in the POM.xml.
-The API that is supported by Parabot is also published on a Maven repository.
-
-To add the client as a library, you'll first have to add our repository:
+To add the client as a library, you'll first have to add our repository to your `pom.xml`:
 
 ```
     <repositories>
@@ -37,7 +34,9 @@ To add the client as a library, you'll first have to add our repository:
         </repository>
     </repositories>
 ```
-Then you'll need to add the dependency
+
+Then you'll need to add the dependency:
+
 ```
     <dependencies>
         <dependency>

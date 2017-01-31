@@ -6,8 +6,8 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
-import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.fonts.Fonts;
+import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
@@ -24,22 +24,13 @@ import java.awt.image.RescaleOp;
  * @author Everel, EmmaStone
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
+    public static final int STATE_LOADING = 1;
     private static final long serialVersionUID = 7412412644921803896L;
+    private static final int STATE_AUTHENTICATION = 0;
+    private static final int STATE_SERVER_SELECT = 2;
     private static VerboseLoader current;
     private static String state = "Initializing loader...";
-
-    private static final int STATE_AUTHENTICATION = 0;
-    public static final int STATE_LOADING = 1;
-    private static final int STATE_SERVER_SELECT = 2;
-    private int currentState;
-
     private static AccountManager manager;
-
-    private FontMetrics fontMetrics;
-    private BufferedImage background, banner, loginBox;
-    private ProgressBar progressBar;
-    private JPanel loginPanel;
-
     public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 
         @Override
@@ -48,6 +39,11 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
 
     };
+    private int currentState;
+    private FontMetrics fontMetrics;
+    private BufferedImage background, banner, loginBox;
+    private ProgressBar progressBar;
+    private JPanel loginPanel;
 
     private VerboseLoader(String username, String password) {
         if (current != null) {
@@ -75,6 +71,34 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         } else if (currentState == STATE_SERVER_SELECT) {
             addServerPanel();
         }
+    }
+
+    /**
+     * Gets instance of this panel
+     *
+     * @return instance of this panel
+     */
+    public static VerboseLoader get(String username, String password) {
+        return current == null ? new VerboseLoader(username, password) : current;
+    }
+
+    /**
+     * Gets instance of this panel
+     *
+     * @return instance of this panel
+     */
+    public static VerboseLoader get() {
+        return current == null ? new VerboseLoader(null, null) : current;
+    }
+
+    /**
+     * Updates the status message and repaints the panel
+     *
+     * @param message
+     */
+    public static void setState(final String message) {
+        state = message;
+        current.repaint();
     }
 
     public void addServerPanel() {
@@ -242,35 +266,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         g.drawString(version,
                 getWidth() - g.getFontMetrics().stringWidth(version) - 10,
                 getHeight() - 12);
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get(String username, String password) {
-        return current == null ? new VerboseLoader(username, password) : current;
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get() {
-        return current == null ? new VerboseLoader(null, null) : current;
-    }
-
-
-    /**
-     * Updates the status message and repaints the panel
-     *
-     * @param message
-     */
-    public static void setState(final String message) {
-        state = message;
-        current.repaint();
     }
 
     @Override

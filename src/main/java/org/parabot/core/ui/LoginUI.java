@@ -17,156 +17,154 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * 
  * Users must login with their parabot account through this LoginUI class
- * 
- * @author Everel
  *
+ * @author Everel
  */
 public class LoginUI extends JFrame {
-	private static final long serialVersionUID = 2032832552863466297L;
-	private static LoginUI instance;
-	private static AccountManager manager;
-	
-	private JTextField txtUsername;
-	private JPasswordField txtPassword;
-	private JButton cmdLogin;
-	private JButton cmdRegister;
+    private static final long serialVersionUID = 2032832552863466297L;
+    private static LoginUI instance;
+    private static AccountManager manager;
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JButton cmdLogin;
+    private JButton cmdRegister;
 
 
-	public void attemptLogin() {
-		String username = txtUsername.getText();
-		String password = new String(txtPassword.getPassword());
+    public LoginUI(String username, String password) {
+        instance = this;
+        attempt(username, password);
+    }
 
-		if (username.length() > 0 && password.length() > 0) {
-			if (manager.login(username, password, false)) {
-				Core.verbose("Logged in.");
-				instance.dispose();
-				Core.verbose("Running server selector.");
-				ServerSelector.getInstance();
-			} else {
-				Core.verbose("Failed to log in.");
-				UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
+    public LoginUI() {
+        instance = this;
 
-	private void attempt(String user, String pass) {
-		Core.verbose("Logging in...");
-		if (manager.login(user, pass, false)) {
-			Core.verbose("Logged in.");
-			instance.dispose();
-			Core.verbose("Running server selector.");
-			ServerSelector.getInstance();
-		} else {
-			Core.verbose("Failed to log in.");
-			UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
-		}
+        this.setTitle("Login");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationByPlatform(true);
+        this.setLayout(new BorderLayout());
+        this.setResizable(false);
 
-	}
+        SwingUtil.setParabotIcons(this);
 
-	public LoginUI(String username, String password) {
-		instance = this;
-		attempt(username, password);
-	}
+        int w = 250;
+        int x = 8;
+        int y = 64;
 
-	public LoginUI() {
-		instance = this;
+        JPanel panel = new JPanel() {
+            private static final long serialVersionUID = 2258761648532714183L;
 
-		this.setTitle("Login");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationByPlatform(true);
-		this.setLayout(new BorderLayout());
-		this.setResizable(false);
-		 
-		SwingUtil.setParabotIcons(this);
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ((Graphics2D) g).setRenderingHint(
+                        RenderingHints.KEY_INTERPOLATION,
+                        RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+                g.drawImage(Images
+                                .getResource("/storage/images/para.png"),
+                        0, 8, 250, 45, null);
+            }
+        };
+        panel.setLayout(null);
 
-		int w = 250;
-		int x = 8;
-		int y = 64;
+        txtUsername = new JTextField("");
+        txtUsername.setBounds(x, y, w - (x << 1), 26);
+        txtUsername.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
+                    txtPassword.requestFocus();
+                }
+            }
+        });
 
-		JPanel panel = new JPanel() {
-			private static final long serialVersionUID = 2258761648532714183L;
+        y += 30;
 
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				((Graphics2D) g).setRenderingHint(
-						RenderingHints.KEY_INTERPOLATION,
-						RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-				g.drawImage(Images
-						.getResource("/storage/images/para.png"),
-						0, 8, 250, 45, null);
-			}
-		};
-		panel.setLayout(null);
+        txtPassword = new JPasswordField("");
+        txtPassword.setBounds(x, y, w - (x << 1), 26);
+        txtPassword.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
+                    attemptLogin();
+                }
+            }
+        });
 
-		txtUsername = new JTextField("");
-		txtUsername.setBounds(x, y, w - (x << 1), 26);
-		txtUsername.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
-					txtPassword.requestFocus();
-				}
-			}
-		});
+        y += 30;
 
-		y += 30;
+        cmdLogin = new JButton("Login");
+        cmdLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                attemptLogin();
+            }
+        });
+        cmdLogin.setBounds(x, y, (w - (x << 1)) / 2 - 8, 24);
 
-		txtPassword = new JPasswordField("");
-		txtPassword.setBounds(x, y, w - (x << 1), 26);
-		txtPassword.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
-					attemptLogin();
-				}
-			}
-		});
+        cmdRegister = new JButton("Register");
+        cmdRegister.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                URI uri = URI
+                        .create(Configuration.REGISTRATION_PAGE);
+                try {
+                    Desktop.getDesktop().browse(uri);
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(null, "Connection Error",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+            }
+        });
+        cmdRegister.setBounds(x + (w - (x << 1)) / 2 + 8, y,
+                (w - (x << 1)) / 2 - 8, 24);
 
-		y += 30;
+        panel.add(txtUsername);
+        panel.add(txtPassword);
+        panel.add(cmdLogin);
+        panel.add(cmdRegister);
 
-		cmdLogin = new JButton("Login");
-		cmdLogin.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				attemptLogin();
-			}
-		});
-		cmdLogin.setBounds(x, y, (w - (x << 1)) / 2 - 8, 24);
+        this.add(panel, BorderLayout.CENTER);
 
-		cmdRegister = new JButton("Register");
-		cmdRegister.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				URI uri = URI
-						.create(Configuration.REGISTRATION_PAGE);
-				try {
-					Desktop.getDesktop().browse(uri);
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "Connection Error",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-			}
-		});
-		cmdRegister.setBounds(x + (w - (x << 1)) / 2 + 8, y,
-				(w - (x << 1)) / 2 - 8, 24);
+        this.setVisible(true);
+        this.requestFocus();
 
-		panel.add(txtUsername);
-		panel.add(txtPassword);
-		panel.add(cmdLogin);
-		panel.add(cmdRegister);
+        this.setSize(255, 182);
+        this.setLocationRelativeTo(null);
 
-		this.add(panel, BorderLayout.CENTER);
+    }
 
-		this.setVisible(true);
-		this.requestFocus();
+    public void attemptLogin() {
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
 
-		this.setSize(255, 182);
-		this.setLocationRelativeTo(null);
+        if (username.length() > 0 && password.length() > 0) {
+            if (manager.login(username, password, false)) {
+                Core.verbose("Logged in.");
+                instance.dispose();
+                Core.verbose("Running server selector.");
+                ServerSelector.getInstance();
+            } else {
+                Core.verbose("Failed to log in.");
+                UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
-	}
+    private void attempt(String user, String pass) {
+        Core.verbose("Logging in...");
+        if (manager.login(user, pass, false)) {
+            Core.verbose("Logged in.");
+            instance.dispose();
+            Core.verbose("Running server selector.");
+            ServerSelector.getInstance();
+        } else {
+            Core.verbose("Failed to log in.");
+            UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
 }

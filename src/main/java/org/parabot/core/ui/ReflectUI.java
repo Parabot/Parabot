@@ -92,7 +92,7 @@ public class ReflectUI extends JFrame {
                             result = f;
                         } else if (value.toLowerCase().endsWith(search.toLowerCase())) {
                             result = f;
-                        } else if (value.toLowerCase().contains(search.toLowerCase())){
+                        } else if (value.toLowerCase().contains(search.toLowerCase())) {
                             result = f;
                         }
                     }
@@ -242,7 +242,7 @@ public class ReflectUI extends JFrame {
         builder.append("<b>Static: </b>").append(refField.isStatic() ? "yes" : "no").append("<br/>");
         builder.append("<b>Array: </b>").append(refField.isArray() ? refField.getArrayDimensions() + " dimension(s)" : "no").append("<br/>");
 
-        if (refField.isArray() && refField.getASMType().getClassName().contains("String") && refField.getArrayDimensions() == 1){
+        if (refField.isArray() && refField.getASMType().getClassName().contains("String") && refField.getArrayDimensions() == 1) {
             String[] strings = (String[]) refField.asObject();
             String values = StringUtils.implode(", ", strings);
 

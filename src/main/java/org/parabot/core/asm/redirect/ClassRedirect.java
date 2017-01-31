@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 public class ClassRedirect {
 
     public static Object newInstance(Class<?> c) throws IllegalAccessException, InstantiationException {
-        if (validStack()){
+        if (validStack()) {
             return c.newInstance();
         }
         throw RedirectClassAdapter.createSecurityException();
@@ -61,7 +61,7 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Field[] getFields(Class<?> c){
+    public static Field[] getFields(Class<?> c) {
         if (validStack()) {
             return c.getFields();
         }
@@ -69,15 +69,15 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Annotation[] getAnnotations(Class<?> c){
-        if (validStack()){
+    public static Annotation[] getAnnotations(Class<?> c) {
+        if (validStack()) {
             return c.getAnnotations();
         }
         System.out.println(c.getName() + "#getFields()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method[] getMethods(Class<?> c){
+    public static Method[] getMethods(Class<?> c) {
         if (validStack()) {
             return c.getMethods();
         }

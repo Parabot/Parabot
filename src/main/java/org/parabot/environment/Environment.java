@@ -12,40 +12,38 @@ import java.util.LinkedList;
 
 
 /**
- * 
  * Initiliazes the bot environment
- * 
+ *
  * @author Everel
- * 
  */
 public class Environment {
 
-	/**
-	 * Loads a new environment
-	 * 
-	 * @param desc
-	 */
-	public static void load(final ServerDescription desc) {
-		
-		LinkedList<Library> libs = new LinkedList<>();
-		libs.add(new JavaFX());
-		
-		for(Library lib : libs) {
-			if (lib.requiresJar()) {
-				if (!lib.hasJar()) {
-					Core.verbose("Downloading " + lib.getLibraryName() + "...");
-					VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
-					WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
-					Core.verbose("Downloaded " + lib.getLibraryName() + ".");
-				}
-				Core.verbose("Initializing " + lib.getLibraryName());
-				lib.init();
-			}
-		}
-		
-		Core.verbose("Loading server: " + desc.toString() + "...");
+    /**
+     * Loads a new environment
+     *
+     * @param desc
+     */
+    public static void load(final ServerDescription desc) {
 
-		ServerParser.SERVER_CACHE.get(desc).run();
-		
-	}
+        LinkedList<Library> libs = new LinkedList<>();
+        libs.add(new JavaFX());
+
+        for (Library lib : libs) {
+            if (lib.requiresJar()) {
+                if (!lib.hasJar()) {
+                    Core.verbose("Downloading " + lib.getLibraryName() + "...");
+                    VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
+                    WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
+                    Core.verbose("Downloaded " + lib.getLibraryName() + ".");
+                }
+                Core.verbose("Initializing " + lib.getLibraryName());
+                lib.init();
+            }
+        }
+
+        Core.verbose("Loading server: " + desc.toString() + "...");
+
+        ServerParser.SERVER_CACHE.get(desc).run();
+
+    }
 }

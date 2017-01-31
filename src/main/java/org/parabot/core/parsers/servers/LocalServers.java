@@ -1,36 +1,23 @@
 package org.parabot.core.parsers.servers;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.parabot.core.Configuration;
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
-import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.desc.ServerProviderInfo;
-import org.parabot.core.ui.components.VerboseLoader;
-import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerManifest;
-import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.executers.LocalPublicServerExecuter;
 import org.parabot.environment.servers.executers.LocalServerExecuter;
-import org.parabot.environment.servers.executers.PublicServerExecuter;
 import org.parabot.environment.servers.loader.ServerLoader;
 
-import javax.swing.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 /**
  * Parses local server providers located in the servers directory
@@ -86,7 +73,7 @@ public class LocalServers extends ServerParser {
             }
         }
 
-        for (File file : Directories.listJSONFiles(Directories.getServerPath())){
+        for (File file : Directories.listJSONFiles(Directories.getServerPath())) {
             Core.verbose("[Local server in]: " + file.getName());
             try {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
@@ -96,7 +83,7 @@ public class LocalServers extends ServerParser {
                 String clientClass = (String) object.get("client-class");
                 Object bank;
                 int bankTabs = 0;
-                if ((bank = object.get("bank")) != null){
+                if ((bank = object.get("bank")) != null) {
                     bankTabs = (int) bank;
                 }
 

@@ -78,15 +78,6 @@ public class RandomHandler {
     }
 
     /**
-     * Sets the whole random arraylist to the arraylist given as argument
-     *
-     * @param randoms The new random arraylist
-     */
-    public void setRandoms(ArrayList<Random> randoms) {
-        this.randoms = randoms;
-    }
-
-    /**
      * Clears all added randoms
      */
     public void clearRandoms() {
@@ -131,6 +122,15 @@ public class RandomHandler {
 
     public ArrayList<Random> getRandoms() {
         return this.randoms;
+    }
+
+    /**
+     * Sets the whole random arraylist to the arraylist given as argument
+     *
+     * @param randoms The new random arraylist
+     */
+    public void setRandoms(ArrayList<Random> randoms) {
+        this.randoms = randoms;
     }
 
     public ArrayList<Random> getActiveRandoms() {

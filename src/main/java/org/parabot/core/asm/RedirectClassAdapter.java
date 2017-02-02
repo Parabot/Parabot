@@ -20,19 +20,18 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
 	private String className;
 
-	private static PrintStream str_out, class_out, dec_out;
+	private static PrintStream str_out, class_out;
 
 	static {
 		redirects.put("java/awt/Toolkit", ToolkitRedirect.class);
 		redirects.put("java/lang/Class", ClassRedirect.class);
-		redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
+//		redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
 		redirects.put("java/lang/Runtime", RuntimeRedirect.class);
 		redirects.put("java/lang/Thread", ThreadRedirect.class);
 		redirects.put("java/lang/StackTraceElement",
 				StackTraceElementRedirect.class);
 		redirects.put("java/lang/ProcessBuilder", ProcessBuilderRedirect.class);
 		redirects.put("java/lang/System", SystemRedirect.class);
-		redirects.put("java/io/File", FileRedirect.class);
 	}
 
 	public RedirectClassAdapter(ClassVisitor cv) {
@@ -40,31 +39,27 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 		if (str_out == null && Core.shouldDump())
 			try {
 				str_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"strings.txt")));
-				dec_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"decrypted_strings.txt")));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		if(class_out == null && Core.shouldDump())
 			try {
 				class_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(),"classes.txt")));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@Override
 	public void visit(int version, int access, String name, String signature,
-			String superName, String[] interfaces) {
+					  String superName, String[] interfaces) {
 		this.className = name;
 		super.visit(version, access, name, signature, superName, interfaces);
 		if(class_out != null) {
 			class_out.println(className + " References:");
 		}
 	}
-	
+
 	@Override
 	public void visitEnd(){
 		super.visitEnd();
@@ -76,7 +71,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc,
-			String signature, String[] exceptions) {
+									 String signature, String[] exceptions) {
 		return new ReflectionMethodVisitor(name, desc, super.visitMethod(
 				access, name, desc, signature, exceptions));
 	}
@@ -84,45 +79,43 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 	private class ReflectionMethodVisitor extends MethodVisitor {
 
 		public ReflectionMethodVisitor(String name, String desc,
-				MethodVisitor mv) {
+									   MethodVisitor mv) {
 			super(ASM5, mv);
 		}
 
 		@Override
 		public void visitLdcInsn(Object o) {
-				if (o instanceof String && str_out != null) {
-					str_out.println(className + " " + o);
-					if (!className.toLowerCase().contains("parabot")) {
-						dec_out.println(o + ":");
-						dec_out.println();
-					}
-				}
+			if (o instanceof String && str_out != null) {
+				str_out.println(className + " " + o);
+			}
 			super.visitLdcInsn(o);
 		}
 
 		@Override
 		public void visitMethodInsn(int opcode, String owner, String name,
-				String desc) {
+									String desc, boolean itf) {
 			if (Core.isSecure()) {
 				if (redirects.containsKey(owner) && !name.equals("<init>")
 						&& !name.equals("<clinit>")) {
-					if (opcode != INVOKESTATIC)
+					if (opcode != INVOKESTATIC) {
 						desc = "(L" + owner + ";" + desc.substring(1);
+					}
 					opcode = INVOKESTATIC;
 					owner = redirects.get(owner).getName()
 							.replaceAll("\\.", "/");
 				}
 			}
-			
-			if(class_out != null)
-				class_out.println(owner);
 
-			super.visitMethodInsn(opcode, owner, name, desc);
+			if(class_out != null) {
+				class_out.println(owner);
+			}
+
+			super.visitMethodInsn(opcode, owner, name, desc, itf);
 		}
-		
+
 		@Override
 		public void visitFieldInsn(int opcode, String owner, String name,
-				String desc){
+								   String desc){
 			if (Core.isSecure() && (opcode == GETSTATIC || opcode == PUTSTATIC)) {
 				if (redirects.containsKey(owner)) {
 					owner = redirects.get(owner).getName()
@@ -133,7 +126,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 				class_out.println(owner);
 			super.visitFieldInsn(opcode, owner, name, desc);
 		}
-		
+
 	}
 
 	public static SecurityException createSecurityException() {

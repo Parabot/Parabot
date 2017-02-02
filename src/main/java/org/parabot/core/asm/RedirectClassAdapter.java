@@ -55,8 +55,9 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 					  String superName, String[] interfaces) {
 		this.className = name;
 		super.visit(version, access, name, signature, superName, interfaces);
-		if(class_out != null)
+		if(class_out != null) {
 			class_out.println(className + " References:");
+		}
 	}
 
 	@Override

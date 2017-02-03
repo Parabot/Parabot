@@ -6,9 +6,9 @@ package org.parabot.environment.randoms;
 public enum RandomType {
 
     SCRIPT(0, "Script"),
-    ON_SCRIPT_START(0, "On script start"),
-    ON_SERVER_START(0, "On server start"),
-    ON_SCRIPT_FINISH(0, "On script finish");
+    ON_SCRIPT_START(1, "On script start"),
+    ON_SERVER_START(2, "On server start"),
+    ON_SCRIPT_FINISH(3, "On script finish");
 
     private int id;
     private String name;

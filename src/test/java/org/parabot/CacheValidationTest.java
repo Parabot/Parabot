@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * @author JKetelaar
  */
-public class CacheValidation {
+public class CacheValidationTest {
 
     @Test
     public void test(){

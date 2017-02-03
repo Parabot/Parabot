@@ -210,17 +210,8 @@ public class Core {
      * Method that removes the cache contents after 3 days
      */
     private static void validateCache() {
-        File[] cache = Directories.getCachePath().listFiles();
-
-        if (cache != null) {
-            for (File f : cache) {
-                long age = new Date().getTime() - f.lastModified();
-
-                if (age > 3 * 24 * 60 * 60 * 1000) {
-                    f.delete();
-                }
-            }
-        }
+        // Already handled by Directories initiating
+        // Method will be used once BDN V3 has a functionality for this
     }
 
     public static void downloadNewVersion() {

@@ -12,9 +12,7 @@ before_install:
 install:
   - sudo apt-get update && sudo apt-get --assume-yes install zip unzip
 
-script:
-  - mvn test
-  - "./.travis/maven-build.sh"
+script: "./.travis/maven-build.sh"
 
 after_deploy: "./.travis/call-creation.sh"
 

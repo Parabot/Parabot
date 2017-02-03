@@ -13,22 +13,18 @@ import java.io.IOException;
 public class CacheValidationTest {
 
     @Test
-    public void test(){
-        try {
-            File fileOne = new File(Directories.getCachePath(), "should-exist.tmp");
-            File fileTwo = new File(Directories.getCachePath(), "should-not-exist.tmp");
+    public void test() throws IOException {
+        File fileOne = new File(Directories.getCachePath(), "should-exist.tmp");
+        File fileTwo = new File(Directories.getCachePath(), "should-not-exist.tmp");
 
-            fileOne.createNewFile();
-            fileTwo.createNewFile();
+        fileOne.createNewFile();
+        fileTwo.createNewFile();
 
-            fileTwo.setLastModified(System.currentTimeMillis() / 1000 - 350000);
+        fileTwo.setLastModified(System.currentTimeMillis() / 1000 - 350000);
 
-            Directories.clearCache(259200, false);
+        Directories.clearCache(259200, false);
 
-            Assert.assertTrue(fileOne.exists());
-            Assert.assertTrue(!fileTwo.exists());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Assert.assertTrue(fileOne.exists());
+        Assert.assertTrue(!fileTwo.exists());
     }
 }

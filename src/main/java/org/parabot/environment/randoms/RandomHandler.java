@@ -109,7 +109,12 @@ public class RandomHandler {
         for (Random r : this.activeRandoms) {
             if (r.getRandomType().getId() == type.getId() && r.activate()) {
                 Logger.addMessage("Running random '" + r.getName() + "'", true);
-                r.execute();
+                try {
+                    r.execute();
+                }catch (Exception e){
+                    Logger.addMessage("Random failed: '" + r.getName() + "'", false);
+                    e.printStackTrace();
+                }
                 return true;
             }
         }

@@ -3,23 +3,28 @@
 
 # Parabot
 
-Parabot V2.6.2.
+Parabot V2.6.3.
 
-#### Website
+#### Links
 
-[Community, scripts & more](http://www.parabot.org/)
+[Website](http://www.parabot.org/)
+
+[Download latest version](http://v3.bdn.parabot.org/api/bot/download/client)
 
 #### Compilation
-You'll need the [libraries](https://github.com/Parabot/Parabot/tree/master/libs) in order to compile parabot successfully.
-The POM file contains the redirection to the libraries, so simply install them with Maven.
+Build the project with the Maven POM file to have all required libraries installed.
+
+#### Automation
+Every stable build is automatically generated from the last commits of the master branch. This will take the version from both the `pom.xml` and the version in `.travis.yml`.
+
+The nightly builds are automatically created from the last commits of the development branch. This will take the version from both the `pom.xml` and the version in `.travis.yml`, together with the build ID from travis.
 
 #### Issues
 If you've an issues regarding the bot itself, please report them [here](https://github.com/Parabot/Parabot/issues).
 
 #### Maven
-Parabot supports Maven as of September 2015. All information is included in the POM.xml.
-The API that is supported by Parabot is also published on a Maven repository.
-If you'd like to have either or both the client and the API in your project, use the following repository and dependecy tags:
+To add the client as a library, you'll first have to add our repository to your `pom.xml`:
+
 ```
     <repositories>
         <repository>
@@ -28,22 +33,19 @@ If you'd like to have either or both the client and the API in your project, use
             <url>https://maven.parabot.org/</url>
         </repository>
     </repositories>
+```
 
+Then you'll need to add the dependency:
+
+```
     <dependencies>
         <dependency>
             <groupId>org.parabot</groupId>
             <artifactId>client</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.parabot</groupId>
-            <artifactId>317provider</artifactId>
-            <version>1.14</version>
+            <version>2.6.3</version>
         </dependency>
     </dependencies>
 ```
-**For the latest versions of our dependencies, please check our examples on [the Maven Repository](https://github.com/Parabot/Maven-Repository/tree/master/examples)**
-
 
 #### Labels
 Labels are created with [GHLabel](https://github.com/jimmycuadra/ghlabel), whereas the yml is located in the .github directory

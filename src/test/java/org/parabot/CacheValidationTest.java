@@ -14,6 +14,8 @@ public class CacheValidationTest {
 
     @Test
     public void test() throws IOException {
+        Directories.validate();
+
         File fileOne = new File(Directories.getCachePath(), "should-exist.tmp");
         File fileTwo = new File(Directories.getCachePath(), "should-not-exist.tmp");
 

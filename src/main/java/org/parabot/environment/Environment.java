@@ -12,40 +12,49 @@ import java.util.LinkedList;
 
 
 /**
- * 
- * Initiliazes the bot environment
- * 
- * @author Everel
- * 
+ * Initializes the bot environment
+ *
+ * @author Everel, JKetelaar
  */
 public class Environment {
 
-	/**
-	 * Loads a new environment
-	 * 
-	 * @param desc
-	 */
-	public static void load(final ServerDescription desc) {
-		
-		LinkedList<Library> libs = new LinkedList<>();
-		libs.add(new JavaFX());
-		
-		for(Library lib : libs) {
-			if (lib.requiresJar()) {
-				if (!lib.hasJar()) {
-					Core.verbose("Downloading " + lib.getLibraryName() + "...");
-					VerboseLoader.setState("Downloading " + lib.getLibraryName() + "...");
-					WebUtil.downloadFile(lib.getDownloadLink(), lib.getJarFile(), VerboseLoader.get());
-					Core.verbose("Downloaded " + lib.getLibraryName() + ".");
-				}
-				Core.verbose("Initializing " + lib.getLibraryName());
-				lib.init();
-			}
-		}
-		
-		Core.verbose("Loading server: " + desc.toString() + "...");
+    /**
+     * Loads a new environment
+     *
+     * @param desc
+     */
+    public static void load(final ServerDescription desc) {
 
-		ServerParser.SERVER_CACHE.get(desc).run();
-		
-	}
+        LinkedList<Library> libs = new LinkedList<>();
+        libs.add(new JavaFX());
+
+        for (Library lib : libs) {
+            loadLibrary(lib, true);
+        }
+
+        Core.verbose("Loading server: " + desc.toString() + "...");
+
+        ServerParser.SERVER_CACHE.get(desc).run();
+    }
+
+    /**
+     * Loads library into environment
+     *
+     * @param library
+     * @param verboseLoader defines if verboseLoader should be enabled
+     */
+    public static void loadLibrary(Library library, boolean verboseLoader) {
+        if (library.requiresJar()) {
+            if (!library.hasJar()) {
+                Core.verbose("Downloading " + library.getLibraryName() + "...");
+                if (verboseLoader) {
+                    VerboseLoader.setState("Downloading " + library.getLibraryName() + "...");
+                }
+                WebUtil.downloadFile(library.getDownloadLink(), library.getJarFile(), VerboseLoader.get());
+                Core.verbose("Downloaded " + library.getLibraryName() + ".");
+            }
+            Core.verbose("Initializing " + library.getLibraryName());
+            library.init();
+        }
+    }
 }

@@ -16,7 +16,13 @@ import java.util.LinkedList;
  *
  * @author Everel, JKetelaar
  */
-public class Environment {
+public class Environment extends org.parabot.api.io.libraries.Environment {
+
+    private static LinkedList<Library> libs = new LinkedList<>();
+
+    static {
+        libs.add(new JavaFX());
+    }
 
     /**
      * Loads a new environment
@@ -24,10 +30,6 @@ public class Environment {
      * @param desc
      */
     public static void load(final ServerDescription desc) {
-
-        LinkedList<Library> libs = new LinkedList<>();
-        libs.add(new JavaFX());
-
         for (Library lib : libs) {
             loadLibrary(lib, true);
         }

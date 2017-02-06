@@ -1,5 +1,6 @@
 package org.parabot.core.lib.jpushbullet;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
@@ -48,7 +49,7 @@ public class JPushBullet extends Library {
     @Override
     public URL getDownloadLink() {
         try {
-            return new URL("https://github.com/silk8192/jpushbullet/releases/download/1.0/jpushbullet-1.0.jar");
+            return new URL(Configuration.LIBRARIES_DOWNLOAD + "/JPushBullet");
         } catch (Throwable t) {
             t.printStackTrace();
         }

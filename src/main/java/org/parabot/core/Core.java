@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**
  * The core of parabot
@@ -206,31 +207,11 @@ public class Core {
     }
 
     /**
-     * Validates the cache and removes the cache contents if required
+     * Method that removes the cache contents after 3 days
      */
     private static void validateCache() {
-        File[] cache = Directories.getCachePath().listFiles();
-        Integer lowest = null;
-        if (cache != null) {
-            for (File f : cache) {
-                int date = (int) (f.lastModified() / 1000);
-                if (lowest == null || date < lowest) {
-                    lowest = date;
-                }
-            }
-        }
-
-        try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getContents("http://bdn.parabot.org/api/v2/bot/cache", "date=" + lowest));
-            if ((boolean) object.get("result")) {
-                Core.verbose("Making space for the latest cache files");
-                Directories.clearCache();
-            } else {
-                Core.verbose("Cache is up to date");
-            }
-        } catch (MalformedURLException | ParseException e) {
-            e.printStackTrace();
-        }
+        // Already handled by Directories initiating
+        // Method will be used once BDN V3 has a functionality for this
     }
 
     public static void downloadNewVersion() {

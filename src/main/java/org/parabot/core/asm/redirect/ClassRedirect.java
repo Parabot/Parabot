@@ -1,5 +1,6 @@
 package org.parabot.core.asm.redirect;
 
+import org.parabot.core.Core;
 import org.parabot.core.asm.RedirectClassAdapter;
 import org.parabot.environment.scripts.Script;
 
@@ -11,9 +12,11 @@ import java.lang.reflect.Method;
 public class ClassRedirect {
 
     public static Object newInstance(Class<?> c) throws IllegalAccessException, InstantiationException {
-        if (validStack()){
+        if (validStack()) {
             return c.newInstance();
         }
+
+        System.err.println(c.getName() + ".newInstance() Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -22,7 +25,7 @@ public class ClassRedirect {
             return c.getDeclaredField(s);
         }
 
-        System.out.println(c.getName() + "." + c.getDeclaredField(s) + " Blocked.");
+        System.err.println(c.getName() + "." + c.getDeclaredField(s) + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -31,17 +34,20 @@ public class ClassRedirect {
             return c.getDeclaredMethod(name, params);
         }
 
-        System.out.println(c.getName() + "#" + c.getDeclaredMethod(name, params) + " Blocked.");
+        System.err.println(c.getName() + "#" + c.getDeclaredMethod(name, params) + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
     public static Class<?> forName(String name) throws ClassNotFoundException {
-        if (name.contains("parabot"))
+        if (name.contains("parabot")) {
             throw new ClassNotFoundException();
+        }
+        Core.verbose("Received #forName(" + name + ") call");
         return Class.forName(name);
     }
 
     public static ClassLoader getClassLoader(Class<?> c) {
+        System.err.println(c.getName() + "#getClassLoader()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -49,7 +55,7 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getDeclaredFields();
         }
-        System.out.println(c.getName() + "#getDeclaredFields()" + " Blocked.");
+        System.err.println(c.getName() + "#getDeclaredFields()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -57,31 +63,31 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getDeclaredMethods();
         }
-        System.out.println(c.getName() + "#getDeclaredMethods()" + " Blocked.");
+        System.err.println(c.getName() + "#getDeclaredMethods()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Field[] getFields(Class<?> c){
+    public static Field[] getFields(Class<?> c) {
         if (validStack()) {
             return c.getFields();
         }
-        System.out.println(c.getName() + "#getFields()" + " Blocked.");
+        System.err.println(c.getName() + "#getFields()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Annotation[] getAnnotations(Class<?> c){
-        if (validStack()){
+    public static Annotation[] getAnnotations(Class<?> c) {
+        if (validStack()) {
             return c.getAnnotations();
         }
-        System.out.println(c.getName() + "#getFields()" + " Blocked.");
+        System.err.println(c.getName() + "#getFields()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method[] getMethods(Class<?> c){
+    public static Method[] getMethods(Class<?> c) {
         if (validStack()) {
             return c.getMethods();
         }
-        System.out.println(c.getName() + "#getMethods()" + " Blocked.");
+        System.err.println(c.getName() + "#getMethods()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -89,7 +95,7 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getMethod(name, params);
         }
-        System.out.println(c.getName() + "#getMethod()" + " Blocked.");
+        System.err.println(c.getName() + "#getMethod()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
@@ -98,13 +104,14 @@ public class ClassRedirect {
         if (validStack()) {
             return c.getField(name);
         }
-        System.out.println(c.getName() + "#getField()" + " Blocked.");
+        System.err.println(c.getName() + "#getField()" + " Blocked.");
         throw RedirectClassAdapter.createSecurityException();
     }
 
     public static String getName(Class<?> c) {
-        if (c.getName().contains("parabot"))
+        if (c.getName().contains("parabot")) {
             return "java.lang.String";
+        }
         return c.getName();
     }
 

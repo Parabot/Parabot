@@ -26,14 +26,12 @@ public class SystemRedirect {
     public static String getProperty(String s) {
         String value;
         switch (s) {
-            case "user.home":
-                value = Directories.getCachePath().getAbsolutePath();
-                break;
             case "java.class.path":
                 value = ".";
                 break;
             default:
                 value = System.getProperty(s);
+                break;
         }
         System.out.printf("GetSystemProp %s = %s\n", s, value);
         return value;
@@ -42,9 +40,6 @@ public class SystemRedirect {
     public static String getProperty(String s, String s2) {
         String value = null;
         switch (s2) {
-            case "user.home":
-                value = Directories.getCachePath().getAbsolutePath();
-                break;
             case "java.class.path":
                 value = ".";
                 break;
@@ -52,14 +47,12 @@ public class SystemRedirect {
 
         if (value == null) {
             switch (s) {
-                case "user.home":
-                    value = Directories.getCachePath().getAbsolutePath();
-                    break;
                 case "java.class.path":
                     value = ".";
                     break;
                 default:
                     value = System.getProperty(s);
+                    break;
             }
         }
         System.out.printf("GetSystemProp %s = %s\n", s, value);

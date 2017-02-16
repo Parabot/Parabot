@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0"
+            prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.parabot.core.ui.components.notifications.NotificationUIController">
+    <bottom>
+        <Button mnemonicParsing="false" text="Save" BorderPane.alignment="CENTER" onAction="#save">
+            <BorderPane.margin>
+                <Insets bottom="10.0" top="10.0"/>
+            </BorderPane.margin>
+        </Button>
+    </bottom>
+    <left>
+        <ListView fx:id="availableTypes" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <right>
+        <ListView fx:id="enabledTypes" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+    </right>
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#enableType" text="&gt;&gt;"/>
+                <Separator orientation="VERTICAL" prefHeight="40.0" prefWidth="0.0" visible="false"/>
+                <Button mnemonicParsing="false" onAction="#disableType" text="&lt;&lt;"/>
+            </children>
+        </VBox>
+    </center>
+    <top>
+        <Separator orientation="VERTICAL" prefHeight="7.0" prefWidth="15.0" visible="false"
+                   BorderPane.alignment="CENTER"/>
+    </top>
+</BorderPane>

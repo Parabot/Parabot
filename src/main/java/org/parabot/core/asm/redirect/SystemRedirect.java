@@ -1,5 +1,6 @@
 package org.parabot.core.asm.redirect;
 
+import org.parabot.core.Core;
 import org.parabot.core.Directories;
 
 import java.io.InputStream;
@@ -33,7 +34,8 @@ public class SystemRedirect {
                 value = System.getProperty(s);
                 break;
         }
-        System.out.printf("GetSystemProp %s = %s\n", s, value);
+
+        Core.verbose(String.format("GetSystemProp %s = %s\n", s, value));
         return value;
     }
 
@@ -55,7 +57,8 @@ public class SystemRedirect {
                     break;
             }
         }
-        System.out.printf("GetSystemProp %s = %s\n", s, value);
+
+        Core.verbose(String.format("GetSystemProp %s = %s\n", s, value));
         return value;
     }
 
@@ -64,12 +67,12 @@ public class SystemRedirect {
     }
 
     public static String setProperty(String s1, String s2) {
-        System.out.printf("SetSystemProp %s = %s\n", s1, s2);
+        Core.verbose(String.format("SetSystemProp %s = %s\n", s1, s2));
         return System.setProperty(s1, s2);
     }
 
     public static String getenv(String string) {
-        System.out.printf("getEnv %s = %s\n", string, System.getenv(string));
+        Core.verbose(String.format("getEnv %s = %s\n", string, System.getenv(string)));
         return System.getenv(string);
     }
 

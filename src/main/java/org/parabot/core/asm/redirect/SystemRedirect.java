@@ -35,7 +35,7 @@ public class SystemRedirect {
                 break;
         }
 
-        Core.verbose(String.format("GetSystemProp %s = %s\n", s, value));
+        Core.verbose(String.format("GetSystemProp %s = %s", s, value));
         return value;
     }
 
@@ -58,7 +58,7 @@ public class SystemRedirect {
             }
         }
 
-        Core.verbose(String.format("GetSystemProp %s = %s\n", s, value));
+        Core.verbose(String.format("GetSystemProp %s = %s", s, value));
         return value;
     }
 
@@ -67,12 +67,12 @@ public class SystemRedirect {
     }
 
     public static String setProperty(String s1, String s2) {
-        Core.verbose(String.format("SetSystemProp %s = %s\n", s1, s2));
+        Core.verbose(String.format("SetSystemProp %s = %s", s1, s2));
         return System.setProperty(s1, s2);
     }
 
     public static String getenv(String string) {
-        Core.verbose(String.format("getEnv %s = %s\n", string, System.getenv(string)));
+        Core.verbose(String.format("getEnv %s = %s", string, System.getenv(string)));
         return System.getenv(string);
     }
 

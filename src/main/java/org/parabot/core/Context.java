@@ -164,7 +164,6 @@ public class Context {
      * Loads the game
      */
     public void load() {
-        BotUI.getInstance().getJMenuBar().remove(2);
         Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
         serverProvider.init();
         serverProvider.parseJar();

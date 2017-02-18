@@ -86,7 +86,6 @@ public class Logger extends JPanel {
     }
 
     /**
-     * @deprecated
      * @param message
      */
     public static void addMessage(String message){

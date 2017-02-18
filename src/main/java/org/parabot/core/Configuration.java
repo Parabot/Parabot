@@ -23,5 +23,7 @@ public class Configuration extends org.parabot.api.Configuration {
     public static final String DATA_API = "http://bdn.parabot.org/api/v2/data/";
     public static final String ITEM_API = DATA_API + "items/";
 
+    public static final String VALID_OAUTH_CHECK = V3_API_ENDPOINT + "users/oauth/v2/valid";
+
     public static final Version BOT_VERSION = ProjectProperties.getProjectVersion();
 }

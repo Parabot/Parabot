@@ -12,10 +12,7 @@ import org.parabot.environment.api.utils.WebUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 
 /**
  * @author JKetelaar, Capslock
@@ -113,28 +110,17 @@ public class UserAuthenticator {
         return false;
     }
 
-    public void forumLogin() {
-        String url;
-        try {
-            url = String.format(APIConfiguration.USERS_LOGIN, URLEncoder.encode(APIConfiguration.CLOSE_PAGE, "UTF-8"));
-
-            URI uri = URI.create(url);
-            try {
-                Desktop.getDesktop().browse(uri);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, String.format("Please open %s manually", url),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
     private AuthorizationCode getAuthorizationCodes(String parameters) {
         try {
             URL url1 = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
-            return AuthorizationCode.readResponse(WebUtil.getConnection(url1, parameters));
+            URLConnection connection = WebUtil.getConnection(url1);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            wr.write(parameters);
+            wr.flush();
+            wr.close();
+            return AuthorizationCode.readResponse(connection);
         } catch (IOException e) {
             e.printStackTrace();
         }

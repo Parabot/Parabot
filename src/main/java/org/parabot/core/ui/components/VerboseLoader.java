@@ -2,6 +2,7 @@ package org.parabot.core.ui.components;
 
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
+import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
@@ -108,7 +109,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (new UserAuthenticator("27_3esr3gc8g8ow088k0c0kckcg84gssgkc8gsgo040owgkg8owkg").login()){
+                if (new UserAuthenticator(APIConfiguration.OAUTH_CLIENT_ID).login()){
                     switchState(STATE_SERVER_SELECT);
                 }
             }

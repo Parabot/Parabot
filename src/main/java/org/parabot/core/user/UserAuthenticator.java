@@ -1,14 +1,17 @@
 package org.parabot.core.user;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.parabot.api.io.Directories;
+import org.parabot.core.Core;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -19,8 +22,8 @@ import java.net.URLEncoder;
 public class UserAuthenticator {
 
     private final String clientId;
-
     private AuthorizationCode authorizationCode;
+    private static final String closeURL = "http://local.v3.bdn.parabot.org:88/app_dev.php/close";
 
     public UserAuthenticator(String clientId) {
         this.clientId = clientId;
@@ -36,9 +39,15 @@ public class UserAuthenticator {
 
     private boolean validateAccessToken(String accessToken) {
         try {
-            JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getReader("http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/valid?access_token=" + accessToken));
-            if ((boolean) result.get("result")) {
-                return true;
+            HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL("http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/valid?access_token=" + accessToken));
+            if (urlConnection != null && urlConnection.getResponseCode() == 200) {
+                BufferedReader bufferedReader = WebUtil.getReader(urlConnection);
+                if (bufferedReader != null) {
+                    JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(bufferedReader);
+                    if ((boolean) result.get("result")) {
+                        return true;
+                    }
+                }
             }
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -57,7 +66,50 @@ public class UserAuthenticator {
         return true;
     }
 
+    private void writeTokens(AuthorizationCode code) {
+        JSONObject object = new JSONObject();
+        object.put("access_token", code.getAccessToken());
+        object.put("refresh_token", code.getRefreshToken());
+
+        try (FileWriter fileWriter = new FileWriter(Directories.getSettingsPath() + "/account.json")) {
+            fileWriter.write(object.toJSONString());
+            fileWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean readTokens() {
+        JSONParser parser = WebUtil.getJsonParser();
+
+        try {
+            File file = new File(Directories.getSettingsPath() + "/account.json");
+            if (file.exists()) {
+                Object obj = parser.parse(new FileReader(file));
+
+                JSONObject object = (JSONObject) obj;
+
+                String accessToken = (String) object.get("access_token");
+                String refreshToken = (String) object.get("refresh_token");
+
+                AuthorizationCode code = new AuthorizationCode(accessToken, refreshToken);
+
+                if (this.validateAccessToken(code.getAccessToken())) {
+                    return true;
+                } else {
+                    code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, "refresh_token", code.getRefreshToken(), closeURL));
+                    if (code != null && code.getAccessToken() != null) {
+                        if (this.validateAccessToken(code.getAccessToken())) {
+                            this.writeTokens(code);
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -65,7 +117,7 @@ public class UserAuthenticator {
 //        String url = Configuration.V3_API_ENDPOINT + "users/connect/forums?after_login_redirect" + "http://local.v3.bdn.parabot.org:88/app_dev.php/close";
         String url;
         try {
-            url = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/log_in?after_login_redirect=" + URLEncoder.encode("http://local.v3.bdn.parabot.org:88/app_dev.php/close", "UTF-8");
+            url = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/log_in?after_login_redirect=" + URLEncoder.encode(closeURL, "UTF-8");
 
             URI uri = URI.create(url);
             try {
@@ -112,12 +164,16 @@ public class UserAuthenticator {
             String closeURL = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/copy";
 
             AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, grandType, code, closeURL));
+            if (c != null && c.getAccessToken() != null) {
 
-            if (this.validateAccessToken(c.getAccessToken())) {
-                this.authorizationCode = c;
+                if (this.validateAccessToken(c.getAccessToken())) {
+                    this.authorizationCode = c;
+                    this.writeTokens(this.authorizationCode);
 
-                System.out.println("Logged in!");
-                return true;
+                    return true;
+                }
+            } else {
+                Core.verbose("Authorization code is null");
             }
         }
         String failedMessage = "Incorrect key.\nPlease try again.";

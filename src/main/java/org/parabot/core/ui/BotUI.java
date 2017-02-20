@@ -7,6 +7,7 @@ import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.components.notifications.NotificationUI;
+import org.parabot.core.ui.components.web.MiniBrowser;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
@@ -113,6 +114,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         notifications = new JMenuItem("Notifications");
         notifications.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
 
+        JMenuItem test = new JMenuItem("Test");
+        test.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
+
         screenshot.addActionListener(this);
         proxy.addActionListener(this);
         randoms.addActionListener(this);
@@ -122,6 +126,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         exit.addActionListener(this);
         cacheClear.addActionListener(this);
         notifications.addActionListener(this);
+        test.addActionListener(this);
 
         run.addActionListener(this);
         pause.addActionListener(this);
@@ -141,6 +146,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         features.add(cacheClear);
         features.add(notifications);
+        features.add(test);
 
         menuBar.add(file);
         menuBar.add(scripts);
@@ -252,6 +258,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 break;
             default:
                 System.out.println("Invalid command: " + command);
+                break;
         }
     }
 

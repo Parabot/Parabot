@@ -9,6 +9,7 @@ import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.core.user.UserAuthenticator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,46 +100,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
 
-        Font labelFont = Fonts.getResource("leelawadee.ttf");
-
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setFont(labelFont);
-        usernameLabel.setAlignmentX(Box.CENTER_ALIGNMENT);
-        usernameLabel.setForeground(Color.white);
-
-        final JTextField userInput = new JTextField(20);
-        final JTextField passInput = new JPasswordField(20);
-        userInput.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                passInput.requestFocus();
-            }
-
-        });
-        userInput.setFont(labelFont);
-        userInput.setAlignmentX(Box.CENTER_ALIGNMENT);
-        userInput.setMaximumSize(userInput.getPreferredSize());
-
         final JButton login = new JButton("Login");
-
-        passInput.setAlignmentX(Box.CENTER_ALIGNMENT);
-        passInput.setMaximumSize(userInput.getPreferredSize());
-        passInput.setPreferredSize(new Dimension(userInput.getWidth(), 20));
-        passInput.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                login.doClick();
-            }
-
-        });
-
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(labelFont);
-        passwordLabel.setAlignmentX(Box.CENTER_ALIGNMENT);
-        passwordLabel.setForeground(Color.white);
-
 
         login.setAlignmentX(Box.CENTER_ALIGNMENT);
         login.setOpaque(false);
@@ -146,25 +108,13 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (manager.login(userInput.getText(), passInput.getText(), false)) {
+                if (new UserAuthenticator("27_3esr3gc8g8ow088k0c0kckcg84gssgkc8gsgo040owgkg8owkg").login()){
                     switchState(STATE_SERVER_SELECT);
-                } else {
-                    Core.verbose("Failed to log in.");
-                    UILog.log("Error", "Incorrect username or password. Have you tried logging into http://bdn.parabot.org/account/", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
         });
 
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 8)));
-        loginPanel.add(usernameLabel);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
-        loginPanel.add(userInput);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
-        loginPanel.add(passwordLabel);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
-        loginPanel.add(passInput);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 2)));
         loginPanel.add(login);
         loginPanel.add(Box.createRigidArea(new Dimension(0, 4)));
 

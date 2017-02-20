@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
+import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.environment.api.utils.WebUtil;
 
@@ -23,7 +24,6 @@ public class UserAuthenticator {
 
     private final String clientId;
     private AuthorizationCode authorizationCode;
-    private static final String closeURL = "http://local.v3.bdn.parabot.org:88/app_dev.php/close";
 
     public UserAuthenticator(String clientId) {
         this.clientId = clientId;
@@ -39,7 +39,7 @@ public class UserAuthenticator {
 
     private boolean validateAccessToken(String accessToken) {
         try {
-            HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL("http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/valid?access_token=" + accessToken));
+            HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));
             if (urlConnection != null && urlConnection.getResponseCode() == 200) {
                 BufferedReader bufferedReader = WebUtil.getReader(urlConnection);
                 if (bufferedReader != null) {
@@ -97,7 +97,7 @@ public class UserAuthenticator {
                 if (this.validateAccessToken(code.getAccessToken())) {
                     return true;
                 } else {
-                    code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, "refresh_token", code.getRefreshToken(), closeURL));
+                    code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, code.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
                     if (code != null && code.getAccessToken() != null) {
                         if (this.validateAccessToken(code.getAccessToken())) {
                             this.writeTokens(code);
@@ -114,10 +114,9 @@ public class UserAuthenticator {
     }
 
     public void forumLogin() {
-//        String url = Configuration.V3_API_ENDPOINT + "users/connect/forums?after_login_redirect" + "http://local.v3.bdn.parabot.org:88/app_dev.php/close";
         String url;
         try {
-            url = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/log_in?after_login_redirect=" + URLEncoder.encode(closeURL, "UTF-8");
+            url = String.format(APIConfiguration.USERS_LOGIN, URLEncoder.encode(APIConfiguration.CLOSE_PAGE, "UTF-8"));
 
             URI uri = URI.create(url);
             try {
@@ -134,7 +133,7 @@ public class UserAuthenticator {
 
     private AuthorizationCode getAuthorizationCodes(String parameters) {
         try {
-            URL url1 = new URL("http://local.v3.bdn.parabot.org:88/app_dev.php/internal/route/oauth/v2/token/client");
+            URL url1 = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
             return AuthorizationCode.readResponse(WebUtil.getConnection(url1, parameters));
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,7 +143,7 @@ public class UserAuthenticator {
     }
 
     private boolean redirectToLogin() {
-        String url = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/create_copy?clientId=" + this.clientId;
+        String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
         URI uri = URI.create(url);
         try {
             Desktop.getDesktop().browse(uri);
@@ -159,11 +158,8 @@ public class UserAuthenticator {
 
         if (s != null) {
             String clientId = this.clientId;
-            String grandType = "authorization_code";
-            String code = s;
-            String closeURL = "http://local.v3.bdn.parabot.org:88/app_dev.php/api/users/oauth/v2/copy";
 
-            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, grandType, code, closeURL));
+            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, s, APIConfiguration.COPY_LOGIN));
             if (c != null && c.getAccessToken() != null) {
 
                 if (this.validateAccessToken(c.getAccessToken())) {
@@ -184,20 +180,22 @@ public class UserAuthenticator {
     }
 
     public enum TokenRequestType {
-        REFRESH_TOKEN("refresh_token"),
-        AUTHORIZATION_CODE("code");
+        REFRESH_TOKEN("refresh_token", "refresh_token"),
+        AUTHORIZATION_CODE("code", "authorization_code");
 
         private String dataType;
+        private String grandType;
 
-        TokenRequestType(String dataType) {
+        TokenRequestType(String dataType, String grandType) {
             this.dataType = dataType;
+            this.grandType = grandType;
         }
 
         public String getDataType() {
             return dataType;
         }
 
-        public String createParameters(String clientId, String grandType, String code, String closeURL) {
+        public String createParameters(String clientId, String code, String closeURL) {
             try {
                 closeURL = URLEncoder.encode(closeURL, "UTF-8");
             } catch (UnsupportedEncodingException e) {
@@ -205,7 +203,7 @@ public class UserAuthenticator {
             }
 
             return "client_id" + "=" + clientId + "&" +
-                    "grant_type" + "=" + grandType + "&" +
+                    "grant_type" + "=" + this.grandType + "&" +
                     this.dataType + "=" + code + "&" +
                     "redirect_uri" + "=" + closeURL;
         }

@@ -51,7 +51,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
 
     };
 
-    private VerboseLoader(String username, String password) {
+    private VerboseLoader() {
         if (current != null) {
             throw new IllegalStateException("MainScreenComponent already made.");
         }
@@ -66,10 +66,8 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         setDoubleBuffered(true);
         setOpaque(false);
 
-        if (username != null && password != null) {
-            if (Core.inDebugMode() || manager.login(username, password, false)) {
-                currentState = STATE_SERVER_SELECT;
-            }
+        if (Core.inDebugMode() ) {
+            currentState = STATE_SERVER_SELECT;
         }
 
         if (currentState == STATE_AUTHENTICATION) {
@@ -113,7 +111,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
                     switchState(STATE_SERVER_SELECT);
                 }
             }
-
         });
 
         loginPanel.add(login);
@@ -200,17 +197,8 @@ public class VerboseLoader extends JPanel implements ProgressListener {
      *
      * @return instance of this panel
      */
-    public static VerboseLoader get(String username, String password) {
-        return current == null ? new VerboseLoader(username, password) : current;
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
     public static VerboseLoader get() {
-        return current == null ? new VerboseLoader(null, null) : current;
+        return current == null ? new VerboseLoader() : current;
     }
 
 

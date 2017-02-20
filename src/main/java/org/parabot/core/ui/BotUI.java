@@ -41,7 +41,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private boolean runScript, pauseScript;
 
 
-    public BotUI(String username, String password) {
+    public BotUI() {
         if (instance != null) {
             throw new IllegalStateException("BotUI already created");
         }
@@ -58,7 +58,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         addWindowListener(this);
 
         add(GamePanel.getInstance());
-        GamePanel.getInstance().add(VerboseLoader.get(username, password), BorderLayout.CENTER);
+        GamePanel.getInstance().add(VerboseLoader.get(), BorderLayout.CENTER);
         add(Logger.getInstance(), BorderLayout.SOUTH);
 
         SwingUtil.setParabotIcons(this);

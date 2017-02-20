@@ -26,8 +26,6 @@ import java.net.URI;
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {
-    private static String username;
-    private static String password;
 
     public static void main(String... args) throws IOException {
 
@@ -53,15 +51,8 @@ public final class Landing {
         Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
         AccountManager.validate();
 
-        if (username != null && password != null) {
-            new BotUI(username, password);
-            username = null;
-            password = null;
-            return;
-        }
-
         Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
-        new BotUI(null, null);
+        new BotUI();
     }
 
     private static void parseArgs(String... args) {
@@ -83,10 +74,6 @@ public final class Landing {
                     break;
                 case "-server":
                     ServerSelector.initServer = args[++i];
-                    break;
-                case "-login":
-                    username = args[++i];
-                    password = args[++i];
                     break;
                 case "-loadlocal":
                     Core.setLoadLocal(true);

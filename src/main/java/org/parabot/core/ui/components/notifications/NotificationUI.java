@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.parabot.core.Configuration;
+import org.parabot.core.settings.Configuration;
 
 public class NotificationUI extends Application {
 

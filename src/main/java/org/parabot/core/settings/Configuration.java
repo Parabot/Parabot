@@ -1,5 +1,6 @@
-package org.parabot.core;
+package org.parabot.core.settings;
 
+import org.parabot.core.Core;
 import org.parabot.environment.api.utils.Version;
 
 /**

@@ -9,8 +9,8 @@ import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.di.injector.AppInjector;
+import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.utils.UILog;
-import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
@@ -19,13 +19,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 /**
  * The core of parabot

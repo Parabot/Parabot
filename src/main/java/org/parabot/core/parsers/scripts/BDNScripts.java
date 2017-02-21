@@ -1,8 +1,6 @@
 package org.parabot.core.parsers.scripts;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;

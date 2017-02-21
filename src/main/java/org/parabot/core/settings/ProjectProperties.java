@@ -1,4 +1,4 @@
-package org.parabot.core;
+package org.parabot.core.settings;
 
 import com.google.inject.Singleton;
 import org.parabot.environment.api.utils.Version;

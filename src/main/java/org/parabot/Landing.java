@@ -1,8 +1,11 @@
 package org.parabot;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Core;
+import org.parabot.core.arguments.LandingArgument;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
@@ -12,6 +15,8 @@ import org.parabot.core.ui.ServerSelector;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Everel, JKetelaar, Matt, Dane
@@ -46,6 +51,26 @@ public final class Landing {
     }
 
     private static void parseArgs(String... args) {
+        OptionParser optionParser = new OptionParser();
+        optionParser.allowsUnrecognizedOptions();
+
+        for (LandingArgument.Argument argument : LandingArgument.Argument.values()){
+            for (String s : argument.getLandingArgumentClass().getArguments()){
+                optionParser.accepts( s );
+            }
+        }
+
+        OptionSet set = optionParser.parse(args);
+
+        for (LandingArgument.Argument argument : LandingArgument.Argument.values()){
+            for (String s : argument.getLandingArgumentClass().getArguments()){
+                if (set.has( s )){
+                    argument.getLandingArgumentClass().has();
+                    break;
+                }
+            }
+        }
+
         for (int i = 0; i < args.length; i++) {
             final String arg = args[i].toLowerCase();
             switch (arg.toLowerCase()) {

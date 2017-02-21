@@ -1,8 +1,8 @@
 package org.parabot.core.bdn.api;
 
 import org.json.simple.parser.ParseException;
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.user.SharedUserAuthenticator;
-import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

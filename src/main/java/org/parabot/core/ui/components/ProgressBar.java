@@ -46,7 +46,7 @@ public class ProgressBar {
 
         int val = (int) value;
         /*if (value <= 50) {
-			this.progColor = new Color(255, (2 * val), 0);
+            this.progColor = new Color(255, (2 * val), 0);
 		} else {
 			val -= 50;
 			this.progColor = new Color((int) (255 - (5.1D * val)),

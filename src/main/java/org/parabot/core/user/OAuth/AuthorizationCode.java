@@ -2,8 +2,8 @@ package org.parabot.core.user.OAuth;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
-import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.IOException;
 import java.net.URLConnection;

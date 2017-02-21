@@ -1,9 +1,9 @@
 package org.parabot.core.asm.hooks;
 
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.parsers.hooks.JSONHookParser;
 import org.parabot.core.parsers.hooks.XMLHookParser;
-import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.File;
 import java.io.InputStream;

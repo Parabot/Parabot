@@ -6,12 +6,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
 import org.parabot.api.io.Directories;
+import org.parabot.api.io.WebUtil;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.utils.UILog;
-import org.parabot.environment.api.utils.WebUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,10 +1,10 @@
 package org.parabot.core.parsers.scripts;
 
 import org.json.simple.JSONObject;
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
-import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
 
 import java.io.BufferedReader;

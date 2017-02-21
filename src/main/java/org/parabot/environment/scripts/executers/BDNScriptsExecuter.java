@@ -1,8 +1,8 @@
 package org.parabot.environment.scripts.executers;
 
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.ui.utils.UILog;
-import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
 

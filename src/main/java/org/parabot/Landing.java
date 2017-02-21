@@ -14,10 +14,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Parabot v2.6
- *
  * @author Everel, JKetelaar, Matt, Dane
- * @version 2.6
+ * @version 3.0
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {

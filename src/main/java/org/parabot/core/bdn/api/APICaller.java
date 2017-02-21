@@ -47,7 +47,10 @@ public final class APICaller {
                     }
                 }
 
-                return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+                if (connection.getResponseCode() == 200) {
+
+                    return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+                }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

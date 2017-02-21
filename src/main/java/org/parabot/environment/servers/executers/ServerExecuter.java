@@ -26,7 +26,8 @@ public abstract class ServerExecuter {
                     Context context = Core.getInjector().getInstance(Context.class);
                     context.setServerProvider(provider);
                     context.load();
-                    PaintComponent.getInstance().startPainting(context);
+
+                    Core.getInjector().getInstance(PaintComponent.class).startPainting(context);
 
                     Core.getInjector().getInstance(RandomHandler.class).init();
                 } catch (Throwable t) {

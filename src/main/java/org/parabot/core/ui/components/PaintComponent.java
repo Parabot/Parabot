@@ -1,5 +1,6 @@
 package org.parabot.core.ui.components;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.paint.PaintDebugger;
@@ -15,33 +16,14 @@ import java.awt.image.BufferedImage;
  *
  * @author Everel
  */
+@Singleton
 public class PaintComponent extends JComponent implements Runnable {
     private static final long serialVersionUID = 4653612412080038193L;
-    private static PaintComponent instance;
 
     private BufferedImage buffer;
     private Graphics2D g2;
     private Dimension dimensions;
     private Context context;
-
-    private PaintComponent(Dimension dimensions) {
-        this.dimensions = dimensions;
-        this.buffer = new BufferedImage(dimensions.width, dimensions.height, BufferedImage.TYPE_INT_ARGB);
-        this.g2 = buffer.createGraphics();
-
-        setPreferredSize(dimensions);
-        setSize(dimensions);
-        setOpaque(false);
-        setIgnoreRepaint(true);
-    }
-
-    public static PaintComponent getInstance(Dimension dimensions) {
-        return instance == null ? instance = new PaintComponent(dimensions) : instance;
-    }
-
-    public static PaintComponent getInstance() {
-        return getInstance(null);
-    }
 
     public void setDimensions(Dimension dimensions) {
         this.dimensions = dimensions;

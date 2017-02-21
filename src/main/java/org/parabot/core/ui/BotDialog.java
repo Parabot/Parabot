@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import org.parabot.api.misc.OperatingSystem;
+import org.parabot.core.Core;
 import org.parabot.core.ui.components.PaintComponent;
 
 import javax.swing.*;
@@ -36,9 +37,11 @@ public class BotDialog extends JDialog {
         setPreferredSize(botUI.getSize());
         setSize(botUI.getSize());
         setVisible(true);
-        setContentPane(PaintComponent.getInstance(botUI.getSize()));
-        botUI.setVisible(true);
 
+        PaintComponent paintComponent = Core.getInjector().getInstance(PaintComponent.class);
+        paintComponent.setDimensions(botUI.getSize());
+
+        botUI.setVisible(true);
     }
 
     public static BotDialog getInstance(BotUI botUI) {
@@ -57,8 +60,8 @@ public class BotDialog extends JDialog {
         setPreferredSize(dimension);
         setSize(dimension);
         setVisible(true);
-        setContentPane(PaintComponent.getInstance());
-        PaintComponent.getInstance().setDimensions(dimension);
+        setContentPane(Core.getInjector().getInstance(PaintComponent.class));
+        Core.getInjector().getInstance(PaintComponent.class).setDimensions(dimension);
     }
 
 }

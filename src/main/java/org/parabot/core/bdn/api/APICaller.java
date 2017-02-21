@@ -1,6 +1,5 @@
 package org.parabot.core.bdn.api;
 
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.WebUtil;
@@ -16,19 +15,19 @@ import java.net.URL;
  */
 public final class APICaller {
 
-    public static Object callPoint(APIPoint apiPoint){
+    public static Object callPoint(APIPoint apiPoint) {
         return callPoint(apiPoint, null, null);
     }
 
-    public static Object callPoint(APIPoint apiPoint, SharedUserAuthenticator authenticator){
+    public static Object callPoint(APIPoint apiPoint, SharedUserAuthenticator authenticator) {
         return callPoint(apiPoint, authenticator, null);
     }
 
-    public static Object callPoint(APIPoint apiPoint, String parameters){
+    public static Object callPoint(APIPoint apiPoint, String parameters) {
         return callPoint(apiPoint, null, parameters);
     }
 
-    public static Object callPoint(APIPoint apiPoint, SharedUserAuthenticator authenticator, String parameters){
+    public static Object callPoint(APIPoint apiPoint, SharedUserAuthenticator authenticator, String parameters) {
         try {
             HttpURLConnection connection = (HttpURLConnection) WebUtil.getConnection(apiPoint.getPoint());
             if (connection != null) {
@@ -36,10 +35,14 @@ public final class APICaller {
                     connection.setRequestProperty("Authorization", "Bearer " + authenticator.getAccessToken());
                 }
 
+                connection.setRequestMethod(apiPoint.type.getType());
+
                 if (apiPoint.type.isDoOutput()) {
                     connection.setDoOutput(true);
 
                     if (parameters != null) {
+                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
                         OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                         wr.write(parameters);
                         wr.flush();
@@ -48,8 +51,9 @@ public final class APICaller {
                 }
 
                 if (connection.getResponseCode() == 200) {
-
                     return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+                } else {
+                    System.err.println("Response not 200, code " + connection.getResponseCode() + " instead");
                 }
             }
         } catch (IOException | ParseException e) {
@@ -60,11 +64,15 @@ public final class APICaller {
     }
 
     public enum APIPoint {
-        LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, APIPointType.GET);
+        LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, APIPointType.GET),
+        SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, APIPointType.POST),
+        IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, APIPointType.GET);
 
         private String point;
         private boolean accessRequired;
         private APIPointType type;
+
+        private String editedPoint;
 
         APIPoint(String point, boolean accessRequired, APIPointType type) {
             this.point = point;
@@ -74,12 +82,22 @@ public final class APICaller {
 
         public URL getPoint() {
             try {
-                return new URL(point);
+                if (editedPoint != null) {
+                    return new URL(editedPoint);
+                } else {
+                    return new URL(point);
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
             return null;
+        }
+
+        public APIPoint setPointParams(Object... pointParams) {
+            this.editedPoint = String.format(this.point, pointParams);
+
+            return this;
         }
 
         public APIPointType getType() {

@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
@@ -19,12 +20,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+@Singleton
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         DocumentListener {
 
     private static final long serialVersionUID = 1L;
-
-    private static NetworkUI instance;
 
     private JComboBox<ProxyType> proxyType;
     private JTextField proxyHost;
@@ -39,12 +39,8 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     private JPasswordField authPassword;
     private JButton randomize;
 
-    private NetworkUI() {
+    public NetworkUI() {
         initGUI();
-    }
-
-    public static NetworkUI getInstance() {
-        return instance == null ? instance = new NetworkUI() : instance;
     }
 
     @Override

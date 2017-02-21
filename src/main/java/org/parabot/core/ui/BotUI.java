@@ -195,7 +195,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 System.exit(0);
                 break;
             case "Network":
-                NetworkUI.getInstance().setVisible(true);
+                Core.getInjector().getInstance(NetworkUI.class).setVisible(true);
                 break;
             case "Randoms":
                 ArrayList<String> randoms = new ArrayList<>();

@@ -5,8 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JDialog;
 
+import org.parabot.api.misc.OperatingSystem;
 import org.parabot.core.ui.components.PaintComponent;
-import org.parabot.environment.OperatingSystem;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class BotDialog extends JDialog {
 			try {
 				setBackground(new Color(0, 0, 0, 0));
 			} catch (UnsupportedOperationException e) {
-				//My "fix" for the perpixel errors some user have when using VPSes
+				// Fixing the perpixel errors some clients have when using Unix systems without proper GUI settings
 				if (e.getMessage().contains("PERPIXEL_TRANS")) {
 					System.err
 							.println("WARNING: We were unable to set a translucent background!"

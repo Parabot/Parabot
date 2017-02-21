@@ -1,5 +1,7 @@
 package org.parabot.core.desc;
 
+import org.parabot.environment.api.utils.StringUtils;
+
 /**
  * 
  * Holds information about a server
@@ -8,14 +10,22 @@ package org.parabot.core.desc;
  * 
  */
 public class ServerDescription implements Comparable<ServerDescription> {
+
 	private String serverName;
-	private String author;
+	private String[] authors;
 	private double revision;
 
-	public ServerDescription(final String serverName, final String author,
+	public ServerDescription(final String serverName, final String[] authors,
 			final double revision) {
 		this.serverName = serverName;
-		this.author = author;
+		this.authors = authors;
+		this.revision = revision;
+	}
+
+	public ServerDescription(final String serverName, final String author,
+							 final double revision) {
+		this.serverName = serverName;
+		this.authors = new String[]{author};
 		this.revision = revision;
 	}
 
@@ -23,8 +33,8 @@ public class ServerDescription implements Comparable<ServerDescription> {
 		return this.serverName;
 	}
 
-	public String getAuthor() {
-		return this.author;
+	public String[] getAuthors() {
+		return this.authors;
 	}
 
 	public double getRevision() {
@@ -34,7 +44,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
 	@Override
 	public String toString() {
 		return String.format("[Server: %s, Author: %s, Revision: %.2f]",
-				this.serverName, this.author, this.revision);
+				this.serverName, StringUtils.implode(", ", this.authors), this.revision);
 	}
 
 	@Override

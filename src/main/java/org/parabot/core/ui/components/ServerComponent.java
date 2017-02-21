@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
+import org.parabot.environment.api.utils.StringUtils;
 
 /**
  * A neat looking server component
@@ -71,7 +72,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 		Font normal = Fonts.getResource("leelawadee.ttf");
 		g.setFont(normal);
 		FontMetrics fm = g.getFontMetrics();
-		String author = "Author: " + desc.getAuthor();
+		String author = "Author: " + StringUtils.implode(", ", desc.getAuthors());
 		String revision = "Revision: " + desc.getRevision();
 
 		g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);

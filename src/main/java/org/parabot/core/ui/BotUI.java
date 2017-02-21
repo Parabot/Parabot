@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
 import javafx.application.Application;
 import org.parabot.api.io.Directories;
 import org.parabot.api.io.images.Images;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
  *
  * @author Dane, Everel, JKetelaar
  */
+@Singleton
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
     private static final long serialVersionUID = -2126184292879805519L;
@@ -66,10 +68,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         pack();
         setLocationRelativeTo(null);
-        BotDialog.getInstance(this);
 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            BotDialog.getInstance().setVisible(false);
+            Core.getInjector().getInstance(BotDialog.class).setVisible(false);
         }
     }
 
@@ -245,7 +246,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 }
                 break;
             case "Disable dialog":
-                BotDialog.getInstance().setVisible(!dialog.isVisible());
+                Core.getInjector().getInstance(BotDialog.class).setVisible(!dialog.isVisible());
                 break;
             case "Clear cache":
                 Directories.clearCache();
@@ -303,7 +304,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     @Override
     public void componentResized(ComponentEvent e) {
         if (isVisible()) {
-            BotDialog.getInstance().setSize(getSize());
+            Core.getInjector().getInstance(BotDialog.class).setSize(getSize());
         }
     }
 
@@ -335,8 +336,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     @Override
     public void windowDeiconified(WindowEvent arg0) {
         if (isVisible()) {
-            BotDialog.getInstance().setVisible(false);
-            BotDialog.getInstance().setVisible(true);
+            Core.getInjector().getInstance(BotDialog.class).setVisible(false);
+            Core.getInjector().getInstance(BotDialog.class).setVisible(true);
         }
     }
 

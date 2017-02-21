@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
 import org.parabot.api.misc.OperatingSystem;
 import org.parabot.core.Core;
 import org.parabot.core.ui.components.PaintComponent;
@@ -10,11 +11,11 @@ import java.awt.*;
 /**
  * @author Everel
  */
+@Singleton
 public class BotDialog extends JDialog {
     private static final long serialVersionUID = 521800552287194673L;
-    private static BotDialog instance;
 
-    private BotDialog(BotUI botUI) {
+    public BotDialog(BotUI botUI) {
         super(botUI);
 
         botUI.setDialog(this);
@@ -42,14 +43,6 @@ public class BotDialog extends JDialog {
         paintComponent.setDimensions(botUI.getSize());
 
         botUI.setVisible(true);
-    }
-
-    public static BotDialog getInstance(BotUI botUI) {
-        return instance == null ? instance = new BotDialog(botUI) : instance;
-    }
-
-    public static BotDialog getInstance() {
-        return getInstance(null);
     }
 
     public void setDimensions(Dimension dimension) {

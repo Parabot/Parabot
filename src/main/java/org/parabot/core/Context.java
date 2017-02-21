@@ -174,7 +174,7 @@ public class Context {
 
         applet.addKeyListener(Core.getInjector().getInstance(PBKeyListener.class));
 
-        BotDialog.getInstance().validate();
+        Core.getInjector().getInstance(BotDialog.class).validate();
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);
     }

@@ -21,7 +21,7 @@ public class LocalScriptExecuter extends ScriptExecuter {
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
-			super.finalize(tg, (Script) scriptConstructor.newInstance(new Object[] { }));
+			super.finalize(tg, (Script) scriptConstructor.newInstance());
         } catch (Throwable t) {
             t.printStackTrace();
         }

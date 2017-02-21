@@ -164,8 +164,8 @@ public class XMLHookParser extends HookParser {
 	            final String fieldName = getValue("field", addGetter);
 	            final String fieldDesc = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
 	            final String methodName = getValue("methodname", addGetter);
-	            boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
-	                    "methstatic", addGetter).equals("true")) : false;
+	            boolean staticMethod = isSet("methstatic", addGetter) && (getValue(
+                        "methstatic", addGetter).equals("true"));
 	            String returnDesc = isSet("desc", addGetter) ? getValue("desc",
 	                    addGetter) : null;
 	            String array = "";
@@ -238,8 +238,8 @@ public class XMLHookParser extends HookParser {
             final String fieldName = getValue("field", addSetter);
             final String fieldDesc = isSet("descfield", addSetter) ? getValue("descfield", addSetter) : null;
             final String methodName = getValue("methodname", addSetter);
-            boolean staticMethod = isSet("methstatic", addSetter) ? (getValue(
-                    "methstatic", addSetter).equals("true")) : false;
+            boolean staticMethod = isSet("methstatic", addSetter) && (getValue(
+                    "methstatic", addSetter).equals("true"));
             String returnDesc = isSet("desc", addSetter) ? getValue("desc",
                     addSetter) : null;
             String array = "";
@@ -297,7 +297,7 @@ public class XMLHookParser extends HookParser {
     private static final String getValue(String tag, Element element) {
         NodeList nodes = element.getElementsByTagName(tag).item(0)
                 .getChildNodes();
-        Node node = (Node) nodes.item(0);
+        Node node = nodes.item(0);
         return node.getNodeValue();
     }
 
@@ -348,7 +348,7 @@ public class XMLHookParser extends HookParser {
             String returnDesc = isSet("desc", addInvoker) ? resolveDesc(getValue(
                     "desc", addInvoker)) : null;
             
-            final boolean isInterface = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
+            final boolean isInterface = isSet("interface", addInvoker) && Boolean.parseBoolean(getValue("interface", addInvoker));
             final String instanceCast = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
             final String checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 

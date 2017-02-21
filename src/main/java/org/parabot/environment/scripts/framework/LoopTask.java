@@ -13,6 +13,6 @@ public interface LoopTask {
 	 *
 	 * @return sleepTime in ms
 	 */
-	public int loop();
+    int loop();
 
 }

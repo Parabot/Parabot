@@ -55,9 +55,9 @@ public class ProgressBar {
 					100 + (2 * val), 0);
 		}*/
 		
-		int r = (int) (((double) (225 - 218) * (double) val) / ((double) 100.D));
-		int g = (int) (((double) (253 - 165) * (double) val) / ((double) 100.D));
-		int b = (int) (((double) (145 - 32) * (double) val) / ((double) 100.D));
+		int r = (int) (((double) (225 - 218) * (double) val) / 100.D);
+		int g = (int) (((double) (253 - 165) * (double) val) / 100.D);
+		int b = (int) (((double) (145 - 32) * (double) val) / 100.D);
 		this.progColor = new Color(255 - r, 253 - g, 145 - b);
 	}
 

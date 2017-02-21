@@ -12,6 +12,6 @@ public interface Paintable {
 	/**
 	 * @param g
 	 */
-	public void paint(Graphics g);
+	void paint(Graphics g);
 
 }

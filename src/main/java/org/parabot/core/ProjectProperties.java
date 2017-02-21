@@ -1,5 +1,6 @@
 package org.parabot.core;
 
+import com.google.inject.Singleton;
 import org.parabot.environment.api.utils.Version;
 
 import java.io.IOException;
@@ -9,12 +10,12 @@ import java.util.Properties;
 /**
  * @author JKetelaar
  */
+@Singleton
 public class ProjectProperties {
 
-    private static ProjectProperties instance;
     private Properties cached = new Properties();
 
-    private ProjectProperties() {
+    public ProjectProperties() {
         setProperties();
     }
 
@@ -36,11 +37,7 @@ public class ProjectProperties {
         return cached;
     }
 
-    public static Version getProjectVersion() {
-        return new Version(getInstance().getCached().getProperty("application.version"));
-    }
-
-    public static ProjectProperties getInstance() {
-        return instance == null ? instance = new ProjectProperties() : instance;
+    public Version getProjectVersion() {
+        return new Version(getCached().getProperty("application.version"));
     }
 }

@@ -7,9 +7,8 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
-import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.fonts.Fonts;
-import org.parabot.core.ui.utils.UILog;
+import org.parabot.core.ui.images.Images;
 import org.parabot.core.user.UserAuthenticator;
 
 import javax.swing.*;
@@ -66,7 +65,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         setDoubleBuffered(true);
         setOpaque(false);
 
-        if (Core.inDebugMode() ) {
+        if (Core.inDebugMode()) {
             currentState = STATE_SERVER_SELECT;
         }
 
@@ -107,7 +106,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (new UserAuthenticator(APIConfiguration.OAUTH_CLIENT_ID).login()){
+                UserAuthenticator authenticator = new UserAuthenticator(APIConfiguration.OAUTH_CLIENT_ID);
+                if (authenticator.login()) {
+                    authenticator.afterLogin();
                     switchState(STATE_SERVER_SELECT);
                 }
             }

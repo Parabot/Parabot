@@ -183,4 +183,8 @@ public class Script implements Runnable {
     public void setScriptID(int scriptID) {
         this.scriptID = scriptID;
     }
+
+    public int getScriptID() {
+        return scriptID;
+    }
 }

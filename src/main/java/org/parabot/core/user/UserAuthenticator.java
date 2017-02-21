@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
+import org.parabot.core.bdn.api.slack.SlackNotification;
 import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.environment.api.utils.WebUtil;
@@ -20,30 +21,37 @@ import java.util.List;
 /**
  * @author JKetelaar, Capslock
  */
-public class UserAuthenticator implements SharedUserAuthenticator {
+public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActionListener {
 
     private final String clientId;
+    private final List<UserLoginActionListener> userLoginActionListeners;
     private AuthorizationCode authorizationCode;
-
 
     public UserAuthenticator(String clientId) {
         this.clientId = clientId;
+        this.userLoginActionListeners = new ArrayList<>();
 
         this.provideAccess();
+        this.setListeners();
     }
 
-    private final void provideAccess(){
+    private void setListeners() {
+        userLoginActionListeners.add(SlackNotification.USER_LOGIN_ACTION_LISTENER);
+    }
+
+    private final void provideAccess() {
         final List<UserAuthenticatorAccess> userAuthenticatorAccessList = new ArrayList<>();
 
         userAuthenticatorAccessList.add(PublicServers.AUTHENTICATOR);
+        userAuthenticatorAccessList.add(SlackNotification.AUTHENTICATOR);
 
-        for (UserAuthenticatorAccess userAuthenticatorAccess : userAuthenticatorAccessList){
+        for (UserAuthenticatorAccess userAuthenticatorAccess : userAuthenticatorAccessList) {
             userAuthenticatorAccess.setUserAuthenticator(this);
         }
     }
 
-    public void refreshToken(){
-        if (authorizationCode != null && authorizationCode.getRefreshToken() != null){
+    public void refreshToken() {
+        if (authorizationCode != null && authorizationCode.getRefreshToken() != null) {
             authorizationCode = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, authorizationCode.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
         }
     }
@@ -63,10 +71,12 @@ public class UserAuthenticator implements SharedUserAuthenticator {
     public final boolean login() {
         if (!readTokens()) {
             if (!redirectToLogin()) {
+                this.onLogin(false);
                 return false;
             }
         }
 
+        this.onLogin(true);
         return true;
     }
 
@@ -191,6 +201,20 @@ public class UserAuthenticator implements SharedUserAuthenticator {
                 "Incorrect key", JOptionPane.ERROR_MESSAGE);
 
         return false;
+    }
+
+    @Override
+    public void onLogin(boolean success) {
+        for (UserLoginActionListener listener : this.userLoginActionListeners) {
+            listener.onLogin(success);
+        }
+    }
+
+    @Override
+    public void afterLogin() {
+        for (UserLoginActionListener listener : this.userLoginActionListeners) {
+            listener.afterLogin();
+        }
     }
 
     public enum TokenRequestType {

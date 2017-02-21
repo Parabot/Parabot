@@ -2,6 +2,7 @@ package org.parabot.core.user.OAuth;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.parabot.core.Core;
 import org.parabot.environment.api.utils.WebUtil;
 
 import java.io.IOException;
@@ -22,6 +23,23 @@ public class AuthorizationCode {
         time = System.currentTimeMillis() / 1000 + expiresIn;
     }
 
+    public static AuthorizationCode readResponse(URLConnection connection) {
+        try {
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+
+            Object error;
+            if ((error = object.get("error")) == null) {
+                return new AuthorizationCode((String) object.get("access_token"), (String) object.get("refresh_token"), (Long) object.get("expires_in"));
+            } else {
+                Core.verbose("Error: " + error);
+            }
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * Checks if the access token will expire within the next 30 seconds
      *
@@ -29,20 +47,6 @@ public class AuthorizationCode {
      */
     public boolean isExpiring() {
         return System.currentTimeMillis() / 1000 - 30 > time;
-    }
-
-    public static AuthorizationCode readResponse(URLConnection connection) {
-        try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
-
-            if (object.get("error") == null) {
-                return new AuthorizationCode((String) object.get("access_token"), (String) object.get("refresh_token"), (Long) object.get("expires_in"));
-            }
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public String getAccessToken() {

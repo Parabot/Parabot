@@ -6,7 +6,6 @@ import org.json.simple.parser.JSONParser;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
-import org.parabot.core.desc.ServerProviderInfo;
 import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
@@ -53,7 +52,6 @@ public class Context {
     private Mouse mouse;
     private Keyboard keyboard;
     private PBKeyListener pbKeyListener;
-    private ServerProviderInfo providerInfo;
     private JSONParser jsonParser;
 
     private PrintStream defaultOut;
@@ -80,6 +78,9 @@ public class Context {
     }
 
     public static Context getInstance(ServerProvider serverProvider) {
+        if (instance != null && instance.getServerProvider() == null){
+            instance.serverProvider = serverProvider;
+        }
         return instance == null ? instance = new Context(serverProvider) : instance;
     }
     
@@ -255,25 +256,6 @@ public class Context {
      */
     public ServerProvider getServerProvider() {
         return serverProvider;
-    }
-    
-    /**
-     * 
-     * Sets provider info of this context
-     * 
-     * @param providerInfo
-     */
-    public void setProviderInfo(ServerProviderInfo providerInfo) {
-    	this.providerInfo = providerInfo;
-    }
-    
-    /**
-     * Gets ServerProvider info
-     * Can be null if this is not a public server provider
-     * @return info about this provider
-     */
-    public ServerProviderInfo getServerProviderInfo() {
-    	return this.providerInfo;
     }
 
     /**

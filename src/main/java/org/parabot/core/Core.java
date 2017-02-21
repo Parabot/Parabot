@@ -30,10 +30,9 @@ import java.util.Date;
 @SuppressWarnings("Duplicates")
 public class Core {
 
-    private static boolean debug;
+    private static LaunchMode mode;
     private static boolean verbose;
     private static boolean dump;
-    private static boolean loadLocal; //Loads both local and public scripts/servers
 
     private static boolean validate = true;
     private static boolean secure = true;
@@ -46,29 +45,16 @@ public class Core {
         return validate;
     }
 
-    /**
-     * Enabled loadLocal mode
-     *
-     * @param loadLocal
-     */
-    public static void setLoadLocal(final boolean loadLocal) {
-        Core.loadLocal = loadLocal;
+    public static void setMode(LaunchMode mode) {
+        Core.mode = mode;
     }
 
-    /**
-     * @return if the client is in loadLocal mode.
-     */
-    public static boolean inLoadLocal() {
-        return loadLocal;
+    public static LaunchMode getMode() {
+        return mode;
     }
 
-    /**
-     * Enabled debug mode
-     *
-     * @param debug
-     */
-    public static void setDebug(final boolean debug) {
-        Core.debug = debug;
+    public static boolean isMode(LaunchMode mode){
+        return Core.mode.equals(mode);
     }
 
     /**
@@ -92,13 +78,6 @@ public class Core {
 
     public static boolean isSecure() {
         return secure;
-    }
-
-    /**
-     * @return if the client is in debug mode.
-     */
-    public static boolean inDebugMode() {
-        return debug;
     }
 
     /**
@@ -247,6 +226,27 @@ public class Core {
         } else {
             Core.verbose("Validation disabled");
             return true;
+        }
+    }
+
+    public enum LaunchMode {
+        INCLUDE_LOCAL("Include local", "-withlocal"),
+        LOCAL_ONLY("Local only", "-local");
+
+        private String name;
+        private String arg;
+
+        LaunchMode(String name, String arg) {
+            this.name = name;
+            this.arg = arg;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getArg() {
+            return arg;
         }
     }
 }

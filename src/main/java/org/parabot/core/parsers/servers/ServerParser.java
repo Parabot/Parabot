@@ -23,11 +23,11 @@ public abstract class ServerParser {
     public static final ServerDescription[] getDescriptions() {
         SERVER_CACHE.clear();
         final ArrayList<ServerParser> parsers = new ArrayList<>();
-        if (Core.inLoadLocal()) {
-            parsers.add(new LocalServers());
+        if (Core.isMode(Core.LaunchMode.INCLUDE_LOCAL)) {
+            // TODO: Load local servers
             parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
-        } else if (Core.inDebugMode()) {
-            parsers.add(new LocalServers());
+        } else if (Core.isMode(Core.LaunchMode.LOCAL_ONLY)) {
+            // TODO: Load local servers
         } else {
             parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
         }

@@ -7,7 +7,7 @@ import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.core.user.implementations.UserAuthenticatorAccess;
-import org.parabot.environment.servers.executers.PublicServerExecuter;
+import org.parabot.environment.servers.executers.PublicServerExecutor;
 
 /**
  * Parses servers hosted on Parabot
@@ -40,10 +40,12 @@ public class PublicServers extends ServerParser implements UserAuthenticatorAcce
                 JSONObject author = (JSONObject) jsonAuthors.get(i);
                 authors[i] = (String) author.get("username");
             }
+            String description = (String) jsonObject.get("description");
+            JSONArray details = (JSONArray) jsonObject.get("authors");
 
             ServerDescription desc = new ServerDescription((int) id, name,
-                    authors, version);
-            SERVER_CACHE.put(desc, new PublicServerExecuter(name));
+                    authors, version, description, details);
+            SERVER_CACHE.put(desc, new PublicServerExecutor(desc));
         }
     }
 

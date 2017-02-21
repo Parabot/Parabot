@@ -52,7 +52,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         setDoubleBuffered(true);
         setOpaque(false);
 
-        if (Core.inDebugMode()) {
+        if (Core.isMode(Core.LaunchMode.LOCAL_ONLY)) {
             currentState = STATE_SERVER_SELECT;
         }
 

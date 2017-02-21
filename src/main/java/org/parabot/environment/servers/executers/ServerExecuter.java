@@ -14,7 +14,7 @@ public abstract class ServerExecuter {
 
     public abstract void run();
 
-    public void finalize(final ServerProvider provider, final String serverName) {
+    public void finalize(final ServerProvider provider) {
         new Thread(new Runnable() {
             @Override
             public void run() {

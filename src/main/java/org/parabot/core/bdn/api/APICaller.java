@@ -52,11 +52,10 @@ public final class APICaller {
                 }
 
                 if (connection.getResponseCode() == 200) {
-                    BufferedReader reader = WebUtil.getReader(connection);
                     if (apiPoint.isJson()) {
-                        return WebUtil.getJsonParser().parse(reader);
+                        return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
                     }else{
-                        return reader;
+                        return connection.getInputStream();
                     }
                 } else {
                     System.err.println("Response not 200, code " + connection.getResponseCode() + " instead");
@@ -72,6 +71,8 @@ public final class APICaller {
     public enum APIPoint {
         LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, true, APIPointType.GET),
         DOWNLOAD_SERVER(APIConfiguration.API_ENDPOINT + "servers/download/%d", true, false, APIPointType.GET),
+        GET_SERVER(APIConfiguration.API_ENDPOINT + "servers/get/%d", true, true, APIPointType.GET),
+
         SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, true, APIPointType.POST),
         IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, true, APIPointType.GET);
 

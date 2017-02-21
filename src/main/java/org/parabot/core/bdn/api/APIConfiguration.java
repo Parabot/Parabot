@@ -16,5 +16,6 @@ public class APIConfiguration {
     public static final String CREATE_COPY_LOGIN = API_ENDPOINT + "users/oauth/v2/create_copy?clientId=%s";
     public static final String COPY_LOGIN = API_ENDPOINT + "users/oauth/v2/copy";
     public static final String VALIDATE_ACCESS_TOKEN = API_ENDPOINT + "users/oauth/v2/valid?access_token=%s";
+    public static final String DOWNLOAD_SERVER_PROVIDER = API_ENDPOINT + "bot/download/provider?nightly=%s";
 
 }

@@ -1,10 +1,12 @@
 package org.parabot.environment.servers;
 
+import com.google.inject.Inject;
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.bdn.api.servers.ServerDownloader;
+import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
@@ -25,10 +27,17 @@ import java.net.URL;
  */
 public abstract class ServerProvider implements Opcodes {
 
+	@Inject
 	private ServerDownloader serverDownloader;
 
-	public ServerDownloader getServerDownloader(){
-		return this.serverDownloader;
+	private ServerDescription serverDescription;
+
+	public void setServerDescription(ServerDescription serverDescription) {
+		this.serverDescription = serverDescription;
+	}
+
+	public ServerDescription getServerDescription() {
+		return serverDescription;
 	}
 
 	/**

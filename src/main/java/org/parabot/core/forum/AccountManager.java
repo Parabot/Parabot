@@ -5,12 +5,10 @@ import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.scripts.BDNScripts;
-import org.parabot.core.parsers.servers.PublicServers;
-import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.api.utils.PBPreferences;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
-import org.parabot.environment.servers.executers.PublicServerExecuter;
+import org.parabot.environment.servers.executers.PublicServerExecutor;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -45,7 +43,6 @@ public final class AccountManager {
 		final ArrayList<AccountManagerAccess> accessors = new ArrayList<AccountManagerAccess>();
 		accessors.add(BDNScripts.MANAGER_FETCHER);
 		accessors.add(BDNScriptsExecuter.MANAGER_FETCHER);
-		accessors.add(PublicServerExecuter.MANAGER_FETCHER);
 		accessors.add(PBPreferences.MANAGER_FETCHER);
 
 		for (final AccountManagerAccess accessor : accessors) {

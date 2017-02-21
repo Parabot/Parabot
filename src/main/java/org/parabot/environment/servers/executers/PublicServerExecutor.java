@@ -1,16 +1,17 @@
 package org.parabot.environment.servers.executers;
 
+import com.google.inject.Inject;
 import org.parabot.core.Configuration;
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
+import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
-import org.parabot.core.desc.ServerProviderInfo;
-import org.parabot.core.forum.AccountManager;
-import org.parabot.core.forum.AccountManagerAccess;
+import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.core.user.SharedUserAuthenticator;
+import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
@@ -28,44 +29,33 @@ import java.net.URL;
  * @author Everel
  * 
  */
-public class PublicServerExecuter extends ServerExecuter {
-	private String serverName;
-	
-	private static AccountManager manager;
+public class PublicServerExecutor extends ServerExecuter {
 
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
+	private ServerDescription description;
 
-		@Override
-		public final void setManager(AccountManager manager) {
-			PublicServerExecuter.manager = manager;
-		}
+	@Inject
+	private SharedUserAuthenticator userAuthenticator;
 
-	};
-
-	public PublicServerExecuter(final String serverName) {
-		this.serverName = serverName;
+	public PublicServerExecutor(final ServerDescription description) {
+		this.description = description;
 	}
 
 	@Override
 	public void run() {
 		try {
-			ServerProviderInfo serverProviderInfo = new ServerProviderInfo(new URL(Configuration.GET_SERVER_PROVIDER_INFO
-					+ this.serverName), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
-			
 			final File destination = new File(Directories.getCachePath(),
-					serverProviderInfo.getCRC32() + ".jar");
-			final String jarUrl = String.format(Configuration.GET_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
+					StringUtils.toMD5(description.getDetail("provider")) + ".jar");
+			final String jarUrl = String.format(APIConfiguration.DOWNLOAD_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
 
-			Core.verbose("Downloading: " + jarUrl + " ...");
+			Core.verbose("Downloading provider...");
 			
 			if(destination.exists()) {
-				Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");
+				Core.verbose("Found cached server provider [MD5: " + StringUtils.toMD5(description.getDetail("provider")) + "]");
 			} else {
 				WebUtil.downloadFile(new URL(jarUrl), destination,
 						VerboseLoader.get());
 				Core.verbose("Server provider downloaded...");
 			}
-
 
 			final ClassPath classPath = new ClassPath();
 			classPath.addJar(destination);
@@ -74,7 +64,7 @@ public class PublicServerExecuter extends ServerExecuter {
 
 			ServerLoader serverLoader = new ServerLoader(classPath);
 			final String[] classNames = serverLoader.getServerClassNames();
-			if (classNames == null || classNames.length == 0) {
+			if (classNames.length == 0) {
 				UILog.log(
 						"Error",
 						"Failed to load server provider, error: [No provider found in jar file.]",
@@ -94,8 +84,8 @@ public class PublicServerExecuter extends ServerExecuter {
 				final Constructor<?> con = providerClass.getConstructor();
 				final ServerProvider serverProvider = (ServerProvider) con
 						.newInstance();
-				Context.getInstance(serverProvider).setProviderInfo(serverProviderInfo);
-				super.finalize(serverProvider, this.serverName);
+				serverProvider.setServerDescription(description);
+				super.finalize(serverProvider);
 			} catch (NoClassDefFoundError | ClassNotFoundException ignored) {
 				UILog.log(
 						"Error",

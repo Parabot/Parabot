@@ -33,7 +33,7 @@ public final class Landing {
 
         Directories.validate();
 
-        Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
+        Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.isMode(Core.LaunchMode.LOCAL_ONLY));
 
         try {
             Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
@@ -43,7 +43,7 @@ public final class Landing {
             t.printStackTrace();
         }
 
-        if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
+        if (!Core.isMode(Core.LaunchMode.LOCAL_ONLY) && Core.hasValidation() && !Core.isValid()) {
             Core.downloadNewVersion();
             return;
         }
@@ -65,18 +65,12 @@ public final class Landing {
                             .println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
                     System.exit(0);
                     break;
-                case "-debug":
-                    Core.setDebug(true);
-                    break;
                 case "-v":
                 case "-verbose":
                     Core.setVerbose(true);
                     break;
                 case "-server":
                     ServerSelector.initServer = args[++i];
-                    break;
-                case "-loadlocal":
-                    Core.setLoadLocal(true);
                     break;
                 case "-dump":
                     Core.setDump(true);
@@ -124,6 +118,13 @@ public final class Landing {
                 case "-no_validation":
                     Core.disableValidation();
                     break;
+            }
+
+            for (Core.LaunchMode mode : Core.LaunchMode.values()){
+                if (arg.equalsIgnoreCase(mode.getArg())){
+                    Core.setMode(mode);
+                    break;
+                }
             }
         }
     }

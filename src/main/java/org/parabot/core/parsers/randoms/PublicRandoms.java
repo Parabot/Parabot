@@ -30,7 +30,7 @@ public class PublicRandoms extends RandomParser {
         try {
             URL url = myJar.toURI().toURL();
             URL[] urls = new URL[]{url};
-            String server = Context.getInstance().getServerProviderInfo().getServerName();
+            String server = Context.getInstance().getServerProvider().getServerDescription().getServerName();
 
             URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
             Class<?> classToLoad = Class.forName("org.parabot.randoms.Core", true, child);

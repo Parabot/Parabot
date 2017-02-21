@@ -16,7 +16,7 @@ import java.net.URL;
 /**
  * Parses scripts stored on the BDN of Parabot
  *
- * @author Paradox, Everel
+ * @author JKetelaar, Everel
  */
 public class BDNScripts extends ScriptParser {
     private static AccountManager manager;
@@ -40,7 +40,7 @@ public class BDNScripts extends ScriptParser {
         JSONParser parser = new JSONParser();
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SCRIPTS + Context.getInstance().getServerProviderInfo().getServerName()),
+                    Configuration.GET_SCRIPTS + Context.getInstance().getServerProvider().getServerDescription().getServerName()),
                     manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
 
             String line;

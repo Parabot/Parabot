@@ -1,17 +1,14 @@
 package org.parabot.core.ui.components;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
+import com.google.inject.Inject;
+import org.parabot.core.bdn.api.servers.IServerDownloader;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
@@ -30,8 +27,18 @@ public class ServerComponent extends JPanel implements MouseListener,
 	public ServerDescription desc;
 	private String name;
 	private boolean hovered;
+	private IServerDownloader serverDownloader;
 
-	public ServerComponent(final ServerDescription desc) {
+	public ServerComponent() {
+
+	}
+
+	@Inject
+	public void setServerDownloader(IServerDownloader serverDownloader) {
+		this.serverDownloader = serverDownloader;
+	}
+
+	public ServerComponent setDesc(final ServerDescription desc) {
 		this.desc = desc;
 		setLayout(null);
 		this.name = desc.getServerName().replaceAll(" ", "");
@@ -39,6 +46,8 @@ public class ServerComponent extends JPanel implements MouseListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+		return this;
 	}
 
 	@Override
@@ -84,6 +93,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				serverDownloader.downloadServer(desc);
 				Environment.load(desc);
 
 			}

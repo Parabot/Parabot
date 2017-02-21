@@ -1,8 +1,10 @@
 package org.parabot.environment.servers.executers;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.components.PaintComponent;
+import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.servers.ServerProvider;
 
 /**
@@ -21,11 +23,12 @@ public abstract class ServerExecuter {
                 try {
                     BotUI.getInstance().getCacheClear().setEnabled(false);
 
-                    Context context = Context.getInstance(provider);
+                    Context context = Core.getInjector().getInstance(Context.class);
+                    context.setServerProvider(provider);
                     context.load();
                     PaintComponent.getInstance().startPainting(context);
 
-                    Context.getInstance().getRandomHandler().init();
+                    Core.getInjector().getInstance(RandomHandler.class).init();
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }

@@ -40,8 +40,8 @@ public final class ScriptSelector extends JFrame {
 	private final int HEIGHT;
 
 	public ScriptSelector() {
-		this.categories = new HashMap<String, DefaultMutableTreeNode>();
-		this.format = new HashMap<String, ScriptDescription>();
+		this.categories = new HashMap<>();
+		this.format = new HashMap<>();
 		this.root = new DefaultMutableTreeNode("Scripts");
 		this.WIDTH = 640;
 		this.HEIGHT = 256 + 128;
@@ -160,11 +160,6 @@ public final class ScriptSelector extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String s = getScriptName(tree.getSelectionPath().toString());
 				if (s != null) {
-					try {
-						WebUtil.getContents("http://bdn.parabot.org/api/v2/scripts/local", "script=" + URLEncoder.encode(s, "UTF-8") + "&username=" + URLEncoder.encode(Context.getUsername(), "UTF-8"));
-					} catch (MalformedURLException | UnsupportedEncodingException e1) {
-						e1.printStackTrace();
-					}
 					runScript(format.get(s));
 				}
 			}

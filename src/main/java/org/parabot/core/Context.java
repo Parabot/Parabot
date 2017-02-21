@@ -1,12 +1,10 @@
 package org.parabot.core;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.json.simple.parser.JSONParser;
 import org.parabot.api.translations.TranslationHelper;
-import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
-import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
@@ -33,63 +31,40 @@ import java.util.TimerTask;
  *
  * @author Everel, JKetelaar, Matt
  */
+@Singleton
 public class Context {
-    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
-    private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
-    
-    private static Context instance;
-    private static String username;
+    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
+    private static ArrayList<Paintable> paintables = new ArrayList<>();
 
-    private ASMClassLoader classLoader;
+    @Inject
     private ClassPath classPath;
     private ServerProvider serverProvider;
     private Applet gameApplet;
     private HookParser hookParser;
     private Script runningScript;
-    private RandomHandler randomHandler;
+
     private Object clientInstance;
-    private PaintDebugger paintDebugger;
     private Mouse mouse;
     private Keyboard keyboard;
-    private PBKeyListener pbKeyListener;
+
+    @Inject
     private JSONParser jsonParser;
 
-    private PrintStream defaultOut;
+    private PrintStream defaultOut = System.out;
     private PrintStream defaultErr = System.err;
 
-    private final Injector injector;
+    public Context() {
+    }
 
-    private Context(final ServerProvider serverProvider) {
+    public void setServerProvider(ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
-        
-        System.setProperty("sun.java.command", "");
-        this.serverProvider = serverProvider;
-        this.paintDebugger = new PaintDebugger();
-        this.classPath = new ClassPath();
-        this.classLoader = new ASMClassLoader(classPath);
-        this.randomHandler = new RandomHandler();
 
-        this.jsonParser = new JSONParser();
+        this.serverProvider = serverProvider;
 
         this.defaultOut = System.out;
         this.defaultErr = System.err;
 
-        this.injector = Guice.createInjector(new AppInjector());
-    }
-
-    public static Context getInstance(ServerProvider serverProvider) {
-        if (instance != null && instance.getServerProvider() == null){
-            instance.serverProvider = serverProvider;
-        }
-        return instance == null ? instance = new Context(serverProvider) : instance;
-    }
-    
-    public static Context getInstance() {
-    	return getInstance(null);
-    }
-
-    public Injector getInjector() {
-        return injector;
+        System.setProperty("sun.java.command", "");
     }
 
     /**
@@ -125,7 +100,6 @@ public class Context {
     public Mouse getMouse() {
         return mouse;
     }
-
 
     /**
      * Sets the keyboard
@@ -184,39 +158,40 @@ public class Context {
         serverProvider.injectHooks();
         Core.verbose(TranslationHelper.translate("DONE"));
         Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
-        if(Core.shouldDump()) {
-        	Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
-        	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
-        	Core.verbose(TranslationHelper.translate("DONE"));
+        if (Core.shouldDump()) {
+            Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
+            classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
+            Core.verbose(TranslationHelper.translate("DONE"));
         }
         Applet applet = serverProvider.fetchApplet();
         // If applet is null the server provider will call setApplet itself
-        if(applet != null) {
+        if (applet != null) {
             setApplet(applet);
         }
     }
-    
+
     /**
      * Sets the bot target applet
+     *
      * @param applet
      */
     public void setApplet(final Applet applet) {
-    	gameApplet = applet;
-    	
-    	if (getClient() == null) {
+        gameApplet = applet;
+
+        if (getClient() == null) {
             setClientInstance(gameApplet);
         }
 
         Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
-        
+
         final GamePanel panel = GamePanel.getInstance();
         final Dimension appletSize = serverProvider.getGameDimensions();
-        
+
         panel.setPreferredSize(appletSize);
         serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
         BotUI.getInstance().pack();
         BotUI.getInstance().validate();
-        
+
         panel.removeComponents();
         gameApplet.setSize(appletSize);
         panel.add(gameApplet);
@@ -232,7 +207,7 @@ public class Context {
                 gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
             }
         }, 1000);
-        
+
         Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
         serverProvider.initMouse();
         Core.verbose(TranslationHelper.translate("DONE"));
@@ -241,9 +216,9 @@ public class Context {
         Core.verbose(TranslationHelper.translate("DONE"));
 
         Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
-        this.pbKeyListener = new PBKeyListener();
-        applet.addKeyListener(this.pbKeyListener);
-        
+
+        applet.addKeyListener(Core.getInjector().getInstance(PBKeyListener.class));
+
         BotDialog.getInstance().validate();
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);
@@ -256,15 +231,6 @@ public class Context {
      */
     public ServerProvider getServerProvider() {
         return serverProvider;
-    }
-
-    /**
-     * Gets class loader of server from this context
-     *
-     * @return class loader
-     */
-    public ASMClassLoader getASMClassLoader() {
-        return classLoader;
     }
 
     /**
@@ -292,15 +258,6 @@ public class Context {
      */
     public Paintable[] getPaintables() {
         return paintables.toArray(new Paintable[paintables.size()]);
-    }
-
-    /**
-     * The client debug painter
-     *
-     * @return debug painter
-     */
-    public PaintDebugger getPaintDebugger() {
-        return paintDebugger;
     }
 
     /**
@@ -338,28 +295,8 @@ public class Context {
     public Script getRunningScript() {
         return this.runningScript;
     }
-    
-    /**
-     * Gets the random handler
-     * @return random handler
-     */
-    public RandomHandler getRandomHandler() {
-    	return this.randomHandler;
-    }
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        Context.username = username;
-    }
 
     public JSONParser getJsonParser() {
         return jsonParser;
-    }
-
-    public PBKeyListener getPbKeyListener() {
-        return pbKeyListener;
     }
 }

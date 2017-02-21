@@ -1,5 +1,6 @@
 package org.parabot.core.ui.listeners;
 
+import com.google.inject.Singleton;
 import org.parabot.core.ui.listeners.key.ActionEventBinding;
 import org.parabot.core.ui.listeners.key.Binding;
 import org.parabot.environment.OperatingSystem;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * @author JKetelaar
  */
+@Singleton
 public class PBKeyListener implements KeyListener {
 
     private List<Binding> bindings;

@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
+import org.parabot.core.paint.PaintDebugger;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.api.utils.Time;
 
@@ -74,7 +76,7 @@ public class PaintComponent extends JComponent implements Runnable {
 			for(Paintable p : context.getPaintables()) {
 				p.paint(g);
 			}
-			context.getPaintDebugger().debug(g2);
+			Core.getInjector().getInstance(PaintDebugger.class).debug(g2);
 		}
 		g.drawImage(buffer, 0, 0, null);
 	}

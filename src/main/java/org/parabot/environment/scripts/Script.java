@@ -4,12 +4,13 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.Logger;
-import org.parabot.environment.api.utils.PBPreferences;
+import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.environment.api.utils.Time;
+import org.parabot.environment.randoms.Random;
+import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.randoms.RandomType;
 import org.parabot.environment.scripts.framework.*;
 import org.parabot.environment.scripts.framework.Frameworks;
-import org.parabot.environment.scripts.randoms.Random;
 
 import java.util.Collection;
 
@@ -28,7 +29,6 @@ public class Script implements Runnable {
     public static final int STATE_STOPPED = 2;
 
     private Collection<Strategy> strategies;
-    private PBPreferences preferences;
     private AbstractFramework frameWork;
     private int state;
     private int frameWorkType;
@@ -62,12 +62,12 @@ public class Script implements Runnable {
     }
 
     public final void addRandom(Random random) {
-        Context.getInstance().getRandomHandler().addRandom(random);
+        Core.getInjector().getInstance(RandomHandler.class).addRandom(random);
     }
 
     @Override
     public final void run() {
-        Context context = Context.getInstance();
+        Context context = Core.getInjector().getInstance(Context.class);
 
         Core.verbose("Initializing script...");
         context.getServerProvider().initScript(this);
@@ -81,7 +81,7 @@ public class Script implements Runnable {
             return;
         }
 
-        context.getRandomHandler().checkAndRun(RandomType.ON_SCRIPT_START);
+        Core.getInjector().getInstance(RandomHandler.class).checkAndRun(RandomType.ON_SCRIPT_START);
 
         Core.verbose("Detecting script framework...");
         context.setRunningScript(this);
@@ -102,7 +102,7 @@ public class Script implements Runnable {
         Logger.addMessage("Script started.", true);
         try {
             while (this.state != STATE_STOPPED) {
-                if (context.getRandomHandler().checkAndRun(RandomType.SCRIPT)) {
+                if (Core.getInjector().getInstance(RandomHandler.class).checkAndRun(RandomType.SCRIPT)) {
                     continue;
                 }
 
@@ -120,7 +120,7 @@ public class Script implements Runnable {
         Core.verbose("Script stopped/finished, unloading and stopping...");
         onFinish();
 
-        context.getRandomHandler().checkAndRun(RandomType.ON_SCRIPT_FINISH);
+        Core.getInjector().getInstance(RandomHandler.class).checkAndRun(RandomType.ON_SCRIPT_FINISH);
 
         Logger.addMessage("Script stopped.", false);
         context.getServerProvider().unloadScript(this);
@@ -128,7 +128,7 @@ public class Script implements Runnable {
         context.setRunningScript(null);
 
         Core.verbose("Resetting key bindings...");
-        Context.getInstance().getPbKeyListener().resetBindings();
+        Core.getInjector().getInstance(PBKeyListener.class).resetBindings();
 
         BotUI.getInstance().toggleRun();
         Core.verbose("Done.");
@@ -171,13 +171,6 @@ public class Script implements Runnable {
 
     public int getState() {
         return state;
-    }
-
-    public PBPreferences getPreferences() {
-        if (this.preferences == null) {
-            this.preferences = new PBPreferences(scriptID);
-        }
-        return this.preferences;
     }
 
     public void setScriptID(int scriptID) {

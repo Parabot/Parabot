@@ -3,6 +3,7 @@ package org.parabot.environment.servers;
 import com.google.inject.Inject;
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.bdn.api.servers.ServerDownloader;
@@ -95,7 +96,7 @@ public abstract class ServerProvider implements Opcodes {
 		for (Injectable inj : injectables) {
 			inj.inject();
 		}
-		Context.getInstance().setHookParser(parser);
+		Core.getInjector().getInstance(Context.class).setHookParser(parser);
 	}
 	
 	private HookFile fetchHookFile() {
@@ -126,11 +127,11 @@ public abstract class ServerProvider implements Opcodes {
 	}
 	
 	public void setClientInstance(Object client) {
-		Context.getInstance().setClientInstance(client);
+		Core.getInjector().getInstance(Context.class).setClientInstance(client);
 	}
 
 	public void parseJar() {
-		Context.getInstance().getClassPath().addJar(getJar());
+		Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar());
 	}
 	
 	public void initScript(Script script) {
@@ -142,18 +143,24 @@ public abstract class ServerProvider implements Opcodes {
 	}
 	
 	public void initMouse() {
-		final Context context = Context.getInstance();
+		final Context context = Core.getInjector().getInstance(Context.class);
 		final Applet applet = context.getApplet();
-		final Mouse mouse = new Mouse(applet);
+		final Mouse mouse = Core.getInjector().getInstance(Mouse.class);
+
+		mouse.setComponent(applet);
+
 		applet.addMouseListener(mouse);
 		applet.addMouseMotionListener(mouse);
 		context.setMouse(mouse);
 	}
 	
 	public void initKeyboard() {
-		final Context context = Context.getInstance();
+		final Context context = Core.getInjector().getInstance(Context.class);
 		final Applet applet = context.getApplet();
-		final Keyboard keyboard = new Keyboard(applet);
+		final Keyboard keyboard = Core.getInjector().getInstance(Keyboard.class);
+
+		keyboard.setComponent(applet);
+		
 		applet.addKeyListener(keyboard);
 		context.setKeyboard(keyboard);
 	}

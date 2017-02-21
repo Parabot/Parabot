@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.reflect.RefClass;
@@ -45,7 +46,7 @@ public class ReflectUI extends JFrame {
         this.selectionInfoPane = new JEditorPane();
         this.classes = new HashMap<>();
         this.fields = new HashMap<>();
-        this.instance = Context.getInstance().getClient();
+        this.instance = Core.getInjector().getInstance(Context.class).getClient();
 
         fillModel();
 
@@ -190,9 +191,8 @@ public class ReflectUI extends JFrame {
     }
 
     private void fillModel() {
-        Context context = Context.getInstance();
-        ClassPath classPath = context.getClassPath();
-        ASMClassLoader classLoader = context.getASMClassLoader();
+        ClassPath classPath = Core.getInjector().getInstance(Context.class).getClassPath();
+        ASMClassLoader classLoader = Core.getInjector().getInstance(ASMClassLoader.class);
         for (String className : classPath.classNames) {
             try {
                 DefaultMutableTreeNode classNode = new DefaultMutableTreeNode(
@@ -221,15 +221,12 @@ public class ReflectUI extends JFrame {
     }
 
     private void fillBasicInfoPane() {
-        Context context = Context.getInstance();
-        ClassPath classPath = context.getClassPath();
+        ClassPath classPath = Core.getInjector().getInstance(Context.class).getClassPath();
 
-        StringBuilder builder = new StringBuilder();
+        String builder = "<b>Classes: </b>" + classPath.classNames.size() + "<br/>" +
+                "<b>Using instance: </b>" + instance.toString() + "<br/>";
 
-        builder.append("<b>Classes: </b>").append(classPath.classNames.size()).append("<br/>");
-        builder.append("<b>Using instance: </b>").append(instance.toString()).append("<br/>");
-
-        basicInfoPane.setText(builder.toString());
+        basicInfoPane.setText(builder);
     }
 
     private void setFieldInfo(RefField refField) {

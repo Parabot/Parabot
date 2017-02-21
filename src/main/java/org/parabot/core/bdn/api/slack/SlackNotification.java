@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.parabot.api.notifications.NotificationManager;
 import org.parabot.api.notifications.types.NotificationType;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.core.user.implementations.UserAuthenticatorAccess;
@@ -51,7 +52,7 @@ public class SlackNotification extends NotificationType implements UserAuthentic
     @Override
     public void notify(String message) {
         Script script;
-        if ((script = Context.getInstance().getRunningScript()) != null) {
+        if ((script = Core.getInjector().getInstance(Context.class).getRunningScript()) != null) {
             APICaller.APIPoint apiPoint = APICaller.APIPoint.SEND_SLACK.setPointParams(script.getScriptID());
 
             APICaller.callPoint(apiPoint, authenticator, "Message=" + message);

@@ -1,6 +1,8 @@
 package org.parabot.environment.input;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.environment.api.utils.Time;
 
 import java.awt.*;
@@ -15,17 +17,18 @@ import java.awt.event.MouseMotionListener;
  * @author Everel
  *
  */
+@Singleton
 public class Mouse implements MouseListener, MouseMotionListener {
 	private Component component;
 	private int x;
 	private int y;
-	
-	public Mouse(Component component) {
-		this.component = component;
+
+	public Mouse(){
+
 	}
 	
-	public static Mouse getInstance() {
-		return Context.getInstance().getMouse();
+	public void setComponent(Component component) {
+		this.component = component;
 	}
 	
 	/**

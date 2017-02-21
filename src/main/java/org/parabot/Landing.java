@@ -4,7 +4,6 @@ import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
-import org.parabot.core.forum.AccountManager;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
@@ -47,9 +46,6 @@ public final class Landing {
             Core.downloadNewVersion();
             return;
         }
-
-        Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
-        AccountManager.validate();
 
         Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
         new BotUI();

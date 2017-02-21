@@ -3,6 +3,7 @@ package org.parabot.core.ui;
 import javafx.application.Application;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
@@ -12,6 +13,7 @@ import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.randoms.Random;
+import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.scripts.Script;
 
 import javax.imageio.ImageIO;
@@ -197,7 +199,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 break;
             case "Randoms":
                 ArrayList<String> randoms = new ArrayList<>();
-                for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+                for (Random r : Core.getInjector().getInstance(RandomHandler.class).getRandoms()) {
                     randoms.add(r.getName());
                 }
                 RandomUI.getInstance().openFrame(randoms);
@@ -291,8 +293,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     }
 
     private void setScriptState(int state) {
-        if (Context.getInstance().getRunningScript() != null) {
-            Context.getInstance().getRunningScript().setState(state);
+        Context context = Core.getInjector().getInstance(Context.class);
+        if (context.getRunningScript() != null) {
+            context.getRunningScript().setState(state);
         }
     }
 

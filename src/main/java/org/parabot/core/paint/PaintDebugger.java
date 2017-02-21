@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Context;
 
 /**
@@ -15,13 +16,14 @@ import org.parabot.core.Context;
  * @author Everel
  *
  */
+@Singleton
 public class PaintDebugger {
 	private final HashMap<String, AbstractDebugger> debuggers;
 	private final Queue<String> stringDebug;
 	
 	public PaintDebugger() {
-		this.debuggers = new HashMap<String, AbstractDebugger>();
-		this.stringDebug = new LinkedList<String>();
+		this.debuggers = new HashMap<>();
+		this.stringDebug = new LinkedList<>();
 	}
 	
 	public final void addDebugger(final String name, final AbstractDebugger debugger) {
@@ -40,10 +42,6 @@ public class PaintDebugger {
 			g.drawString(stringDebug.poll(), 10, y);
 			y += 15;
 		}
-	}
-	
-	public static final PaintDebugger getInstance() {
-		return Context.getInstance().getPaintDebugger();
 	}
 	
 	public final void addLine(final String debugLine) {

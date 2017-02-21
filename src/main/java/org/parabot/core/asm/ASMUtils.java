@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 
 import java.lang.reflect.Modifier;
 
@@ -41,7 +42,7 @@ public class ASMUtils implements Opcodes {
 	}
 
 	public static ClassNode getClass(String className) {
-		Context context = Context.getInstance();
+		Context context = Core.getInjector().getInstance(Context.class);
 		for (ClassNode node : context.getClassPath().classes.values()) {
 			if (node.name.equals(className)) {
 				return node;

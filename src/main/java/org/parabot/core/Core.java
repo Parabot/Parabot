@@ -1,9 +1,12 @@
 package org.parabot.core;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
 import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
@@ -37,6 +40,12 @@ public class Core {
     private static boolean validate = true;
     private static boolean secure = true;
 
+    private static final Injector injector = Guice.createInjector(new AppInjector());
+
+    public static Injector getInjector() {
+        return injector;
+    }
+
     public static void disableValidation() {
         Core.validate = false;
     }
@@ -54,7 +63,7 @@ public class Core {
     }
 
     public static boolean isMode(LaunchMode mode){
-        return Core.mode.equals(mode);
+        return Core.mode != null && Core.mode.equals(mode);
     }
 
     /**

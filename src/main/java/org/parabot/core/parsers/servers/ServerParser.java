@@ -25,11 +25,11 @@ public abstract class ServerParser {
         final ArrayList<ServerParser> parsers = new ArrayList<>();
         if (Core.isMode(Core.LaunchMode.INCLUDE_LOCAL)) {
             // TODO: Load local servers
-            parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
+            parsers.add(Core.getInjector().getInstance(PublicServers.class));
         } else if (Core.isMode(Core.LaunchMode.LOCAL_ONLY)) {
             // TODO: Load local servers
         } else {
-            parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
+            parsers.add(Core.getInjector().getInstance(PublicServers.class));
         }
 
         Core.verbose("Parsing server providers...");

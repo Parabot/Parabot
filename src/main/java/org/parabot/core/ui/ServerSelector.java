@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.ServerComponent;
@@ -98,7 +99,7 @@ public class ServerSelector extends JPanel {
 		final Queue<ServerComponent> widgets = new LinkedList<>();
 		ServerDescription[] servers = ServerParser.getDescriptions();
 		for (ServerDescription desc : servers) {
-            widgets.add(Context.getInstance().getInjector().getInstance(ServerComponent.class).setDesc(desc));
+            widgets.add(Core.getInjector().getInstance(ServerComponent.class).setDesc(desc));
         }
 		return widgets;
 	}

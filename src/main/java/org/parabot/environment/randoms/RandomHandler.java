@@ -1,5 +1,6 @@
 package org.parabot.environment.randoms;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Core;
 import org.parabot.core.parsers.randoms.RandomParser;
 import org.parabot.core.ui.Logger;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 /**
  * @author JKetelaar
  */
+@Singleton
 public class RandomHandler {
     private ArrayList<Random> randoms;
 

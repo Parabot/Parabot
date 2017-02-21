@@ -6,7 +6,9 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 
 /**
  * 
@@ -15,17 +17,21 @@ import org.parabot.core.Context;
  * @author Everel, Matt, Dane
  *
  */
+@Singleton
 public class Keyboard implements KeyListener {
 	private static HashMap<Character, Character> specialChars;
 	private Component component;
 	private long pressTime;
 
-	public Keyboard(Component component) {
+	public Keyboard(){
+	}
+
+	public void setComponent(Component component){
 		this.component = component;
 	}
 	
 	public static Keyboard getInstance() {
-		return Context.getInstance().getKeyboard();
+		return Core.getInjector().getInstance(Context.class).getKeyboard();
 	}
 
 	static {

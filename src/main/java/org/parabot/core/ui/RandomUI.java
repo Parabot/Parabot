@@ -3,6 +3,7 @@ package org.parabot.core.ui;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.environment.randoms.Random;
+import org.parabot.environment.randoms.RandomHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -61,14 +62,15 @@ public class RandomUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Context.getInstance().getRandomHandler().clearActiveRandoms();
+        RandomHandler handler = Core.getInjector().getInstance(RandomHandler.class);
+        handler.clearActiveRandoms();
         if (checkBoxes != null && checkBoxes.size() > 0) {
             for (JCheckBox checkBox : this.checkBoxes) {
                 if (checkBox.isSelected()) {
-                    for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+                    for (Random r : handler.getRandoms()) {
                         if (r.getName().equalsIgnoreCase(checkBox.getText().toLowerCase())) {
                             Core.verbose("Actived random '" + r.getName() + "'");
-                            Context.getInstance().getRandomHandler().setActive(r.getName());
+                            handler.setActive(r.getName());
                         }
                     }
                 }
@@ -78,7 +80,7 @@ public class RandomUI implements ActionListener {
     }
 
     private boolean isActive(String random) {
-        for (Random r : Context.getInstance().getRandomHandler().getActiveRandoms()) {
+        for (Random r : Core.getInjector().getInstance(RandomHandler.class).getActiveRandoms()) {
             if (r.getName().equalsIgnoreCase(random.toLowerCase())) {
                 return true;
             }

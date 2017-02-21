@@ -2,8 +2,6 @@ package org.parabot.environment.scripts.executers;
 
 import org.parabot.core.Configuration;
 import org.parabot.core.classpath.ClassPath;
-import org.parabot.core.forum.AccountManager;
-import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Script;
@@ -23,17 +21,6 @@ import java.net.URLConnection;
  */
 public class BDNScriptsExecuter extends ScriptExecuter {
 	
-	private static AccountManager manager;
-
-	public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
-
-		@Override
-		public final void setManager(AccountManager manager) {
-			BDNScriptsExecuter.manager = manager;
-		}
-
-	};
-	
 	private int id = -1;
 
 	public BDNScriptsExecuter(final int id) {
@@ -43,8 +30,7 @@ public class BDNScriptsExecuter extends ScriptExecuter {
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
-            final URLConnection urlConnection = WebUtil.getConnection(new URL(
-                    Configuration.GET_SCRIPT + this.id), manager.getAccount().getURLUsername(), manager.getAccount().getURLPassword());
+            final URLConnection urlConnection = WebUtil.getConnection(new URL(Configuration.GET_SCRIPT + this.id));
 
 			final String contentType = urlConnection.getHeaderField("Content-type");
 			switch (contentType) {

@@ -1,5 +1,6 @@
 package org.parabot.core.ui.listeners.key;
 
+import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 
 /**
@@ -16,7 +17,7 @@ public class ActionEventBinding extends Binding {
 
     @Override
     public void perform() {
-        BotUI.getInstance().performCommand(actionString);
+        Core.getInjector().getInstance(BotUI.class).performCommand(actionString);
     }
 
 }

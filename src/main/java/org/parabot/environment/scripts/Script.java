@@ -85,7 +85,7 @@ public class Script implements Runnable {
 
         Core.verbose("Detecting script framework...");
         context.setRunningScript(this);
-        BotUI.getInstance().toggleRun();
+        Core.getInjector().getInstance(BotUI.class).toggleRun();
         if (this instanceof LoopTask) {
             Core.verbose("Script framework detected: LoopTask");
             frameWorkType = TYPE_LOOP;
@@ -130,7 +130,7 @@ public class Script implements Runnable {
         Core.verbose("Resetting key bindings...");
         Core.getInjector().getInstance(PBKeyListener.class).resetBindings();
 
-        BotUI.getInstance().toggleRun();
+        Core.getInjector().getInstance(BotUI.class).toggleRun();
         Core.verbose("Done.");
     }
 

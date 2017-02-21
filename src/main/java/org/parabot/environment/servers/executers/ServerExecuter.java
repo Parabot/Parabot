@@ -21,7 +21,7 @@ public abstract class ServerExecuter {
             @Override
             public void run() {
                 try {
-                    BotUI.getInstance().getCacheClear().setEnabled(false);
+                    Core.getInjector().getInstance(BotUI.class).getCacheClear().setEnabled(false);
 
                     Context context = Core.getInjector().getInstance(Context.class);
                     context.setServerProvider(provider);

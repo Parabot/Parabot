@@ -143,9 +143,9 @@ public class Context {
         final Dimension appletSize = serverProvider.getGameDimensions();
 
         panel.setPreferredSize(appletSize);
-        serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
-        BotUI.getInstance().pack();
-        BotUI.getInstance().validate();
+        serverProvider.addMenuItems(Core.getInjector().getInstance(BotUI.class).getJMenuBar());
+        Core.getInjector().getInstance(BotUI.class).pack();
+        Core.getInjector().getInstance(BotUI.class).validate();
 
         panel.removeComponents();
         gameApplet.setSize(appletSize);

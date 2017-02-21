@@ -1,6 +1,7 @@
 package org.parabot.core.ui;
 
 import com.google.inject.Singleton;
+import org.parabot.core.Core;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
@@ -45,13 +46,13 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 
     @Override
     public void setVisible(boolean b) {
-        BotUI.getInstance().setEnabled(!b);
+        Core.getInjector().getInstance(BotUI.class).setEnabled(!b);
         if (ProxySocket.getProxyAddress() != null)
             proxyHost.setText(ProxySocket.getProxyAddress().getHostName());
         proxyPort.setText("" + ProxySocket.getProxyPort());
         proxyType.setSelectedItem(ProxySocket.getProxyType());
         authCheckBox.setSelected(ProxySocket.auth);
-        setLocationRelativeTo(BotUI.getInstance());
+        setLocationRelativeTo(Core.getInjector().getInstance(BotUI.class));
         super.setVisible(b);
     }
 

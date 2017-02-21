@@ -35,7 +35,6 @@ import java.util.ArrayList;
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
     private static final long serialVersionUID = -2126184292879805519L;
-    private static BotUI instance;
     private static JDialog dialog;
 
     private JMenuBar menuBar;
@@ -45,10 +44,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 
     public BotUI() {
-        if (instance != null) {
-            throw new IllegalStateException("BotUI already created");
-        }
-        instance = this;
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
         setTitle(Configuration.BOT_TITLE);
@@ -73,11 +68,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             Core.getInjector().getInstance(BotDialog.class).setVisible(false);
         }
     }
-
-    public static BotUI getInstance() {
-        return instance;
-    }
-
 
     private void createMenu() {
         menuBar = new JMenuBar();
@@ -236,8 +226,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Logger":
                 Logger logger = Core.getInjector().getInstance(Logger.class);
                 logger.setVisible(!logger.isVisible());
-                BotUI.getInstance().pack();
-                BotUI.getInstance().revalidate();
+                pack();
+                revalidate();
                 if (!logger.isClearable()) {
                     logger.setClearable();
                 } else if (logger.isClearable() && !logger.isVisible()) {

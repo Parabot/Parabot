@@ -15,9 +15,7 @@ import java.awt.*;
 public class BotDialog extends JDialog {
     private static final long serialVersionUID = 521800552287194673L;
 
-    public BotDialog(BotUI botUI) {
-        super(botUI);
-
+    public BotDialog setBotUI(BotUI botUI) {
         botUI.setDialog(this);
         setUndecorated(true);
         getRootPane().setOpaque(false);
@@ -43,6 +41,8 @@ public class BotDialog extends JDialog {
         paintComponent.setDimensions(botUI.getSize());
 
         botUI.setVisible(true);
+
+        return this;
     }
 
     public void setDimensions(Dimension dimension) {

@@ -15,7 +15,7 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private GamePanel() {
+    public GamePanel() {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         setOpaque(true);

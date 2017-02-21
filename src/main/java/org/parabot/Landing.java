@@ -42,7 +42,7 @@ public final class Landing {
         }
 
         Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
-        new BotUI();
+        Core.getInjector().getInstance(BotUI.class);
     }
 
     private static void parseArgs(String... args) {

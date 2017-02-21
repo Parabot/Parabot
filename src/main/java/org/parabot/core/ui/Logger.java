@@ -20,7 +20,7 @@ public class Logger extends JPanel {
 
     private boolean clearable;
 
-    private Logger() {
+    public Logger() {
         setLayout(new BorderLayout());
         list = new JList<>();
 
@@ -47,7 +47,7 @@ public class Logger extends JPanel {
         setVisible(false);
     }
 
-    private static Logger getInstance(){
+    private static Logger getInstance() {
         return Core.getInjector().getInstance(Logger.class);
     }
 

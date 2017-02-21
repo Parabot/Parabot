@@ -1,8 +1,6 @@
 package org.parabot.core.ui.components;
 
-import com.google.inject.Inject;
 import org.parabot.core.Core;
-import org.parabot.core.bdn.api.servers.IServerDownloader;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;

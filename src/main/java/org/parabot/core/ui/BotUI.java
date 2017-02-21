@@ -65,7 +65,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         setLocationRelativeTo(null);
 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            Core.getInjector().getInstance(BotDialog.class).setVisible(false);
+            Core.getInjector().getInstance(BotDialog.class).setBotUI(this).setVisible(false);
         }
     }
 

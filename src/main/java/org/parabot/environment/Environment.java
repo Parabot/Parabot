@@ -52,7 +52,7 @@ public class Environment extends org.parabot.api.io.libraries.Environment {
                 if (verboseLoader) {
                     VerboseLoader.setState("Downloading " + library.getLibraryName() + "...");
                 }
-                WebUtil.downloadFile(library.getDownloadLink(), library.getJarFile(), VerboseLoader.get());
+                WebUtil.downloadFile(library.getDownloadLink(), library.getJarFile(), Core.getInjector().getInstance(VerboseLoader.class));
                 Core.verbose("Downloaded " + library.getLibraryName() + ".");
             }
             Core.verbose("Initializing " + library.getLibraryName());

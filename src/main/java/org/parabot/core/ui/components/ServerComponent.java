@@ -1,6 +1,7 @@
 package org.parabot.core.ui.components;
 
 import com.google.inject.Inject;
+import org.parabot.core.Core;
 import org.parabot.core.bdn.api.servers.IServerDownloader;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
@@ -87,7 +88,7 @@ public class ServerComponent extends JPanel implements MouseListener,
     }
 
     public void load(final ServerDescription desc) {
-        VerboseLoader.get().switchState(VerboseLoader.STATE_LOADING);
+        Core.getInjector().getInstance(VerboseLoader.class).switchState(VerboseLoader.STATE_LOADING);
         new Thread(new Runnable() {
             @Override
             public void run() {

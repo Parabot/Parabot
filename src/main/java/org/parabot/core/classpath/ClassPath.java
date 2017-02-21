@@ -6,6 +6,7 @@ import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.api.io.Directories;
 import org.parabot.api.io.build.BuildPath;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.asm.RedirectClassAdapter;
 import org.parabot.core.io.SizeInputStream;
@@ -82,7 +83,7 @@ public class ClassPath {
         try {
             final int size = connection.getContentLength();
             final SizeInputStream sizeInputStream = new SizeInputStream(
-                    connection.getInputStream(), size, VerboseLoader.get());
+                    connection.getInputStream(), size, Core.getInjector().getInstance(VerboseLoader.class));
             final ZipInputStream zin = new ZipInputStream(sizeInputStream);
             ZipEntry e;
             while ((e = zin.getNextEntry()) != null) {
@@ -99,7 +100,7 @@ public class ClassPath {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        VerboseLoader.get().onProgressUpdate(100);
+        Core.getInjector().getInstance(VerboseLoader.class).onProgressUpdate(100);
     }
 
 

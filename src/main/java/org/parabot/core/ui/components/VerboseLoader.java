@@ -1,5 +1,6 @@
 package org.parabot.core.ui.components;
 
+import com.google.inject.Singleton;
 import org.parabot.api.io.images.Images;
 import org.parabot.core.Core;
 import org.parabot.core.io.ProgressListener;
@@ -19,14 +20,14 @@ import java.awt.image.RescaleOp;
 /**
  * An informative JPanel which tells the user what bot is doing
  *
- * @author Everel, EmmaStone
+ * @author Everel, EmmaStone, JKetelaar
  */
+@Singleton
 public class VerboseLoader extends JPanel implements ProgressListener {
     public static final int STATE_LOADING = 1;
     private static final long serialVersionUID = 7412412644921803896L;
     private static final int STATE_AUTHENTICATION = 0;
     private static final int STATE_SERVER_SELECT = 2;
-    private static VerboseLoader current;
     private static String state = "Initializing loader...";
     private int currentState;
 
@@ -35,11 +36,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     private ProgressBar progressBar;
     private JPanel loginPanel;
 
-    private VerboseLoader() {
-        if (current != null) {
-            throw new IllegalStateException("MainScreenComponent already made.");
-        }
-        current = this;
+    public VerboseLoader() {
         this.background = Images.getResource("/storage/images/background.png");
         this.banner = Images.getResource("/storage/images/logo.png");
         this.loginBox = Images.getResource("/storage/images/login.png");
@@ -62,22 +59,13 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     }
 
     /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get() {
-        return current == null ? new VerboseLoader() : current;
-    }
-
-    /**
      * Updates the status message and repaints the panel
      *
      * @param message
      */
     public static void setState(final String message) {
         state = message;
-        current.repaint();
+        Core.getInjector().getInstance(VerboseLoader.class).repaint();
     }
 
     public void addServerPanel() {

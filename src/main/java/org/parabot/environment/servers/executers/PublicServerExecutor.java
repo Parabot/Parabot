@@ -50,7 +50,7 @@ public class PublicServerExecutor extends ServerExecuter {
                 Core.verbose("Found cached server provider [MD5: " + StringUtils.toMD5(description.getDetail("provider")) + "]");
             } else {
                 WebUtil.downloadFile(new URL(jarUrl), destination,
-                        VerboseLoader.get());
+                        Core.getInjector().getInstance(VerboseLoader.class));
                 Core.verbose("Server provider downloaded...");
             }
 

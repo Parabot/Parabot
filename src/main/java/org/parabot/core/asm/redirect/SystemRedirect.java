@@ -1,7 +1,6 @@
 package org.parabot.core.asm.redirect;
 
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 
 import java.io.InputStream;
 import java.io.PrintStream;

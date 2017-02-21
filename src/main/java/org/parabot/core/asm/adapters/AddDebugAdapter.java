@@ -31,7 +31,7 @@ public class AddDebugAdapter {
 		LdcInsnNode ldc = new LdcInsnNode(callString);
 		
 		MethodInsnNode methodNode = new MethodInsnNode(Opcodes.INVOKESTATIC, "org/parabot/core/Core", "debug",
-				"(Ljava/lang/String;)V");
+				"(Ljava/lang/String;)V", false);
 		
 		inject.add(ldc);
 		inject.add(methodNode);

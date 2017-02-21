@@ -96,9 +96,9 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 		}
 
 		if(isInterface) {
-			m.visitMethodInsn(INVOKEINTERFACE, instanceCast, mName, mDesc);
+			m.visitMethodInsn(INVOKEINTERFACE, instanceCast, mName, mDesc, false);
 		} else {
-			m.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, methodLocation.name, mn.name, mn.desc);
+			m.visitMethodInsn(isStatic ? INVOKESTATIC : INVOKEVIRTUAL, methodLocation.name, mn.name, mn.desc, false);
 		}
 		if (this.returnDesc.contains("L")) {
 			if (!this.returnDesc.contains("[")) {

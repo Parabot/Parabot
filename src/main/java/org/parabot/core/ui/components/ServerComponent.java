@@ -26,15 +26,9 @@ public class ServerComponent extends JPanel implements MouseListener,
     public ServerDescription desc;
     private String name;
     private boolean hovered;
-    private IServerDownloader serverDownloader;
 
     public ServerComponent() {
 
-    }
-
-    @Inject
-    public void setServerDownloader(IServerDownloader serverDownloader) {
-        this.serverDownloader = serverDownloader;
     }
 
     public ServerComponent setDesc(final ServerDescription desc) {
@@ -92,7 +86,6 @@ public class ServerComponent extends JPanel implements MouseListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                serverDownloader.downloadServer(desc);
                 Environment.load(desc);
 
             }

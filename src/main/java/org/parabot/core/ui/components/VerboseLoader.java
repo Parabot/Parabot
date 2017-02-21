@@ -81,7 +81,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     }
 
     public void addServerPanel() {
-        JPanel servers = ServerSelector.getInstance();
+        JPanel servers = Core.getInjector().getInstance(ServerSelector.class);
         GridBagLayout bagLayout = (GridBagLayout) getLayout();
         GridBagConstraints c = new GridBagConstraints();
 

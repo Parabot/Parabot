@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
@@ -14,13 +15,12 @@ import java.util.Queue;
 /**
  * Shows a list of every supported server which can be started
  *
- * @author Dane, Everel
+ * @author Dane, Everel, JKetelaar
  */
-
+@Singleton
 public class ServerSelector extends JPanel {
     private static final long serialVersionUID = 5238720307271493899L;
     public static String initServer;
-    private static ServerSelector instance;
 
     public ServerSelector() {
         Queue<ServerComponent> widgets = getServers();
@@ -59,13 +59,6 @@ public class ServerSelector extends JPanel {
                 .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(scrlInterior);
 
-    }
-
-    public static ServerSelector getInstance() {
-        if (instance == null) {
-            instance = new ServerSelector();
-        }
-        return instance;
     }
 
     /**

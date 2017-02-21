@@ -72,7 +72,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 		Font normal = Fonts.getResource("leelawadee.ttf");
 		g.setFont(normal);
 		FontMetrics fm = g.getFontMetrics();
-		String author = "Author: " + StringUtils.implode(", ", desc.getAuthors());
+		String author = "Author: " + (desc.getAuthors().length > 0 ? StringUtils.implode(", ", desc.getAuthors()) : "");
 		String revision = "Revision: " + desc.getRevision();
 
 		g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);

@@ -25,7 +25,12 @@ public class PublicServers extends ServerParser {
             JSONObject jsonObject = (JSONObject) o;
 
             String name = (String) jsonObject.get("name");
-            double version = (Double) jsonObject.get("version");
+            double version;
+            try {
+                version = (Double) jsonObject.get("version");
+            }catch (ClassCastException e){
+                version = (Long) jsonObject.get("version");
+            }
             JSONArray jsonAuthors = (JSONArray) jsonObject.get("authors");
             String[] authors = new String[jsonAuthors.size()];
 

@@ -44,7 +44,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
 	@Override
 	public String toString() {
 		return String.format("[Server: %s, Author: %s, Revision: %.2f]",
-				this.serverName, StringUtils.implode(", ", this.authors), this.revision);
+				this.serverName, this.authors.length > 0 ? StringUtils.implode(", ", this.authors) : "", this.revision);
 	}
 
 	@Override

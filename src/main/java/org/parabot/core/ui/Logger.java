@@ -1,5 +1,7 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
+import org.parabot.core.Core;
 import org.parabot.core.ui.components.GamePanel;
 
 import javax.swing.*;
@@ -10,9 +12,9 @@ import java.awt.event.ActionListener;
 /**
  * @author JKetelaar
  */
+@Singleton
 public class Logger extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static Logger instance;
     private final DefaultListModel<String> model;
     private final JList<String> list;
 
@@ -45,8 +47,8 @@ public class Logger extends JPanel {
         setVisible(false);
     }
 
-    public static Logger getInstance() {
-        return instance == null ? instance = new Logger() : instance;
+    private static Logger getInstance(){
+        return Core.getInjector().getInstance(Logger.class);
     }
 
     /**
@@ -56,18 +58,18 @@ public class Logger extends JPanel {
      * @param uliratha Determines if this should be sent to the uliratha server
      */
     public static void addMessage(String message, boolean uliratha) {
-        instance.model.addElement(message);
+        getInstance().model.addElement(message);
 
         if (uliratha) {
             // TODO: Implement latest Uliratha
         }
 
-        int last = instance.list.getModel().getSize() - 1;
+        int last = getInstance().list.getModel().getSize() - 1;
         if (last >= 0) {
-            instance.list.ensureIndexIsVisible(last);
+            getInstance().list.ensureIndexIsVisible(last);
         }
-        if (instance.list.getModel().getSize() > 100 && instance.list.getModel().getElementAt(0) != null) {
-            instance.model.remove(0);
+        if (getInstance().list.getModel().getSize() > 100 && getInstance().list.getModel().getElementAt(0) != null) {
+            getInstance().model.remove(0);
         }
     }
 
@@ -79,7 +81,7 @@ public class Logger extends JPanel {
     }
 
     protected static void clearLogger() {
-        instance.model.clear();
+        getInstance().model.clear();
     }
 
     private ListCellRenderer<? super String> getRenderer() {

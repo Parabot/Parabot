@@ -60,7 +60,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         add(GamePanel.getInstance());
         GamePanel.getInstance().add(VerboseLoader.get(), BorderLayout.CENTER);
-        add(Logger.getInstance(), BorderLayout.SOUTH);
+        add(Core.getInjector().getInstance(Logger.class), BorderLayout.SOUTH);
 
         SwingUtil.setParabotIcons(this);
 
@@ -233,12 +233,13 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 setScriptState(Script.STATE_STOPPED);
                 break;
             case "Logger":
-                Logger.getInstance().setVisible(!Logger.getInstance().isVisible());
+                Logger logger = Core.getInjector().getInstance(Logger.class);
+                logger.setVisible(!logger.isVisible());
                 BotUI.getInstance().pack();
                 BotUI.getInstance().revalidate();
-                if (!Logger.getInstance().isClearable()) {
-                    Logger.getInstance().setClearable();
-                } else if (Logger.getInstance().isClearable() && !Logger.getInstance().isVisible()) {
+                if (!logger.isClearable()) {
+                    logger.setClearable();
+                } else if (logger.isClearable() && !logger.isVisible()) {
                     Logger.clearLogger();
                     Logger.addMessage("Logger initialised", false);
                 }

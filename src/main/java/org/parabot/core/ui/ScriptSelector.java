@@ -57,9 +57,6 @@ public final class ScriptSelector extends JFrame {
 
     private void putScripts() {
         final ScriptDescription[] descs = ScriptParser.getDescriptions();
-        if (descs == null) {
-            return;
-        }
         for (final ScriptDescription scriptDesc : descs) {
             if (categories.get(scriptDesc.category) == null) {
                 DefaultMutableTreeNode cat = new DefaultMutableTreeNode(Category.valueOf(scriptDesc.category.toUpperCase()));

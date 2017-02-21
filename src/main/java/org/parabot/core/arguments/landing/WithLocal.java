@@ -5,17 +5,17 @@ import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 
 /**
- * @author JKetelaar
+ * @author EmmaStone
  */
-public class Verbose implements LandingArgument {
+public class WithLocal implements LandingArgument {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"v", "verbose"};
+		return new String[]{"withlocal"};
 	}
 
 	@Override
 	public void has(@Nullable Object value) {
-        Core.setVerbose(true);
+		Core.setMode(Core.LaunchMode.INCLUDE_LOCAL);
 	}
 }

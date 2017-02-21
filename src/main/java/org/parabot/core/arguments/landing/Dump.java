@@ -5,17 +5,17 @@ import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 
 /**
- * @author JKetelaar
+ * @author EmmaStone
  */
-public class Verbose implements LandingArgument {
+public class Dump implements LandingArgument {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"v", "verbose"};
+		return new String[]{"dump"};
 	}
 
 	@Override
 	public void has(@Nullable Object value) {
-        Core.setVerbose(true);
+		Core.setDump(true);
 	}
 }

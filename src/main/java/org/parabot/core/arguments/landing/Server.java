@@ -1,21 +1,24 @@
 package org.parabot.core.arguments.landing;
 
 import com.sun.istack.internal.Nullable;
-import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
+import org.parabot.core.ui.ServerSelector;
 
 /**
- * @author JKetelaar
+ * @author EmmaStone
  */
-public class Verbose implements LandingArgument {
+public class Server implements LandingArgument {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"v", "verbose"};
+		return new String[]{"server"};
 	}
 
 	@Override
 	public void has(@Nullable Object value) {
-        Core.setVerbose(true);
+		String[] values = value.toString().split(" ");
+		int i = 0;
+
+		ServerSelector.initServer = values[++i];
 	}
 }

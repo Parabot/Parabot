@@ -1,5 +1,6 @@
 package org.parabot.core.arguments.landing;
 
+import com.sun.istack.internal.Nullable;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 
@@ -13,7 +14,7 @@ public class NoValidation implements LandingArgument {
     }
 
     @Override
-    public void has() {
+    public void has(@Nullable Object value) {
         Core.disableValidation();
     }
 }

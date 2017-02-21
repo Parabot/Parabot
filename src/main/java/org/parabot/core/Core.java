@@ -239,23 +239,17 @@ public class Core {
     }
 
     public enum LaunchMode {
-        INCLUDE_LOCAL("Include local", "-withlocal"),
-        LOCAL_ONLY("Local only", "-local");
+        INCLUDE_LOCAL("Include local"),
+        LOCAL_ONLY("Local only");
 
         private String name;
-        private String arg;
 
-        LaunchMode(String name, String arg) {
+        LaunchMode(String name) {
             this.name = name;
-            this.arg = arg;
         }
 
         public String getName() {
             return name;
-        }
-
-        public String getArg() {
-            return arg;
         }
     }
 }

@@ -33,14 +33,14 @@ import java.util.Date;
 @SuppressWarnings("Duplicates")
 public class Core {
 
+    private static final Injector injector = Guice.createInjector(new AppInjector());
     private static LaunchMode mode;
+
     private static boolean verbose;
     private static boolean dump;
-
     private static boolean validate = true;
     private static boolean secure = true;
 
-    private static final Injector injector = Guice.createInjector(new AppInjector());
 
     public static Injector getInjector() {
         return injector;

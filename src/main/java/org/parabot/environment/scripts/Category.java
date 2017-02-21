@@ -1,6 +1,6 @@
 package org.parabot.environment.scripts;
 
-import org.parabot.core.ui.images.Images;
+import org.parabot.api.io.images.Images;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Holds script categories
  *
- * @author Dane, Paradox
+ * @author Dane, JKetelaar
  */
 public enum Category {
 

@@ -1,11 +1,11 @@
 package org.parabot.core.ui.components;
 
+import org.parabot.api.io.images.Images;
 import org.parabot.core.Core;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.fonts.Fonts;
-import org.parabot.core.ui.images.Images;
 import org.parabot.core.user.UserAuthenticator;
 
 import javax.swing.*;

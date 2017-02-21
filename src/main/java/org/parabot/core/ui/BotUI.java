@@ -2,6 +2,7 @@ package org.parabot.core.ui;
 
 import javafx.application.Application;
 import org.parabot.api.io.Directories;
+import org.parabot.api.io.images.Images;
 import org.parabot.api.misc.OperatingSystem;
 import org.parabot.api.ui.SwingUtil;
 import org.parabot.core.Context;
@@ -10,7 +11,6 @@ import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.components.notifications.NotificationUI;
-import org.parabot.core.ui.images.Images;
 import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomHandler;

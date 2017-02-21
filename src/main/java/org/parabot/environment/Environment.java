@@ -1,9 +1,9 @@
 package org.parabot.environment;
 
 import org.parabot.api.io.WebUtil;
+import org.parabot.api.io.libraries.Library;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.lib.Library;
 import org.parabot.core.lib.javafx.JavaFX;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.VerboseLoader;

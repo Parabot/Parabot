@@ -4,9 +4,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.environment.api.utils.WebUtil;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLConnection;
 
@@ -17,10 +14,35 @@ public class AuthorizationCode {
 
     private final String accessToken;
     private final String refreshToken;
+    private final long time;
 
-    public AuthorizationCode(String accessToken, String refreshToken) {
+    public AuthorizationCode(String accessToken, String refreshToken, long expiresIn) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        time = System.currentTimeMillis() / 1000 + expiresIn;
+    }
+
+    /**
+     * Checks if the access token will expire within the next 30 seconds
+     *
+     * @return True if it is expiring, false if not
+     */
+    public boolean isExpiring() {
+        return System.currentTimeMillis() / 1000 - 30 > time;
+    }
+
+    public static AuthorizationCode readResponse(URLConnection connection) {
+        try {
+            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+
+            if (object.get("error") == null) {
+                return new AuthorizationCode((String) object.get("access_token"), (String) object.get("refresh_token"), (Long) object.get("expires_in"));
+            }
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public String getAccessToken() {
@@ -29,17 +51,5 @@ public class AuthorizationCode {
 
     public String getRefreshToken() {
         return refreshToken;
-    }
-
-    public static AuthorizationCode readResponse(URLConnection connection) {
-        try {
-            JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
-
-            return new AuthorizationCode((String) object.get("access_token"), (String) object.get("refresh_token"));
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

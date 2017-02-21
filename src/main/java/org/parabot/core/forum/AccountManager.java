@@ -46,7 +46,6 @@ public final class AccountManager {
 		accessors.add(BDNScripts.MANAGER_FETCHER);
 		accessors.add(VerboseLoader.MANAGER_FETCHER);
 		accessors.add(BDNScriptsExecuter.MANAGER_FETCHER);
-		accessors.add(PublicServers.MANAGER_FETCHER);
 		accessors.add(PublicServerExecuter.MANAGER_FETCHER);
 		accessors.add(PBPreferences.MANAGER_FETCHER);
 

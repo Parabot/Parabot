@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
+import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.environment.api.utils.WebUtil;
 
@@ -13,25 +14,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JKetelaar, Capslock
  */
-public class UserAuthenticator {
+public class UserAuthenticator implements SharedUserAuthenticator {
 
     private final String clientId;
     private AuthorizationCode authorizationCode;
 
+
     public UserAuthenticator(String clientId) {
         this.clientId = clientId;
+
+        this.provideAccess();
     }
 
-    public String getClientId() {
-        return clientId;
+    private final void provideAccess(){
+        final List<UserAuthenticatorAccess> userAuthenticatorAccessList = new ArrayList<>();
+
+        userAuthenticatorAccessList.add(PublicServers.AUTHENTICATOR);
+
+        for (UserAuthenticatorAccess userAuthenticatorAccess : userAuthenticatorAccessList){
+            userAuthenticatorAccess.setUserAuthenticator(this);
+        }
     }
 
-    public AuthorizationCode getAuthorizationCode() {
-        return authorizationCode;
+    public void refreshToken(){
+        if (authorizationCode != null && authorizationCode.getRefreshToken() != null){
+            authorizationCode = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, authorizationCode.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
+        }
+    }
+
+    @Override
+    public String getAccessToken() {
+        if (authorizationCode != null) {
+            if (authorizationCode.isExpiring()) {
+                refreshToken();
+            }
+
+            return authorizationCode.getAccessToken();
+        }
+        return null;
+    }
+
+    public final boolean login() {
+        if (!readTokens()) {
+            if (!redirectToLogin()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean validateAccessToken(String accessToken) {
@@ -51,16 +87,6 @@ public class UserAuthenticator {
         }
 
         return false;
-    }
-
-    public boolean login() {
-        if (!readTokens()) {
-            if (!redirectToLogin()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private void writeTokens(AuthorizationCode code) {
@@ -89,9 +115,10 @@ public class UserAuthenticator {
                 String accessToken = (String) object.get("access_token");
                 String refreshToken = (String) object.get("refresh_token");
 
-                AuthorizationCode code = new AuthorizationCode(accessToken, refreshToken);
+                AuthorizationCode code = new AuthorizationCode(accessToken, refreshToken, 3600);
 
                 if (this.validateAccessToken(code.getAccessToken())) {
+                    this.authorizationCode = code;
                     return true;
                 } else {
                     code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, code.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
@@ -120,6 +147,7 @@ public class UserAuthenticator {
             wr.write(parameters);
             wr.flush();
             wr.close();
+
             return AuthorizationCode.readResponse(connection);
         } catch (IOException e) {
             e.printStackTrace();

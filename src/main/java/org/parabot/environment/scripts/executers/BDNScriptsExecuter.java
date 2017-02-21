@@ -30,7 +30,7 @@ public class BDNScriptsExecuter extends ScriptExecuter {
 	@Override
 	public void run(ThreadGroup tg) {
 		try {
-            final URLConnection urlConnection = WebUtil.getConnection(new URL(Configuration.GET_SCRIPT + this.id));
+            final URLConnection urlConnection = WebUtil.getConnection(new URL("" + this.id));
 
 			final String contentType = urlConnection.getHeaderField("Content-type");
 			switch (contentType) {

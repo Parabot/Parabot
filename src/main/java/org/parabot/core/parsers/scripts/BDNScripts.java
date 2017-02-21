@@ -23,7 +23,7 @@ public class BDNScripts extends ScriptParser {
     public void execute() {
         try {
             BufferedReader br = WebUtil.getReader(new URL(
-                    Configuration.GET_SCRIPTS + Core.getInjector().getInstance(Context.class).getServerProvider().getServerDescription().getServerName()));
+                    "" + Core.getInjector().getInstance(Context.class).getServerProvider().getServerDescription().getServerName()));
 
             String line;
 

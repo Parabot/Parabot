@@ -5,6 +5,7 @@ import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
+import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.io.NoProgressListener;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class PublicRandoms extends RandomParser {
                 return;
             }
 
-            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + Configuration.NIGHTLY_APPEND : Configuration.GET_RANDOMS);
+            String downloadLink = String.format(APIConfiguration.DOWNLOAD_RANDOMS, Configuration.BOT_VERSION.isNightly());
 
             WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
         } catch (Exception e) {

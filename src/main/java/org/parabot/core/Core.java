@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.Landing;
 import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.Version;
@@ -201,11 +202,11 @@ public class Core {
     }
 
     public static void downloadNewVersion() {
+        String url = String.format(APIConfiguration.DOWNLOAD_BOT, Configuration.BOT_VERSION.isNightly());
         UILog.log(TranslationHelper.translate("UPDATES"),
-                TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
-                        + Configuration.DOWNLOAD_BOT + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
+                TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT") + url,
                 JOptionPane.INFORMATION_MESSAGE);
-        URI uri = URI.create(Configuration.API_DOWNLOAD_BOT + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : ""));
+        URI uri = URI.create(url);
         try {
             Desktop.getDesktop().browse(uri);
         } catch (IOException e1) {

@@ -1,8 +1,8 @@
 package org.parabot.core.ui.components;
 
-import org.parabot.core.settings.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.io.ProgressListener;
+import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.core.ui.images.Images;
@@ -22,13 +22,12 @@ import java.awt.image.RescaleOp;
  * @author Everel, EmmaStone
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
+    public static final int STATE_LOADING = 1;
     private static final long serialVersionUID = 7412412644921803896L;
+    private static final int STATE_AUTHENTICATION = 0;
+    private static final int STATE_SERVER_SELECT = 2;
     private static VerboseLoader current;
     private static String state = "Initializing loader...";
-
-    private static final int STATE_AUTHENTICATION = 0;
-    public static final int STATE_LOADING = 1;
-    private static final int STATE_SERVER_SELECT = 2;
     private int currentState;
 
     private FontMetrics fontMetrics;
@@ -60,6 +59,25 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         } else if (currentState == STATE_SERVER_SELECT) {
             addServerPanel();
         }
+    }
+
+    /**
+     * Gets instance of this panel
+     *
+     * @return instance of this panel
+     */
+    public static VerboseLoader get() {
+        return current == null ? new VerboseLoader() : current;
+    }
+
+    /**
+     * Updates the status message and repaints the panel
+     *
+     * @param message
+     */
+    public static void setState(final String message) {
+        state = message;
+        current.repaint();
     }
 
     public void addServerPanel() {
@@ -177,26 +195,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         g.drawString(version,
                 getWidth() - g.getFontMetrics().stringWidth(version) - 10,
                 getHeight() - 12);
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get() {
-        return current == null ? new VerboseLoader() : current;
-    }
-
-
-    /**
-     * Updates the status message and repaints the panel
-     *
-     * @param message
-     */
-    public static void setState(final String message) {
-        state = message;
-        current.repaint();
     }
 
     @Override

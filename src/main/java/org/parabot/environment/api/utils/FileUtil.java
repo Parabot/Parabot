@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class FileUtil {
 
-    public static String getChecksum(File file){
+    public static String getChecksum(File file) {
         if (file.isFile()) {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");

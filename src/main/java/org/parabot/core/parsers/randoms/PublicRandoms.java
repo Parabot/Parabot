@@ -2,11 +2,11 @@ package org.parabot.core.parsers.randoms;
 
 import org.parabot.api.io.Directories;
 import org.parabot.api.io.WebUtil;
-import org.parabot.core.settings.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.io.NoProgressListener;
+import org.parabot.core.settings.Configuration;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;

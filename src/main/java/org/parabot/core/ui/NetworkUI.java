@@ -95,7 +95,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
                 Random rand = new Random();
                 byte[] macAddr = new byte[6];
                 rand.nextBytes(macAddr);
-                macAddr[0] = (byte)(macAddr[0] & (byte)254);
+                macAddr[0] = (byte) (macAddr[0] & (byte) 254);
                 for (int i = 0; i < macAddr.length; i++) {
                     int value = macAddr[i] & 0xFF;
                     macList[i].setSelectedIndex(value);

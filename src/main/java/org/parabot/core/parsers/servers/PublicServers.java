@@ -30,7 +30,7 @@ public class PublicServers extends ServerParser implements UserAuthenticatorAcce
             double version;
             try {
                 version = (Double) jsonObject.get("version");
-            }catch (ClassCastException e){
+            } catch (ClassCastException e) {
                 version = (Long) jsonObject.get("version");
             }
             JSONArray jsonAuthors = (JSONArray) jsonObject.get("authors");

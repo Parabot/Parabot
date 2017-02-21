@@ -23,24 +23,6 @@ public class MiniBrowser extends Application {
         setMiniBrowser(this);
     }
 
-    @Override
-    public void start(Stage stageParam) {
-        this.stage = stageParam;
-
-        stage.setTitle("Parabot Browser");
-        stage.setWidth(500);
-        stage.setHeight(500);
-
-        Scene scene = new Scene(new Group());
-        VBox root = new VBox();
-
-        root.getChildren().add(browser);
-        scene.setRoot(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-
     public static void setMiniBrowser(MiniBrowser miniBrowser) {
         context = miniBrowser;
         latch.countDown();
@@ -53,10 +35,6 @@ public class MiniBrowser extends Application {
             e.printStackTrace();
         }
         return context;
-    }
-
-    public void load(String url) {
-        this.browser.getEngine().load(url);
     }
 
     public static MiniBrowser getContext() {
@@ -78,5 +56,27 @@ public class MiniBrowser extends Application {
                 startUpTest.load(url);
             }
         });
+    }
+
+    @Override
+    public void start(Stage stageParam) {
+        this.stage = stageParam;
+
+        stage.setTitle("Parabot Browser");
+        stage.setWidth(500);
+        stage.setHeight(500);
+
+        Scene scene = new Scene(new Group());
+        VBox root = new VBox();
+
+        root.getChildren().add(browser);
+        scene.setRoot(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void load(String url) {
+        this.browser.getEngine().load(url);
     }
 }

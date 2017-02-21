@@ -4,7 +4,6 @@ import org.json.simple.parser.ParseException;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.WebUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -54,7 +53,7 @@ public final class APICaller {
                 if (connection.getResponseCode() == 200) {
                     if (apiPoint.isJson()) {
                         return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
-                    }else{
+                    } else {
                         return connection.getInputStream();
                     }
                 } else {

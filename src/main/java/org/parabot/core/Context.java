@@ -6,7 +6,6 @@ import org.json.simple.parser.JSONParser;
 import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.classpath.ClassPath;
-import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
 import org.parabot.core.ui.BotUI;
@@ -15,7 +14,6 @@ import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
-import org.parabot.environment.randoms.RandomHandler;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.servers.ServerProvider;
 
@@ -57,40 +55,11 @@ public class Context {
     public Context() {
     }
 
-    public void setServerProvider(ServerProvider serverProvider) {
-        threadGroups.put(Thread.currentThread().getThreadGroup(), this);
-
-        this.serverProvider = serverProvider;
-
-        this.defaultOut = System.out;
-        this.defaultErr = System.err;
-
-        System.setProperty("sun.java.command", "");
-    }
-
     /**
      * Sets the main client instance
      */
     public void setClientInstance(Object object) {
         this.clientInstance = object;
-    }
-
-    /**
-     * Sets the hook parser
-     *
-     * @param hookParser
-     */
-    public void setHookParser(final HookParser hookParser) {
-        this.hookParser = hookParser;
-    }
-
-    /**
-     * Sets the mouse
-     *
-     * @param mouse
-     */
-    public void setMouse(final Mouse mouse) {
-        this.mouse = mouse;
     }
 
     /**
@@ -103,12 +72,12 @@ public class Context {
     }
 
     /**
-     * Sets the keyboard
+     * Sets the mouse
      *
-     * @param keyboard
+     * @param mouse
      */
-    public void setKeyboard(final Keyboard keyboard) {
-        this.keyboard = keyboard;
+    public void setMouse(final Mouse mouse) {
+        this.mouse = mouse;
     }
 
     /**
@@ -118,6 +87,15 @@ public class Context {
      */
     public Keyboard getKeyboard() {
         return keyboard;
+    }
+
+    /**
+     * Sets the keyboard
+     *
+     * @param keyboard
+     */
+    public void setKeyboard(final Keyboard keyboard) {
+        this.keyboard = keyboard;
     }
 
     /**
@@ -145,30 +123,6 @@ public class Context {
      */
     public Applet getApplet() {
         return gameApplet;
-    }
-
-    /**
-     * Loads the game
-     */
-    public void load() {
-        Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
-        serverProvider.init();
-        serverProvider.parseJar();
-        Core.verbose(TranslationHelper.translate("DONE"));
-        Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
-        serverProvider.injectHooks();
-        Core.verbose(TranslationHelper.translate("DONE"));
-        Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
-        if (Core.shouldDump()) {
-            Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
-            classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
-            Core.verbose(TranslationHelper.translate("DONE"));
-        }
-        Applet applet = serverProvider.fetchApplet();
-        // If applet is null the server provider will call setApplet itself
-        if (applet != null) {
-            setApplet(applet);
-        }
     }
 
     /**
@@ -226,12 +180,47 @@ public class Context {
     }
 
     /**
+     * Loads the game
+     */
+    public void load() {
+        Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
+        serverProvider.init();
+        serverProvider.parseJar();
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
+        serverProvider.injectHooks();
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
+        if (Core.shouldDump()) {
+            Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
+            classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
+            Core.verbose(TranslationHelper.translate("DONE"));
+        }
+        Applet applet = serverProvider.fetchApplet();
+        // If applet is null the server provider will call setApplet itself
+        if (applet != null) {
+            setApplet(applet);
+        }
+    }
+
+    /**
      * Gets the server prodiver belonging to this context
      *
      * @return server provider
      */
     public ServerProvider getServerProvider() {
         return serverProvider;
+    }
+
+    public void setServerProvider(ServerProvider serverProvider) {
+        threadGroups.put(Thread.currentThread().getThreadGroup(), this);
+
+        this.serverProvider = serverProvider;
+
+        this.defaultOut = System.out;
+        this.defaultErr = System.err;
+
+        System.setProperty("sun.java.command", "");
     }
 
     /**
@@ -280,12 +269,12 @@ public class Context {
     }
 
     /**
-     * Sets the current running script, if a script stops it will call this method with a null argument
+     * Sets the hook parser
      *
-     * @param script
+     * @param hookParser
      */
-    public void setRunningScript(final Script script) {
-        this.runningScript = script;
+    public void setHookParser(final HookParser hookParser) {
+        this.hookParser = hookParser;
     }
 
     /**
@@ -295,6 +284,15 @@ public class Context {
      */
     public Script getRunningScript() {
         return this.runningScript;
+    }
+
+    /**
+     * Sets the current running script, if a script stops it will call this method with a null argument
+     *
+     * @param script
+     */
+    public void setRunningScript(final Script script) {
+        this.runningScript = script;
     }
 
     public JSONParser getJsonParser() {

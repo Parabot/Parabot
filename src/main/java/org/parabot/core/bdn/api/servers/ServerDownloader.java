@@ -2,7 +2,6 @@ package org.parabot.core.bdn.api.servers;
 
 import com.google.inject.Inject;
 import org.parabot.api.io.Directories;
-import org.parabot.api.io.SizeInputStream;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.desc.ServerDescription;
@@ -10,7 +9,10 @@ import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.core.user.implementations.UserAuthenticatorAccess;
 import org.parabot.environment.api.utils.StringUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author JKetelaar
@@ -20,12 +22,12 @@ public class ServerDownloader implements UserAuthenticatorAccess, IServerDownloa
     private SharedUserAuthenticator userAuthenticator;
 
     @Override
-    public void downloadServer(ServerDescription description){
+    public void downloadServer(ServerDescription description) {
         InputStream inputStream = (InputStream) APICaller.callPoint(APICaller.APIPoint.DOWNLOAD_SERVER.setPointParams(description.getId()), userAuthenticator);
         Core.verbose("Downloading server...");
         try {
             File file = new File(Directories.getCachePath() + "/" + StringUtils.toMD5(description.getServerName() + description.getRevision()) + ".jar");
-            if (!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
 

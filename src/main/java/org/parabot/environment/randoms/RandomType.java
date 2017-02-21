@@ -18,15 +18,15 @@ public enum RandomType {
         this.name = name;
     }
 
+    public static RandomType getDefault() {
+        return SCRIPT;
+    }
+
     public int getId() {
         return id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public static RandomType getDefault() {
-        return SCRIPT;
     }
 }

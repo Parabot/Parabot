@@ -1,6 +1,5 @@
 package org.parabot.core.ui;
 
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomHandler;

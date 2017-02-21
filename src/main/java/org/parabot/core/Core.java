@@ -54,15 +54,15 @@ public class Core {
         return validate;
     }
 
-    public static void setMode(LaunchMode mode) {
-        Core.mode = mode;
-    }
-
     public static LaunchMode getMode() {
         return mode;
     }
 
-    public static boolean isMode(LaunchMode mode){
+    public static void setMode(LaunchMode mode) {
+        Core.mode = mode;
+    }
+
+    public static boolean isMode(LaunchMode mode) {
         return Core.mode != null && Core.mode.equals(mode);
     }
 

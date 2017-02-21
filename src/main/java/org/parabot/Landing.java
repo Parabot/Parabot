@@ -110,8 +110,8 @@ public final class Landing {
                     break;
             }
 
-            for (Core.LaunchMode mode : Core.LaunchMode.values()){
-                if (arg.equalsIgnoreCase(mode.getArg())){
+            for (Core.LaunchMode mode : Core.LaunchMode.values()) {
+                if (arg.equalsIgnoreCase(mode.getArg())) {
                     Core.setMode(mode);
                     break;
                 }

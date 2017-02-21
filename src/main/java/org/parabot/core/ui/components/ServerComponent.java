@@ -1,12 +1,5 @@
 package org.parabot.core.ui.components;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
-import javax.swing.JPanel;
-
 import com.google.inject.Inject;
 import org.parabot.core.bdn.api.servers.IServerDownloader;
 import org.parabot.core.desc.ServerDescription;
@@ -14,129 +7,134 @@ import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
 import org.parabot.environment.api.utils.StringUtils;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 /**
  * A neat looking server component
- * 
+ *
  * @author Everel
- * 
  */
 public class ServerComponent extends JPanel implements MouseListener,
-		MouseMotionListener {
-	private static final long serialVersionUID = 1L;
-	
-	public ServerDescription desc;
-	private String name;
-	private boolean hovered;
-	private IServerDownloader serverDownloader;
+        MouseMotionListener {
+    private static final long serialVersionUID = 1L;
 
-	public ServerComponent() {
+    public ServerDescription desc;
+    private String name;
+    private boolean hovered;
+    private IServerDownloader serverDownloader;
 
-	}
+    public ServerComponent() {
 
-	@Inject
-	public void setServerDownloader(IServerDownloader serverDownloader) {
-		this.serverDownloader = serverDownloader;
-	}
+    }
 
-	public ServerComponent setDesc(final ServerDescription desc) {
-		this.desc = desc;
-		setLayout(null);
-		this.name = desc.getServerName().replaceAll(" ", "");
+    @Inject
+    public void setServerDownloader(IServerDownloader serverDownloader) {
+        this.serverDownloader = serverDownloader;
+    }
 
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    public ServerComponent setDesc(final ServerDescription desc) {
+        this.desc = desc;
+        setLayout(null);
+        this.name = desc.getServerName().replaceAll(" ", "");
 
-		return this;
-	}
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-	@Override
-	public String getName() {
-		return name;
-	}
+        return this;
+    }
 
-	@Override
-	public void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		setOpaque(false);
-		super.paintComponent(g);
-		setOpaque(true);
-		int w = getWidth();
-		int h = getHeight();
+    @Override
+    public String getName() {
+        return name;
+    }
 
-		Color bgColor = Color.LIGHT_GRAY;
-		if (hovered) {
-			bgColor = Color.GRAY;
-		}
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        setOpaque(false);
+        super.paintComponent(g);
+        setOpaque(true);
+        int w = getWidth();
+        int h = getHeight();
 
-		g2d.setColor(bgColor);
-		g2d.fillRect(0, 0, w, h);
-		g.setColor(Color.black);
-		Font title = Fonts.getResource("leelawadee.ttf", 16);
-		g.setFont(title);
-		String serverName = desc.getServerName();
-		int sw = g.getFontMetrics().stringWidth(serverName);
-		g.drawString(serverName, (w / 2) - (sw / 2), 30);
+        Color bgColor = Color.LIGHT_GRAY;
+        if (hovered) {
+            bgColor = Color.GRAY;
+        }
 
-		Font normal = Fonts.getResource("leelawadee.ttf");
-		g.setFont(normal);
-		FontMetrics fm = g.getFontMetrics();
-		String author = "Author: " + (desc.getAuthors().length > 0 ? StringUtils.implode(", ", desc.getAuthors()) : "");
-		String revision = "Revision: " + desc.getRevision();
+        g2d.setColor(bgColor);
+        g2d.fillRect(0, 0, w, h);
+        g.setColor(Color.black);
+        Font title = Fonts.getResource("leelawadee.ttf", 16);
+        g.setFont(title);
+        String serverName = desc.getServerName();
+        int sw = g.getFontMetrics().stringWidth(serverName);
+        g.drawString(serverName, (w / 2) - (sw / 2), 30);
 
-		g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
-		g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);
-	}
+        Font normal = Fonts.getResource("leelawadee.ttf");
+        g.setFont(normal);
+        FontMetrics fm = g.getFontMetrics();
+        String author = "Author: " + (desc.getAuthors().length > 0 ? StringUtils.implode(", ", desc.getAuthors()) : "");
+        String revision = "Revision: " + desc.getRevision();
 
-	public void load(final ServerDescription desc) {
-		VerboseLoader.get().switchState(VerboseLoader.STATE_LOADING);
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				serverDownloader.downloadServer(desc);
-				Environment.load(desc);
+        g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
+        g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);
+    }
 
-			}
-		}).start();
-	}
+    public void load(final ServerDescription desc) {
+        VerboseLoader.get().switchState(VerboseLoader.STATE_LOADING);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                serverDownloader.downloadServer(desc);
+                Environment.load(desc);
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		if (!hovered) {
-			hovered = true;
-			this.repaint();
-		}
-	}
+            }
+        }).start();
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-		if (hovered) {
-			hovered = false;
-			this.repaint();
-		}
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if (!hovered) {
+            hovered = true;
+            this.repaint();
+        }
+    }
 
-	}
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if (hovered) {
+            hovered = false;
+            this.repaint();
+        }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (hovered) {
-			load(desc);
-		}
-	}
-	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (hovered) {
+            load(desc);
+        }
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 }

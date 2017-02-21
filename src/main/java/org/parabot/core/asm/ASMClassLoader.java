@@ -17,93 +17,91 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * Makes classnodes into runnable classes
- * 
+ *
  * @author Everel
  * @author Matt
- *
  */
 @Singleton
 public class ASMClassLoader extends ClassLoader {
 
-	private Map<String, Class<?>> classCache;
-	public ClassPath classPath;
-	
-	public ASMClassLoader(final ClassPath classPath) {
-		this.classCache = new HashMap<>();
-		this.classPath = classPath;
-	}
+    public ClassPath classPath;
+    private Map<String, Class<?>> classCache;
 
-	@Override
-	protected URL findResource(String name) {
-		if (getSystemResource(name) == null) {
-			if (classPath.resources.containsKey(name)) {
-				try {
-					return classPath.resources.get(name).toURI().toURL();
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-					return null;
-				}
-			} else {
-				return null;
-			}
-		}
-		return getSystemResource(name);
-	}
+    public ASMClassLoader(final ClassPath classPath) {
+        this.classCache = new HashMap<>();
+        this.classPath = classPath;
+    }
 
-	@Override
-	public Class<?> loadClass(String name) throws ClassNotFoundException {
-		return findClass(name);
-	}
+    @Override
+    protected URL findResource(String name) {
+        if (getSystemResource(name) == null) {
+            if (classPath.resources.containsKey(name)) {
+                try {
+                    return classPath.resources.get(name).toURI().toURL();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+        return getSystemResource(name);
+    }
 
-	@Override
-	protected Class<?> findClass(String name) throws ClassNotFoundException {
-		try {
-			return getSystemClassLoader().loadClass(name);
-		} catch (Exception ignored) {
-			
-		}
-		String key = name.replace('.', '/');
-		if (classCache.containsKey(key)) {
-			return classCache.get(key);
-		}
-		ClassNode node = classPath.classes.get(key);
-		if (node != null) {
-			classPath.classes.remove(key);
-			Class<?> c = nodeToClass(node);
-			classCache.put(key, c);
-			return c;
-		}
-		return getSystemClassLoader().loadClass(name);
-	}
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return findClass(name);
+    }
 
-	private final Class<?> nodeToClass(ClassNode node) {
-		if (super.findLoadedClass(node.name) != null) {
-			return findLoadedClass(node.name);
-		}
-		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-		node.accept(cw);
-		byte[] b = cw.toByteArray();
-		return defineClass(node.name.replace('/', '.'), b, 0, b.length,
-				getDomain());
-	}
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        try {
+            return getSystemClassLoader().loadClass(name);
+        } catch (Exception ignored) {
 
-	private final ProtectionDomain getDomain() {
-		CodeSource code = null;
-		try {
-			code = new CodeSource(new URL("http://www.url.com/"), (Certificate[]) null);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return new ProtectionDomain(code, getPermissions());
-	}
+        }
+        String key = name.replace('.', '/');
+        if (classCache.containsKey(key)) {
+            return classCache.get(key);
+        }
+        ClassNode node = classPath.classes.get(key);
+        if (node != null) {
+            classPath.classes.remove(key);
+            Class<?> c = nodeToClass(node);
+            classCache.put(key, c);
+            return c;
+        }
+        return getSystemClassLoader().loadClass(name);
+    }
 
-	private final Permissions getPermissions() {
-		Permissions permissions = new Permissions();
-		permissions.add(new AllPermission());
-		return permissions;
-	}
+    private final Class<?> nodeToClass(ClassNode node) {
+        if (super.findLoadedClass(node.name) != null) {
+            return findLoadedClass(node.name);
+        }
+        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        node.accept(cw);
+        byte[] b = cw.toByteArray();
+        return defineClass(node.name.replace('/', '.'), b, 0, b.length,
+                getDomain());
+    }
+
+    private final ProtectionDomain getDomain() {
+        CodeSource code = null;
+        try {
+            code = new CodeSource(new URL("http://www.url.com/"), (Certificate[]) null);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new ProtectionDomain(code, getPermissions());
+    }
+
+    private final Permissions getPermissions() {
+        Permissions permissions = new Permissions();
+        permissions.add(new AllPermission());
+        return permissions;
+    }
 
 }
 

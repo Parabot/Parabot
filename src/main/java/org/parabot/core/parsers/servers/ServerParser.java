@@ -1,6 +1,5 @@
 package org.parabot.core.parsers.servers;
 
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.environment.servers.executers.ServerExecuter;
@@ -17,8 +16,6 @@ import java.util.TreeMap;
  */
 public abstract class ServerParser {
     public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<>();
-
-    public abstract void execute();
 
     public static final ServerDescription[] getDescriptions() {
         SERVER_CACHE.clear();
@@ -48,5 +45,7 @@ public abstract class ServerParser {
 
         return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
     }
+
+    public abstract void execute();
 
 }

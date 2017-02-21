@@ -8,10 +8,10 @@ import org.parabot.core.user.UserAuthenticator;
 
 public class AppInjector extends AbstractModule {
 
-	@Override
+    @Override
     protected void configure() {
-		bind(SharedUserAuthenticator.class).to(UserAuthenticator.class);
-		bind(IServerDownloader.class).to(ServerDownloader.class);
-	}
+        bind(SharedUserAuthenticator.class).to(UserAuthenticator.class);
+        bind(IServerDownloader.class).to(ServerDownloader.class);
+    }
 
 }

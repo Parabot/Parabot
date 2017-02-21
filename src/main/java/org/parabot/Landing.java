@@ -1,9 +1,9 @@
 package org.parabot;
 
+import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;

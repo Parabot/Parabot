@@ -1,6 +1,6 @@
 package org.parabot.core.parsers.scripts;
 
-import org.parabot.core.Directories;
+import org.parabot.api.io.Directories;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.environment.scripts.ScriptManifest;

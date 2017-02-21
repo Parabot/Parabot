@@ -3,6 +3,7 @@ package org.parabot.core;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.json.simple.parser.JSONParser;
+import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.paint.PaintDebugger;

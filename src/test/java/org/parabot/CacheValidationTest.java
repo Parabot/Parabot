@@ -2,7 +2,7 @@ package org.parabot;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.parabot.core.Directories;
+import org.parabot.api.io.Directories;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package org.parabot.environment.servers.executers;
 
 import com.google.inject.Inject;
+import org.parabot.api.io.Directories;
 import org.parabot.core.Configuration;
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;

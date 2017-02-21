@@ -3,8 +3,8 @@ package org.parabot.core.lib.javafx;
 import java.io.File;
 import java.net.URL;
 
+import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 import org.parabot.core.build.BuildPath;
 import org.parabot.core.lib.Library;
 import org.parabot.environment.api.utils.JavaUtil;

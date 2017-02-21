@@ -24,7 +24,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
-import org.parabot.core.Directories;
+import org.parabot.api.io.Directories;
 import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.asm.RedirectClassAdapter;
 import org.parabot.core.build.BuildPath;
@@ -232,10 +232,9 @@ public class ClassPath {
 
 	/**
 	 * Dumps a resource from a input stream
-	 * 
-	 * @param classPath
+	 *
 	 * @param name
-	 * @param inputstream
+	 * @param in
 	 * @throws IOException
 	 */
 	private void loadResource(final String name, final InputStream in)

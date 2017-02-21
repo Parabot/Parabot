@@ -1,10 +1,10 @@
 package org.parabot.core.ui;
 
 import javafx.application.Application;
+import org.parabot.api.io.Directories;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.components.notifications.NotificationUI;

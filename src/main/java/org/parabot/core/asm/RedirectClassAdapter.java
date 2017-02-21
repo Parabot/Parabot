@@ -3,8 +3,8 @@ package org.parabot.core.asm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 import org.parabot.core.asm.redirect.*;
 
 import java.io.File;

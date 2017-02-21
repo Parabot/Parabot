@@ -1,7 +1,7 @@
 package org.parabot.core.ui;
 
+import org.parabot.api.io.Directories;
 import org.parabot.core.Context;
-import org.parabot.core.Directories;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.parsers.scripts.ScriptParser;
 import org.parabot.environment.api.utils.WebUtil;

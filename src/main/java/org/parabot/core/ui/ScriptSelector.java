@@ -26,8 +26,8 @@ import java.util.HashMap;
 public final class ScriptSelector extends JFrame {
     private static final long serialVersionUID = 1L;
     public static ScriptParser parser;
-    private final int WIDTH;
-    private final int HEIGHT;
+    private final int sWidth;
+    private final int sHeight;
     private HashMap<String, DefaultMutableTreeNode> categories;
     private HashMap<String, ScriptDescription> format;
     private DefaultMutableTreeNode root;
@@ -41,8 +41,8 @@ public final class ScriptSelector extends JFrame {
         this.categories = new HashMap<>();
         this.format = new HashMap<>();
         this.root = new DefaultMutableTreeNode("Scripts");
-        this.WIDTH = 640;
-        this.HEIGHT = 256 + 128;
+        this.sWidth = 640;
+        this.sHeight = 256 + 128;
         this.model = new DefaultTreeModel(root);
         putScripts();
         createUI();
@@ -101,7 +101,7 @@ public final class ScriptSelector extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(null);
-        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        panel.setPreferredSize(new Dimension(sWidth, sHeight));
 
         tree = new JTree();
         tree.setCellRenderer(new ScriptTreeCellRenderer());
@@ -144,14 +144,14 @@ public final class ScriptSelector extends JFrame {
         scriptInfo.setEditable(false);
 
         JScrollPane scrlScriptTree = new JScrollPane(tree);
-        scrlScriptTree.setBounds(4, 4, WIDTH / 2 - 4 - 64, HEIGHT - 4 - 28);
+        scrlScriptTree.setBounds(4, 4, sWidth / 2 - 4 - 64, sHeight - 4 - 28);
 
         JScrollPane scrlScriptInfo = new JScrollPane(scriptInfo);
-        scrlScriptInfo.setBounds(WIDTH / 2 + 4 - 64, 4, WIDTH / 2 - 8 + 64,
-                HEIGHT - 4 - 28);
+        scrlScriptInfo.setBounds(sWidth / 2 + 4 - 64, 4, sWidth / 2 - 8 + 64,
+                sHeight - 4 - 28);
 
         JButton cmdStart = new JButton("Start");
-        cmdStart.setBounds(WIDTH - 96 - 4, HEIGHT - 24 - 4, 96, 24);
+        cmdStart.setBounds(sWidth - 96 - 4, sHeight - 24 - 4, 96, 24);
         cmdStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -163,7 +163,7 @@ public final class ScriptSelector extends JFrame {
         });
 
         JButton cmdHome = new JButton("Open home");
-        cmdHome.setBounds(WIDTH - (96 * 2) - 4 - 32, HEIGHT - 24 - 4, 96 + 32,
+        cmdHome.setBounds(sWidth - (96 * 2) - 4 - 32, sHeight - 24 - 4, 96 + 32,
                 24);
         cmdHome.addActionListener(new ActionListener() {
             @Override

@@ -11,22 +11,29 @@ import org.parabot.environment.api.utils.StringUtils;
  */
 public class ServerDescription implements Comparable<ServerDescription> {
 
+	private int id;
 	private String serverName;
 	private String[] authors;
 	private double revision;
 
-	public ServerDescription(final String serverName, final String[] authors,
+	public ServerDescription(int id, final String serverName, final String[] authors,
 			final double revision) {
+		this.id = id;
 		this.serverName = serverName;
 		this.authors = authors;
 		this.revision = revision;
 	}
 
-	public ServerDescription(final String serverName, final String author,
+	public ServerDescription(int id, final String serverName, final String author,
 							 final double revision) {
+		this.id = id;
 		this.serverName = serverName;
 		this.authors = new String[]{author};
 		this.revision = revision;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getServerName() {

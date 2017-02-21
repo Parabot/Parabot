@@ -44,7 +44,6 @@ public final class AccountManager {
 		Core.verbose("Initializing account manager accessors...");
 		final ArrayList<AccountManagerAccess> accessors = new ArrayList<AccountManagerAccess>();
 		accessors.add(BDNScripts.MANAGER_FETCHER);
-		accessors.add(VerboseLoader.MANAGER_FETCHER);
 		accessors.add(BDNScriptsExecuter.MANAGER_FETCHER);
 		accessors.add(PublicServerExecuter.MANAGER_FETCHER);
 		accessors.add(PBPreferences.MANAGER_FETCHER);

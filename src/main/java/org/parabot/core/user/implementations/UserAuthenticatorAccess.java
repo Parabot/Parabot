@@ -1,4 +1,6 @@
-package org.parabot.core.user;
+package org.parabot.core.user.implementations;
+
+import org.parabot.core.user.SharedUserAuthenticator;
 
 /**
  * @author JKetelaar

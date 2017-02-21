@@ -1,11 +1,12 @@
 package org.parabot.core.parsers.servers;
 
+import com.google.inject.Inject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.user.SharedUserAuthenticator;
-import org.parabot.core.user.UserAuthenticatorAccess;
+import org.parabot.core.user.implementations.UserAuthenticatorAccess;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
 /**
@@ -13,9 +14,9 @@ import org.parabot.environment.servers.executers.PublicServerExecuter;
  *
  * @author JKetelaar, Everel
  */
-public class PublicServers extends ServerParser {
+public class PublicServers extends ServerParser implements UserAuthenticatorAccess {
 
-    private static SharedUserAuthenticator authenticator;
+    private SharedUserAuthenticator authenticator;
 
     @Override
     public void execute() {
@@ -24,6 +25,7 @@ public class PublicServers extends ServerParser {
         for (Object o : object) {
             JSONObject jsonObject = (JSONObject) o;
 
+            long id = (Long) jsonObject.get("id");
             String name = (String) jsonObject.get("name");
             double version;
             try {
@@ -39,16 +41,15 @@ public class PublicServers extends ServerParser {
                 authors[i] = (String) author.get("username");
             }
 
-            ServerDescription desc = new ServerDescription(name,
+            ServerDescription desc = new ServerDescription((int) id, name,
                     authors, version);
             SERVER_CACHE.put(desc, new PublicServerExecuter(name));
         }
     }
 
-    public static final UserAuthenticatorAccess AUTHENTICATOR = new UserAuthenticatorAccess() {
-        @Override
-        public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
-            authenticator = userAuthenticator;
-        }
-    };
+    @Override
+    @Inject
+    public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
+        this.authenticator = userAuthenticator;
+    }
 }

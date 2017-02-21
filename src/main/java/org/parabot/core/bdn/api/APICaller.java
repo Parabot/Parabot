@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.WebUtil;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -35,9 +36,9 @@ public final class APICaller {
                     connection.setRequestProperty("Authorization", "Bearer " + authenticator.getAccessToken());
                 }
 
-                connection.setRequestMethod(apiPoint.type.getType());
+                connection.setRequestMethod(apiPoint.getType().getType());
 
-                if (apiPoint.type.isDoOutput()) {
+                if (apiPoint.getType().isDoOutput()) {
                     connection.setDoOutput(true);
 
                     if (parameters != null) {
@@ -51,7 +52,12 @@ public final class APICaller {
                 }
 
                 if (connection.getResponseCode() == 200) {
-                    return WebUtil.getJsonParser().parse(WebUtil.getReader(connection));
+                    BufferedReader reader = WebUtil.getReader(connection);
+                    if (apiPoint.isJson()) {
+                        return WebUtil.getJsonParser().parse(reader);
+                    }else{
+                        return reader;
+                    }
                 } else {
                     System.err.println("Response not 200, code " + connection.getResponseCode() + " instead");
                 }
@@ -64,20 +70,27 @@ public final class APICaller {
     }
 
     public enum APIPoint {
-        LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, APIPointType.GET),
-        SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, APIPointType.POST),
-        IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, APIPointType.GET);
+        LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, true, APIPointType.GET),
+        DOWNLOAD_SERVER(APIConfiguration.API_ENDPOINT + "servers/download/%d", true, false, APIPointType.GET),
+        SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, true, APIPointType.POST),
+        IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, true, APIPointType.GET);
 
         private String point;
         private boolean accessRequired;
+        private boolean json;
         private APIPointType type;
 
         private String editedPoint;
 
-        APIPoint(String point, boolean accessRequired, APIPointType type) {
+        APIPoint(String point, boolean accessRequired, boolean json, APIPointType type) {
             this.point = point;
             this.accessRequired = accessRequired;
+            this.json = json;
             this.type = type;
+        }
+
+        public boolean isJson() {
+            return json;
         }
 
         public URL getPoint() {

@@ -1,4 +1,4 @@
-package org.parabot.core.user;
+package org.parabot.core.user.implementations;
 
 /**
  * @author JKetelaar

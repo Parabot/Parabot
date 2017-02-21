@@ -76,7 +76,7 @@ public class LocalServers extends ServerParser {
                             .getConstructor();
 
                     SERVER_CACHE.put(
-                            new ServerDescription(manifest.name(), manifest
+                            new ServerDescription(-1, manifest.name(), manifest
                                     .author(), manifest.version()),
                             new LocalServerExecuter(con, path,
                                     manifest.name()));
@@ -108,7 +108,7 @@ public class LocalServers extends ServerParser {
                 Core.verbose("[Local server]: " + name);
                 ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs);
 
-                ServerDescription desc = new ServerDescription(name,
+                ServerDescription desc = new ServerDescription(-1, name,
                         author, version);
                 SERVER_CACHE.put(desc, new LocalPublicServerExecuter(name, serverProviderInfo, server, provider));
             } catch (IOException | ParseException e) {

@@ -1,19 +1,20 @@
 package org.parabot.core.bdn.api.slack;
 
+import com.google.inject.Inject;
 import org.json.simple.JSONObject;
 import org.parabot.api.notifications.NotificationManager;
 import org.parabot.api.notifications.types.NotificationType;
 import org.parabot.core.Context;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.user.SharedUserAuthenticator;
-import org.parabot.core.user.UserAuthenticatorAccess;
-import org.parabot.core.user.UserLoginActionListener;
+import org.parabot.core.user.implementations.UserAuthenticatorAccess;
+import org.parabot.core.user.implementations.UserLoginActionListener;
 import org.parabot.environment.scripts.Script;
 
 /**
  * @author JKetelaar
  */
-public class SlackNotification extends NotificationType {
+public class SlackNotification extends NotificationType implements UserAuthenticatorAccess {
 
     public static final UserLoginActionListener USER_LOGIN_ACTION_LISTENER = new UserLoginActionListener() {
         @Override
@@ -25,13 +26,7 @@ public class SlackNotification extends NotificationType {
             NotificationManager.getContext().addNotificationType(new SlackNotification());
         }
     };
-    private static SharedUserAuthenticator authenticator;
-    public static final UserAuthenticatorAccess AUTHENTICATOR = new UserAuthenticatorAccess() {
-        @Override
-        public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
-            authenticator = userAuthenticator;
-        }
-    };
+    private SharedUserAuthenticator authenticator;
 
     public SlackNotification() {
         super("Slack");
@@ -61,5 +56,11 @@ public class SlackNotification extends NotificationType {
 
             APICaller.callPoint(apiPoint, authenticator, "Message=" + message);
         }
+    }
+
+    @Override
+    @Inject
+    public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
+        this.authenticator = userAuthenticator;
     }
 }

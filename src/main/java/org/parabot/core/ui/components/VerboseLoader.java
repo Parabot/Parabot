@@ -1,10 +1,8 @@
 package org.parabot.core.ui.components;
 
 import org.parabot.core.Configuration;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.bdn.api.APIConfiguration;
-import org.parabot.core.forum.AccountManager;
-import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.fonts.Fonts;
@@ -34,21 +32,10 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     private static final int STATE_SERVER_SELECT = 2;
     private int currentState;
 
-    private static AccountManager manager;
-
     private FontMetrics fontMetrics;
     private BufferedImage background, banner, loginBox;
     private ProgressBar progressBar;
     private JPanel loginPanel;
-
-    public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
-
-        @Override
-        public final void setManager(AccountManager manager) {
-            VerboseLoader.manager = manager;
-        }
-
-    };
 
     private VerboseLoader() {
         if (current != null) {
@@ -106,7 +93,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserAuthenticator authenticator = new UserAuthenticator(APIConfiguration.OAUTH_CLIENT_ID);
+                UserAuthenticator authenticator = Context.getInstance().getInjector().getInstance(UserAuthenticator.class);
                 if (authenticator.login()) {
                     authenticator.afterLogin();
                     switchState(STATE_SERVER_SELECT);

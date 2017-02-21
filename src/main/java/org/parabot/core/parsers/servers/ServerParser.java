@@ -1,5 +1,6 @@
 package org.parabot.core.parsers.servers;
 
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.environment.servers.executers.ServerExecuter;
@@ -15,7 +16,7 @@ import java.util.TreeMap;
  * @author Everel
  */
 public abstract class ServerParser {
-    public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<ServerDescription, ServerExecuter>();
+    public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<>();
 
     public abstract void execute();
 
@@ -24,11 +25,11 @@ public abstract class ServerParser {
         final ArrayList<ServerParser> parsers = new ArrayList<>();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalServers());
-            parsers.add(new PublicServers());
+            parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
         } else if (Core.inDebugMode()) {
             parsers.add(new LocalServers());
         } else {
-            parsers.add(new PublicServers());
+            parsers.add(Context.getInstance().getInjector().getInstance(PublicServers.class));
         }
 
         Core.verbose("Parsing server providers...");
@@ -43,7 +44,7 @@ public abstract class ServerParser {
             Core.verbose("Server providers parsed.");
         }
 
-		Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecuter>( SERVER_CACHE );
+        Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecuter>(SERVER_CACHE);
 
         return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
     }

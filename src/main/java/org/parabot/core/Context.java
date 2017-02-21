@@ -1,10 +1,13 @@
 package org.parabot.core;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.json.simple.parser.JSONParser;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
+import org.parabot.core.di.injector.AppInjector;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
@@ -56,6 +59,8 @@ public class Context {
     private PrintStream defaultOut;
     private PrintStream defaultErr = System.err;
 
+    private final Injector injector;
+
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
         
@@ -70,6 +75,8 @@ public class Context {
 
         this.defaultOut = System.out;
         this.defaultErr = System.err;
+
+        this.injector = Guice.createInjector(new AppInjector());
     }
 
     public static Context getInstance(ServerProvider serverProvider) {
@@ -78,6 +85,10 @@ public class Context {
     
     public static Context getInstance() {
     	return getInstance(null);
+    }
+
+    public Injector getInjector() {
+        return injector;
     }
 
     /**
@@ -178,7 +189,7 @@ public class Context {
         	Core.verbose(TranslationHelper.translate("DONE"));
         }
         Applet applet = serverProvider.fetchApplet();
-        // if applet is null the server provider will call setApplet itself
+        // If applet is null the server provider will call setApplet itself
         if(applet != null) {
             setApplet(applet);
         }

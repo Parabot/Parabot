@@ -202,7 +202,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 for (Random r : Core.getInjector().getInstance(RandomHandler.class).getRandoms()) {
                     randoms.add(r.getName());
                 }
-                RandomUI.getInstance().openFrame(randoms);
+                Core.getInjector().getInstance(RandomUI.class).openFrame(randoms);
                 break;
             case "Reflection explorer":
                 new ReflectUI().setVisible(true);

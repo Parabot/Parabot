@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Core;
 import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomHandler;
@@ -12,16 +13,11 @@ import java.util.ArrayList;
 /**
  * @author JKetelaar
  */
+@Singleton
 public class RandomUI implements ActionListener {
-
-    private static RandomUI instance;
 
     private JFrame frame;
     private ArrayList<JCheckBox> checkBoxes;
-
-    public static RandomUI getInstance() {
-        return instance == null ? instance = new RandomUI() : instance;
-    }
 
     public void openFrame(ArrayList<String> randoms) {
         frame = new JFrame();

@@ -58,8 +58,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         addComponentListener(this);
         addWindowListener(this);
 
-        add(GamePanel.getInstance());
-        GamePanel.getInstance().add(Core.getInjector().getInstance(VerboseLoader.class), BorderLayout.CENTER);
+        add(Core.getInjector().getInstance(GamePanel.class));
+        Core.getInjector().getInstance(GamePanel.class).add(Core.getInjector().getInstance(VerboseLoader.class), BorderLayout.CENTER);
         add(Core.getInjector().getInstance(Logger.class), BorderLayout.SOUTH);
 
         SwingUtil.setParabotIcons(this);
@@ -268,7 +268,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         if (dialog == null || !isVisible()) {
             return;
         }
-        Point gameLocation = GamePanel.getInstance().getLocationOnScreen();
+        Point gameLocation = Core.getInjector().getInstance(GamePanel.class).getLocationOnScreen();
         dialog.setLocation(gameLocation.x, gameLocation.y);
     }
 

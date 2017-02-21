@@ -139,7 +139,7 @@ public class Context {
 
         Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
 
-        final GamePanel panel = GamePanel.getInstance();
+        final GamePanel panel = Core.getInjector().getInstance(GamePanel.class);
         final Dimension appletSize = serverProvider.getGameDimensions();
 
         panel.setPreferredSize(appletSize);

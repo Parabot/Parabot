@@ -41,7 +41,7 @@ public class Logger extends JPanel {
 
         model = new DefaultListModel<>();
         list.setModel(model);
-        setPreferredSize(new Dimension((int) GamePanel.getInstance().getPreferredSize().getWidth(), 150));
+        setPreferredSize(new Dimension((int) Core.getInjector().getInstance(GamePanel.class).getPreferredSize().getWidth(), 150));
         model.addElement("Logger initialised");
 
         setVisible(false);

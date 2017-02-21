@@ -1,5 +1,6 @@
 package org.parabot.core.ui.components;
 
+import com.google.inject.Singleton;
 import org.parabot.core.Context;
 
 import javax.swing.*;
@@ -10,9 +11,9 @@ import java.awt.*;
  *
  * @author Everel
  */
+@Singleton
 public class GamePanel extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static GamePanel instance;
 
     private GamePanel() {
         setFocusable(true);
@@ -26,15 +27,6 @@ public class GamePanel extends JPanel {
                 GroupLayout.Alignment.LEADING).addGap(0, 770, Short.MAX_VALUE));
         panelLayout.setVerticalGroup(panelLayout.createParallelGroup(
                 GroupLayout.Alignment.LEADING).addGap(0, 418, Short.MAX_VALUE));
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static GamePanel getInstance() {
-        return instance == null ? instance = new GamePanel() : instance;
     }
 
     /**

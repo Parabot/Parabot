@@ -38,8 +38,6 @@ public class Core {
     private static boolean validate = true;
     private static boolean secure = true;
 
-    private static Version currentVersion = Configuration.BOT_VERSION;
-
     public static void disableValidation() {
         Core.validate = false;
     }
@@ -161,7 +159,7 @@ public class Core {
                     }
 
                     String result;
-                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
+                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", Configuration.BOT_VERSION.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
                         return (boolean) object.get("result");
                     }
@@ -179,7 +177,7 @@ public class Core {
      * @return True if the current version is equal or higher than the latest version, false if lower than the latest version
      */
     public static boolean validVersion() {
-        String url = String.format(Configuration.COMPARE_VERSION_URL, "client", currentVersion.get());
+        String url = String.format(Configuration.COMPARE_VERSION_URL, "client", Configuration.BOT_VERSION.get());
 
         BufferedReader br = WebUtil.getReader(url);
         try {
@@ -217,9 +215,9 @@ public class Core {
     public static void downloadNewVersion() {
         UILog.log(TranslationHelper.translate("UPDATES"),
                 TranslationHelper.translate("DOWNLOAD_UPDATE_PARABOT_AT")
-                        + Configuration.DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
+                        + Configuration.DOWNLOAD_BOT + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : ""),
                 JOptionPane.INFORMATION_MESSAGE);
-        URI uri = URI.create(Configuration.API_DOWNLOAD_BOT + (currentVersion.isNightly() ? Configuration.NIGHTLY_APPEND : ""));
+        URI uri = URI.create(Configuration.API_DOWNLOAD_BOT + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : ""));
         try {
             Desktop.getDesktop().browse(uri);
         } catch (IOException e1) {

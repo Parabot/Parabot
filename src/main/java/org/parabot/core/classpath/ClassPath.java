@@ -5,9 +5,9 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 import org.parabot.api.io.Directories;
+import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.asm.RedirectClassAdapter;
-import org.parabot.core.build.BuildPath;
 import org.parabot.core.io.SizeInputStream;
 import org.parabot.core.ui.components.VerboseLoader;
 

@@ -1,8 +1,8 @@
 package org.parabot.core.lib.javafx;
 
 import org.parabot.api.io.Directories;
+import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.Core;
-import org.parabot.core.build.BuildPath;
 import org.parabot.core.lib.Library;
 import org.parabot.environment.api.utils.JavaUtil;
 

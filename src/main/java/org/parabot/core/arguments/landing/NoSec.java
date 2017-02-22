@@ -1,6 +1,5 @@
 package org.parabot.core.arguments.landing;
 
-import com.sun.istack.internal.Nullable;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 

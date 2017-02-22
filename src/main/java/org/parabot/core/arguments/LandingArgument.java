@@ -1,6 +1,5 @@
 package org.parabot.core.arguments;
 
-import com.sun.istack.internal.Nullable;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.landing.*;
 
@@ -10,7 +9,7 @@ import org.parabot.core.arguments.landing.*;
 public interface LandingArgument {
 	String[] getArguments();
 
-	void has(@Nullable Object value);
+	void has(Object value);
 
 	enum Argument {
 		AUTH(Auth.class, true),

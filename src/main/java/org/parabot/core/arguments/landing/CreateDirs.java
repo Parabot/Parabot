@@ -1,6 +1,5 @@
 package org.parabot.core.arguments.landing;
 
-import com.sun.istack.internal.Nullable;
 import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.arguments.LandingArgument;
@@ -16,7 +15,7 @@ public class CreateDirs implements LandingArgument {
 	}
 
 	@Override
-	public void has(@Nullable Object value) {
+	public void has(Object value) {
 		Directories.validate();
 		System.out.println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
 		System.exit(0);

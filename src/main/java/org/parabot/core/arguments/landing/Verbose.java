@@ -1,6 +1,5 @@
 package org.parabot.core.arguments.landing;
 
-import com.sun.istack.internal.Nullable;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 
@@ -15,7 +14,7 @@ public class Verbose implements LandingArgument {
 	}
 
 	@Override
-	public void has(@Nullable Object value) {
-        Core.setVerbose(true);
+	public void has(Object value) {
+		Core.setVerbose(true);
 	}
 }

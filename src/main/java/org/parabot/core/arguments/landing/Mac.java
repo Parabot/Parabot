@@ -15,7 +15,7 @@ public class Mac implements LandingArgument {
 	}
 
 	@Override
-	public void has(@Nullable Object value) {
+	public void has(Object value) {
 		String[] values = value.toString().split(" ");
 
 		//TODO I don't even know if this works

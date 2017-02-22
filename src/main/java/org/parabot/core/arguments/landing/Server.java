@@ -1,6 +1,5 @@
 package org.parabot.core.arguments.landing;
 
-import com.sun.istack.internal.Nullable;
 import org.parabot.core.arguments.LandingArgument;
 import org.parabot.core.ui.ServerSelector;
 
@@ -15,7 +14,7 @@ public class Server implements LandingArgument {
 	}
 
 	@Override
-	public void has(@Nullable Object value) {
+	public void has(Object value) {
 		String[] values = value.toString().split(" ");
 		int i = 0;
 

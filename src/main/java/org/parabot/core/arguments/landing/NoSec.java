@@ -15,7 +15,7 @@ public class NoSec implements LandingArgument {
 	}
 
 	@Override
-	public void has(@Nullable Object value) {
+	public void has(Object value) {
 		Core.disableSec();
 	}
 }

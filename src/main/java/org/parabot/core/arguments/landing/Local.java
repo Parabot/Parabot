@@ -11,7 +11,7 @@ public class Local implements LandingArgument {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"local"};
+		return new String[]{Core.LaunchMode.LOCAL_ONLY.getArg()};
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class WithLocal implements LandingArgument {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"withlocal"};
+		return new String[]{Core.LaunchMode.INCLUDE_LOCAL.getArg()};
 	}
 
 	@Override

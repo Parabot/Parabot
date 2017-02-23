@@ -1,19 +1,20 @@
 package org.parabot.core.arguments.landing;
 
-import org.parabot.core.Core;
+import org.parabot.api.io.Directories;
 import org.parabot.core.arguments.LandingArgument;
 
 /**
- * @author JKetelaar
+ * @author EmmaStone
  */
-public class NoValidation implements LandingArgument {
+public class ClearCache implements LandingArgument {
+
 	@Override
 	public String[] getArguments() {
-		return new String[]{"no_validation"};
+		return new String[]{"clearcache"};
 	}
 
 	@Override
 	public void has(Object value) {
-		Core.disableValidation();
+		Directories.clearCache();
 	}
 }

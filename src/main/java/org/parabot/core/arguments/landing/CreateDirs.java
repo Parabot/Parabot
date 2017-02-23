@@ -9,15 +9,15 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class CreateDirs implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"createdirs"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "createdirs" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Directories.validate();
-		System.out.println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
-		System.exit(0);
-	}
+    @Override
+    public void has(Object value) {
+        Directories.validate();
+        System.out.println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
+        System.exit(0);
+    }
 }

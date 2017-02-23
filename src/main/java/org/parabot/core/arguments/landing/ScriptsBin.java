@@ -10,16 +10,16 @@ import java.io.File;
  */
 public class ScriptsBin implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"scriptsbin"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "scriptsbin" };
+    }
 
-	@Override
-	public void has(Object value) {
-		String[] values = value.toString().split(" ");
-		int i = 0;
+    @Override
+    public void has(Object value) {
+        String[] values = value.toString().split(" ");
+        int      i      = 0;
 
-		Directories.setScriptCompiledDirectory(new File(values[++i]));
-	}
+        Directories.setScriptCompiledDirectory(new File(values[++i]));
+    }
 }

@@ -21,7 +21,6 @@ public class JavaScriptLoader extends ASMClassLoader {
         this.classPath = classPath;
     }
 
-
     /**
      * Gets all classes that extends ServerProvider
      *
@@ -29,11 +28,12 @@ public class JavaScriptLoader extends ASMClassLoader {
      */
     public final String[] getScriptClassNames() {
         final List<String> classNames = new ArrayList<String>();
-        for (ClassNode c : classPath.classes.values())
+        for (ClassNode c : classPath.classes.values()) {
             if (c.superName.replace('/', '.').equals(
                     Script.class.getName())) {
                 classNames.add(c.name.replace('/', '.'));
             }
+        }
         return classNames.toArray(new String[classNames.size()]);
     }
 

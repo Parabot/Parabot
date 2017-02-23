@@ -9,6 +9,6 @@ import org.parabot.environment.api.utils.Version;
  * @author Everel
  */
 public class Configuration extends org.parabot.api.Configuration {
-    public static final String REGISTRATION_PAGE = "https://www.parabot.org/community/register/";
-    public static final Version BOT_VERSION = Core.getInjector().getInstance(ProjectProperties.class).getProjectVersion();
+    public static final String  REGISTRATION_PAGE = "https://www.parabot.org/community/register/";
+    public static final Version BOT_VERSION       = Core.getInjector().getInstance(ProjectProperties.class).getProjectVersion();
 }

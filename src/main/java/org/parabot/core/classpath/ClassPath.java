@@ -33,15 +33,14 @@ import java.util.zip.ZipInputStream;
  * @author Matt
  */
 public class ClassPath {
-    public final ArrayList<String> classNames;
+    public final ArrayList<String>          classNames;
     public final HashMap<String, ClassNode> classes;
-    public final Map<String, File> resources;
-    public URL lastParsed;
-    private ClassRemapper classRemapper;
-    private boolean isJar;
-    private boolean parseJar;
-    private ArrayList<URL> jarFiles;
-
+    public final Map<String, File>          resources;
+    public       URL                        lastParsed;
+    private      ClassRemapper              classRemapper;
+    private      boolean                    isJar;
+    private      boolean                    parseJar;
+    private      ArrayList<URL>             jarFiles;
 
     public ClassPath() {
         this(false);
@@ -85,10 +84,11 @@ public class ClassPath {
             final SizeInputStream sizeInputStream = new SizeInputStream(
                     connection.getInputStream(), size, Core.getInjector().getInstance(VerboseLoader.class));
             final ZipInputStream zin = new ZipInputStream(sizeInputStream);
-            ZipEntry e;
+            ZipEntry             e;
             while ((e = zin.getNextEntry()) != null) {
-                if (e.isDirectory())
+                if (e.isDirectory()) {
                     continue;
+                }
                 if (e.getName().endsWith(".class")) {
                     loadClass(zin);
                 } else {
@@ -102,7 +102,6 @@ public class ClassPath {
         }
         Core.getInjector().getInstance(VerboseLoader.class).onProgressUpdate(100);
     }
-
 
     /**
      * Adds a jar to this classpath
@@ -145,8 +144,9 @@ public class ClassPath {
      * @param root
      */
     public void addClasses(final File f, File root) {
-        if (f == null)
+        if (f == null) {
             return;
+        }
         if (!f.exists()) {
             f.mkdirs();
         }
@@ -160,9 +160,9 @@ public class ClassPath {
                 addClasses(f1, root);
             } else {
                 try (FileInputStream fin = new FileInputStream(f1)) {
-                    if (f1.getName().endsWith(".class"))
+                    if (f1.getName().endsWith(".class")) {
                         loadClass(fin);
-                    else if (f.equals(root) && f1.getName().endsWith(".jar")) {
+                    } else if (f.equals(root) && f1.getName().endsWith(".jar")) {
                         jarFiles.add(f1.toURI().toURL());
                         if (this.parseJar) {
                             // if enabled, there may be problem with duplicate
@@ -185,18 +185,18 @@ public class ClassPath {
      * Loads class from input stream
      *
      * @param in
+     *
      * @throws IOException
      */
     protected void loadClass(InputStream in) throws IOException {
-        ClassReader cr = new ClassReader(in);
-        ClassNode cn = new ClassNode();
-        RemappingClassAdapter rca = new RemappingClassAdapter(cn, classRemapper);
-        RedirectClassAdapter redir = new RedirectClassAdapter(rca);
+        ClassReader           cr    = new ClassReader(in);
+        ClassNode             cn    = new ClassNode();
+        RemappingClassAdapter rca   = new RemappingClassAdapter(cn, classRemapper);
+        RedirectClassAdapter  redir = new RedirectClassAdapter(rca);
         cr.accept(redir, ClassReader.EXPAND_FRAMES);
         classNames.add(cn.name.replace('/', '.'));
         classes.put(cn.name, cn);
     }
-
 
     /**
      * Determines if this classpath represents a jar file
@@ -227,6 +227,7 @@ public class ClassPath {
      *
      * @param name
      * @param in
+     *
      * @throws IOException
      */
     private void loadResource(final String name, final InputStream in)
@@ -236,9 +237,10 @@ public class ClassPath {
         f.deleteOnExit();
         try (OutputStream out = new FileOutputStream(f)) {
             byte[] buffer = new byte[1024];
-            int len;
-            while ((len = in.read(buffer)) != -1)
+            int    len;
+            while ((len = in.read(buffer)) != -1) {
                 out.write(buffer, 0, len);
+            }
         } catch (IOException e) {
         }
         this.resources.put(name, f);

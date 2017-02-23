@@ -22,7 +22,6 @@ public final class Time {
         }
     }
 
-
     /**
      * @param minumum
      * @param maximum
@@ -40,6 +39,7 @@ public final class Time {
      *
      * @param conn    the condition.
      * @param timeout the time in miliseconds before it stops sleeping.
+     *
      * @return whether it ran successfully without timing out.
      */
     public static boolean sleep(SleepCondition conn, int timeout) {

@@ -8,13 +8,13 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class NoSec implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"no_sec"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "no_sec" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Core.disableSec();
-	}
+    @Override
+    public void has(Object value) {
+        Core.disableSec();
+    }
 }

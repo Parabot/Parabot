@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 public class Logger extends JPanel {
     private static final long serialVersionUID = 1L;
     private final DefaultListModel<String> model;
-    private final JList<String> list;
+    private final JList<String>            list;
 
     private boolean clearable;
 

@@ -8,13 +8,13 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class Verbose implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"v", "verbose"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "v", "verbose" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Core.setVerbose(true);
-	}
+    @Override
+    public void has(Object value) {
+        Core.setVerbose(true);
+    }
 }

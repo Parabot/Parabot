@@ -7,13 +7,13 @@ import org.parabot.core.arguments.LandingArgument;
  * @author JKetelaar
  */
 public class NoValidation implements LandingArgument {
-	@Override
-	public String[] getArguments() {
-		return new String[]{"no_validation"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "no_validation" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Core.disableValidation();
-	}
+    @Override
+    public void has(Object value) {
+        Core.disableValidation();
+    }
 }

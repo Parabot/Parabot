@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Singleton
 public class RandomUI implements ActionListener {
 
-    private JFrame frame;
+    private JFrame               frame;
     private ArrayList<JCheckBox> checkBoxes;
 
     public void openFrame(ArrayList<String> randoms) {

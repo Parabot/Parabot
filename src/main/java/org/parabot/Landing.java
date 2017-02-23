@@ -6,14 +6,9 @@ import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
-import org.parabot.core.network.NetworkInterface;
-import org.parabot.core.network.proxy.ProxySocket;
-import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
-import org.parabot.core.ui.ServerSelector;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -23,52 +18,52 @@ import java.io.IOException;
  */
 public final class Landing {
 
-	public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException {
 
-		parseArgs(args);
+        parseArgs(args);
 
-		Directories.validate();
+        Directories.validate();
 
-		Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.isMode(Core.LaunchMode.LOCAL_ONLY));
+        Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.isMode(Core.LaunchMode.LOCAL_ONLY));
 
-		try {
-			Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
-					+ UIManager.getSystemLookAndFeelClassName());
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+        try {
+            Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
+                    + UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
 
-		if (!Core.isMode(Core.LaunchMode.LOCAL_ONLY) && Core.hasValidation() && !Core.isValid()) {
-			Core.downloadNewVersion();
-			return;
-		}
+        if (!Core.isMode(Core.LaunchMode.LOCAL_ONLY) && Core.hasValidation() && !Core.isValid()) {
+            Core.downloadNewVersion();
+            return;
+        }
 
-		Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
-		Core.getInjector().getInstance(BotUI.class);
-	}
+        Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
+        Core.getInjector().getInstance(BotUI.class);
+    }
 
-	private static void parseArgs(String... args) {
-		OptionParser optionParser = new OptionParser();
-		optionParser.allowsUnrecognizedOptions();
-		for (LandingArgument.Argument argument : LandingArgument.Argument.values()) {
-			for (String s : argument.getLandingArgumentClass().getArguments()) {
-				if (argument.isRequiredArg()) {
-					optionParser.accepts(s).withRequiredArg().ofType(String.class);
-				} else {
-					optionParser.accepts(s);
-				}
-			}
-		}
+    private static void parseArgs(String... args) {
+        OptionParser optionParser = new OptionParser();
+        optionParser.allowsUnrecognizedOptions();
+        for (LandingArgument.Argument argument : LandingArgument.Argument.values()) {
+            for (String s : argument.getLandingArgumentClass().getArguments()) {
+                if (argument.isRequiredArg()) {
+                    optionParser.accepts(s).withRequiredArg().ofType(String.class);
+                } else {
+                    optionParser.accepts(s);
+                }
+            }
+        }
 
-		OptionSet set = optionParser.parse(args);
-		for (LandingArgument.Argument argument : LandingArgument.Argument.values()) {
-			for (String s : argument.getLandingArgumentClass().getArguments()) {
-				if (set.has(s)) {
-					argument.getLandingArgumentClass().has(set.valueOf(s));
-					break;
-				}
-			}
-		}
-	}
+        OptionSet set = optionParser.parse(args);
+        for (LandingArgument.Argument argument : LandingArgument.Argument.values()) {
+            for (String s : argument.getLandingArgumentClass().getArguments()) {
+                if (set.has(s)) {
+                    argument.getLandingArgumentClass().has(set.valueOf(s));
+                    break;
+                }
+            }
+        }
+    }
 }

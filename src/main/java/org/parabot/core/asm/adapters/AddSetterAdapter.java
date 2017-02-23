@@ -16,9 +16,9 @@ public class AddSetterAdapter implements Opcodes, Injectable {
     private ClassNode fieldLocation;
     private ClassNode into;
     private FieldNode field;
-    private String name;
-    private String desc;
-    private boolean methodStatic;
+    private String    name;
+    private String    desc;
+    private boolean   methodStatic;
 
     public AddSetterAdapter(ClassNode fieldLocation, ClassNode into,
                             FieldNode field, String name, String desc, boolean methodStatic) {
@@ -37,8 +37,9 @@ public class AddSetterAdapter implements Opcodes, Injectable {
 
     private static void addSetter(ClassNode fieldLocation, ClassNode into,
                                   FieldNode field, String name, String desc, boolean methodStatic) {
-        if (desc.contains("L") && !desc.endsWith("Ljava/lang/String;"))
+        if (desc.contains("L") && !desc.endsWith("Ljava/lang/String;")) {
             desc = "Ljava/lang/Object;";
+        }
         MethodNode method = new MethodNode(ACC_PUBLIC
                 | (methodStatic ? ACC_STATIC : 0), name, "(" + desc + ")V",
                 null, null);

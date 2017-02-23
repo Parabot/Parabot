@@ -21,7 +21,6 @@ public class ServerLoader extends ASMClassLoader {
         this.classPath = classPath;
     }
 
-
     /**
      * Gets all classes that extends ServerProvider
      *
@@ -29,11 +28,12 @@ public class ServerLoader extends ASMClassLoader {
      */
     public final String[] getServerClassNames() {
         final List<String> classNames = new ArrayList<String>();
-        for (ClassNode c : classPath.classes.values())
+        for (ClassNode c : classPath.classes.values()) {
             if (c.superName.replace('/', '.').equals(
                     ServerProvider.class.getName())) {
                 classNames.add(c.name.replace('/', '.'));
             }
+        }
         return classNames.toArray(new String[classNames.size()]);
     }
 

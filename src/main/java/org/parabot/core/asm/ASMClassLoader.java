@@ -1,6 +1,5 @@
 package org.parabot.core.asm;
 
-
 import com.google.inject.Singleton;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -25,7 +24,7 @@ import java.util.Map;
 @Singleton
 public class ASMClassLoader extends ClassLoader {
 
-    public ClassPath classPath;
+    public  ClassPath             classPath;
     private Map<String, Class<?>> classCache;
 
     public ASMClassLoader(final ClassPath classPath) {

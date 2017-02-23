@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HookFile {
-    public static final int TYPE_XML = 0;
+    public static final int TYPE_XML  = 0;
     public static final int TYPE_JSON = 1;
 
     private URL url;

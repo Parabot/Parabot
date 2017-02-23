@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Everel
  */
 public class RefClass extends RefModifiers {
-    private Object instance;
+    private Object   instance;
     private Class<?> clazz;
 
     public RefClass(Class<?> clazz) {
@@ -125,6 +125,7 @@ public class RefClass extends RefModifiers {
      * Determines if a object is an instance of this class
      *
      * @param object the object you want to check
+     *
      * @return <code>true</code> if the object is an instance of this class; <code>false</code> otherwise
      */
     public boolean instanceOf(Object object) {
@@ -135,6 +136,7 @@ public class RefClass extends RefModifiers {
      * Gets field by field name
      *
      * @param name name of the field
+     *
      * @return the field if found
      */
     public RefField getField(String name) {
@@ -146,6 +148,7 @@ public class RefClass extends RefModifiers {
      *
      * @param name name of the field
      * @param desc desc type of the field
+     *
      * @return the field if found
      */
     public RefField getField(String name, String desc) {
@@ -178,6 +181,7 @@ public class RefClass extends RefModifiers {
      *
      * @param ignoreObjectClass if you want this method to return false when the superclass is
      *                          the java/lang/Object class
+     *
      * @return <code>true</code> if this class has a superclass, otherwise
      * <code>false</code>
      */
@@ -228,6 +232,7 @@ public class RefClass extends RefModifiers {
      * Gets a RefConstructor from this class
      *
      * @param parameters the constructor it's parameters
+     *
      * @return the retrieved constructor
      */
     public RefConstructor getConstructor(Class<?>[] parameters) {
@@ -245,7 +250,7 @@ public class RefClass extends RefModifiers {
      * @return an array with all the constructors in this class
      */
     public RefConstructor[] getConstructors() {
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        Constructor<?>[] constructors    = clazz.getDeclaredConstructors();
         RefConstructor[] refConstructors = new RefConstructor[constructors.length];
         for (int i = 0; i < constructors.length; i++) {
             refConstructors[i] = new RefConstructor(constructors[i]);
@@ -282,6 +287,7 @@ public class RefClass extends RefModifiers {
      * Finds and returns the first RefMethod match with given method name
      *
      * @param name method its name
+     *
      * @return the first match, or if not found <code>null</code>
      */
     public RefMethod getMethod(String name) {
@@ -293,6 +299,7 @@ public class RefClass extends RefModifiers {
      *
      * @param name       the method its name
      * @param parameters the method its parameters
+     *
      * @return the matched method or if not found null <code>null</code>
      */
     public RefMethod getMethod(String name, Class<?>[] parameters) {

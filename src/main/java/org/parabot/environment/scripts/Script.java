@@ -21,18 +21,18 @@ import java.util.Collection;
  */
 public class Script implements Runnable {
     public static final int TYPE_STRATEGY = 0;
-    public static final int TYPE_LOOP = 1;
-    public static final int TYPE_OTHER = 2;
+    public static final int TYPE_LOOP     = 1;
+    public static final int TYPE_OTHER    = 2;
 
     public static final int STATE_RUNNING = 0;
-    public static final int STATE_PAUSE = 1;
+    public static final int STATE_PAUSE   = 1;
     public static final int STATE_STOPPED = 2;
 
     private Collection<Strategy> strategies;
-    private AbstractFramework frameWork;
-    private int state;
-    private int frameWorkType;
-    private int scriptID;
+    private AbstractFramework    frameWork;
+    private int                  state;
+    private int                  frameWorkType;
+    private int                  scriptID;
 
     public boolean onExecute() {
         return true;
@@ -141,6 +141,7 @@ public class Script implements Runnable {
      *
      * @param conn    the condition.
      * @param timeout the time in miliseconds before it stops sleeping.
+     *
      * @return whether it ran successfully without timing out.
      */
     @Deprecated

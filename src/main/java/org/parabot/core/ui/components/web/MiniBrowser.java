@@ -15,8 +15,8 @@ public class MiniBrowser extends Application {
     public static final CountDownLatch latch = new CountDownLatch(1);
 
     private static MiniBrowser context;
-    private Stage stage;
-    private WebView browser;
+    private        Stage       stage;
+    private        WebView     browser;
 
     public MiniBrowser() {
         this.browser = new WebView();
@@ -67,7 +67,7 @@ public class MiniBrowser extends Application {
         stage.setHeight(500);
 
         Scene scene = new Scene(new Group());
-        VBox root = new VBox();
+        VBox  root  = new VBox();
 
         root.getChildren().add(browser);
         scene.setRoot(root);

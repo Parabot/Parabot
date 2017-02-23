@@ -91,6 +91,7 @@ public class Timer {
      * Calculates hourly gains based on given variable
      *
      * @param gained variable
+     *
      * @return hourly gains
      */
     public int getPerHour(final int gained) {
@@ -104,11 +105,11 @@ public class Timer {
      */
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder();
-        long elapsed = getElapsedTime();
-        int second = (int) (elapsed / 1000 % 60);
-        int minute = (int) (elapsed / 60000 % 60);
-        int hour = (int) (elapsed / 3600000 % 60);
+        StringBuilder b       = new StringBuilder();
+        long          elapsed = getElapsedTime();
+        int           second  = (int) (elapsed / 1000 % 60);
+        int           minute  = (int) (elapsed / 60000 % 60);
+        int           hour    = (int) (elapsed / 3600000 % 60);
         b.append(hour < 10 ? "0" : "").append(hour).append(":");
         b.append(minute < 10 ? "0" : "").append(minute).append(":");
         b.append(second < 10 ? "0" : "").append(second);

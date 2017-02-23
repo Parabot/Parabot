@@ -31,7 +31,6 @@ public class ServerSelector extends JPanel {
             }
         }
 
-
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 350));
 
@@ -87,7 +86,7 @@ public class ServerSelector extends JPanel {
      */
     public Queue<ServerComponent> getServers() {
         final Queue<ServerComponent> widgets = new LinkedList<>();
-        ServerDescription[] servers = ServerParser.getDescriptions();
+        ServerDescription[]          servers = ServerParser.getDescriptions();
         for (ServerDescription desc : servers) {
             widgets.add(Core.getInjector().getInstance(ServerComponent.class).setDesc(desc));
         }

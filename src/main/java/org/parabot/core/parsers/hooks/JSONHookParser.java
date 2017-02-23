@@ -15,8 +15,8 @@ import java.util.Map;
  * @author Dane
  */
 public class JSONHookParser extends HookParser {
-    private JSONObject root;
-    private Map<String, String> interfaces;
+    private JSONObject              root;
+    private Map<String, String>     interfaces;
     private HashMap<String, String> constants;
 
     public JSONHookParser(HookFile file) {
@@ -60,7 +60,7 @@ public class JSONHookParser extends HookParser {
             for (int j = 0; j < a.size(); j++) {
                 JSONObject o = (JSONObject) a.get(j);
 
-                String clazz = this.get(o, "class");
+                String clazz     = this.get(o, "class");
                 String interfaze = this.get(o, "interface");
 
                 interfaces.put(clazz, interfaze);
@@ -110,7 +110,7 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
 
                 g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") && (boolean) o.get("static"), 0, null);
             }
@@ -143,7 +143,7 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
 
                 s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") && (boolean) o.get("static"), null);
             }
@@ -176,7 +176,7 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
 
                 i[j] = new Invoker(into, clazz, this.get(o, "invokemethod"), this.get(o, "argdesc"), this.get(o, "desc"), this.get(o, "method"), false, null, null);
             }

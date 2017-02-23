@@ -75,9 +75,9 @@ public final class APICaller {
         SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, true, APIPointType.POST),
         IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, true, APIPointType.GET);
 
-        private String point;
-        private boolean accessRequired;
-        private boolean json;
+        private String       point;
+        private boolean      accessRequired;
+        private boolean      json;
         private APIPointType type;
 
         private String editedPoint;
@@ -128,7 +128,7 @@ public final class APICaller {
             POST("POST", true),
             DELETE("DELETE", true);
 
-            private String type;
+            private String  type;
             private boolean doOutput;
 
             APIPointType(String type, boolean doOutput) {

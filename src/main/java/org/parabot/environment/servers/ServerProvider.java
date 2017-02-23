@@ -52,6 +52,7 @@ public abstract class ServerProvider implements Opcodes {
      * Hooks to parse
      *
      * @return URL to hooks file
+     *
      * @deprecated use getHookFile() now
      */
     @Deprecated
@@ -88,7 +89,7 @@ public abstract class ServerProvider implements Opcodes {
             return;
         }
 
-        HookParser parser = hookFile.getParser();
+        HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
         if (injectables == null) {
             return;
@@ -143,8 +144,8 @@ public abstract class ServerProvider implements Opcodes {
 
     public void initMouse() {
         final Context context = Core.getInjector().getInstance(Context.class);
-        final Applet applet = context.getApplet();
-        final Mouse mouse = Core.getInjector().getInstance(Mouse.class);
+        final Applet  applet  = context.getApplet();
+        final Mouse   mouse   = Core.getInjector().getInstance(Mouse.class);
 
         mouse.setComponent(applet);
 
@@ -154,8 +155,8 @@ public abstract class ServerProvider implements Opcodes {
     }
 
     public void initKeyboard() {
-        final Context context = Core.getInjector().getInstance(Context.class);
-        final Applet applet = context.getApplet();
+        final Context  context  = Core.getInjector().getInstance(Context.class);
+        final Applet   applet   = context.getApplet();
         final Keyboard keyboard = Core.getInjector().getInstance(Keyboard.class);
 
         keyboard.setComponent(applet);
@@ -167,6 +168,5 @@ public abstract class ServerProvider implements Opcodes {
     public void unloadScript(Script script) {
 
     }
-
 
 }

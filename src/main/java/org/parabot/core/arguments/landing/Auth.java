@@ -8,15 +8,15 @@ import org.parabot.core.network.proxy.ProxySocket;
  */
 public class Auth implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"auth"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "auth" };
+    }
 
-	@Override
-	public void has(Object value) {
-		String[] values = value.toString().split(" ");
-		ProxySocket.auth = true;
-		ProxySocket.setLogin(values[0], values[1]);
-	}
+    @Override
+    public void has(Object value) {
+        String[] values = value.toString().split(" ");
+        ProxySocket.auth = true;
+        ProxySocket.setLogin(values[0], values[1]);
+    }
 }

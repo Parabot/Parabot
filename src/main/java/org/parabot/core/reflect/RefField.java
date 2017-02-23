@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  * @author Everel
  */
 public class RefField extends RefModifiers {
-    private Field field;
+    private Field  field;
     private Object instance;
 
     public RefField(Field field) {
@@ -365,6 +365,5 @@ public class RefField extends RefModifiers {
     public String toString() {
         return field.toString();
     }
-
 
 }

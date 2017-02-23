@@ -4,16 +4,17 @@ import java.io.IOException;
 
 public class Runtime {
 
-    private static Runtime cached;
-    private java.lang.Runtime rt;
+    private static Runtime           cached;
+    private        java.lang.Runtime rt;
 
     private Runtime(java.lang.Runtime rt) {
         this.rt = rt;
     }
 
     public static Runtime getRuntime() {
-        if (cached == null)
+        if (cached == null) {
             cached = new Runtime(java.lang.Runtime.getRuntime());
+        }
         return cached;
     }
 

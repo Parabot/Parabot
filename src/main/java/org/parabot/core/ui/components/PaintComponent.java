@@ -21,9 +21,9 @@ public class PaintComponent extends JComponent implements Runnable {
     private static final long serialVersionUID = 4653612412080038193L;
 
     private BufferedImage buffer;
-    private Graphics2D g2;
-    private Dimension dimensions;
-    private Context context;
+    private Graphics2D    g2;
+    private Dimension     dimensions;
+    private Context       context;
 
     public void setDimensions(Dimension dimensions) {
         this.dimensions = dimensions;

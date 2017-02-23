@@ -69,6 +69,7 @@ public class ASMUtils implements Opcodes {
      * Return right opcode for desc
      *
      * @param desc
+     *
      * @return return opcode
      */
     public static int getReturnOpcode(String desc) {

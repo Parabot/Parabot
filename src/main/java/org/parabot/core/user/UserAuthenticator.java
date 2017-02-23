@@ -25,9 +25,9 @@ import java.util.List;
 @Singleton
 public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActionListener {
 
-    private final String clientId;
+    private final String                        clientId;
     private final List<UserLoginActionListener> userLoginActionListeners;
-    private AuthorizationCode authorizationCode;
+    private       AuthorizationCode             authorizationCode;
 
     public UserAuthenticator() {
         this.clientId = APIConfiguration.OAUTH_CLIENT_ID;
@@ -114,7 +114,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
                 JSONObject object = (JSONObject) obj;
 
-                String accessToken = (String) object.get("access_token");
+                String accessToken  = (String) object.get("access_token");
                 String refreshToken = (String) object.get("refresh_token");
 
                 AuthorizationCode code = new AuthorizationCode(accessToken, refreshToken, 3600);
@@ -141,7 +141,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
     private AuthorizationCode getAuthorizationCodes(String parameters) {
         try {
-            URL url1 = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
+            URL           url1       = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
             URLConnection connection = WebUtil.getConnection(url1);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setDoOutput(true);
@@ -160,7 +160,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
     private boolean redirectToLogin() {
         String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
-        URI uri = URI.create(url);
+        URI    uri = URI.create(url);
         try {
             Desktop.getDesktop().browse(uri);
         } catch (IOException e) {
@@ -170,7 +170,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
 
         String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
-        String s = JOptionPane.showInputDialog(null, message, "Paste key", JOptionPane.QUESTION_MESSAGE);
+        String s       = JOptionPane.showInputDialog(null, message, "Paste key", JOptionPane.QUESTION_MESSAGE);
 
         if (s != null) {
             String clientId = this.clientId;

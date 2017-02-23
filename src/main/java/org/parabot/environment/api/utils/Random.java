@@ -13,6 +13,7 @@ public class Random {
      *
      * @param min
      * @param max
+     *
      * @return randomized number
      */
     public static int between(final int min, final int max) {

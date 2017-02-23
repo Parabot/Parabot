@@ -18,7 +18,7 @@ import java.util.ListIterator;
  */
 public class AddSuperAdapter implements Injectable {
     private ClassNode node;
-    private String superClass;
+    private String    superClass;
 
     public AddSuperAdapter(final ClassNode node, final String superClass) {
         this.node = node;

@@ -25,16 +25,16 @@ import java.util.HashMap;
  */
 public final class ScriptSelector extends JFrame {
     private static final long serialVersionUID = 1L;
-    public static ScriptParser parser;
-    private final int sWidth;
-    private final int sHeight;
-    private HashMap<String, DefaultMutableTreeNode> categories;
-    private HashMap<String, ScriptDescription> format;
-    private DefaultMutableTreeNode root;
-    private DefaultTreeModel model;
+    public static ScriptParser                            parser;
+    private final int                                     sWidth;
+    private final int                                     sHeight;
+    private       HashMap<String, DefaultMutableTreeNode> categories;
+    private       HashMap<String, ScriptDescription>      format;
+    private       DefaultMutableTreeNode                  root;
+    private       DefaultTreeModel                        model;
     private Font fontCategory = new Font("Arial", Font.BOLD, 12);
-    private Font fontScript = new Font("Arial", Font.PLAIN, 12);
-    private JTree tree;
+    private Font fontScript   = new Font("Arial", Font.PLAIN, 12);
+    private JTree       tree;
     private JEditorPane scriptInfo;
 
     public ScriptSelector() {

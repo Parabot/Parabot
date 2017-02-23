@@ -5,7 +5,6 @@ import org.parabot.api.io.images.Images;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-
 /**
  * Holds script categories
  *
@@ -28,6 +27,7 @@ public enum Category {
      * Gets category icon image from filename
      *
      * @param s Name of the image - used for the hashmap index
+     *
      * @return icon
      */
     public static BufferedImage getIcon(String s) {

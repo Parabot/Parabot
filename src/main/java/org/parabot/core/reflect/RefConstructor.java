@@ -29,6 +29,7 @@ public class RefConstructor extends RefModifiers {
      * Creates a new instance of this class by invoking this constructor
      *
      * @param args the arguments for the constructor
+     *
      * @return the instance of the class
      */
     public RefClass newInstance(Object... args) {

@@ -12,15 +12,15 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class Invoker implements Injectable {
-    private ClassNode into;
-    private ClassNode methodLocation;
+    private ClassNode  into;
+    private ClassNode  methodLocation;
     private MethodNode mn;
-    private String argsDesc;
-    private String returnDesc;
-    private String methodName;
-    private boolean isInterface;
-    private String instanceCast;
-    private String argsCheckCastDesc;
+    private String     argsDesc;
+    private String     returnDesc;
+    private String     methodName;
+    private boolean    isInterface;
+    private String     instanceCast;
+    private String     argsCheckCastDesc;
 
     private String mName;
     private String mDesc;
@@ -50,7 +50,7 @@ public class Invoker implements Injectable {
     private static MethodNode getMethod(ClassNode into, String name, String desc) {
         for (Object m : into.methods) {
             MethodNode methodNode = (MethodNode) m;
-            String s = methodNode.desc.substring(0, methodNode.desc.indexOf(')') + 1);
+            String     s          = methodNode.desc.substring(0, methodNode.desc.indexOf(')') + 1);
             if (methodNode.name.equals(name) && s.equals(desc)) {
                 return methodNode;
             }

@@ -7,8 +7,8 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
 public class NetworkInterface {
-    public static byte[] mac = new byte[]{11, 11, 11, 11, 11, 11};
-    private static byte[] realMac;
+    public static byte[] mac = new byte[]{ 11, 11, 11, 11, 11, 11 };
+    private static byte[]           realMac;
     private static NetworkInterface cached;
 
     static {
@@ -41,8 +41,9 @@ public class NetworkInterface {
     }
 
     public static byte[] getRealHardwareAddress() throws SocketException {
-        if (realMac != null)
+        if (realMac != null) {
             return realMac;
+        }
         try {
             return realMac = java.net.NetworkInterface.getByInetAddress(
                     InetAddress.getLocalHost()).getHardwareAddress();
@@ -52,8 +53,9 @@ public class NetworkInterface {
     }
 
     public static NetworkInterface getByInetAddress(InetAddress addr) {
-        if (cached == null)
+        if (cached == null) {
             cached = new NetworkInterface();
+        }
         return cached;
     }
 
@@ -66,8 +68,9 @@ public class NetworkInterface {
         StringBuilder b = new StringBuilder();
         for (int i = 0; i < 6; i++) {
             b.append(String.format("%02X", mac[i]));
-            if (i < 5)
+            if (i < 5) {
                 b.append(':');
+            }
         }
         return b.toString();
     }

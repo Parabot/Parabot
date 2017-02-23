@@ -16,10 +16,10 @@ public class Getter implements Injectable {
     private ClassNode into;
     private ClassNode fieldLocation;
     private FieldNode fieldNode;
-    private String methodName;
-    private String returnDesc;
-    private boolean staticMethod;
-    private long multiplier;
+    private String    methodName;
+    private String    returnDesc;
+    private boolean   staticMethod;
+    private long      multiplier;
 
     /**
      * @param into          - classnode to inject getter method in

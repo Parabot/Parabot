@@ -59,8 +59,8 @@ public class PublicServerExecutor extends ServerExecuter {
 
             BuildPath.add(destination.toURI().toURL());
 
-            ServerLoader serverLoader = new ServerLoader(classPath);
-            final String[] classNames = serverLoader.getServerClassNames();
+            ServerLoader   serverLoader = new ServerLoader(classPath);
+            final String[] classNames   = serverLoader.getServerClassNames();
             if (classNames.length == 0) {
                 UILog.log(
                         "Error",

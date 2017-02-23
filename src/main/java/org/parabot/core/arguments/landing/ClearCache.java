@@ -8,13 +8,13 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class ClearCache implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"clearcache"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "clearcache" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Directories.clearCache();
-	}
+    @Override
+    public void has(Object value) {
+        Directories.clearCache();
+    }
 }

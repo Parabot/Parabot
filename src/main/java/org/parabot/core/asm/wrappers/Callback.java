@@ -12,11 +12,11 @@ import org.parabot.core.asm.interfaces.Injectable;
  */
 public class Callback implements Injectable {
     private MethodNode method;
-    private String invokeClass;
-    private String invokeMethod;
-    private String desc;
-    private int[] args;
-    private boolean conditional;
+    private String     invokeClass;
+    private String     invokeMethod;
+    private String     desc;
+    private int[]      args;
+    private boolean    conditional;
 
     public Callback(final String className, final String methodName,
                     final String methodDesc, final String callbackClass,
@@ -33,7 +33,7 @@ public class Callback implements Injectable {
                 this.args[i] = Integer.parseInt(strArgs[i]);
             }
         } else {
-            this.args = new int[]{Integer.parseInt(args)};
+            this.args = new int[]{ Integer.parseInt(args) };
         }
     }
 

@@ -38,10 +38,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private static JDialog dialog;
 
     private JMenuBar menuBar;
-    private JMenu features, scripts, file;
+    private JMenu    features, scripts, file;
     private JMenuItem run, pause, stop, cacheClear, notifications;
     private boolean runScript, pauseScript;
-
 
     public BotUI() {
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -77,17 +76,17 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         features = new JMenu("Features");
 
         JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy = new JMenuItem("Network");
-        JMenuItem randoms = new JMenuItem("Randoms");
-        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger = new JCheckBoxMenuItem("Logger");
+        JMenuItem proxy      = new JMenuItem("Network");
+        JMenuItem randoms    = new JMenuItem("Randoms");
+        JMenuItem dialog     = new JCheckBoxMenuItem("Disable dialog");
+        JMenuItem logger     = new JCheckBoxMenuItem("Logger");
 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             dialog.setSelected(true);
         }
 
         JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem exit     = new JMenuItem("Exit");
 
         run = new JMenuItem("Run");
         run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
@@ -139,7 +138,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         menuBar.add(scripts);
         menuBar.add(features);
 
-
         setJMenuBar(menuBar);
     }
 
@@ -152,12 +150,12 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         switch (command) {
             case "Create screenshot":
                 try {
-                    Robot robot = new Robot();
-                    Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
-                    BufferedImage image = robot.createScreenCapture(parabotScreen);
-                    String randString = StringUtils.randomString(10);
-                    boolean search = true;
-                    boolean duplicate = false;
+                    Robot         robot         = new Robot();
+                    Rectangle     parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
+                    BufferedImage image         = robot.createScreenCapture(parabotScreen);
+                    String        randString    = StringUtils.randomString(10);
+                    boolean       search        = true;
+                    boolean       duplicate     = false;
                     while (search) {
                         File[] files;
                         if ((files = Directories.getScreenshotDir().listFiles()) != null) {

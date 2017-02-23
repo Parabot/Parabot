@@ -5,7 +5,7 @@ import org.parabot.core.ui.utils.UILog;
 public class Version implements Comparable<Version> {
 
     private static boolean notified;
-    private String version;
+    private        String  version;
 
     public Version(String version) {
         if (version == null) {
@@ -51,7 +51,7 @@ public class Version implements Comparable<Version> {
 
         String[] thisParts = this.get().split("\\.");
         String[] thatParts = that.get().split("\\.");
-        int length = Math.max(thisParts.length, thatParts.length);
+        int      length    = Math.max(thisParts.length, thatParts.length);
 
         for (int i = 0; i < length; i++) {
             int thisPart = i < thisParts.length ?

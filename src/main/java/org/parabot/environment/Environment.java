@@ -10,7 +10,6 @@ import org.parabot.core.ui.components.VerboseLoader;
 
 import java.util.LinkedList;
 
-
 /**
  * Initializes the bot environment
  *

@@ -11,14 +11,14 @@ import java.util.List;
 
 public class ProxySocket extends Socket {
 
-    public static boolean auth = false;
+    public static  boolean           auth        = false;
     private static List<ProxySocket> connections = new ArrayList<ProxySocket>();
-    private static ProxyType proxyType = ProxyType.NONE;
-    private static int proxyPort = 0;
-    private static String username = null, password = null;
+    private static ProxyType         proxyType   = ProxyType.NONE;
+    private static int               proxyPort   = 0;
+    private static String            username    = null, password = null;
     private static InetAddress proxyInetAddress = null;
-    private InetAddress addr;
-    private int port;
+    private InetAddress       addr;
+    private int               port;
     private InetSocketAddress cachedAddr;
 
     public ProxySocket(InetAddress addr, int port) throws IOException {
@@ -35,16 +35,18 @@ public class ProxySocket extends Socket {
 
     public static int closeConnections() {
         int value = 0;
-        for (ProxySocket socket : connections)
+        for (ProxySocket socket : connections) {
             try {
                 connections.remove(socket);
-                if (socket.isClosed())
+                if (socket.isClosed()) {
                     continue;
+                }
                 socket.close();
                 value++;
             } catch (Exception e) {
 
             }
+        }
         return value;
     }
 
@@ -104,8 +106,9 @@ public class ProxySocket extends Socket {
                 UILog.log("Proxy Error", e.getMessage(),
                         JOptionPane.ERROR_MESSAGE);
             }
-        } else
+        } else {
             super.connect(addr);
+        }
     }
 
     private void initProxy() throws IOException {
@@ -127,19 +130,21 @@ public class ProxySocket extends Socket {
     }
 
     private void http_connect() throws IOException {
-        InputStream in = getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        OutputStream out = getOutputStream();
+        InputStream    in  = getInputStream();
+        BufferedReader br  = new BufferedReader(new InputStreamReader(in));
+        OutputStream   out = getOutputStream();
         out.write(("CONNECT " + addr.getHostAddress() + ":" + port + "\r\n")
                 .getBytes());
         // out.write("Connection:keep-alive\r\n".getBytes());
         out.write("\r\n".getBytes());
         String str;
         while ((str = br.readLine()) != null) {
-            if (str.length() == 0)
+            if (str.length() == 0) {
                 break;
-            if (!str.startsWith("HTTP"))
+            }
+            if (!str.startsWith("HTTP")) {
                 continue;
+            }
             int code = Integer.parseInt(str.substring(9, 12));
             switch (code) {
                 case 404:
@@ -150,33 +155,38 @@ public class ProxySocket extends Socket {
                             "Proxy doesn't support connecting to port: " + port
                                     + "! Try a different proxy.");
             }
-            if (code / 100 != 2)
+            if (code / 100 != 2) {
                 throw new IOException(
                         "Unable to connect to proxy server! HTTP Error code:"
                                 + code);
+            }
         }
     }
 
     private void socks4_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream in = new DataInputStream(getInputStream());
+        DataInputStream  in  = new DataInputStream(getInputStream());
 
         out.write(0x04);
         out.write(0x01); // connection type (TCP stream)
         out.writeShort(port);
         byte[] b = addr.getAddress();
-        if (b.length != 4)
+        if (b.length != 4) {
             throw new IOException("Unsupported IP type for socksv4!");
+        }
         out.write(b);
         out.write(0); // the userID stuff, 0 means end of string (null
         // terminated)
         out.flush();
 
         if (in.read() != 0x00) // null byte
+        {
             throw new IOException("Proxy server dun goofed");
-        if (in.read() != 0x5a)
+        }
+        if (in.read() != 0x5a) {
             throw new IOException(
                     "Proxy server was unable to connect to server!");
+        }
 
         in.readShort(); // ignored
         in.readFully(b); // ignored
@@ -184,7 +194,7 @@ public class ProxySocket extends Socket {
 
     private void socks5_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream in = new DataInputStream(getInputStream());
+        DataInputStream  in  = new DataInputStream(getInputStream());
         out.write(0x05); // the version
         out.write(auth ? 2 : 1); // number of authentication methods (no auth
         // for now)
@@ -194,7 +204,9 @@ public class ProxySocket extends Socket {
         }
         out.flush();
         if (in.read() != 0x05) // remote proxy version
+        {
             throw new IOException("Proxy server is not supported!");
+        }
         switch (in.read()) { // auth method
             case 0:
                 break; // no auth
@@ -208,7 +220,9 @@ public class ProxySocket extends Socket {
                 out.flush();
                 in.read(); // skip the version
                 if (in.read() == 0) // Successful login, continue
+                {
                     break;
+                }
             default:
                 throw new IOException("Proxy server declined request!");
         }
@@ -227,12 +241,16 @@ public class ProxySocket extends Socket {
 
         // now to read the server's reply
         if (in.read() != 0x05) // socks version (again)
+        {
             throw new IOException("Proxy server dun goofed");
+        }
         int reply = in.read();
-        if (reply == 0x08)
+        if (reply == 0x08) {
             throw new IOException("Bad address sent to proxy server");
-        if (reply != 0x00)
+        }
+        if (reply != 0x00) {
             throw new IOException("Unable to connect to server!");
+        }
         in.read(); // reserve byte
         int addrType = in.read();
         b = new byte[4];
@@ -252,29 +270,33 @@ public class ProxySocket extends Socket {
 
     @Override
     public int getPort() {
-        if (super.getInetAddress().equals(proxyInetAddress))
+        if (super.getInetAddress().equals(proxyInetAddress)) {
             return port;
+        }
         return super.getPort();
     }
 
     @Override
     public InetAddress getInetAddress() {
-        if (super.getInetAddress().equals(proxyInetAddress))
+        if (super.getInetAddress().equals(proxyInetAddress)) {
             return addr;
+        }
         return super.getInetAddress();
     }
 
     @Override
     public SocketAddress getRemoteSocketAddress() {
-        if (super.getInetAddress().equals(proxyInetAddress))
+        if (super.getInetAddress().equals(proxyInetAddress)) {
             return cachedAddr;
+        }
         return super.getRemoteSocketAddress();
     }
 
     @Override
     public SocketChannel getChannel() {
-        if (super.getInetAddress().equals(proxyInetAddress))
+        if (super.getInetAddress().equals(proxyInetAddress)) {
             return null;
+        }
         return super.getChannel();
     }
 

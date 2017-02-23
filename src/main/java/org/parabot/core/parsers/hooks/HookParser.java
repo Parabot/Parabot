@@ -16,7 +16,6 @@ import java.util.HashMap;
  */
 public abstract class HookParser {
 
-
     public HookParser(HookFile hookFile) {
 
     }
@@ -37,7 +36,7 @@ public abstract class HookParser {
 
     public Injectable[] getInjectables() {
         ArrayList<Injectable> injectables = new ArrayList<Injectable>();
-        Interface[] interfaces = getInterfaces();
+        Interface[]           interfaces  = getInterfaces();
         if (interfaces != null) {
             Collections.addAll(injectables, interfaces);
         }

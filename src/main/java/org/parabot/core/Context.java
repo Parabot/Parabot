@@ -33,17 +33,17 @@ import java.util.TimerTask;
 @Singleton
 public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
-    private static ArrayList<Paintable> paintables = new ArrayList<>();
+    private static      ArrayList<Paintable>          paintables   = new ArrayList<>();
 
     @Inject
-    private ClassPath classPath;
+    private ClassPath      classPath;
     private ServerProvider serverProvider;
-    private Applet gameApplet;
-    private HookParser hookParser;
-    private Script runningScript;
+    private Applet         gameApplet;
+    private HookParser     hookParser;
+    private Script         runningScript;
 
-    private Object clientInstance;
-    private Mouse mouse;
+    private Object   clientInstance;
+    private Mouse    mouse;
     private Keyboard keyboard;
 
     @Inject
@@ -139,7 +139,7 @@ public class Context {
 
         Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
 
-        final GamePanel panel = Core.getInjector().getInstance(GamePanel.class);
+        final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
         final Dimension appletSize = serverProvider.getGameDimensions();
 
         panel.setPreferredSize(appletSize);

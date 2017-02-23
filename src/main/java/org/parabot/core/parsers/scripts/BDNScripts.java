@@ -26,13 +26,13 @@ public class BDNScripts extends ScriptParser {
             String line;
 
             while ((line = br.readLine()) != null) {
-                JSONObject jsonObject = (JSONObject) Core.getInjector().getInstance(Context.class).getJsonParser().parse(line);
-                int bdnId = Integer.parseInt(String.valueOf(jsonObject.get("id")));
-                String scriptName = String.valueOf(jsonObject.get("name"));
-                String author = String.valueOf(jsonObject.get("author"));
-                double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
-                String category = String.valueOf(jsonObject.get("category"));
-                String description = String.valueOf(jsonObject.get("description"));
+                JSONObject jsonObject  = (JSONObject) Core.getInjector().getInstance(Context.class).getJsonParser().parse(line);
+                int        bdnId       = Integer.parseInt(String.valueOf(jsonObject.get("id")));
+                String     scriptName  = String.valueOf(jsonObject.get("name"));
+                String     author      = String.valueOf(jsonObject.get("author"));
+                double     version     = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+                String     category    = String.valueOf(jsonObject.get("category"));
+                String     description = String.valueOf(jsonObject.get("description"));
 
                 final ScriptDescription desc = new ScriptDescription(scriptName,
                         author, category, version, description,

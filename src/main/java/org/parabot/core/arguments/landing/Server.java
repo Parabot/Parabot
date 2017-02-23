@@ -8,16 +8,16 @@ import org.parabot.core.ui.ServerSelector;
  */
 public class Server implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"server"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "server" };
+    }
 
-	@Override
-	public void has(Object value) {
-		String[] values = value.toString().split(" ");
-		int i = 0;
+    @Override
+    public void has(Object value) {
+        String[] values = value.toString().split(" ");
+        int      i      = 0;
 
-		ServerSelector.initServer = values[++i];
-	}
+        ServerSelector.initServer = values[++i];
+    }
 }

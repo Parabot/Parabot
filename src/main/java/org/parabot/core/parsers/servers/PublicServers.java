@@ -25,7 +25,7 @@ public class PublicServers extends ServerParser implements UserAuthenticatorAcce
         for (Object o : object) {
             JSONObject jsonObject = (JSONObject) o;
 
-            long id = (Long) jsonObject.get("id");
+            long   id   = (Long) jsonObject.get("id");
             String name = (String) jsonObject.get("name");
             double version;
             try {
@@ -34,14 +34,14 @@ public class PublicServers extends ServerParser implements UserAuthenticatorAcce
                 version = (Long) jsonObject.get("version");
             }
             JSONArray jsonAuthors = (JSONArray) jsonObject.get("authors");
-            String[] authors = new String[jsonAuthors.size()];
+            String[]  authors     = new String[jsonAuthors.size()];
 
             for (int i = 0; i < authors.length; i++) {
                 JSONObject author = (JSONObject) jsonAuthors.get(i);
                 authors[i] = (String) author.get("username");
             }
-            String description = (String) jsonObject.get("description");
-            JSONArray details = (JSONArray) jsonObject.get("authors");
+            String    description = (String) jsonObject.get("description");
+            JSONArray details     = (JSONArray) jsonObject.get("authors");
 
             ServerDescription desc = new ServerDescription((int) id, name,
                     authors, version, description, details);

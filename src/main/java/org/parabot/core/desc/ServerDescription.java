@@ -13,11 +13,11 @@ import java.util.HashMap;
  */
 public class ServerDescription implements Comparable<ServerDescription> {
 
-    private int id;
-    private String serverName;
-    private String[] authors;
-    private double revision;
-    private String description;
+    private int                     id;
+    private String                  serverName;
+    private String[]                authors;
+    private double                  revision;
+    private String                  description;
     private HashMap<String, String> details;
 
     public ServerDescription(final int id, final String serverName, final String[] authors,
@@ -32,7 +32,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
         for (Object o : details) {
             JSONObject detail = (JSONObject) o;
 
-            String name = (String) detail.get("name");
+            String name  = (String) detail.get("name");
             String value = (String) detail.get("value");
 
             this.details.put(name, value);
@@ -43,7 +43,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
                              final double revision) {
         this.id = id;
         this.serverName = serverName;
-        this.authors = new String[]{author};
+        this.authors = new String[]{ author };
         this.revision = revision;
     }
 

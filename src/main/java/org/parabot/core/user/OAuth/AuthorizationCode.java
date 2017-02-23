@@ -15,7 +15,7 @@ public class AuthorizationCode {
 
     private final String accessToken;
     private final String refreshToken;
-    private final long time;
+    private final long   time;
 
     public AuthorizationCode(String accessToken, String refreshToken, long expiresIn) {
         this.accessToken = accessToken;

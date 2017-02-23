@@ -10,16 +10,16 @@ import java.io.File;
  */
 public class ServersBin implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"serversbin"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "serversbin" };
+    }
 
-	@Override
-	public void has(Object value) {
-		String[] values = value.toString().split(" ");
-		int i = 0;
+    @Override
+    public void has(Object value) {
+        String[] values = value.toString().split(" ");
+        int      i      = 0;
 
-		Directories.setServerCompiledDirectory(new File(values[++i]));
-	}
+        Directories.setServerCompiledDirectory(new File(values[++i]));
+    }
 }

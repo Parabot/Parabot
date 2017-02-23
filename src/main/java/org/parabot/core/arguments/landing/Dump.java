@@ -8,13 +8,13 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class Dump implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{"dump"};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ "dump" };
+    }
 
-	@Override
-	public void has(Object value) {
-		Core.setDump(true);
-	}
+    @Override
+    public void has(Object value) {
+        Core.setDump(true);
+    }
 }

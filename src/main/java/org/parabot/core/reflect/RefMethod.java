@@ -119,6 +119,7 @@ public class RefMethod extends RefModifiers {
      * Invokes the method and returns it returned object
      *
      * @param args arguments for the invokable method
+     *
      * @return object returned by the method
      */
     public Object invoke(Object... args) {

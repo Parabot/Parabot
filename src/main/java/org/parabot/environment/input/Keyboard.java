@@ -20,17 +20,18 @@ public class Keyboard implements KeyListener {
     private static HashMap<Character, Character> specialChars;
 
     static {
-        char[] spChars = {'~', '!', '@', '#', '%', '^', '&', '*', '(', ')',
-                '_', '+', '{', '}', ':', '<', '>', '?', '"', '|'};
-        char[] replace = {'`', '1', '2', '3', '5', '6', '7', '8', '9', '0',
-                '-', '=', '[', ']', ';', ',', '.', '/', '\'', '\\'};
+        char[] spChars = { '~', '!', '@', '#', '%', '^', '&', '*', '(', ')',
+                '_', '+', '{', '}', ':', '<', '>', '?', '"', '|' };
+        char[] replace = { '`', '1', '2', '3', '5', '6', '7', '8', '9', '0',
+                '-', '=', '[', ']', ';', ',', '.', '/', '\'', '\\' };
         specialChars = new HashMap<Character, Character>(spChars.length);
-        for (int x = 0; x < spChars.length; ++x)
+        for (int x = 0; x < spChars.length; ++x) {
             specialChars.put(spChars[x], replace[x]);
+        }
     }
 
     private Component component;
-    private long pressTime;
+    private long      pressTime;
 
     public Keyboard() {
     }
@@ -51,7 +52,7 @@ public class Keyboard implements KeyListener {
     public void sendKeys(String s) {
 
         pressTime = System.currentTimeMillis();
-        for (char c : s.toCharArray())
+        for (char c : s.toCharArray()) {
             for (KeyEvent ke : createKeyClick(component, c)) {
                 try {
                     Thread.sleep(5);
@@ -60,21 +61,24 @@ public class Keyboard implements KeyListener {
                 }
                 sendKeyEvent(ke);
             }
+        }
         clickKey(10);
     }
 
     public void clickKey(char c) {
 
         pressTime = System.currentTimeMillis();
-        for (KeyEvent ke : createKeyClick(component, c))
+        for (KeyEvent ke : createKeyClick(component, c)) {
             sendKeyEvent(ke);
+        }
     }
 
     public void clickKey(int keyCode) {
 
         pressTime = System.currentTimeMillis();
-        for (KeyEvent ke : createKeyClick(component, keyCode))
+        for (KeyEvent ke : createKeyClick(component, keyCode)) {
             sendKeyEvent(ke);
+        }
     }
 
     public void pressKey(int keyCode) {
@@ -96,7 +100,7 @@ public class Keyboard implements KeyListener {
         pressTime += 2 * getRandom();
 
         Character newChar = specialChars.get(c);
-        int keyCode = Character.toUpperCase((newChar == null) ? c : newChar);
+        int       keyCode = Character.toUpperCase((newChar == null) ? c : newChar);
 
         if (Character.isLowerCase(c)
                 || (!Character.isLetter(c) && (newChar == null))) {
@@ -108,7 +112,7 @@ public class Keyboard implements KeyListener {
             KeyEvent released = new KeyEvent(target, KeyEvent.KEY_RELEASED,
                     pressTime, 0, keyCode, c);
 
-            return new KeyEvent[]{pressed, typed, released};
+            return new KeyEvent[]{ pressed, typed, released };
         } else {
             KeyEvent shiftDown = new KeyEvent(target, KeyEvent.KEY_PRESSED,
                     pressTime, KeyEvent.SHIFT_MASK, KeyEvent.VK_SHIFT,
@@ -126,8 +130,8 @@ public class Keyboard implements KeyListener {
             KeyEvent shiftUp = new KeyEvent(target, KeyEvent.KEY_RELEASED,
                     pressTime, 0, KeyEvent.VK_SHIFT, KeyEvent.CHAR_UNDEFINED);
 
-            return new KeyEvent[]{shiftDown, pressed, typed, released,
-                    shiftUp};
+            return new KeyEvent[]{ shiftDown, pressed, typed, released,
+                    shiftUp };
         }
     }
 
@@ -149,7 +153,7 @@ public class Keyboard implements KeyListener {
         KeyEvent released = new KeyEvent(target, KeyEvent.KEY_RELEASED,
                 pressTime + getRandom(), 0, keyCode, KeyEvent.CHAR_UNDEFINED);
 
-        return new KeyEvent[]{pressed, released};
+        return new KeyEvent[]{ pressed, released };
     }
 
     private KeyEvent createKeyPress(Component target, int keyCode) {

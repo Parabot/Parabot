@@ -32,8 +32,8 @@ public class ServerDownloader implements UserAuthenticatorAccess, IServerDownloa
             }
 
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[8 * 1024];
-            int bytesRead;
+            byte[]           buffer           = new byte[8 * 1024];
+            int              bytesRead;
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 fileOutputStream.write(buffer, 0, bytesRead);

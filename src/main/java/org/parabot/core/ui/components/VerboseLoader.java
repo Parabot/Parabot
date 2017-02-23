@@ -24,17 +24,17 @@ import java.awt.image.RescaleOp;
  */
 @Singleton
 public class VerboseLoader extends JPanel implements ProgressListener {
-    public static final int STATE_LOADING = 1;
-    private static final long serialVersionUID = 7412412644921803896L;
-    private static final int STATE_AUTHENTICATION = 0;
-    private static final int STATE_SERVER_SELECT = 2;
-    private static String state = "Initializing loader...";
+    public static final  int    STATE_LOADING        = 1;
+    private static final long   serialVersionUID     = 7412412644921803896L;
+    private static final int    STATE_AUTHENTICATION = 0;
+    private static final int    STATE_SERVER_SELECT  = 2;
+    private static       String state                = "Initializing loader...";
     private int currentState;
 
-    private FontMetrics fontMetrics;
+    private FontMetrics   fontMetrics;
     private BufferedImage background, banner, loginBox;
     private ProgressBar progressBar;
-    private JPanel loginPanel;
+    private JPanel      loginPanel;
 
     public VerboseLoader() {
         this.background = Images.getResource("/storage/images/background.png");
@@ -69,9 +69,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     }
 
     public void addServerPanel() {
-        JPanel servers = Core.getInjector().getInstance(ServerSelector.class);
-        GridBagLayout bagLayout = (GridBagLayout) getLayout();
-        GridBagConstraints c = new GridBagConstraints();
+        JPanel             servers   = Core.getInjector().getInstance(ServerSelector.class);
+        GridBagLayout      bagLayout = (GridBagLayout) getLayout();
+        GridBagConstraints c         = new GridBagConstraints();
 
         c.weightx = 1;
         c.weighty = 1;
@@ -130,16 +130,15 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-
         Graphics2D g = (Graphics2D) graphics;
         g.setRenderingHint(
                 RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.drawImage(background, 0, 0, null);
-        float[] scales = {1f, 1f, 1f, 0.9f};
-        float[] offsets = new float[4];
-        RescaleOp rop = new RescaleOp(scales, offsets, null);
+        float[]   scales  = { 1f, 1f, 1f, 0.9f };
+        float[]   offsets = new float[4];
+        RescaleOp rop     = new RescaleOp(scales, offsets, null);
         g.drawImage(banner, rop, 0, 0);
 
         g.setStroke(new BasicStroke(5));
@@ -176,7 +175,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
             int x = (getWidth() / 2) - (fontMetrics.stringWidth(state) / 2);
             g.drawString(state, x, 200);
         }
-
 
         g.setFont(Fonts.getResource("leelawadee.ttf"));
         final String version = Configuration.BOT_VERSION.get();

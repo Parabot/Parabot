@@ -50,6 +50,7 @@ public class RandomHandler {
 
     /**
      * @param random
+     *
      * @deprecated
      */
     @Deprecated
@@ -118,6 +119,7 @@ public class RandomHandler {
      * Checks if random occurs and runs it
      *
      * @return returns <b>true</b> if a random has been executed, otherwise <b>false</b>
+     *
      * @see RandomHandler#checkAndRun(RandomType)
      * @deprecated
      */

@@ -35,22 +35,24 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
     public RedirectClassAdapter(ClassVisitor cv) {
         super(ASM5, cv);
-        if (str_out == null && Core.shouldDump())
+        if (str_out == null && Core.shouldDump()) {
             try {
                 str_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(), "strings.txt")));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        if (class_out == null && Core.shouldDump())
+        }
+        if (class_out == null && Core.shouldDump()) {
             try {
                 class_out = new PrintStream(new FileOutputStream(new File(Directories.getWorkspace(), "classes.txt")));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     public static SecurityException createSecurityException() {
-        Exception e = new Exception();
+        Exception           e        = new Exception();
         StackTraceElement[] elements = e.getStackTrace();
         return new SecurityException("Unsafe operation blocked. Op:"
                 + elements[1].getMethodName());
@@ -128,8 +130,9 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
                             .replaceAll("\\.", "/");
                 }
             }
-            if (class_out != null)
+            if (class_out != null) {
                 class_out.println(owner);
+            }
             super.visitFieldInsn(opcode, owner, name, desc);
         }
 

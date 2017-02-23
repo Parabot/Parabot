@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ParabotFont {
 
     private String location;
-    private Font font;
+    private Font   font;
 
     public ParabotFont(String location, float size) {
         if (!location.toLowerCase().startsWith("/storage/fonts/")) {

@@ -8,13 +8,13 @@ import org.parabot.core.arguments.LandingArgument;
  */
 public class WithLocal implements LandingArgument {
 
-	@Override
-	public String[] getArguments() {
-		return new String[]{Core.LaunchMode.INCLUDE_LOCAL.getArg()};
-	}
+    @Override
+    public String[] getArguments() {
+        return new String[]{ Core.LaunchMode.INCLUDE_LOCAL.getArg() };
+    }
 
-	@Override
-	public void has(Object value) {
-		Core.setMode(Core.LaunchMode.INCLUDE_LOCAL);
-	}
+    @Override
+    public void has(Object value) {
+        Core.setMode(Core.LaunchMode.INCLUDE_LOCAL);
+    }
 }

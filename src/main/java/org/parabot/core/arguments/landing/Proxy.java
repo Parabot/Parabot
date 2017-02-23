@@ -20,13 +20,13 @@ public class Proxy implements LandingArgument {
 		String[] values = value.toString().split(" ");
 		int i = 0;
 
-		ProxyType type = ProxyType.valueOf(values[++i].toUpperCase());
-		if (type == null) {
+		try{
+			ProxyType type = ProxyType.valueOf(values[++i].toUpperCase());
+			ProxySocket.setProxy(type, values[++i], Integer.parseInt(values[++i]));
+		}catch (IllegalArgumentException e){
 			System.err.println(TranslationHelper.translate("INVALID_PROXY_TYPE") + values[i]);
 			System.exit(1);
-			return;
 		}
 
-		ProxySocket.setProxy(type, values[++i], Integer.parseInt(values[++i]));
 	}
 }

@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.parabot.core.Core;
 import org.parabot.core.ui.newui.controllers.GameUIController;
+import org.parabot.core.user.UserAuthenticator;
 
 import java.io.IOException;
 
@@ -32,6 +33,14 @@ public class BotUI extends Application {
     }
 
     public void switchState(ViewState viewState, Stage stage) {
+        if (viewState.requiresLogin){
+            UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
+            if (authenticator.getAccessToken() == null){
+                Core.verbose("User not logged in, view requires logged in state");
+                return;
+            }
+        }
+        
         Core.verbose("Switching state to " + viewState.name());
 
         try {
@@ -51,17 +60,23 @@ public class BotUI extends Application {
     }
 
     public enum ViewState {
-        DEBUG("/storage/ui/debugs.fxml", null),
-        GAME("/storage/ui/game.fxml", GameUIController.WIDTH),
-        SERVER_SELECTOR("/storage/ui/server_selector.fxml", null),
-        LOGIN("/storage/ui/login.fxml", null);
+        DEBUG("/storage/ui/debugs.fxml", null, true),
+        GAME("/storage/ui/game.fxml", GameUIController.WIDTH, true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", null, true),
+        LOGIN("/storage/ui/login.fxml", null, false);
 
         private String  file;
         private Integer width;
+        private boolean requiresLogin;
 
-        ViewState(String file, Integer width) {
+        ViewState(String file, Integer width, boolean requiresLogin) {
             this.file = file;
             this.width = width;
+            this.requiresLogin = requiresLogin;
+        }
+
+        public boolean isRequiresLogin() {
+            return requiresLogin;
         }
 
         public Integer getWidth() {

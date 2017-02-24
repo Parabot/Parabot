@@ -45,7 +45,7 @@ public class LoginUIController implements Initializable {
     private void register(ActionEvent event) {
         try {
             if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI("https://www.parabot.org/community/register/"));
+                Desktop.getDesktop().browse(new URI(Configuration.REGISTRATION_PAGE));
             }
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();

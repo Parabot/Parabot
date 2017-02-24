@@ -28,7 +28,7 @@ public class BotUI extends Application {
         setLoginInterface(stage);
     }
 
-    public void setLoginInterface(Stage stage) {
+    private void setLoginInterface(Stage stage) {
         try {
             Parent root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/login.fxml"));
 

@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.server;
+package org.parabot.core.ui.newui.models;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,13 +18,15 @@ public class ServerItem extends AnchorPane {
     @FXML
     private AnchorPane serverSelectorItemPane;
     @FXML
-    private Label versionLabel;
+    private Label      versionLabel;
     @FXML
-    private Label descriptionLabel;
+    private Label      descriptionLabel;
     @FXML
-    private Label authorsLabel;
+    private Label      authorsLabel;
     @FXML
-    private Label nameLabel;
+    private Label      nameLabel;
+
+    private double version;
 
     public ServerItem() {
         FXMLLoader fxmlLoader = new FXMLLoader(ServerItem.class.getResource("/storage/ui/server/item_control.fxml"));
@@ -37,11 +39,12 @@ public class ServerItem extends AnchorPane {
     }
 
     public double getVersion() {
-        return Double.valueOf(versionLabel.getText());
+        return version;
     }
 
     public void setVersion(double version) {
-        this.versionLabel.setText(String.valueOf(version));
+        this.version = version;
+        this.versionLabel.setText(String.format("V: %.2f", version));
     }
 
     public String getDescription() {
@@ -80,7 +83,7 @@ public class ServerItem extends AnchorPane {
 
     @FXML
     private void selectServer(MouseEvent event) {
-        //// TODO: 23-2-2017 handle server selecting in.
+        //// TODO: 23-2-2017 handle models selecting in.
 
         Stage stage = (Stage) serverSelectorItemPane.getScene().getWindow();
         new BotUI().setGameInterface(stage);

@@ -9,6 +9,7 @@ import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.bdn.api.slack.SlackNotification;
+import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.core.user.implementations.UserLoginActionListener;
 
@@ -164,13 +165,12 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         try {
             Desktop.getDesktop().browse(uri);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, String.format("Please open %s manually", url),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            DialogHelper.showWarning("Login", "Failed to open web page", String.format("Please open %s manually", url));
             e.printStackTrace();
         }
 
         String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
-        String s       = JOptionPane.showInputDialog(null, message, "Paste key", JOptionPane.QUESTION_MESSAGE);
+        String s       = DialogHelper.showTextInput("Login", "Paste key", message);
 
         if (s != null) {
             String clientId = this.clientId;
@@ -189,9 +189,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
             }
         }
         String failedMessage = "Incorrect key.\nPlease try again.";
-        JOptionPane.showMessageDialog(null, failedMessage,
-                "Incorrect key", JOptionPane.ERROR_MESSAGE);
-
+        DialogHelper.showError("Login", "Incorrect key", failedMessage);
         return false;
     }
 

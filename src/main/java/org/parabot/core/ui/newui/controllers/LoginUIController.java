@@ -3,13 +3,24 @@ package org.parabot.core.ui.newui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.user.UserAuthenticator;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -37,8 +48,13 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        Stage stage = (Stage) loginPanel.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+        UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
+        if (authenticator.login()) {
+            authenticator.afterLogin();
+
+            Stage stage = (Stage) loginPanel.getScene().getWindow();
+            Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+        }
     }
 
     @FXML

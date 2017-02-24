@@ -5,13 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="login_panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="login_panel" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="505.0" prefWidth="692.0" styleClass="main-panel"
             stylesheets="@style/login_ui.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="org.parabot.core.ui.newui.controllers.LoginUIController">
     <children>
-        <Label layoutX="203.0" layoutY="30.0" prefHeight="126.0" prefWidth="287.0" styleClass="header" text="Parabot"
-               textFill="#027ef5">
+        <Label alignment="CENTER" layoutY="30.0" prefHeight="126.0" prefWidth="692.0" styleClass="header"
+               textFill="#027ef5" fx:id="title">
             <font>
                 <Font name="Segoe UI Light" size="86.0"/>
             </font>
@@ -24,6 +25,6 @@
                         prefWidth="154.0" text="REGISTER"/>
             </children>
         </HBox>
-        <Label layoutX="222.0" layoutY="148.0" text="The Number One Runescape Private Server Bot"/>
+        <Label layoutX="222.0" layoutY="148.0" fx:id="description"/>
     </children>
 </AnchorPane>

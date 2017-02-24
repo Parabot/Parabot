@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.parabot.core.Core;
+import org.parabot.core.ui.newui.controllers.GameUIController;
 
 import java.io.IOException;
 
@@ -40,7 +41,7 @@ public class BotUI extends Application {
             stage.setScene(scene);
 
             if (viewState.getWidth() != null) {
-                stage.setWidth(692);
+                stage.setWidth(viewState.getWidth());
             }
 
             stage.show();
@@ -51,7 +52,7 @@ public class BotUI extends Application {
 
     public enum ViewState {
         DEBUG("/storage/ui/debugs.fxml", null),
-        GAME("/storage/ui/game.fxml", 692),
+        GAME("/storage/ui/game.fxml", GameUIController.WIDTH),
         SERVER_SELECTOR("/storage/ui/server_selector.fxml", null),
         LOGIN("/storage/ui/login.fxml", null);
 

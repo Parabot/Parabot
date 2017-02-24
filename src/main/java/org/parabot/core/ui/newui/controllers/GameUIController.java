@@ -15,6 +15,11 @@ import org.parabot.core.ui.newui.BotUI;
  */
 public class GameUIController {
 
+    public static final int WIDTH = 692;
+    public static final int EXPANDED_WIDTH = 806;
+    public static final int LAYOUT_X = 36;
+    public static final int EXPANDED_LAYOUT_X = 150;
+
     @FXML
     private AnchorPane gamePanel;
     @FXML
@@ -33,7 +38,7 @@ public class GameUIController {
     @FXML
     void resizePanel(MouseEvent e) {
         double width = rootPanel.getWidth();
-        if (width == 692) {
+        if (width == WIDTH) {
             expand();
         } else {
             collapse();
@@ -125,14 +130,14 @@ public class GameUIController {
 
     private void collapse() {
         Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
-        stage.setWidth(692);
-        gamePanel.setLayoutX(36);
+        stage.setWidth(WIDTH);
+        gamePanel.setLayoutX(LAYOUT_X);
     }
 
     private void expand() {
         Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
-        stage.setWidth(806);
-        gamePanel.setLayoutX(150);
+        stage.setWidth(EXPANDED_WIDTH);
+        gamePanel.setLayoutX(EXPANDED_LAYOUT_X);
     }
 
 }

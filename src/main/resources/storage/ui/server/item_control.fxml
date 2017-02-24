@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.shape.*?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-
-<AnchorPane fx:id="serverSelectorItemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectServer"  prefHeight="140.0" prefWidth="680.0" styleClass="main-panel" stylesheets="@../style/server_item_control.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.shape.Line?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="serverSelectorItemPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectServer" prefHeight="140.0"
+            prefWidth="680.0" styleClass="main-panel" stylesheets="@../style/server_item_control.css"
+            xmlns="http://javafx.com/javafx/8">
     <children>
-        <VBox prefHeight="140.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="140.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="TOP_CENTER" spacing="3.0">
                     <children>
-                        <Label fx:id="nameLabel" styleClass="name-label" text="Null" />
-                        <Label text="V" />
-                        <Label fx:id="versionLabel" />
+                        <Label fx:id="nameLabel" styleClass="name-label" text="Null"/>
+                        <Label text="V"/>
+                        <Label fx:id="versionLabel"/>
                     </children>
                 </HBox>
                 <HBox>
                     <children>
                         <HBox>
                             <children>
-                                <Label text="Authors: " />
-                                <Label fx:id="authorsLabel" />
+                                <Label text="Authors: "/>
+                                <Label fx:id="authorsLabel"/>
                             </children>
                         </HBox>
                     </children>
                 </HBox>
                 <HBox>
                     <children>
-                        <Label text="Description: " textOverrun="CLIP" />
-                        <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="469.0" wrapText="true" />
+                        <Label text="Description: " textOverrun="CLIP"/>
+                        <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="469.0"
+                               wrapText="true"/>
                     </children>
                 </HBox>
             </children>
             <padding>
-                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
         </VBox>
-        <Line endX="680.0" fill="#027ef5" layoutY="140.0" />
+        <Line endX="680.0" fill="#027ef5" layoutY="140.0"/>
     </children>
 </AnchorPane>

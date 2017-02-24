@@ -31,8 +31,8 @@ public class ServerItem extends AnchorPane {
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.environment.api.utils.StringUtils;
 
 import java.io.IOException;
 
@@ -60,9 +61,7 @@ public class ServerItem extends AnchorPane {
     }
 
     public void setAuthors(String[] authors) {
-        //// TODO: 23-2-2017 remove comment tags when StringUtils class is implemented.
-        //this.authorsLabel.setText(StringUtils.implode(", ", authors);
-        this.authorsLabel.setText("JKetelaar");
+        this.authorsLabel.setText(StringUtils.implode(", ", authors));
     }
 
     public String getName() {

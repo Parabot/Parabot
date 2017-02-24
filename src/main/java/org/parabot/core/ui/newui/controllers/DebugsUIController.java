@@ -33,6 +33,7 @@ public class DebugsUIController {
     private GridPane    inventoryGridPanel;
     @FXML
     private AnchorPane  playersPanel;
+    private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
     @FXML
     private ListView<?> objectsListView;
     @FXML
@@ -55,8 +56,6 @@ public class DebugsUIController {
     private ImageView   mapIcon;
     @FXML
     private ImageView   mouseIcon;
-
-    private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
 
     @FXML
     private void openBankItemsPanel(MouseEvent event) {

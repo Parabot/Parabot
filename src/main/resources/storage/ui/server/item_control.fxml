@@ -16,7 +16,6 @@
                 <HBox alignment="TOP_CENTER" spacing="3.0">
                     <children>
                         <Label fx:id="nameLabel" styleClass="name-label" text="Null"/>
-                        <Label text="V"/>
                         <Label fx:id="versionLabel"/>
                     </children>
                 </HBox>

@@ -10,6 +10,10 @@ import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +43,14 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
-        // TODO: Send user to register page
+        try {
+            if(Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(new URI("https://www.parabot.org/community/register/"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 }

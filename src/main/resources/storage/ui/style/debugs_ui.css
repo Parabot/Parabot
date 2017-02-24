@@ -1,0 +1,33 @@
+
+.main-panel {
+    -fx-background-color: #1a1a1a;
+}
+
+.side-panel {
+    -fx-background-color: #242424;
+}
+
+.side-panel-label {
+    -fx-text-fill: #ffffff;
+}
+
+.side-panel-header-label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15;
+}
+
+.list-view {
+    -fx-background-color: #1a1a1a;
+}
+
+.list-view .list-cell:odd {
+    -fx-cell-hover-color: #242424;
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-cell-hover-color: #1a1a1a;
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
+}

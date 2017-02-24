@@ -6,8 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.parabot.core.settings.Configuration;
 import org.parabot.core.Core;
+import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
 
 import java.net.URL;

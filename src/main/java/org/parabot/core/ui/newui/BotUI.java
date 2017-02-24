@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.parabot.core.Core;
@@ -25,6 +26,7 @@ public class BotUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image("/storage/images/icon.png"));
         switchState(ViewState.LOGIN, stage);
     }
 

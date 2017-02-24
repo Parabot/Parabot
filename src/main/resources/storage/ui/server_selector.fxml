@@ -10,7 +10,7 @@
             stylesheets="@style/server_selector_ui.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="org.parabot.core.ui.newui.controllers.ServerSelectorController">
     <children>
-        <Label layoutX="205.0" layoutY="-14.0" styleClass="header" text="Parabot"/>
+        <Label layoutX="205.0" layoutY="-14.0" styleClass="header" fx:id="title"/>
         <Line endX="592.0" layoutX="100.0" layoutY="105.0" startX="-100.0"/>
         <ScrollPane hbarPolicy="NEVER" layoutY="112.0" prefHeight="394.0" prefViewportHeight="289.0"
                     prefViewportWidth="500.0" prefWidth="693.0">

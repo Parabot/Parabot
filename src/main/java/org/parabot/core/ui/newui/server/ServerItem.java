@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.custom;
+package org.parabot.core.ui.newui.server;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,19 +16,15 @@ import java.io.IOException;
 public class ServerItem extends AnchorPane {
 
     @FXML
-    private AnchorPane server_selector_item_pane;
-
+    private AnchorPane serverSelectorItemPane;
     @FXML
-    private Label version_label;
-
+    private Label versionLabel;
     @FXML
-    private Label description_label;
-
+    private Label descriptionLabel;
     @FXML
-    private Label authors_label;
-
+    private Label authorsLabel;
     @FXML
-    private Label name_label;
+    private Label nameLabel;
 
     public ServerItem() {
         FXMLLoader fxmlLoader = new FXMLLoader(ServerItem.class.getResource("/storage/ui/server/item_control.fxml"));
@@ -41,52 +37,52 @@ public class ServerItem extends AnchorPane {
     }
 
     public double getVersion() {
-        return Double.valueOf(version_label.getText());
+        return Double.valueOf(versionLabel.getText());
     }
 
     public void setVersion(double version) {
-        this.version_label.setText(String.valueOf(version));
+        this.versionLabel.setText(String.valueOf(version));
     }
 
     public String getDescription() {
-        return description_label.getText();
+        return descriptionLabel.getText();
     }
 
     public void setDescription(String desc) {
-        this.description_label.setText(desc);
+        this.descriptionLabel.setText(desc);
     }
 
     public String getAuthors() {
-        return authors_label.getText();
+        return authorsLabel.getText();
     }
 
     public void setAuthors(String[] authors) {
         //// TODO: 23-2-2017 remove comment tags when StringUtils class is implemented.
-        //this.authors_label.setText(StringUtils.implode(", ", authors);
-        this.authors_label.setText("JKetelaar");
+        //this.authorsLabel.setText(StringUtils.implode(", ", authors);
+        this.authorsLabel.setText("JKetelaar");
     }
 
     public String getName() {
-        return name_label.getText();
+        return nameLabel.getText();
     }
 
     public void setName(String name) {
-        this.name_label.setText(name);
+        this.nameLabel.setText(name);
     }
 
     public AnchorPane getServerSelectorItemPane() {
-        return server_selector_item_pane;
+        return serverSelectorItemPane;
     }
 
     public void setServerSelectorItemPane(AnchorPane server_selector_item_pane) {
-        this.server_selector_item_pane = server_selector_item_pane;
+        this.serverSelectorItemPane = server_selector_item_pane;
     }
 
     @FXML
-    void select_server(MouseEvent event) {
+    private void selectServer(MouseEvent event) {
         //// TODO: 23-2-2017 handle server selecting in.
 
-        Stage stage = (Stage) server_selector_item_pane.getScene().getWindow();
+        Stage stage = (Stage) serverSelectorItemPane.getScene().getWindow();
         new BotUI().setGameInterface(stage);
     }
 }

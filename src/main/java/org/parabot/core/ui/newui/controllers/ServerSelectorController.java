@@ -2,8 +2,10 @@ package org.parabot.core.ui.newui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import org.parabot.core.ui.newui.custom.ServerItem;
+import org.parabot.core.settings.Configuration;
+import org.parabot.core.ui.newui.server.ServerItem;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,6 +16,9 @@ import java.util.ResourceBundle;
 public class ServerSelectorController implements Initializable {
 
     @FXML
+    private Label title;
+
+    @FXML
     private VBox serverItemBox;
 
     @Override
@@ -22,21 +27,22 @@ public class ServerSelectorController implements Initializable {
         ServerItem test = new ServerItem();
         test.setName("Dreamscape");
         test.setVersion(1.0);
-        test.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
+        test.setDescription("Dreamscape is a server with server items and a stable player base of 100+. They have many new features added all the time.");
         serverItemBox.getChildren().add(test.getServerSelectorItemPane());
 
         ServerItem test1 = new ServerItem();
         test1.setName("Dreamscape1");
         test1.setVersion(1.1);
-        test1.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
+        test1.setDescription("Dreamscape is a server with server items and a stable player base of 100+. They have many new features added all the time.");
         serverItemBox.getChildren().add(test1.getServerSelectorItemPane());
 
         ServerItem test2 = new ServerItem();
         test2.setName("Dreamscape2");
         test2.setVersion(1.2);
-        test2.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
+        test2.setDescription("Dreamscape is a server with server items and a stable player base of 100+. They have many new features added all the time.");
         serverItemBox.getChildren().add(test2.getServerSelectorItemPane());
 
+        title.setText(Configuration.BOT_TITLE);
     }
 
 }

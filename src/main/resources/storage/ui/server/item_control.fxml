@@ -6,31 +6,31 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane fx:id="server_selector_item_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#select_server"  prefHeight="140.0" prefWidth="680.0" styleClass="main-panel" stylesheets="@../style/server_item_control.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="server_selector_item_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectServer"  prefHeight="140.0" prefWidth="680.0" styleClass="main-panel" stylesheets="@../style/server_item_control.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox prefHeight="140.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="TOP_CENTER" spacing="3.0">
                     <children>
-                        <Label fx:id="name_label" styleClass="name-label" text="Null" />
-                        <Label text="V." />
-                        <Label fx:id="version_label" />
+                        <Label fx:id="nameLabel" styleClass="name-label" text="Null" />
+                        <Label text="V" />
+                        <Label fx:id="versionLabel" />
                     </children>
                 </HBox>
                 <HBox>
                     <children>
                         <HBox>
                             <children>
-                                <Label text="Authors : " />
-                                <Label fx:id="authors_label" />
+                                <Label text="Authors: " />
+                                <Label fx:id="authorsLabel" />
                             </children>
                         </HBox>
                     </children>
                 </HBox>
                 <HBox>
                     <children>
-                        <Label prefHeight="17.0" prefWidth="156.0" text="Description : " />
-                        <Label fx:id="description_label" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="672.0" wrapText="true" />
+                        <Label text="Description: " textOverrun="CLIP" />
+                        <Label fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="469.0" wrapText="true" />
                     </children>
                 </HBox>
             </children>

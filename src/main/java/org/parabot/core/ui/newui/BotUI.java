@@ -33,7 +33,7 @@ public class BotUI extends Application {
     }
 
     public void switchState(ViewState viewState, Stage stage) {
-        if (viewState.requiresLogin) {
+        if (viewState.isRequiresLogin()) {
             UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
             if (authenticator.getAccessToken() == null) {
                 Core.verbose("User not logged in, view requires logged in state");

@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author JKetelaar
  */
 public class DialogHelper {
-    public static String showTextInput(String title, String header, String content){
+    public static String showTextInput(String title, String header, String content) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle(title);
         dialog.setHeaderText(header);
@@ -19,7 +19,7 @@ public class DialogHelper {
         return result.orElse(null);
     }
 
-    public static void showWarning(String title, String header, String content){
+    public static void showWarning(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -28,7 +28,7 @@ public class DialogHelper {
         alert.showAndWait();
     }
 
-    public static void showError(String title, String header, String content){
+    public static void showError(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);

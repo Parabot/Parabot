@@ -15,9 +15,9 @@ import org.parabot.core.ui.newui.BotUI;
  */
 public class GameUIController {
 
-    public static final int WIDTH = 692;
-    public static final int EXPANDED_WIDTH = 806;
-    public static final int LAYOUT_X = 36;
+    public static final int WIDTH             = 692;
+    public static final int EXPANDED_WIDTH    = 806;
+    public static final int LAYOUT_X          = 36;
     public static final int EXPANDED_LAYOUT_X = 150;
 
     @FXML

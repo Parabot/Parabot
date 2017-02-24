@@ -38,18 +38,16 @@ public class LoginUIController implements Initializable {
     @FXML
     private void login(ActionEvent event) {
         Stage stage = (Stage) loginPanel.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).setServerSelectorInterface(stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
     }
 
     @FXML
     private void register(ActionEvent event) {
         try {
-            if(Desktop.isDesktopSupported()) {
+            if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI("https://www.parabot.org/community/register/"));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }

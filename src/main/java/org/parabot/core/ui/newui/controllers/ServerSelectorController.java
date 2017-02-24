@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
 public class ServerSelectorController implements Initializable {
 
     @FXML
-    private Label title;
+    private Label      title;
     @FXML
-    private VBox  serverItemBox;
+    private VBox       serverItemBox;
     @FXML
     private ScrollPane scrollPane;
 
@@ -32,27 +32,27 @@ public class ServerSelectorController implements Initializable {
         test.setName("Dreamscape");
         test.setVersion(1.0);
         test.setDescription("Dreamscape is a models with models items and a stable player base of 100+. They have many new features added all the time.");
-        test.setAuthors(new String[]{"JKetelaar", "Fryslan"});
+        test.setAuthors(new String[]{ "JKetelaar", "Fryslan" });
         serverItemBox.getChildren().add(test.getServerSelectorItemPane());
 
         ServerItem test1 = new ServerItem();
         test1.setName("Dreamscape1");
         test1.setVersion(1.1);
         test1.setDescription("Dreamscape is a models with models items and a stable player base of 100+. They have many new features added all the time.");
-        test1.setAuthors(new String[]{"JKetelaar", "Fryslan"});
+        test1.setAuthors(new String[]{ "JKetelaar", "Fryslan" });
         serverItemBox.getChildren().add(test1.getServerSelectorItemPane());
 
         ServerItem test2 = new ServerItem();
         test2.setName("Dreamscape2");
         test2.setVersion(1.2);
         test2.setDescription("Dreamscape is a models with models items and a stable player base of 100+. They have many new features added all the time.");
-        test2.setAuthors(new String[]{"JKetelaar", "Fryslan"});
+        test2.setAuthors(new String[]{ "JKetelaar", "Fryslan" });
         serverItemBox.getChildren().add(test2.getServerSelectorItemPane());
 
         title.setText(Configuration.BOT_TITLE);
 
         /* Only allow vertical scrolling, disable horizontal scrolling */
-        scrollPane.addEventFilter(ScrollEvent.SCROLL,new EventHandler<ScrollEvent>() {
+        scrollPane.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
             @Override
             public void handle(ScrollEvent event) {
                 if (event.getDeltaX() != 0) {

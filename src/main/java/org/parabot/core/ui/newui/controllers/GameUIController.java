@@ -45,7 +45,7 @@ public class GameUIController {
         //// TODO: 22-2-2017 open debug panel
 
         Stage stage = (Stage) gamePanel.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).setDebugsInterface(stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG, stage);
     }
 
     @FXML

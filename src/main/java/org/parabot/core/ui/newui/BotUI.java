@@ -17,7 +17,7 @@ import java.io.IOException;
 @Singleton
 public class BotUI extends Application {
 
-    public static void main(String[] args) {
+    public void start() {
         BotUI botUI = Core.getInjector().getInstance(BotUI.class);
         Application.launch(botUI.getClass());
     }
@@ -25,55 +25,48 @@ public class BotUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.initStyle(StageStyle.UNDECORATED);
-        setLoginInterface(stage);
+        switchState(ViewState.LOGIN, stage);
     }
 
-    private void setLoginInterface(Stage stage) {
+    public void switchState(ViewState viewState, Stage stage) {
+        Core.verbose("Switching state to " + viewState.name());
+
         try {
-            Parent root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/login.fxml"));
+            Parent root = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+
+            if (viewState.getWidth() != null) {
+                stage.setWidth(692);
+            }
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setServerSelectorInterface(Stage stage) {
-        try {
-            Parent root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/server_selector.fxml"));
+    public enum ViewState {
+        DEBUG("/storage/ui/debugs.fxml", null),
+        GAME("/storage/ui/game.fxml", 692),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", null),
+        LOGIN("/storage/ui/login.fxml", null);
 
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        private String  file;
+        private Integer width;
+
+        ViewState(String file, Integer width) {
+            this.file = file;
+            this.width = width;
         }
-    }
 
-    public void setGameInterface(Stage stage) {
-        try {
-            Parent root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/game.fxml"));
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setWidth(692);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public Integer getWidth() {
+            return width;
         }
-    }
 
-    public void setDebugsInterface(Stage stage) {
-        try {
-            Parent root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/debugs.fxml"));
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        public String getFile() {
+            return file;
         }
     }
 }

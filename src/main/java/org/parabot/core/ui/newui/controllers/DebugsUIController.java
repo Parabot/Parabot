@@ -18,21 +18,21 @@ import org.parabot.core.ui.newui.BotUI;
 public class DebugsUIController {
 
     @FXML
-    private HBox        minimizeBox;
+    private HBox       minimizeBox;
     @FXML
-    private Pane        returnPanel;
+    private Pane       returnPanel;
     @FXML
-    private AnchorPane  npcsPanel;
+    private AnchorPane npcsPanel;
     @FXML
-    private AnchorPane  objectsPanel;
+    private AnchorPane objectsPanel;
     @FXML
-    private AnchorPane  groundItemsPanel;
+    private AnchorPane groundItemsPanel;
     @FXML
-    private AnchorPane  bankItemsPanel;
+    private AnchorPane bankItemsPanel;
     @FXML
-    private GridPane    inventoryGridPanel;
+    private GridPane   inventoryGridPanel;
     @FXML
-    private AnchorPane  playersPanel;
+    private AnchorPane playersPanel;
     private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
     @FXML
     private ListView<?> objectsListView;
@@ -139,7 +139,7 @@ public class DebugsUIController {
     @FXML
     private void returnToGame(MouseEvent event) {
         Stage stage = (Stage) returnPanel.getScene().getWindow();
-        new BotUI().setGameInterface(stage);
+        new BotUI().switchState(BotUI.ViewState.GAME, stage);
     }
 
     private void hideAllPanes() {

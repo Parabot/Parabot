@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.parabot.core.Core;
 import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.api.utils.StringUtils;
 
@@ -82,9 +83,7 @@ public class ServerItem extends AnchorPane {
 
     @FXML
     private void selectServer(MouseEvent event) {
-        //// TODO: 23-2-2017 handle models selecting in.
-
         Stage stage = (Stage) serverSelectorItemPane.getScene().getWindow();
-        new BotUI().setGameInterface(stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.GAME, stage);
     }
 }

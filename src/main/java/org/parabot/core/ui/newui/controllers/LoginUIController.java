@@ -19,13 +19,11 @@ import java.util.ResourceBundle;
 public class LoginUIController implements Initializable {
 
     @FXML
-    private AnchorPane login_panel;
-
+    private AnchorPane loginPanel;
     @FXML
-    private Label title;
-
+    private Label      title;
     @FXML
-    private Label description;
+    private Label      description;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +33,7 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        Stage stage = (Stage) login_panel.getScene().getWindow();
+        Stage stage = (Stage) loginPanel.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).setServerSelectorInterface(stage);
     }
 

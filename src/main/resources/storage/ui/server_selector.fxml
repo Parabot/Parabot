@@ -15,7 +15,7 @@
         <ScrollPane hbarPolicy="NEVER" layoutY="112.0" prefHeight="394.0" prefViewportHeight="289.0"
                     prefViewportWidth="500.0" prefWidth="693.0">
             <content>
-                <VBox fx:id="server_items_box" prefHeight="391.0" prefWidth="690.0"/>
+                <VBox fx:id="serverItemBox" prefHeight="391.0" prefWidth="690.0"/>
             </content>
         </ScrollPane>
     </children>

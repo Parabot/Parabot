@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="root_pannel" maxHeight="-Infinity" maxWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPanel" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="505.0"
             minWidth="692.0" prefHeight="505.0" prefWidth="692.0" stylesheets="@style/game_ui.css"
             xmlns="http://javafx.com/javafx/8" fx:controller="org.parabot.core.ui.newui.controllers.GameUIController">
@@ -16,7 +16,7 @@
                     <children>
                         <HBox onMouseClicked="#resizePanel">
                             <children>
-                                <ImageView fx:id="expand_collapse_button" onMouseClicked="#resizePanel">
+                                <ImageView fx:id="expandCollapseButton" onMouseClicked="#resizePanel">
                                     <image>
                                         <Image url="@images/ic_menu_white_24dp.png"/>
                                     </image>
@@ -145,7 +145,7 @@
                         </HBox>
                         <HBox onMouseClicked="#handleNotifications" spacing="7.0">
                             <children>
-                                <ImageView fx:id="notificaton_button">
+                                <ImageView fx:id="notificationButton">
                                     <image>
                                         <Image url="@images/ic_notifications_white_24dp.png"/>
                                     </image>
@@ -155,7 +155,7 @@
                             </children>
                         </HBox>
                         <Separator prefHeight="1.0" prefWidth="57.0"/>
-                        <HBox fx:id="minimize_box" onMouseClicked="#minimize" spacing="7.0">
+                        <HBox fx:id="minimizeBox" onMouseClicked="#minimize" spacing="7.0">
                             <children>
                                 <ImageView>
                                     <image>
@@ -166,7 +166,7 @@
                                        text="Minimize Window"/>
                             </children>
                         </HBox>
-                        <HBox fx:id="shutdown_box" onMouseClicked="#shutdown" spacing="7.0">
+                        <HBox fx:id="shutdownBox" onMouseClicked="#shutdown" spacing="7.0">
                             <children>
                                 <ImageView>
                                     <image>
@@ -184,7 +184,7 @@
                 </VBox>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="game_panel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
+        <AnchorPane fx:id="gamePanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
                     style="-fx-background-color: #2e2e2e;"/>
     </children>
 </AnchorPane>

@@ -18,7 +18,7 @@
                             <children>
                                 <HBox alignment="CENTER_LEFT">
                                     <children>
-                                        <Pane fx:id="return_panel" onMouseClicked="#returnToGame">
+                                        <Pane fx:id="returnPanel" onMouseClicked="#returnToGame">
                                             <children>
                                                 <ImageView fitHeight="24.0" fitWidth="24.0" layoutY="2.0"
                                                            pickOnBounds="true" preserveRatio="true">
@@ -117,7 +117,7 @@
                                 <Region prefHeight="17.0" prefWidth="141.0"/>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickActions" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="actions_icon" fitHeight="24.0" fitWidth="24.0"
+                                        <ImageView fx:id="actionsIcon" fitHeight="24.0" fitWidth="24.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -128,7 +128,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickAnimations" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="animations_icon" fitHeight="24.0" fitWidth="24.0"
+                                        <ImageView fx:id="animationsIcon" fitHeight="24.0" fitWidth="24.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -139,7 +139,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickCollisionFlags" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="collision_flag_icon" fitHeight="24.0" fitWidth="24.0"
+                                        <ImageView fx:id="collisionFlagIcon" fitHeight="24.0" fitWidth="24.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -150,7 +150,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickInterfaces" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="interfaces_icon" fitHeight="24.0" fitWidth="24.0"
+                                        <ImageView fx:id="interfacesIcon" fitHeight="24.0" fitWidth="24.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -161,7 +161,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickMap" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="map_icon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                                        <ImageView fx:id="mapIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
                                                    preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -172,7 +172,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickMouse" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="mouse_icon" fitHeight="24.0" fitWidth="24.0"
+                                        <ImageView fx:id="mouseIcon" fitHeight="24.0" fitWidth="24.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
@@ -182,7 +182,7 @@
                                     </children>
                                 </HBox>
                                 <Region prefHeight="44.0" prefWidth="141.0"/>
-                                <HBox fx:id="minimize_box" alignment="CENTER_LEFT" onMouseClicked="#minimize"
+                                <HBox fx:id="minimizeBox" alignment="CENTER_LEFT" onMouseClicked="#minimize"
                                       spacing="5.0">
                                     <children>
                                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
@@ -204,17 +204,17 @@
                 <StackPane layoutX="139.0" prefHeight="400.0" prefWidth="461.0" AnchorPane.bottomAnchor="0.0"
                            AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <AnchorPane fx:id="bank_items_panel" prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane fx:id="bankItemsPanel" prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <ListView fx:id="bank_items_list_view" prefHeight="454.0" prefWidth="458.0"/>
+                                <ListView fx:id="bankItemsListView" prefHeight="454.0" prefWidth="458.0"/>
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="ground_items_panel" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="groundItemsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
                             <children>
-                                <ListView fx:id="ground_items_list_view" prefHeight="454.0" prefWidth="458.0"/>
+                                <ListView fx:id="groundItemsListView" prefHeight="454.0" prefWidth="458.0"/>
                             </children>
                         </AnchorPane>
-                        <GridPane fx:id="inventory_grid_panel" gridLinesVisible="true" visible="false">
+                        <GridPane fx:id="inventoryGridPanel" gridLinesVisible="true" visible="false">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -232,19 +232,19 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                         </GridPane>
-                        <AnchorPane fx:id="npcs_panel" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="npcsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
                             <children>
-                                <ListView fx:id="npcs_list_view" prefHeight="454.0" prefWidth="458.0"/>
+                                <ListView fx:id="npcsListView" prefHeight="454.0" prefWidth="458.0"/>
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="objects_panel" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="objectsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
                             <children>
-                                <ListView fx:id="objects_list_view" prefHeight="454.0" prefWidth="458.0"/>
+                                <ListView fx:id="objectsListView" prefHeight="454.0" prefWidth="458.0"/>
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="players_panel" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="playersPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
                             <children>
-                                <ListView fx:id="players_list_view" prefHeight="454.0" prefWidth="458.0"/>
+                                <ListView fx:id="playersListView" prefHeight="454.0" prefWidth="458.0"/>
                             </children>
                         </AnchorPane>
                     </children>

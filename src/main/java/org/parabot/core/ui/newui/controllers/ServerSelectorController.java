@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 public class ServerSelectorController implements Initializable {
 
     @FXML
-    private VBox server_items_box;
+    private VBox serverItemBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -23,19 +23,19 @@ public class ServerSelectorController implements Initializable {
         test.setName("Dreamscape");
         test.setVersion(1.0);
         test.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
-        server_items_box.getChildren().add(test.getServerSelectorItemPane());
+        serverItemBox.getChildren().add(test.getServerSelectorItemPane());
 
         ServerItem test1 = new ServerItem();
         test1.setName("Dreamscape1");
         test1.setVersion(1.1);
         test1.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
-        server_items_box.getChildren().add(test1.getServerSelectorItemPane());
+        serverItemBox.getChildren().add(test1.getServerSelectorItemPane());
 
         ServerItem test2 = new ServerItem();
         test2.setName("Dreamscape2");
         test2.setVersion(1.2);
         test2.setDescription("Dreamscape is a server with custom items and a stable player base of 100+. They have many new features added all the time.");
-        server_items_box.getChildren().add(test2.getServerSelectorItemPane());
+        serverItemBox.getChildren().add(test2.getServerSelectorItemPane());
 
     }
 

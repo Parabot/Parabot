@@ -15,24 +15,24 @@ import org.parabot.core.ui.newui.BotUI;
  */
 public class GameUIController {
 
+    @FXML
+    private AnchorPane gamePanel;
+    @FXML
+    private ImageView  expandCollapseButton;
+    @FXML
+    private ImageView  notificationButton;
+    @FXML
+    private HBox       shutdownBox;
+    @FXML
+    private HBox       minimizeBox;
+    @FXML
+    private AnchorPane rootPanel;
+
     private boolean notificationsEnabled = true;
 
     @FXML
-    private AnchorPane game_panel;
-    @FXML
-    private ImageView  expand_collapse_button;
-    @FXML
-    private ImageView  notificaton_button;
-    @FXML
-    private HBox       shutdown_box;
-    @FXML
-    private HBox       minimize_box;
-    @FXML
-    private AnchorPane root_pannel;
-
-    @FXML
     void resizePanel(MouseEvent e) {
-        double width = root_pannel.getWidth();
+        double width = rootPanel.getWidth();
         if (width == 692) {
             expand();
         } else {
@@ -44,7 +44,7 @@ public class GameUIController {
     void openDebug(MouseEvent e) {
         //// TODO: 22-2-2017 open debug panel
 
-        Stage stage = (Stage) game_panel.getScene().getWindow();
+        Stage stage = (Stage) gamePanel.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).setDebugsInterface(stage);
     }
 
@@ -101,11 +101,11 @@ public class GameUIController {
     @FXML
     void handleNotifications(MouseEvent e) {
         if (notificationsEnabled) {
-            notificaton_button.setImage(new Image(getClass().getResource("resources/ic_notifications_off_white_24dp.png").toExternalForm()));
+            notificationButton.setImage(new Image(getClass().getResource("resources/ic_notifications_off_white_24dp.png").toExternalForm()));
             //// TODO: 22-2-2017 enable notifications
             notificationsEnabled = false;
         } else {
-            notificaton_button.setImage(new Image(getClass().getResource("resources/ic_notifications_active_white_24dp.png").toExternalForm()));
+            notificationButton.setImage(new Image(getClass().getResource("resources/ic_notifications_active_white_24dp.png").toExternalForm()));
             //// TODO: 22-2-2017 disable notifications
             notificationsEnabled = true;
         }
@@ -113,26 +113,26 @@ public class GameUIController {
 
     @FXML
     void minimize(MouseEvent e) {
-        Stage stage = (Stage) minimize_box.getScene().getWindow();
+        Stage stage = (Stage) minimizeBox.getScene().getWindow();
         stage.setIconified(true);
     }
 
     @FXML
     void shutdown(MouseEvent e) {
-        Stage stage = (Stage) shutdown_box.getScene().getWindow();
+        Stage stage = (Stage) shutdownBox.getScene().getWindow();
         stage.close();
     }
 
     private void collapse() {
-        Stage stage = (Stage) expand_collapse_button.getScene().getWindow();
+        Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
         stage.setWidth(692);
-        game_panel.setLayoutX(36);
+        gamePanel.setLayoutX(36);
     }
 
     private void expand() {
-        Stage stage = (Stage) expand_collapse_button.getScene().getWindow();
+        Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
         stage.setWidth(806);
-        game_panel.setLayoutX(150);
+        gamePanel.setLayoutX(150);
     }
 
 }

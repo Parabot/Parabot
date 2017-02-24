@@ -18,85 +18,85 @@ import org.parabot.core.ui.newui.BotUI;
 public class DebugsUIController {
 
     @FXML
-    private HBox minimize_box;
+    private HBox        minimizeBox;
+    @FXML
+    private Pane        returnPanel;
+    @FXML
+    private AnchorPane  npcsPanel;
+    @FXML
+    private AnchorPane  objectsPanel;
+    @FXML
+    private AnchorPane  groundItemsPanel;
+    @FXML
+    private AnchorPane  bankItemsPanel;
+    @FXML
+    private GridPane    inventoryGridPanel;
+    @FXML
+    private AnchorPane  playersPanel;
+    @FXML
+    private ListView<?> objectsListView;
+    @FXML
+    private ListView<?> groundItemsListView;
+    @FXML
+    private ListView<?> npcsListView;
+    @FXML
+    private ListView<?> bankItemsListView;
+    @FXML
+    private ListView<?> playersListView;
+    @FXML
+    private ImageView   interfacesIcon;
+    @FXML
+    private ImageView   animationsIcon;
+    @FXML
+    private ImageView   actionsIcon;
+    @FXML
+    private ImageView   collisionFlagIcon;
+    @FXML
+    private ImageView   mapIcon;
+    @FXML
+    private ImageView   mouseIcon;
 
-    @FXML
-    private Pane       return_panel;
-    @FXML
-    private AnchorPane npcs_panel;
-    @FXML
-    private AnchorPane objects_panel;
-    @FXML
-    private AnchorPane ground_items_panel;
-    @FXML
-    private AnchorPane bank_items_panel;
-    @FXML
-    private GridPane   inventory_grid_panel;
-    @FXML
-    private AnchorPane players_panel;
-    private final Pane[] debugPanes = { npcs_panel, objects_panel, ground_items_panel, bank_items_panel, inventory_grid_panel, players_panel };
-    @FXML
-    private ListView<?> objects_list_view;
-    @FXML
-    private ListView<?> ground_items_list_view;
-    @FXML
-    private ListView<?> npcs_list_view;
-    @FXML
-    private ListView<?> bank_items_list_view;
-    @FXML
-    private ListView<?> players_list_view;
-    @FXML
-    private ImageView   interfaces_icon;
-    @FXML
-    private ImageView   animations_icon;
-    @FXML
-    private ImageView   actions_icon;
-    @FXML
-    private ImageView   collision_flag_icon;
-    @FXML
-    private ImageView   map_icon;
-    @FXML
-    private ImageView   mouse_icon;
+    private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
 
     @FXML
     private void openBankItemsPanel(MouseEvent event) {
         hideAllPanes();
-        bank_items_panel.setVisible(true);
+        bankItemsPanel.setVisible(true);
         //// TODO: 23-2-2017 load bankItems to listView
     }
 
     @FXML
     private void openGroundItemsPanel(MouseEvent event) {
         hideAllPanes();
-        ground_items_panel.setVisible(true);
+        groundItemsPanel.setVisible(true);
         //// TODO: 23-2-2017 load groundItems to listView
     }
 
     @FXML
     private void openInventoryItemsPanel(MouseEvent event) {
         hideAllPanes();
-        inventory_grid_panel.setVisible(true);
+        inventoryGridPanel.setVisible(true);
         //// TODO: 23-2-2017 load inventoryItems to gridPanel
     }
 
     @FXML
     private void openNpcsPanel(MouseEvent event) {
         hideAllPanes();
-        npcs_panel.setVisible(true);
+        npcsPanel.setVisible(true);
         //// TODO: 23-2-2017 load npcs to listView
     }
 
     @FXML
     private void openObjectsPanel(MouseEvent event) {
         hideAllPanes();
-        objects_panel.setVisible(true);
+        objectsPanel.setVisible(true);
         //// TODO: 23-2-2017 load objects to listView
     }
 
     @FXML
     private void openPlayersPanel(MouseEvent event) {
         hideAllPanes();
-        bank_items_panel.setVisible(true);
+        bankItemsPanel.setVisible(true);
         //// TODO: 23-2-2017 load players to listView
     }
 
@@ -133,13 +133,13 @@ public class DebugsUIController {
 
     @FXML
     private void minimize(MouseEvent event) {
-        Stage stage = (Stage) minimize_box.getScene().getWindow();
+        Stage stage = (Stage) minimizeBox.getScene().getWindow();
         stage.setIconified(true);
     }
 
     @FXML
     private void returnToGame(MouseEvent event) {
-        Stage stage = (Stage) return_panel.getScene().getWindow();
+        Stage stage = (Stage) returnPanel.getScene().getWindow();
         new BotUI().setGameInterface(stage);
     }
 

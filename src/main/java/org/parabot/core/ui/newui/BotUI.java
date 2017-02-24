@@ -41,7 +41,7 @@ public class BotUI extends Application {
             }
         }
 
-        Core.verbose("Switching state to " + viewState.name());
+        Core.verbose("Switching state to: " + viewState.name());
 
         try {
             Parent root = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));

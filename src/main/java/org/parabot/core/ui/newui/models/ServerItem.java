@@ -7,6 +7,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.parabot.core.Core;
+import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.api.utils.StringUtils;
 
@@ -28,9 +30,12 @@ public class ServerItem extends AnchorPane {
     @FXML
     private Label      nameLabel;
 
-    private double version;
+    private ServerDescription serverDescription;
 
-    public ServerItem() {
+    public ServerItem(){
+    }
+
+    public void setServerDescription(ServerDescription serverDescription) {
         FXMLLoader fxmlLoader = new FXMLLoader(ServerItem.class.getResource("/storage/ui/server/item_control.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -38,47 +43,41 @@ public class ServerItem extends AnchorPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.serverDescription = serverDescription;
+
+        this.setName();
+        this.setAuthors();
+        this.setVersion();
+        this.setDescription();
     }
 
-    public double getVersion() {
-        return version;
+    private void setVersion() {
+        this.versionLabel.setText(String.format("V%.2f", serverDescription.getRevision()));
     }
 
-    public void setVersion(double version) {
-        this.version = version;
-        this.versionLabel.setText(String.format("V: %.2f", version));
+    private void setDescription() {
+        this.descriptionLabel.setText(serverDescription.getDescription());
     }
 
-    public String getDescription() {
-        return descriptionLabel.getText();
+    private void setAuthors() {
+        if (serverDescription.getAuthors().length > 0) {
+            this.authorsLabel.setText(StringUtils.implode(", ", serverDescription.getAuthors()));
+        }else{
+            this.authorsLabel.setText(Configuration.BOT_TITLE);
+        }
     }
 
-    public void setDescription(String desc) {
-        this.descriptionLabel.setText(desc);
-    }
-
-    public String getAuthors() {
-        return authorsLabel.getText();
-    }
-
-    public void setAuthors(String[] authors) {
-        this.authorsLabel.setText(StringUtils.implode(", ", authors));
-    }
-
-    public String getName() {
-        return nameLabel.getText();
-    }
-
-    public void setName(String name) {
-        this.nameLabel.setText(name);
+    private void setName() {
+        this.nameLabel.setText(serverDescription.getServerName());
     }
 
     public AnchorPane getServerSelectorItemPane() {
         return serverSelectorItemPane;
     }
 
-    public void setServerSelectorItemPane(AnchorPane server_selector_item_pane) {
-        this.serverSelectorItemPane = server_selector_item_pane;
+    public void setServerSelectorItemPane(AnchorPane serverSelectorItemPane) {
+        this.serverSelectorItemPane = serverSelectorItemPane;
     }
 
     @FXML

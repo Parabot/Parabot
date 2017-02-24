@@ -1,8 +1,11 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.models.ServerItem;
@@ -19,6 +22,8 @@ public class ServerSelectorController implements Initializable {
     private Label title;
     @FXML
     private VBox  serverItemBox;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -42,6 +47,16 @@ public class ServerSelectorController implements Initializable {
         serverItemBox.getChildren().add(test2.getServerSelectorItemPane());
 
         title.setText(Configuration.BOT_TITLE);
+
+        /* Only allow vertical scrolling, disable horizontal scrolling */
+        scrollPane.addEventFilter(ScrollEvent.SCROLL,new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaX() != 0) {
+                    event.consume();
+                }
+            }
+        });
     }
 
 }

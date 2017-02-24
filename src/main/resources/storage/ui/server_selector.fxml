@@ -14,7 +14,7 @@
         <Label layoutX="205.0" layoutY="-14.0" styleClass="header" fx:id="title"/>
         <Line endX="592.0" layoutX="100.0" layoutY="105.0" startX="-100.0"/>
         <ScrollPane hbarPolicy="NEVER" layoutY="112.0" prefHeight="394.0" prefViewportHeight="289.0"
-                    prefViewportWidth="500.0" prefWidth="693.0">
+                    prefViewportWidth="500.0" prefWidth="693.0" fx:id="scrollPane">
             <content>
                 <VBox fx:id="serverItemBox" prefHeight="391.0" prefWidth="690.0"/>
             </content>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="692.0" styleClass="main-panel" stylesheets="@style/register_ui.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.parabot.core.ui.newui.controllers.RegisterController">
+   <children>
+      <VBox prefHeight="505.0" prefWidth="692.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="692.0" spacing="3.0">
+               <children>
+                  <ImageView fx:id="returnIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#returnToLogin" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@images/ic_arrow_back_white_24dp.png" />
+                     </image>
+                  </ImageView>
+                  <Region prefHeight="35.0" prefWidth="612.0" />
+                  <ImageView fx:id="refreshIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#refresh" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/ic_cached_white_24dp.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <WebView fx:id="registerWebView" prefHeight="471.0" prefWidth="692.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

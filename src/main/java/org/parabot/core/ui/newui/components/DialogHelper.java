@@ -35,7 +35,7 @@ public class DialogHelper {
         showMessage(title, header, content, Alert.AlertType.INFORMATION);
     }
 
-    public static void showMessage(String title, String header, String content, Alert.AlertType type){
+    public static void showMessage(String title, String header, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);

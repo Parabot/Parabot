@@ -3,7 +3,6 @@ package org.parabot.core.ui.newui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -26,11 +25,11 @@ import java.util.ResourceBundle;
 public class LoginUIController implements Initializable {
 
     @FXML
-    private AnchorPane loginPanel;
+    private AnchorPane                  loginPanel;
     @FXML
-    private Label      title;
+    private Label                       title;
     @FXML
-    private Label      description;
+    private Label                       description;
     @FXML
     private javafx.scene.control.Button loginButton;
     @FXML
@@ -50,7 +49,7 @@ public class LoginUIController implements Initializable {
 
         Thread login = new Thread(() -> {
             this.toggleButtons();
-            if (authenticator.login()){
+            if (authenticator.login()) {
                 Stage stage = (Stage) loginPanel.getScene().getWindow();
                 Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
             }
@@ -72,7 +71,7 @@ public class LoginUIController implements Initializable {
         }
     }
 
-    private void toggleButtons(){
+    private void toggleButtons() {
         loginButton.setDisable(!disabled);
         registerButton.setDisable(!disabled);
         disabled = !disabled;

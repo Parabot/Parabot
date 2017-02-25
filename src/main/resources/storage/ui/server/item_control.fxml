@@ -5,7 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Line?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="serverSelectorItemPane" maxHeight="-Infinity" maxWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="serverSelectorItemPane" maxHeight="-Infinity"
+            maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectServer" prefHeight="140.0"
             prefWidth="680.0" styleClass="main-panel" stylesheets="@../style/server_item_control.css"
             xmlns="http://javafx.com/javafx/8">

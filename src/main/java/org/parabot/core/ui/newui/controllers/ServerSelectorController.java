@@ -1,6 +1,5 @@
 package org.parabot.core.ui.newui.controllers;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -11,12 +10,9 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.components.ServerComponent;
 import org.parabot.core.ui.newui.models.ServerItem;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.ResourceBundle;
 
 /**

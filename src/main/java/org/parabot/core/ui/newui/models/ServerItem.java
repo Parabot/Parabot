@@ -32,7 +32,7 @@ public class ServerItem extends AnchorPane {
 
     private ServerDescription serverDescription;
 
-    public ServerItem(){
+    public ServerItem() {
     }
 
     public void setServerDescription(ServerDescription serverDescription) {
@@ -63,7 +63,7 @@ public class ServerItem extends AnchorPane {
     private void setAuthors() {
         if (serverDescription.getAuthors().length > 0) {
             this.authorsLabel.setText(StringUtils.implode(", ", serverDescription.getAuthors()));
-        }else{
+        } else {
             this.authorsLabel.setText(Configuration.BOT_TITLE);
         }
     }

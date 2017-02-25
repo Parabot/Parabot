@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.UserAuthenticator;
 
 import java.awt.*;
@@ -66,6 +67,7 @@ public class LoginUIController implements Initializable {
                 Desktop.getDesktop().browse(new URI(Configuration.REGISTRATION_PAGE));
             }
         } catch (IOException | URISyntaxException e) {
+            DialogHelper.showError("Login", "Could not open browser", "Go to " + Configuration.REGISTRATION_PAGE + " to register an account");
             e.printStackTrace();
         }
     }

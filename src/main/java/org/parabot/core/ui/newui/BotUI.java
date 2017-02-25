@@ -80,11 +80,8 @@ public class BotUI extends Application {
                 }
             });
 
-            login.start();
             try {
-                while(login.isAlive()) {
-                    login.join(5);
-                }
+                login.join(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

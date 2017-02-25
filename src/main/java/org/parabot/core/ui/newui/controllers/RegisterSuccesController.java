@@ -8,7 +8,7 @@ import org.parabot.core.Core;
 import org.parabot.core.ui.newui.BotUI;
 
 /**
- * Created by Fryslan.
+ * @author Fryslan
  */
 public class RegisterSuccesController {
     @FXML

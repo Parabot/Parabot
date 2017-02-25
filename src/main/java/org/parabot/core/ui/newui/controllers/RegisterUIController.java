@@ -22,7 +22,7 @@ public class RegisterUIController implements Initializable {
     @FXML
     private ImageView refreshIcon, returnIcon;
     @FXML
-    private WebView registerWebView;
+    private WebView    registerWebView;
     @FXML
     private AnchorPane pane;
 
@@ -44,6 +44,7 @@ public class RegisterUIController implements Initializable {
         engine.setUserAgent(Configuration.USER_AGENT);
         engine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
+                    System.out.println(engine.getLocation());
                     if (engine.getLocation().contains("crossLogin")) {
                         Stage stage = (Stage) pane.getScene().getWindow();
                         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER_SUCCESS, stage);

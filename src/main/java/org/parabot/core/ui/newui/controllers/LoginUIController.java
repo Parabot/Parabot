@@ -9,13 +9,8 @@ import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
-import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.UserAuthenticator;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,9 +20,9 @@ import java.util.ResourceBundle;
 public class LoginUIController implements Initializable {
 
     @FXML
-    private AnchorPane                  loginPanel;
+    private AnchorPane loginPanel;
     @FXML
-    private Label                       title, description;
+    private Label      title, description;
     @FXML
     private javafx.scene.control.Button loginButton, registerButton;
 

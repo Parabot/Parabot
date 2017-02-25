@@ -31,7 +31,7 @@ public class DebugsUIController {
     @FXML
     private ListView<?> objectsListView, groundItemsListView, npcsListView, bankItemsListView, playersListView;
     @FXML
-    private ImageView   interfacesIcon, mouseIcon, animationsIcon, actionsIcon, collisionFlagIcon, mapIcon;
+    private ImageView interfacesIcon, mouseIcon, animationsIcon, actionsIcon, collisionFlagIcon, mapIcon;
 
     @FXML
     private void openBankItemsPanel(MouseEvent event) {

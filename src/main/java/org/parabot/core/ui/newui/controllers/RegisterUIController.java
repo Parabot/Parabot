@@ -46,6 +46,7 @@ public class RegisterUIController implements Initializable {
                 (ov, oldState, newState) -> {
                     System.out.println(engine.getLocation());
                     if (engine.getLocation().contains("crossLogin")) {
+                        engine.load(null);
                         Stage stage = (Stage) pane.getScene().getWindow();
                         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER_SUCCESS, stage);
                     }

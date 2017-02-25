@@ -49,12 +49,16 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
-        try {
+
+        Stage stage = (Stage) loginPanel.getScene().getWindow();
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER, stage);
+
+        /*try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(Configuration.REGISTRATION_PAGE));
             }
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

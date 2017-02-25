@@ -63,7 +63,10 @@ public class BotUI extends Application {
         DEBUG("/storage/ui/debugs.fxml", null, true),
         GAME("/storage/ui/game.fxml", GameUIController.WIDTH, true),
         SERVER_SELECTOR("/storage/ui/server_selector.fxml", null, true),
-        LOGIN("/storage/ui/login.fxml", null, false);
+        LOGIN("/storage/ui/login.fxml", null, false),
+        REGISTER("/storage/ui/register.fxml", null,false),
+        REGISTER_SUCCES("/storage/ui/register_succes.fxml", null,false);
+
 
         private String  file;
         private Integer width;

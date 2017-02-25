@@ -10,7 +10,7 @@ import org.parabot.core.ui.newui.BotUI;
 /**
  * @author Fryslan
  */
-public class RegisterSuccesController {
+public class RegisterSuccessController {
     @FXML
     private Button returnButton;
 

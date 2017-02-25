@@ -10,13 +10,13 @@
    <children>
       <VBox alignment="CENTER" prefHeight="505.0" prefWidth="692.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="58.0" prefWidth="694.0" styleClass="succes-message" text="Your Account Was Succesfully Created!">
+            <Label alignment="CENTER" prefHeight="58.0" prefWidth="694.0" styleClass="succes-message" text="Your Account Was Successfully Created!">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Label>
             <Region prefHeight="26.0" prefWidth="692.0" />
-            <Label alignment="CENTER" prefHeight="58.0" prefWidth="777.0" styleClass="verify-message" text="Check your Inbox for an verification mail." />
+            <Label alignment="CENTER" prefHeight="58.0" prefWidth="777.0" styleClass="verify-message" text="Check your Inbox for a verification email." />
             <Region prefHeight="67.0" prefWidth="692.0" />
             <Button fx:id="returnButton" mnemonicParsing="false" onMouseClicked="#returnToBot" prefHeight="96.0" prefWidth="241.0" text="Return To Bot" />
          </children>

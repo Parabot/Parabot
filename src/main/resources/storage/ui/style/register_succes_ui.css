@@ -2,20 +2,20 @@
     -fx-background-color: #1a1a1a;
 }
 
-.succes-panel{
+.succes-panel {
     -fx-background-color: #99cc33;
 }
 
-.succes-message{
+.succes-message {
     -fx-text-fill: #ffffff;
-       -fx-font-size: 35;
-       -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 35;
+    -fx-font-family: "Segoe UI Light";
 }
 
-.verify-message{
+.verify-message {
     -fx-text-fill: #ffffff;
-       -fx-font-size: 20;
-       -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 20;
+    -fx-font-family: "Segoe UI Light";
 }
 
 .button {

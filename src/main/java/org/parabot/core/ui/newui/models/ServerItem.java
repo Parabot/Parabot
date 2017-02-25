@@ -22,13 +22,7 @@ public class ServerItem extends AnchorPane {
     @FXML
     private AnchorPane serverSelectorItemPane;
     @FXML
-    private Label      versionLabel;
-    @FXML
-    private Label      descriptionLabel;
-    @FXML
-    private Label      authorsLabel;
-    @FXML
-    private Label      nameLabel;
+    private Label      versionLabel, descriptionLabel, authorsLabel, nameLabel;
 
     private ServerDescription serverDescription;
 

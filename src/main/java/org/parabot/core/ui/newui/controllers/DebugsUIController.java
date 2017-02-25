@@ -22,40 +22,16 @@ public class DebugsUIController {
     @FXML
     private Pane       returnPanel;
     @FXML
-    private AnchorPane npcsPanel;
-    @FXML
-    private AnchorPane objectsPanel;
-    @FXML
-    private AnchorPane groundItemsPanel;
-    @FXML
-    private AnchorPane bankItemsPanel;
+    private AnchorPane npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel;
     @FXML
     private GridPane   inventoryGridPanel;
     @FXML
     private AnchorPane playersPanel;
     private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
     @FXML
-    private ListView<?> objectsListView;
+    private ListView<?> objectsListView, groundItemsListView, npcsListView, bankItemsListView, playersListView;
     @FXML
-    private ListView<?> groundItemsListView;
-    @FXML
-    private ListView<?> npcsListView;
-    @FXML
-    private ListView<?> bankItemsListView;
-    @FXML
-    private ListView<?> playersListView;
-    @FXML
-    private ImageView   interfacesIcon;
-    @FXML
-    private ImageView   animationsIcon;
-    @FXML
-    private ImageView   actionsIcon;
-    @FXML
-    private ImageView   collisionFlagIcon;
-    @FXML
-    private ImageView   mapIcon;
-    @FXML
-    private ImageView   mouseIcon;
+    private ImageView   interfacesIcon, mouseIcon, animationsIcon, actionsIcon, collisionFlagIcon, mapIcon;
 
     @FXML
     private void openBankItemsPanel(MouseEvent event) {

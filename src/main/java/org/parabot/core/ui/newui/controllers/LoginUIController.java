@@ -27,13 +27,9 @@ public class LoginUIController implements Initializable {
     @FXML
     private AnchorPane                  loginPanel;
     @FXML
-    private Label                       title;
+    private Label                       title, description;
     @FXML
-    private Label                       description;
-    @FXML
-    private javafx.scene.control.Button loginButton;
-    @FXML
-    private javafx.scene.control.Button registerButton;
+    private javafx.scene.control.Button loginButton, registerButton;
 
     private boolean disabled;
 

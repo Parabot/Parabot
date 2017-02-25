@@ -20,16 +20,23 @@ public class DialogHelper {
     }
 
     public static void showWarning(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-
-        alert.showAndWait();
+        showMessage(title, header, content, Alert.AlertType.WARNING);
     }
 
     public static void showError(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        showMessage(title, header, content, Alert.AlertType.ERROR);
+    }
+
+    public static void showConfirmation(String title, String header, String content) {
+        showMessage(title, header, content, Alert.AlertType.CONFIRMATION);
+    }
+
+    public static void showInformation(String title, String header, String content) {
+        showMessage(title, header, content, Alert.AlertType.INFORMATION);
+    }
+
+    public static void showMessage(String title, String header, String content, Alert.AlertType type){
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);

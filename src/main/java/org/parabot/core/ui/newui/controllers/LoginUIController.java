@@ -3,6 +3,7 @@ package org.parabot.core.ui.newui.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -29,6 +30,12 @@ public class LoginUIController implements Initializable {
     private Label      title;
     @FXML
     private Label      description;
+    @FXML
+    private javafx.scene.control.Button loginButton;
+    @FXML
+    private javafx.scene.control.Button registerButton;
+
+    private boolean disabled;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,12 +46,17 @@ public class LoginUIController implements Initializable {
     @FXML
     private void login(ActionEvent event) {
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
-        if (authenticator.login()) {
-            authenticator.afterLogin();
 
-            Stage stage = (Stage) loginPanel.getScene().getWindow();
-            Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
-        }
+        Thread login = new Thread(() -> {
+            this.toggleButtons();
+            if (authenticator.login()){
+                Stage stage = (Stage) loginPanel.getScene().getWindow();
+                Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+            }
+            this.toggleButtons();
+        });
+
+        login.start();
     }
 
     @FXML
@@ -56,5 +68,11 @@ public class LoginUIController implements Initializable {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    private void toggleButtons(){
+        loginButton.setDisable(!disabled);
+        registerButton.setDisable(!disabled);
+        disabled = !disabled;
     }
 }

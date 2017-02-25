@@ -20,9 +20,9 @@
         <HBox alignment="TOP_CENTER" layoutY="213.0" prefHeight="79.0" prefWidth="692.0" spacing="5.0">
             <children>
                 <Button layoutX="127.0" layoutY="151.0" mnemonicParsing="false" onAction="#login" prefHeight="79.0"
-                        prefWidth="154.0" text="LOGIN"/>
+                        prefWidth="154.0" text="LOGIN" fx:id="loginButton"/>
                 <Button layoutX="300.0" layoutY="151.0" mnemonicParsing="false" onAction="#register" prefHeight="79.0"
-                        prefWidth="154.0" text="REGISTER"/>
+                        prefWidth="154.0" text="REGISTER" fx:id="registerButton"/>
             </children>
         </HBox>
         <Label alignment="TOP_CENTER" layoutY="148.0" prefHeight="17.0" prefWidth="692.0" fx:id="description"/>

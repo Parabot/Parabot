@@ -70,6 +70,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
 
         this.onLogin(true);
+        this.afterLogin();
         return true;
     }
 

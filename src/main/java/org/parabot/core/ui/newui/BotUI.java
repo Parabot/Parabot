@@ -95,7 +95,8 @@ public class BotUI extends Application {
         SERVER_SELECTOR("/storage/ui/server_selector.fxml", null, true),
         LOGIN("/storage/ui/login.fxml", null, false),
         REGISTER("/storage/ui/register.fxml", null, false),
-        REGISTER_SUCCESS("/storage/ui/register_success.fxml", null, false);
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", null, false),
+        BROWSER("/storage/ui/browser.fxml", null, false);
 
         private String  file;
         private Integer width;

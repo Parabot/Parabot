@@ -12,27 +12,28 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Fryslan.
+ * @author Fryslan
  */
-
-public class BrowserUIController implements Initializable{
+public class BrowserUIController implements Initializable {
 
     @FXML
     private WebView webView;
-
     @FXML
     private AnchorPane pane;
-
     @FXML
     private ImageView refreshIcon;
 
+    private static String url;
+
+    public static void setUrl(String url) {
+        BrowserUIController.url = url;
+    }
+
     @FXML
-    void refresh(MouseEvent event) {
+    private void refresh(MouseEvent event) {
         WebEngine engine = webView.getEngine();
         engine.load(engine.getLocation());
     }
-
-    public static String url = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

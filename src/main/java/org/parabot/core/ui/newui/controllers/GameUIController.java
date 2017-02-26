@@ -44,7 +44,7 @@ public class GameUIController {
     private boolean notificationsEnabled = true;
 
     @FXML
-    void resizePanel(MouseEvent e) {
+    private void resizePanel(MouseEvent e) {
         double width = rootPanel.getWidth();
         if (width == WIDTH) {
             expand();
@@ -54,7 +54,7 @@ public class GameUIController {
     }
 
     @FXML
-    void openDebug(MouseEvent e) {
+    private void openDebug(MouseEvent e) {
         //// TODO: 22-2-2017 open debug panel
 
         Stage stage = (Stage) gamePanel.getScene().getWindow();
@@ -62,7 +62,7 @@ public class GameUIController {
     }
 
     @FXML
-    void takeScreenshot(MouseEvent e) {
+    private void takeScreenshot(MouseEvent e) {
         try {
             Robot               robot         = new Robot();
             javafx.stage.Window window        = rootPanel.getScene().getWindow();
@@ -97,52 +97,52 @@ public class GameUIController {
     }
 
     @FXML
-    void openNetwork(MouseEvent e) {
+    private void openNetwork(MouseEvent e) {
         //// TODO: 22-2-2017 open network panel
     }
 
     @FXML
-    void openRandoms(MouseEvent e) {
+    private void openRandoms(MouseEvent e) {
         //// TODO: 22-2-2017 open randoms panel
     }
 
     @FXML
-    void disableDiaglog(MouseEvent e) {
+    private void disableDiaglog(MouseEvent e) {
         //// TODO: 22-2-2017 disable dialog
     }
 
     @FXML
-    void openLogger(MouseEvent e) {
+    private void openLogger(MouseEvent e) {
         //// TODO: 22-2-2017 open logger
     }
 
     @FXML
-    void openReflectionExplorer(MouseEvent e) {
+    private void openReflectionExplorer(MouseEvent e) {
         //// TODO: 22-2-2017 open reflection explorer panel
     }
 
     @FXML
-    void startScript(MouseEvent e) {
+    private void startScript(MouseEvent e) {
         //// TODO: 22-2-2017 start a new script
     }
 
     @FXML
-    void pauseScript(MouseEvent e) {
+    private void pauseScript(MouseEvent e) {
         //// TODO: 22-2-2017 pause running script
     }
 
     @FXML
-    void stopScript(MouseEvent e) {
+    private void stopScript(MouseEvent e) {
         //// TODO: 22-2-2017 stop running script
     }
 
     @FXML
-    void clearCache(MouseEvent e) {
+    private void clearCache(MouseEvent e) {
         Directories.clearCache();
     }
 
     @FXML
-    void handleNotifications(MouseEvent e) {
+    private void handleNotifications(MouseEvent e) {
         if (notificationsEnabled) {
             notificationButton.setImage(new Image(getClass().getResource("resources/ic_notifications_off_white_24dp.png").toExternalForm()));
             //// TODO: 22-2-2017 enable notifications
@@ -155,13 +155,13 @@ public class GameUIController {
     }
 
     @FXML
-    void minimize(MouseEvent e) {
+    private void minimize(MouseEvent e) {
         Stage stage = (Stage) minimizeBox.getScene().getWindow();
         stage.setIconified(true);
     }
 
     @FXML
-    void shutdown(MouseEvent e) {
+    private void shutdown(MouseEvent e) {
         Stage stage = (Stage) shutdownBox.getScene().getWindow();
         stage.close();
     }

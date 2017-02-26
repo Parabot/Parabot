@@ -42,4 +42,13 @@ public class BrowserUIController implements Initializable {
             engine.load(url);
         }
     }
+
+    public void loadPage(String url){
+        WebEngine engine = getWebView().getEngine();
+        engine.load(url);
+    }
+
+    public WebView getWebView() {
+        return webView;
+    }
 }

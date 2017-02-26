@@ -1,7 +1,6 @@
 package org.parabot.core.ui.newui;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,26 +13,39 @@ import java.io.IOException;
  */
 public class BrowserUI {
     private String url;
+    private BrowserUIController controller;
 
     public BrowserUI(String url){
         this.url = url;
     }
 
     public void initialize(){
+        FXMLLoader loader;
         Parent root;
         BrowserUIController.setUrl(url);
         try {
-            root = FXMLLoader.load(BotUI.class.getResource("/storage/ui/browser.fxml"));
+            loader = FXMLLoader.load(BotUI.class.getResource("/storage/ui/browser.fxml"));
+            root = loader.load();
+            controller = loader.getController();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        new BrowserUI("http://parabot.org/").initialize();
+    public BrowserUIController getController() {
+        return controller;
+    }
+
+    public void loadPage(String url){
+        if(getController() == null){
+            System.out.println("You'll have to initialize te UI first.");
+        }else{
+            controller.loadPage(url);
+        }
     }
 }

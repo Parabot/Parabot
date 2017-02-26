@@ -72,7 +72,7 @@ public class BotUI extends Application {
     }
 
     public void switchState(ViewState viewState, Stage stage) {
-        if (viewState.isRequiresLogin()) {
+        if (viewState.requiresLogin()) {
             Thread login = new Thread(() -> {
                 UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
                 if (authenticator.getAccessToken() == null) {
@@ -107,7 +107,7 @@ public class BotUI extends Application {
             this.requiresLogin = requiresLogin;
         }
 
-        public boolean isRequiresLogin() {
+        public boolean requiresLogin() {
             return requiresLogin;
         }
 

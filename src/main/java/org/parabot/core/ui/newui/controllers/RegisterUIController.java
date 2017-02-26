@@ -44,7 +44,6 @@ public class RegisterUIController implements Initializable {
         engine.setUserAgent(Configuration.USER_AGENT);
         engine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
-                    System.out.println(engine.getLocation());
                     if (engine.getLocation().contains("crossLogin")) {
                         engine.load(null);
                         Stage stage = (Stage) pane.getScene().getWindow();

@@ -55,8 +55,6 @@ public class GameUIController {
 
     @FXML
     void openDebug(MouseEvent e) {
-        //// TODO: 22-2-2017 open debug panel
-
         Stage stage = (Stage) gamePanel.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG, stage);
     }

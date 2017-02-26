@@ -6,7 +6,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
             prefHeight="505.0" prefWidth="692.0" styleClass="main-panel"
             stylesheets="@style/register_ui.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="org.parabot.core.ui.newui.controllers.RegisterUIController" fx:id="pane">

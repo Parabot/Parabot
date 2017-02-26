@@ -15,6 +15,10 @@ public class BrowserUI {
     private String url;
     private BrowserUIController controller;
 
+    public BrowserUI(){
+        this.url = null;
+    }
+
     public BrowserUI(String url){
         this.url = url;
     }
@@ -43,7 +47,7 @@ public class BrowserUI {
 
     public void loadPage(String url){
         if(getController() == null){
-            System.out.println("You'll have to initialize te UI first.");
+            System.out.println("You'll have to use initialize() first.");
         }else{
             controller.loadPage(url);
         }

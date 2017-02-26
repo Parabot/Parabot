@@ -7,8 +7,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.parabot.api.io.Directories;
 import org.parabot.core.Core;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.environment.api.utils.StringUtils;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Fryslan, JKetelaar
@@ -55,7 +63,37 @@ public class GameUIController {
 
     @FXML
     void takeScreenshot(MouseEvent e) {
-        //// TODO: 22-2-2017 take a screenshot and save it
+        try {
+            Robot               robot         = new Robot();
+            javafx.stage.Window window        = rootPanel.getScene().getWindow();
+            Rectangle           parabotScreen = new Rectangle((int) window.getX(), (int) window.getY(), (int) window.getWidth(), (int) window.getHeight());
+            BufferedImage       image         = robot.createScreenCapture(parabotScreen);
+            String              randString    = StringUtils.randomString(10);
+            boolean             search        = true;
+            boolean             duplicate     = false;
+            while (search) {
+                File[] files;
+                if ((files = Directories.getScreenshotDir().listFiles()) != null) {
+                    for (File f : files) {
+                        if (f.getAbsoluteFile().getName().contains(randString)) {
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                }
+                if (!duplicate) {
+                    search = false;
+                } else {
+                    randString = StringUtils.randomString(10);
+                    duplicate = false;
+                }
+            }
+            File file = new File(Directories.getScreenshotDir().getPath() + "/" + randString + ".png");
+            ImageIO.write(image, "png", file);
+
+        } catch (IOException | AWTException k) {
+            k.printStackTrace();
+        }
     }
 
     @FXML
@@ -100,7 +138,7 @@ public class GameUIController {
 
     @FXML
     void clearCache(MouseEvent e) {
-        //// TODO: 22-2-2017 todo clear cache
+        Directories.clearCache();
     }
 
     @FXML

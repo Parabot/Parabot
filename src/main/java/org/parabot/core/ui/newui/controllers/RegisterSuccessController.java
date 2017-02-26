@@ -15,7 +15,7 @@ public class RegisterSuccessController {
     private Button returnButton;
 
     @FXML
-    void returnToBot(MouseEvent event) {
+    private void returnToBot(MouseEvent event) {
         Stage stage = (Stage) returnButton.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.LOGIN, stage);
     }

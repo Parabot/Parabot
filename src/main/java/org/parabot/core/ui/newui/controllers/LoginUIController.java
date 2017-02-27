@@ -37,7 +37,7 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        BrowserUI.getBrowser().loadPage("http://www.parabot.org/");
+        BrowserUI.getBrowser();
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
 
         Thread login = new Thread(() -> {

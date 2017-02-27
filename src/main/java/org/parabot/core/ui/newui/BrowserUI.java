@@ -32,10 +32,13 @@ public class BrowserUI {
         try {
             loader = new FXMLLoader(getClass().getResource("/storage/ui/browser.fxml"));
             root = loader.load();
+
             controller = loader.getController();
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.toFront();
         } catch (IOException e) {
             e.printStackTrace();
         }

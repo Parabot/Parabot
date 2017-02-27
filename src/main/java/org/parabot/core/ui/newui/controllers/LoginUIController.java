@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.ui.newui.BrowserUI;
 import org.parabot.core.user.UserAuthenticator;
 
 import java.net.URL;
@@ -36,6 +37,7 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
+        BrowserUI.getBrowser().loadPage("http://www.parabot.org/");
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
 
         Thread login = new Thread(() -> {

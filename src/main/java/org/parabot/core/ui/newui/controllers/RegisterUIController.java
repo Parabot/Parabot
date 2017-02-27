@@ -40,9 +40,6 @@ public class RegisterUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        new BrowserUI(Configuration.REGISTRATION_PAGE).initialize();
-
         final WebEngine engine = registerWebView.getEngine();
         engine.load(Configuration.REGISTRATION_PAGE);
         engine.setUserAgent(Configuration.USER_AGENT);

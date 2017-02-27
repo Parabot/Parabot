@@ -1,40 +1,37 @@
 package org.parabot.core.ui.newui;
 
+import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.parabot.core.Core;
 import org.parabot.core.ui.newui.controllers.BrowserUIController;
 
 import java.io.IOException;
 
 /**
- * Created by Fryslan.
+ * @author Fryslan, JKetelaar
  */
+@Singleton
 public class BrowserUI {
-    private String url;
+
     private BrowserUIController controller;
 
     public BrowserUI(){
-        this.url = null;
+        this.initialize();
     }
 
-    public BrowserUI(String url){
-        this.url = url;
-    }
-
-    public void initialize(){
+    private void initialize(){
         FXMLLoader loader;
         Parent root;
-        BrowserUIController.setUrl(url);
         try {
-            loader = FXMLLoader.load(BotUI.class.getResource("/storage/ui/browser.fxml"));
+            loader = new FXMLLoader(getClass().getResource("/storage/ui/browser.fxml"));
             root = loader.load();
             controller = loader.getController();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
-
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -46,10 +43,10 @@ public class BrowserUI {
     }
 
     public void loadPage(String url){
-        if(getController() == null){
-            System.out.println("You'll have to use initialize() first.");
-        }else{
-            controller.loadPage(url);
-        }
+        controller.loadPage(url);
+    }
+
+    public static BrowserUI getBrowser(){
+        return Core.getInjector().getInstance(BrowserUI.class);
     }
 }

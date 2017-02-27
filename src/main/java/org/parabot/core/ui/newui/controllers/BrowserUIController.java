@@ -25,10 +25,6 @@ public class BrowserUIController implements Initializable {
 
     private static String url;
 
-    public static void setUrl(String url) {
-        BrowserUIController.url = url;
-    }
-
     @FXML
     private void refresh(MouseEvent event) {
         WebEngine engine = webView.getEngine();

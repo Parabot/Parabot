@@ -5,9 +5,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="505.0" prefWidth="692.0" styleClass="main-panel" stylesheets="@style/browser_ui.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="505.0" prefWidth="692.0" styleClass="main-panel"
+            stylesheets="@style/browser_ui.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="org.parabot.core.ui.newui.controllers.BrowserUIController">
     <children>
         <VBox prefHeight="505.0" prefWidth="692.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

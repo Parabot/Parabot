@@ -18,13 +18,17 @@ public class BrowserUI {
 
     private BrowserUIController controller;
 
-    public BrowserUI(){
+    public BrowserUI() {
         this.initialize();
     }
 
-    private void initialize(){
+    public static BrowserUI getBrowser() {
+        return Core.getInjector().getInstance(BrowserUI.class);
+    }
+
+    private void initialize() {
         FXMLLoader loader;
-        Parent root;
+        Parent     root;
         try {
             loader = new FXMLLoader(getClass().getResource("/storage/ui/browser.fxml"));
             root = loader.load();
@@ -32,8 +36,7 @@ public class BrowserUI {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -42,11 +45,7 @@ public class BrowserUI {
         return controller;
     }
 
-    public void loadPage(String url){
+    public void loadPage(String url) {
         controller.loadPage(url);
-    }
-
-    public static BrowserUI getBrowser(){
-        return Core.getInjector().getInstance(BrowserUI.class);
     }
 }

@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
-import org.parabot.core.ui.newui.BrowserUI;
 
 import java.net.URL;
 import java.util.ResourceBundle;

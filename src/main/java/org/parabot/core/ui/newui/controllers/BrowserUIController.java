@@ -16,14 +16,13 @@ import java.util.ResourceBundle;
  */
 public class BrowserUIController implements Initializable {
 
+    private static String url;
     @FXML
-    private WebView webView;
+    private WebView    webView;
     @FXML
     private AnchorPane pane;
     @FXML
-    private ImageView refreshIcon;
-
-    private static String url;
+    private ImageView  refreshIcon;
 
     @FXML
     private void refresh(MouseEvent event) {
@@ -33,13 +32,13 @@ public class BrowserUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(url != null){
+        if (url != null) {
             WebEngine engine = webView.getEngine();
             engine.load(url);
         }
     }
 
-    public void loadPage(String url){
+    public void loadPage(String url) {
         WebEngine engine = getWebView().getEngine();
         engine.load(url);
     }

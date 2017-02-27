@@ -1,5 +1,6 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,16 +38,17 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) {
-        BrowserUI.getBrowser();
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
 
         Thread login = new Thread(() -> {
-            this.toggleButtons();
-            if (authenticator.login()) {
-                Stage stage = (Stage) loginPanel.getScene().getWindow();
-                Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
-            }
-            this.toggleButtons();
+            Platform.runLater(() -> {
+                toggleButtons();
+                if (authenticator.login()) {
+                    Stage stage = (Stage) loginPanel.getScene().getWindow();
+                    Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+                }
+                toggleButtons();
+            });
         });
 
         login.start();

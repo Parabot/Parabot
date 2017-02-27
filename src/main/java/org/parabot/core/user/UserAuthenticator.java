@@ -1,6 +1,7 @@
 package org.parabot.core.user;
 
 import com.google.inject.Singleton;
+import javafx.scene.web.WebEngine;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -9,14 +10,23 @@ import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.bdn.api.slack.SlackNotification;
+import org.parabot.core.ui.newui.BrowserUI;
 import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.core.user.implementations.UserLoginActionListener;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,14 +171,21 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
     }
 
     private boolean redirectToLogin() {
+        BrowserUI browser = BrowserUI.getBrowser();
+
         String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
-        URI    uri = URI.create(url);
-        try {
-            Desktop.getDesktop().browse(uri);
-        } catch (IOException e) {
-            DialogHelper.showWarning("Login", "Failed to open web page", String.format("Please open %s manually", url));
-            e.printStackTrace();
-        }
+        browser.loadPage(url);
+
+        new Thread(() -> {
+            WebEngine engine = browser.getController().getWebView().getEngine();
+            engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+                if (engine.getLocation().endsWith("/copy")) {
+                    Document doc = engine.getDocument();
+
+                    Element name = doc.getElementById("");
+                }
+            });
+        }).start();
 
         String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
         String s       = DialogHelper.showTextInput("Login", "Paste key", message);

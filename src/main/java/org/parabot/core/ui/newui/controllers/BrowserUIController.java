@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
  */
 public class BrowserUIController implements Initializable {
 
-    private static String url;
     @FXML
     private WebView    webView;
     @FXML
@@ -32,10 +31,7 @@ public class BrowserUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (url != null) {
-            WebEngine engine = webView.getEngine();
-            engine.load(url);
-        }
+
     }
 
     public void loadPage(String url) {

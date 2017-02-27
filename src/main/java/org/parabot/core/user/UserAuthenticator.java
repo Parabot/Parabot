@@ -1,6 +1,7 @@
 package org.parabot.core.user;
 
 import com.google.inject.Singleton;
+import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -176,16 +177,18 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
         browser.loadPage(url);
 
-        new Thread(() -> {
+        new Thread(() -> Platform.runLater(() -> {
             WebEngine engine = browser.getController().getWebView().getEngine();
             engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println(engine.getLocation());
                 if (engine.getLocation().endsWith("/copy")) {
                     Document doc = engine.getDocument();
 
-                    Element name = doc.getElementById("");
+                    Element value = doc.getElementById("copy-button");
+                    System.out.println(value);
                 }
             });
-        }).start();
+        })).start();
 
         String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
         String s       = DialogHelper.showTextInput("Login", "Paste key", message);

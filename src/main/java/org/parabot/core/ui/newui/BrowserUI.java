@@ -45,6 +45,8 @@ public class BrowserUI {
             stage.setScene(new Scene(root));
             stage.show();
             stage.toFront();
+
+            this.closed = false;
         } catch (IOException e) {
             e.printStackTrace();
         }

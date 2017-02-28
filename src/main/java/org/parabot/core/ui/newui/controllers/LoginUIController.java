@@ -60,7 +60,7 @@ public class LoginUIController implements Initializable {
         };
 
         service.setOnSucceeded(handler);
-        service.setOnFailed(handler);
+//        service.setOnFailed(handler);
     }
 
     @FXML

@@ -32,21 +32,26 @@ import java.util.concurrent.Future;
 public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActionListener {
 
     private final String                        clientId;
-    private final List<UserLoginActionListener> userLoginActionListeners;
-    private final ExecutorService               pool;
+    private final  List<UserLoginActionListener> userLoginActionListeners;
+    private ExecutorService               pool;
     private       AuthorizationCode             authorizationCode;
     private       LoginService                  loginService;
 
     public UserAuthenticator() {
         this.clientId = APIConfiguration.OAUTH_CLIENT_ID;
         this.userLoginActionListeners = new ArrayList<>();
-        this.pool = Executors.newFixedThreadPool(10);
+        this.setUserLoginActionListeners();
 
         this.setListeners();
     }
 
+    private void setUserLoginActionListeners(){
+        this.pool = Executors.newFixedThreadPool(10);
+    }
+
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
+        this.setUserLoginActionListeners();
     }
 
     private void setListeners() {

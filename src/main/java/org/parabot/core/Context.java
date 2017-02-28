@@ -5,6 +5,7 @@ import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
+import org.parabot.core.exceptions.FailToInjectHooksException;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
@@ -163,7 +164,7 @@ public class Context {
     /**
      * Loads the game
      */
-    public void load() {
+    public void load() throws FailToInjectHooksException {
         BotUI.getInstance().getJMenuBar().remove(2);
         Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
         serverProvider.init();

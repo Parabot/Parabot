@@ -51,7 +51,7 @@ public class XMLHookParser extends HookParser {
 				.getElementsByTagName("interfaces");
 		switch (interfaceRootList.getLength()) {
 		case 0:
-			return null;
+			return new Interface[0];
 		case 1:
 			break;
 		default:
@@ -60,12 +60,12 @@ public class XMLHookParser extends HookParser {
 		}
 		final Node node = interfaceRootList.item(0);
 		if (node.getNodeType() != Node.ELEMENT_NODE) {
-			return null;
+			return new Interface[0];
 		}
 		final Element interfaceRoot = (Element) node;
 		final NodeList interfaces = interfaceRoot.getElementsByTagName("add");
 		if (interfaces.getLength() == 0) {
-			return null;
+			return new Interface[0];
 		}
 		final ArrayList<Interface> interfaceList = new ArrayList<Interface>();
 		for (int x = 0; x < interfaces.getLength(); x++) {
@@ -88,7 +88,7 @@ public class XMLHookParser extends HookParser {
 		final NodeList interfaceRootList = doc.getElementsByTagName("supers");
         switch (interfaceRootList.getLength()) {
             case 0:
-                return null;
+                return new Super[0];
             case 1:
                 break;
             default:
@@ -97,12 +97,12 @@ public class XMLHookParser extends HookParser {
         }
         final Node node = interfaceRootList.item(0);
         if (node.getNodeType() != Node.ELEMENT_NODE) {
-            return null;
+            return new Super[0];
         }
         final Element superRoot = (Element) node;
         final NodeList supers = superRoot.getElementsByTagName("add");
         if (supers.getLength() == 0) {
-            return null;
+            return new Super[0];
         }
         final ArrayList<Super> superList = new ArrayList<Super>();
         for (int x = 0; x < supers.getLength(); x++) {
@@ -306,7 +306,7 @@ public class XMLHookParser extends HookParser {
 		final NodeList invokerRootList = doc.getElementsByTagName("invokers");
         switch (invokerRootList.getLength()) {
             case 0:
-                return null;
+                return new Invoker[0];
             case 1:
                 break;
             default:
@@ -315,12 +315,12 @@ public class XMLHookParser extends HookParser {
         }
         final Node node = invokerRootList.item(0);
         if (node.getNodeType() != Node.ELEMENT_NODE) {
-            return null;
+            return new Invoker[0];
         }
         final Element invokerRoot = (Element) node;
         final NodeList invokers = invokerRoot.getElementsByTagName("add");
         if (invokers.getLength() == 0) {
-            return null;
+            return new Invoker[0];
         }
         final ArrayList<Invoker> invokerList = new ArrayList<Invoker>();
         for (int x = 0; x < invokers.getLength(); x++) {
@@ -403,7 +403,7 @@ public class XMLHookParser extends HookParser {
 		final NodeList callbackRootList = doc.getElementsByTagName("callbacks");
         switch (callbackRootList.getLength()) {
             case 0:
-                return null;
+                return new Callback[0];
             case 1:
                 break;
             default:
@@ -412,12 +412,12 @@ public class XMLHookParser extends HookParser {
         }
         final Node node = callbackRootList.item(0);
         if (node.getNodeType() != Node.ELEMENT_NODE) {
-            return null;
+            return new Callback[0];
         }
         final Element callbackRoot = (Element) node;
         final NodeList callbacks = callbackRoot.getElementsByTagName("add");
         if (callbacks.getLength() == 0) {
-            return null;
+            return new Callback[0];
         }
         final ArrayList<Callback> callbackList = new ArrayList<Callback>();
         for (int x = 0; x < callbacks.getLength(); x++) {

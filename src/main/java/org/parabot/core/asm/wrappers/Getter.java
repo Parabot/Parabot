@@ -41,7 +41,7 @@ public class Getter implements Injectable {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
 		this.methodName = methodName;
-		this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
+		this.returnDesc = returnDesc == null ? "" : returnDesc;
 		this.staticMethod = staticMethod;
 		this.multiplier = multiplier;
 		Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");

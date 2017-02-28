@@ -1,8 +1,6 @@
 package org.parabot.core.user;
 
 import com.google.inject.Singleton;
-import javafx.application.Platform;
-import javafx.scene.web.WebEngine;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,18 +9,10 @@ import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.bdn.api.slack.SlackNotification;
-import org.parabot.core.ui.newui.BrowserUI;
-import org.parabot.core.ui.newui.components.DialogHelper;
+import org.parabot.core.ui.newui.controllers.services.LoginService;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.core.user.implementations.UserLoginActionListener;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,6 +20,10 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author JKetelaar, Capslock
@@ -39,15 +33,20 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
     private final String                        clientId;
     private final List<UserLoginActionListener> userLoginActionListeners;
+    private final ExecutorService               pool;
     private       AuthorizationCode             authorizationCode;
+    private       LoginService                  loginService;
 
     public UserAuthenticator() {
         this.clientId = APIConfiguration.OAUTH_CLIENT_ID;
         this.userLoginActionListeners = new ArrayList<>();
+        this.pool = Executors.newFixedThreadPool(10);
 
         this.setListeners();
+    }
 
-        this.login();
+    public void setLoginService(LoginService loginService) {
+        this.loginService = loginService;
     }
 
     private void setListeners() {
@@ -72,17 +71,26 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return null;
     }
 
-    public final boolean login() {
-        if (!readTokens()) {
-            if (!redirectToLogin()) {
-                this.onLogin(false);
-                return false;
-            }
+    public final boolean loginWithTokens(){
+        if (readTokens()){
+            this.onLogin(true);
+            this.afterLogin();
+            return true;
+        }else{
+            this.onLogin(false);
+            return false;
         }
+    }
 
-        this.onLogin(true);
-        this.afterLogin();
-        return true;
+    public final boolean loginWithWebsite() {
+        if (redirectToLogin()) {
+            this.onLogin(true);
+            this.afterLogin();
+            return true;
+        }else {
+            this.onLogin(true);
+            return false;
+        }
     }
 
     private boolean validateAccessToken(String accessToken) {
@@ -172,45 +180,40 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
     }
 
     private boolean redirectToLogin() {
-        BrowserUI browser = BrowserUI.getBrowser();
+        BrowserUserAuthenticator task   = new BrowserUserAuthenticator(loginService.getEngine());
+        Future                   future = pool.submit(task);
 
-        String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
-        browser.loadPage(url);
+        while (!future.isDone()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-        new Thread(() -> Platform.runLater(() -> {
-            WebEngine engine = browser.getController().getWebView().getEngine();
-            engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println(engine.getLocation());
-                if (engine.getLocation().endsWith("/copy")) {
-                    Document doc = engine.getDocument();
+        String result = null;
+        try {
+            result = (String) future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
-                    Element value = doc.getElementById("copy-button");
-                    System.out.println(value);
-                }
-            });
-        })).start();
+        pool.shutdown();
 
-        String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
-        String s       = DialogHelper.showTextInput("Login", "Paste key", message);
-
-        if (s != null) {
-            String clientId = this.clientId;
-
-            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, s, APIConfiguration.COPY_LOGIN));
+        if (result != null) {
+            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, result, APIConfiguration.COPY_LOGIN));
             if (c != null && c.getAccessToken() != null) {
 
-                if (this.validateAccessToken(c.getAccessToken())) {
-                    this.authorizationCode = c;
-                    this.writeTokens(this.authorizationCode);
+                if (validateAccessToken(c.getAccessToken())) {
+                    authorizationCode = c;
+                    writeTokens(authorizationCode);
 
                     return true;
                 }
-            } else {
-                Core.verbose("Authorization code is null");
             }
         }
-        String failedMessage = "Incorrect key.\nPlease try again.";
-        DialogHelper.showError("Login", "Incorrect key", failedMessage);
+        Core.verbose("Authorization code is null");
+
         return false;
     }
 

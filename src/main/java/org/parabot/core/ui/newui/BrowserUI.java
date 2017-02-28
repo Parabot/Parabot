@@ -17,6 +17,7 @@ import java.io.IOException;
 public class BrowserUI {
 
     private BrowserUIController controller;
+    private Stage stage;
 
     public BrowserUI() {
         this.initialize();
@@ -35,13 +36,17 @@ public class BrowserUI {
 
             controller = loader.getController();
 
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
             stage.toFront();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void hide(){
+        stage.hide();
     }
 
     public BrowserUIController getController() {

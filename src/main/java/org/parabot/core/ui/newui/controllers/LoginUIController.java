@@ -1,7 +1,8 @@
 package org.parabot.core.ui.newui.controllers;
 
-import javafx.application.Platform;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -10,7 +11,8 @@ import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
-import org.parabot.core.ui.newui.BrowserUI;
+import org.parabot.core.ui.newui.components.DialogHelper;
+import org.parabot.core.ui.newui.controllers.services.LoginService;
 import org.parabot.core.user.UserAuthenticator;
 
 import java.net.URL;
@@ -40,18 +42,21 @@ public class LoginUIController implements Initializable {
     private void login(ActionEvent event) {
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
 
-        Thread login = new Thread(() -> {
-            Platform.runLater(() -> {
-                toggleButtons();
-                if (authenticator.login()) {
-                    Stage stage = (Stage) loginPanel.getScene().getWindow();
-                    Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
-                }
-                toggleButtons();
-            });
-        });
+        LoginService service = new LoginService(authenticator, (Stage) loginPanel.getScene().getWindow());
+        service.start();
 
-        login.start();
+        service.setOnRunning(event12 -> toggleButtons());
+
+        service.setOnSucceeded(event1 -> {
+            if (service.getResult()) {
+                Stage stage = (Stage) loginPanel.getScene().getWindow();
+                Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+            }else{
+                DialogHelper.showError("Login", "Login failed", "It seems the login process failed, please try again.");
+            }
+
+            toggleButtons();
+        });
     }
 
     @FXML

@@ -1,5 +1,6 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -7,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -33,7 +35,7 @@ public class BrowserUIController implements Initializable {
     @FXML
     private ImageView  refreshIcon;
 
-    private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.dat");
+    private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.json");
     private CookieManager manager;
 
     @FXML
@@ -44,14 +46,22 @@ public class BrowserUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        manager = new java.net.CookieManager();
+        manager = new CookieManager();
+        manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(manager);
+
         loadCookies();
+    }
+
+    public CookieManager getManager() {
+        return manager;
     }
 
     public void loadPage(String url) {
         WebEngine engine = getWebView().getEngine();
         engine.load(url);
+
+        addOnExit();
     }
 
     public WebView getWebView() {
@@ -87,37 +97,37 @@ public class BrowserUIController implements Initializable {
     }
 
     private void loadCookies() {
-        try {
-            final String data  = new String(Files.readAllBytes(cookiesFile.toPath()));
-            JSONArray    array = (JSONArray) WebUtil.getJsonParser().parse(new FileReader(cookiesFile));
-            for (Object object : array) {
-                JSONObject jsonObject = (JSONObject) object;
+        if (cookiesFile.exists()) {
+            try {
+                JSONArray    array = (JSONArray) WebUtil.getJsonParser().parse(new FileReader(cookiesFile));
+                for (Object object : array) {
+                    JSONObject jsonObject = (JSONObject) object;
 
-                String  name     = (String) jsonObject.get("name");
-                String  value    = (String) jsonObject.get("value");
-                String  domain   = (String) jsonObject.get("domain");
-                String  path     = (String) jsonObject.get("path");
-                long    maxAge   = (Long) jsonObject.get("max_age");
-                boolean secure   = (Boolean) jsonObject.get("secure");
-                boolean httpOnly = (Boolean) jsonObject.get("http_only");
+                    String  name     = (String) jsonObject.get("name");
+                    String  value    = (String) jsonObject.get("value");
+                    String  domain   = (String) jsonObject.get("domain");
+                    String  path     = (String) jsonObject.get("path");
+                    long    maxAge   = (Long) jsonObject.get("max_age");
+                    boolean secure   = (Boolean) jsonObject.get("secure");
+                    boolean httpOnly = (Boolean) jsonObject.get("http_only");
 
-                final HttpCookie c = new HttpCookie(name, value);
-                c.setDomain(domain);
-                c.setHttpOnly(httpOnly);
-                c.setPath(path);
-                c.setMaxAge(maxAge);
-                c.setSecure(secure);
+                    final HttpCookie c = new HttpCookie(name, value);
+                    c.setDomain(domain);
+                    c.setHttpOnly(httpOnly);
+                    c.setPath(path);
+                    c.setMaxAge(maxAge);
+                    c.setSecure(secure);
 
-                manager.getCookieStore().add(new URI(c.getDomain()), c);
+                    manager.getCookieStore().add(new URI(c.getDomain()), c);
+                }
+            } catch (URISyntaxException | IOException | ParseException e) {
+                e.printStackTrace();
             }
-        } catch (URISyntaxException | IOException | ParseException e) {
-            e.printStackTrace();
         }
     }
 
-    public void onExit() {
-        pane.getScene().getWindow().setOnCloseRequest(we -> {
-            saveCookies();
-        });
+    private void addOnExit() {
+        pane.getScene().getWindow().setOnCloseRequest(we -> saveCookies());
+        pane.getScene().getWindow().setOnHiding(event -> saveCookies());
     }
 }

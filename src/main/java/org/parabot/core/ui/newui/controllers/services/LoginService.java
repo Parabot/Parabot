@@ -19,11 +19,14 @@ public class LoginService extends Service {
     private UserAuthenticator authenticator;
     private Stage             stage;
     private boolean           result;
-    private WebEngine engine;
+    private WebEngine         engine;
 
     public LoginService(UserAuthenticator authenticator, Stage stage) {
         this.authenticator = authenticator;
         this.stage = stage;
+
+        this.result = false;
+        this.engine = null;
 
         this.authenticator.setLoginService(this);
     }
@@ -41,15 +44,16 @@ public class LoginService extends Service {
                     Platform.runLater(() -> {
                         try {
                             String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, APIConfiguration.OAUTH_CLIENT_ID);
-                            engine = BrowserUI.getBrowser().getController().getWebView().getEngine();
+                            BrowserUI browserUI = BrowserUI.getBrowser();
+                            engine = browserUI.getController().getWebView().getEngine();
 
-                            BrowserUI.getBrowser().loadPage(url);
+                            browserUI.loadPage(url);
                         } finally {
                             latch.countDown();
                         }
                     });
 
-                    while(engine == null){
+                    while (engine == null) {
                         Thread.sleep(5);
                     }
 

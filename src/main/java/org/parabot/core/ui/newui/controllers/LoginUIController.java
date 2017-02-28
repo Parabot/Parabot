@@ -2,6 +2,7 @@ package org.parabot.core.ui.newui.controllers;
 
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,16 +48,19 @@ public class LoginUIController implements Initializable {
 
         service.setOnRunning(event12 -> toggleButtons());
 
-        service.setOnSucceeded(event1 -> {
+        EventHandler handler = event14 -> {
             if (service.getResult()) {
                 Stage stage = (Stage) loginPanel.getScene().getWindow();
                 Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
-            }else{
+            } else {
                 DialogHelper.showError("Login", "Login failed", "It seems the login process failed, please try again.");
             }
 
             toggleButtons();
-        });
+        };
+
+        service.setOnSucceeded(handler);
+        service.setOnFailed(handler);
     }
 
     @FXML

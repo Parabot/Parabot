@@ -16,15 +16,20 @@ import java.io.IOException;
 @Singleton
 public class BrowserUI {
 
+    private boolean             closed;
     private BrowserUIController controller;
-    private Stage stage;
+    private Stage               stage;
 
     public BrowserUI() {
         this.initialize();
     }
 
     public static BrowserUI getBrowser() {
-        return Core.getInjector().getInstance(BrowserUI.class);
+        BrowserUI browserUI = Core.getInjector().getInstance(BrowserUI.class);
+        if (browserUI.isClosed()) {
+            browserUI.initialize();
+        }
+        return browserUI;
     }
 
     private void initialize() {
@@ -45,8 +50,9 @@ public class BrowserUI {
         }
     }
 
-    public void hide(){
+    public void hide() {
         stage.hide();
+        closed = true;
     }
 
     public BrowserUIController getController() {
@@ -55,5 +61,13 @@ public class BrowserUI {
 
     public void loadPage(String url) {
         controller.loadPage(url);
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    private boolean isClosed() {
+        return closed || controller.isClosed();
     }
 }

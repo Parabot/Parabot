@@ -3,8 +3,11 @@ package org.parabot.core.user;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
 import javafx.scene.web.WebEngine;
+import javafx.stage.WindowEvent;
 import org.parabot.core.bdn.api.APIConfiguration;
+import org.parabot.core.ui.newui.BrowserUI;
 import org.parabot.core.ui.newui.components.DialogHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,15 +22,23 @@ import java.util.concurrent.Callable;
 public class BrowserUserAuthenticator implements Callable<String> {
 
     private WebEngine engine;
-    private Boolean result = null;
-    private String resultValue = null;
+    private Boolean result;
+    private String resultValue;
 
     public BrowserUserAuthenticator(WebEngine engine) {
         this.engine = engine;
+
+        // Resetting values
+        this.result = null;
+        this.resultValue = null;
     }
 
     @Override
     public String call() throws Exception {
+        Platform.runLater(() -> BrowserUI.getBrowser().getStage().setOnCloseRequest(event -> {
+            result = false;
+        }));
+
         ChangeListener listener = (ChangeListener<Worker.State>) (observable, oldValue, newValue) -> {
             if (engine.getLocation().startsWith(APIConfiguration.COPY_LOGIN)) {
                 Document doc = engine.getDocument();

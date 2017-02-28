@@ -1,6 +1,5 @@
 package org.parabot.core.ui.newui.controllers;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -8,7 +7,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -20,7 +18,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.*;
-import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 /**
@@ -28,15 +25,15 @@ import java.util.ResourceBundle;
  */
 public class BrowserUIController implements Initializable {
 
+    private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.json");
     @FXML
     private WebView    webView;
     @FXML
     private AnchorPane pane;
     @FXML
     private ImageView  refreshIcon;
-
-    private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.json");
     private CookieManager manager;
+    private boolean closed;
 
     @FXML
     private void refresh(MouseEvent event) {
@@ -62,6 +59,10 @@ public class BrowserUIController implements Initializable {
         engine.load(url);
 
         addOnExit();
+    }
+
+    public boolean isClosed() {
+        return closed;
     }
 
     public WebView getWebView() {
@@ -99,7 +100,7 @@ public class BrowserUIController implements Initializable {
     private void loadCookies() {
         if (cookiesFile.exists()) {
             try {
-                JSONArray    array = (JSONArray) WebUtil.getJsonParser().parse(new FileReader(cookiesFile));
+                JSONArray array = (JSONArray) WebUtil.getJsonParser().parse(new FileReader(cookiesFile));
                 for (Object object : array) {
                     JSONObject jsonObject = (JSONObject) object;
 
@@ -127,7 +128,10 @@ public class BrowserUIController implements Initializable {
     }
 
     private void addOnExit() {
-        pane.getScene().getWindow().setOnCloseRequest(we -> saveCookies());
+        pane.getScene().getWindow().setOnCloseRequest(we -> {
+            saveCookies();
+            closed = true;
+        });
         pane.getScene().getWindow().setOnHiding(event -> saveCookies());
     }
 }

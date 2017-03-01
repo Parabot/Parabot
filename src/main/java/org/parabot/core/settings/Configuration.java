@@ -4,9 +4,9 @@ import org.parabot.core.Core;
 import org.parabot.environment.api.utils.Version;
 
 /**
- * Holds some important constants
+ * Holds configuration constants
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
 public class Configuration extends org.parabot.api.Configuration {
     public static final String  REGISTRATION_PAGE = "https://www.parabot.org/community/register";

@@ -10,6 +10,7 @@ public class APIConfiguration {
 
     public static final String NIGHTLY_PARAMETER = "nightly=%s";
 
+//    public static final String ENDPOINT              = "http://v3.bdn.parabot.org/app_dev.php/";
     public static final String ENDPOINT              = "http://local.v3.bdn.parabot.org:88/app_dev.php/";
     public static final String API_ENDPOINT          = ENDPOINT + "api/";
     public static final String CLOSE_PAGE            = ENDPOINT + "close";

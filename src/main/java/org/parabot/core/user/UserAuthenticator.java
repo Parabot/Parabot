@@ -37,33 +37,54 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
     private       AuthorizationCode             authorizationCode;
     private       LoginService                  loginService;
 
+    /**
+     * UserAuthenticator constructor
+     */
     public UserAuthenticator() {
         this.clientId = APIConfiguration.OAUTH_CLIENT_ID;
         this.userLoginActionListeners = new ArrayList<>();
-        this.setUserLoginActionListeners();
 
         this.setListeners();
+        this.setFixedThreadPool();
     }
 
-    private void setUserLoginActionListeners(){
+    /**
+     * Setting the pool to a fixed thread pool of 10 threads
+     */
+    private void setFixedThreadPool(){
         this.pool = Executors.newFixedThreadPool(10);
     }
 
+    /**
+     * Settings the login service, including a reset of the pool
+     * @param loginService service to be set
+     */
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
-        this.setUserLoginActionListeners();
+        this.setFixedThreadPool();
     }
 
+    /**
+     * Setting the listeners using UserLoginActionListener
+     */
     private void setListeners() {
         userLoginActionListeners.add(SlackNotification.USER_LOGIN_ACTION_LISTENER);
     }
 
+    /**
+     * Refreshing the tokens we have, so we won't have expiry errors
+     */
     public void refreshToken() {
         if (authorizationCode != null && authorizationCode.getRefreshToken() != null) {
             authorizationCode = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, authorizationCode.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
         }
     }
 
+    /**
+     * Returns the access token. If expiring it will refresh the tokens
+     *
+     * @return Access token if available, otherwise null
+     */
     @Override
     public String getAccessToken() {
         if (authorizationCode != null) {
@@ -76,6 +97,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return null;
     }
 
+    /**
+     * Logs in with tokens we have in storage
+     *
+     * @return True if logged in went correctly, false if not
+     */
     public final boolean loginWithTokens(){
         if (readTokens()){
             this.onLogin(true);
@@ -87,6 +113,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
     }
 
+    /**
+     * Logs in with website, most likely to be done when #loginWithTokens doesn't work
+     *
+     * @return True if logged in went correctly, false if not
+     */
     public final boolean loginWithWebsite() {
         if (redirectToLogin()) {
             this.onLogin(true);
@@ -98,10 +129,21 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
     }
 
+    /**
+     * First checks if login with tokens works, otherwise tries to login with website
+     *
+     * @return True if either #loginWithTokens or #loginWithWebsite returns true, false if both of them return false
+     */
     public final boolean login(){
         return loginWithTokens() || loginWithWebsite();
     }
 
+    /**
+     * Validates the received access token against the API, to see if it's (still) valid
+     *
+     * @param accessToken Token to be checked
+     * @return True if valid, false if not
+     */
     private boolean validateAccessToken(String accessToken) {
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));
@@ -121,6 +163,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return false;
     }
 
+    /**
+     * Writes the tokens to the tokens file
+     *
+     * @param code The code object being used to write to the file
+     */
     private void writeTokens(AuthorizationCode code) {
         JSONObject object = new JSONObject();
         object.put("access_token", code.getAccessToken());
@@ -134,6 +181,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
     }
 
+    /**
+     * Reads the tokens from the tokens file and returns true if they're still valid
+     *
+     * @return True if tokens are valid, false if not
+     */
     private boolean readTokens() {
         JSONParser parser = WebUtil.getJsonParser();
 
@@ -169,6 +221,12 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return false;
     }
 
+    /**
+     * Parses the authorization code into OAuth tokens, using the API
+     *
+     * @param parameters Values to be written to the post to the API
+     * @return AuthorizationCode object if response is valid, null if not valid
+     */
     private AuthorizationCode getAuthorizationCodes(String parameters) {
         try {
             URL           url1       = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
@@ -188,6 +246,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return null;
     }
 
+    /**
+     * Redirects the user to the login page, with the internal browser
+     *
+     * @return True if login went fine, false if not
+     */
     private boolean redirectToLogin() {
         BrowserUserAuthenticator task   = new BrowserUserAuthenticator(loginService.getEngine());
         Future                   future = pool.submit(task);

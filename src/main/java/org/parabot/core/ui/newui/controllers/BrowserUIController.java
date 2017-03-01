@@ -27,13 +27,13 @@ public class BrowserUIController implements Initializable {
 
     private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.json");
     @FXML
-    private WebView    webView;
+    private WebView       webView;
     @FXML
-    private AnchorPane pane;
+    private AnchorPane    pane;
     @FXML
-    private ImageView  refreshIcon;
+    private ImageView     refreshIcon;
     private CookieManager manager;
-    private boolean closed;
+    private boolean       closed;
 
     @FXML
     private void refresh(MouseEvent event) {
@@ -48,6 +48,8 @@ public class BrowserUIController implements Initializable {
         CookieHandler.setDefault(manager);
 
         loadCookies();
+
+        this.closed = false;
     }
 
     public CookieManager getManager() {

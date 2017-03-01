@@ -15,13 +15,11 @@ import org.parabot.core.user.UserAuthenticator;
 public class LoginService extends Service {
 
     private UserAuthenticator authenticator;
-    private Stage             stage;
     private boolean           result;
     private WebEngine         engine;
 
-    public LoginService(UserAuthenticator authenticator, Stage stage) {
+    public LoginService(UserAuthenticator authenticator) {
         this.authenticator = authenticator;
-        this.stage = stage;
 
         this.result = false;
         this.engine = null;

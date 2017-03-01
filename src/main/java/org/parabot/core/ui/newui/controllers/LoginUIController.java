@@ -41,7 +41,7 @@ public class LoginUIController implements Initializable {
     private void login(ActionEvent event) {
         UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
 
-        LoginService service = new LoginService(authenticator, (Stage) loginPanel.getScene().getWindow());
+        LoginService service = new LoginService(authenticator);
         service.start();
 
         service.setOnRunning(event12 -> toggleButtons());

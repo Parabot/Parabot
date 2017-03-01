@@ -3,9 +3,7 @@ package org.parabot.core.user;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
 import javafx.scene.web.WebEngine;
-import javafx.stage.WindowEvent;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.ui.newui.BrowserUI;
 import org.parabot.core.ui.newui.components.DialogHelper;
@@ -22,8 +20,8 @@ import java.util.concurrent.Callable;
 public class BrowserUserAuthenticator implements Callable<String> {
 
     private WebEngine engine;
-    private Boolean result;
-    private String resultValue;
+    private Boolean   result;
+    private String    resultValue;
 
     public BrowserUserAuthenticator(WebEngine engine) {
         this.engine = engine;
@@ -43,8 +41,8 @@ public class BrowserUserAuthenticator implements Callable<String> {
             if (engine.getLocation().startsWith(APIConfiguration.COPY_LOGIN)) {
                 Document doc = engine.getDocument();
 
-                Element      value      = doc.getElementById("oauth-keys");
-                NamedNodeMap map        = value.getAttributes();
+                Element      value = doc.getElementById("oauth-keys");
+                NamedNodeMap map   = value.getAttributes();
 
                 for (int i = 0; i < map.getLength(); i++) {
                     Node node = map.item(i);

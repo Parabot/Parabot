@@ -32,8 +32,8 @@ import java.util.concurrent.Future;
 public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActionListener {
 
     private final String                        clientId;
-    private final  List<UserLoginActionListener> userLoginActionListeners;
-    private ExecutorService               pool;
+    private final List<UserLoginActionListener> userLoginActionListeners;
+    private       ExecutorService               pool;
     private       AuthorizationCode             authorizationCode;
     private       LoginService                  loginService;
 
@@ -51,12 +51,13 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
     /**
      * Setting the pool to a fixed thread pool of 10 threads
      */
-    private void setFixedThreadPool(){
+    private void setFixedThreadPool() {
         this.pool = Executors.newFixedThreadPool(10);
     }
 
     /**
      * Settings the login service, including a reset of the pool
+     *
      * @param loginService service to be set
      */
     public void setLoginService(LoginService loginService) {
@@ -102,12 +103,12 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      *
      * @return True if logged in went correctly, false if not
      */
-    public final boolean loginWithTokens(){
-        if (readTokens()){
+    public final boolean loginWithTokens() {
+        if (readTokens()) {
             this.onLogin(true);
             this.afterLogin();
             return true;
-        }else{
+        } else {
             this.onLogin(false);
             return false;
         }
@@ -123,7 +124,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
             this.onLogin(true);
             this.afterLogin();
             return true;
-        }else {
+        } else {
             this.onLogin(true);
             return false;
         }
@@ -134,7 +135,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      *
      * @return True if either #loginWithTokens or #loginWithWebsite returns true, false if both of them return false
      */
-    public final boolean login(){
+    public final boolean login() {
         return loginWithTokens() || loginWithWebsite();
     }
 
@@ -142,6 +143,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      * Validates the received access token against the API, to see if it's (still) valid
      *
      * @param accessToken Token to be checked
+     *
      * @return True if valid, false if not
      */
     private boolean validateAccessToken(String accessToken) {
@@ -225,6 +227,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      * Parses the authorization code into OAuth tokens, using the API
      *
      * @param parameters Values to be written to the post to the API
+     *
      * @return AuthorizationCode object if response is valid, null if not valid
      */
     private AuthorizationCode getAuthorizationCodes(String parameters) {

@@ -26,7 +26,7 @@ import java.net.URL;
  *
  * @author Everel
  */
-public class PublicServerExecutor extends ServerExecuter {
+public class PublicServerExecutor extends ServerExecutor {
 
     private ServerDescription description;
 

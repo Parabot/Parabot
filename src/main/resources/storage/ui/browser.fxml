@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
@@ -16,6 +17,7 @@
             <children>
                 <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="750.0" spacing="3.0">
                     <children>
+                        <ProgressBar prefWidth="200.0" progress="0.0" fx:id="progressBar"/>
                         <ImageView fx:id="refreshIcon" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#refresh"
                                    pickOnBounds="true" preserveRatio="true">
                             <image>

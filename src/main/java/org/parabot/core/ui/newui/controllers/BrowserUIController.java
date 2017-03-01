@@ -1,7 +1,9 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,12 +28,16 @@ import java.util.ResourceBundle;
 public class BrowserUIController implements Initializable {
 
     private static final File cookiesFile = new File(Directories.getSettingsPath(), "cookies.json");
+
     @FXML
-    private WebView       webView;
+    private WebView     webView;
     @FXML
-    private AnchorPane    pane;
+    private AnchorPane  pane;
     @FXML
-    private ImageView     refreshIcon;
+    private ImageView   refreshIcon;
+    @FXML
+    private ProgressBar progressBar;
+
     private CookieManager manager;
     private boolean       closed;
 
@@ -45,9 +51,14 @@ public class BrowserUIController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         manager = new CookieManager();
         manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        CookieHandler.setDefault(manager);
 
+        CookieHandler.setDefault(manager);
         loadCookies();
+
+        progressBar.progressProperty().bind(this.webView.getEngine().getLoadWorker().progressProperty());
+
+        this.webView.getEngine().getLoadWorker().stateProperty().addListener(
+                (ov, oldState, newState) -> progressBar.setVisible(newState != Worker.State.SUCCEEDED));
 
         this.closed = false;
     }

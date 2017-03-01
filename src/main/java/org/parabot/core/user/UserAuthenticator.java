@@ -98,6 +98,10 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
     }
 
+    public final boolean login(){
+        return loginWithTokens() || loginWithWebsite();
+    }
+
     private boolean validateAccessToken(String accessToken) {
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));

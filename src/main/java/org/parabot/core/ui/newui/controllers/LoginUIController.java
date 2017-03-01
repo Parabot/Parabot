@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class LoginUIController implements Initializable {
     @FXML
     private Label      title, description;
     @FXML
-    private javafx.scene.control.Button loginButton, registerButton;
+    private Button loginButton, registerButton;
 
     private boolean disabled;
 

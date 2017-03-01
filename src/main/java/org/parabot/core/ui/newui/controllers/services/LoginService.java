@@ -9,8 +9,6 @@ import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.ui.newui.BrowserUI;
 import org.parabot.core.user.UserAuthenticator;
 
-import java.util.concurrent.CountDownLatch;
-
 /**
  * @author JKetelaar
  */
@@ -36,21 +34,15 @@ public class LoginService extends Service {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                final CountDownLatch latch = new CountDownLatch(1);
-
                 result = authenticator.loginWithTokens();
 
                 if (!result) {
                     Platform.runLater(() -> {
-                        try {
-                            String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, APIConfiguration.OAUTH_CLIENT_ID);
-                            BrowserUI browserUI = BrowserUI.getBrowser();
-                            engine = browserUI.getController().getWebView().getEngine();
+                        String    url       = String.format(APIConfiguration.CREATE_COPY_LOGIN, APIConfiguration.OAUTH_CLIENT_ID);
+                        BrowserUI browserUI = BrowserUI.getBrowser();
+                        engine = browserUI.getController().getWebView().getEngine();
 
-                            browserUI.loadPage(url);
-                        } finally {
-                            latch.countDown();
-                        }
+                        browserUI.loadPage(url);
                     });
 
                     while (engine == null) {
@@ -60,7 +52,6 @@ public class LoginService extends Service {
                     result = authenticator.loginWithWebsite();
 
                     Platform.runLater(() -> BrowserUI.getBrowser().hide());
-                    latch.await();
                 }
 
                 return null;

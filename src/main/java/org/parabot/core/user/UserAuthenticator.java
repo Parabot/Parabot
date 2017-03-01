@@ -190,7 +190,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
         while (!future.isDone()) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -10,7 +10,7 @@ import org.parabot.environment.servers.ServerProvider;
 /**
  * Executes a server provider
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
 public abstract class ServerExecutor {
 

@@ -40,14 +40,16 @@ public class PublicServerExecutor extends ServerExecutor {
     @Override
     public void run() {
         try {
+            String cachedServerProviderName = StringUtils.toMD5(description.getDetail("provider"));
+
             final File destination = new File(Directories.getCachePath(),
-                    StringUtils.toMD5(description.getDetail("provider")) + ".jar");
+                     cachedServerProviderName + ".jar");
             final String jarUrl = String.format(APIConfiguration.DOWNLOAD_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
 
             Core.verbose("Downloading provider...");
 
             if (destination.exists()) {
-                Core.verbose("Found cached server provider [MD5: " + StringUtils.toMD5(description.getDetail("provider")) + "]");
+                Core.verbose("Found cached server provider [MD5: " + cachedServerProviderName + "]");
             } else {
                 WebUtil.downloadFile(new URL(jarUrl), destination,
                         Core.getInjector().getInstance(VerboseLoader.class));

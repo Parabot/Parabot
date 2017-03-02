@@ -184,7 +184,20 @@
                 </VBox>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="gamePanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
+        <BorderPane fx:id="loaderPanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
+                    style="-fx-background-color: #2e2e2e;">
+            <center>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <ProgressBar fx:id="progressBar" prefHeight="33.0" prefWidth="556.0" progress="0.0"/>
+                        <Separator orientation="VERTICAL" prefHeight="11.0" prefWidth="4.0" visible="false"/>
+                        <Label fx:id="loadingLabel" alignment="CENTER" prefHeight="17.0" prefWidth="286.0"
+                               text="Loading..." textFill="WHITE"/>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+        <BorderPane fx:id="gamePanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
                     style="-fx-background-color: #2e2e2e;"/>
     </children>
 </AnchorPane>

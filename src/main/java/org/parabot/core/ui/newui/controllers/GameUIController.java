@@ -1,10 +1,12 @@
 package org.parabot.core.ui.newui.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.parabot.api.io.Directories;
@@ -29,17 +31,21 @@ public class GameUIController {
     public static final int EXPANDED_LAYOUT_X = 150;
 
     @FXML
-    private AnchorPane gamePanel;
+    private BorderPane                 gamePanel, loaderPanel;
     @FXML
-    private ImageView  expandCollapseButton;
+    private ImageView                  expandCollapseButton;
     @FXML
-    private ImageView  notificationButton;
+    private ImageView                  notificationButton;
     @FXML
-    private HBox       shutdownBox;
+    private HBox                       shutdownBox;
     @FXML
-    private HBox       minimizeBox;
+    private HBox                       minimizeBox;
     @FXML
-    private AnchorPane rootPanel;
+    private AnchorPane                 rootPanel;
+    @FXML
+    private ProgressBar                progressBar;
+    @FXML
+    private javafx.scene.control.Label loadingLabel;
 
     private boolean notificationsEnabled = true;
 

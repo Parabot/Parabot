@@ -115,7 +115,7 @@ public abstract class ServerProvider implements Opcodes {
     }
 
     /**
-     * Add custom items to the bot menu bar
+     * Add server items to the bot menu bar
      *
      * @param bar menu bar to add items on
      */

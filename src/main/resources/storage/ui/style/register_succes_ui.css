@@ -1,0 +1,31 @@
+.main-panel {
+    -fx-background-color: #1a1a1a;
+}
+
+.succes-panel {
+    -fx-background-color: #99cc33;
+}
+
+.succes-message {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 35;
+    -fx-font-family: "Segoe UI Light";
+}
+
+.verify-message {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20;
+    -fx-font-family: "Segoe UI Light";
+}
+
+.button {
+    -fx-background-color: #242424;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15;
+    -fx-background-insets: 3, 3, 3, 3;
+    -fx-background-radius: 0, 0, 0, 0;
+}
+
+.button:hover {
+    -fx-border-color: #027ef5;
+}

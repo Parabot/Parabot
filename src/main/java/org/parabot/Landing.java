@@ -6,7 +6,7 @@ import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
-import org.parabot.core.ui.BotUI;
+import org.parabot.core.ui.newui.BotUI;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public final class Landing {
         }
 
         Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
-        Core.getInjector().getInstance(BotUI.class);
+        Core.getInjector().getInstance(BotUI.class).start();
     }
 
     private static void parseArgs(String... args) {

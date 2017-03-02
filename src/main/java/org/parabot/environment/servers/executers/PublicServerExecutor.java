@@ -2,55 +2,56 @@ package org.parabot.environment.servers.executers;
 
 import com.google.inject.Inject;
 import org.parabot.api.io.Directories;
-import org.parabot.api.io.WebUtil;
 import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.Core;
-import org.parabot.core.bdn.api.APIConfiguration;
+import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.components.VerboseLoader;
-import org.parabot.core.ui.utils.UILog;
+import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
-import javax.swing.*;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.net.URL;
 
 /**
  * Fetches a server provider from the Parabot BDN
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
-public class PublicServerExecutor extends ServerExecuter {
+public class PublicServerExecutor extends ServerExecutor {
 
     private ServerDescription description;
 
     @Inject
     private SharedUserAuthenticator userAuthenticator;
 
-    public PublicServerExecutor(final ServerDescription description) {
+    public PublicServerExecutor setServerDescription(final ServerDescription description) {
         this.description = description;
+
+        return this;
     }
 
     @Override
     public void run() {
         try {
+            String cachedServerProviderName = StringUtils.toMD5(description.getDetail("provider"));
+
             final File destination = new File(Directories.getCachePath(),
-                    StringUtils.toMD5(description.getDetail("provider")) + ".jar");
-            final String jarUrl = String.format(APIConfiguration.DOWNLOAD_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
+                    cachedServerProviderName + ".jar");
 
             Core.verbose("Downloading provider...");
 
             if (destination.exists()) {
-                Core.verbose("Found cached server provider [MD5: " + StringUtils.toMD5(description.getDetail("provider")) + "]");
+                Core.verbose("Found cached server provider [MD5: " + cachedServerProviderName + "]");
             } else {
-                WebUtil.downloadFile(new URL(jarUrl), destination,
-                        Core.getInjector().getInstance(VerboseLoader.class));
+                APICaller.APIPoint point = APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams(description.getId());
+                InputStream inputStream = (InputStream) APICaller.callPoint(point, userAuthenticator);
+
+                APICaller.downloadFile(inputStream, destination);
                 Core.verbose("Server provider downloaded...");
             }
 
@@ -62,14 +63,15 @@ public class PublicServerExecutor extends ServerExecuter {
             ServerLoader   serverLoader = new ServerLoader(classPath);
             final String[] classNames   = serverLoader.getServerClassNames();
             if (classNames.length == 0) {
-                UILog.log(
-                        "Error",
-                        "Failed to load server provider, error: [No provider found in jar file.]",
-                        JOptionPane.ERROR_MESSAGE);
+                DialogHelper.showError(
+                        "Parabot",
+                        "Error loading provider",
+                        "Failed to load server provider, error: [No provider found in jar file.]");
                 return;
             } else if (classNames.length > 1) {
-                UILog.log(
-                        "Error",
+                DialogHelper.showError(
+                        "Parabot",
+                        "Error loading provider",
                         "Failed to load server provider, error: [Multiple providers found in jar file.]");
                 return;
             }
@@ -84,24 +86,24 @@ public class PublicServerExecutor extends ServerExecuter {
                 serverProvider.setServerDescription(description);
                 super.finalize(serverProvider);
             } catch (NoClassDefFoundError | ClassNotFoundException ignored) {
-                UILog.log(
-                        "Error",
-                        "Failed to load server provider, error: [This server provider is not compitable with this version of parabot]",
-                        JOptionPane.ERROR_MESSAGE);
+                DialogHelper.showError(
+                        "Parabot",
+                        "Error loading provider",
+                        "Failed to load server provider, error: [This server provider is not compitable with this version of parabot]");
             } catch (Throwable t) {
                 t.printStackTrace();
-                UILog.log(
-                        "Error",
-                        "Failed to load server provider, post the stacktrace/error on the parabot forums.",
-                        JOptionPane.ERROR_MESSAGE);
+                DialogHelper.showError(
+                        "Parabot",
+                        "Error loading provider",
+                        "Failed to load server provider, post the stacktrace/error on the parabot forums.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            UILog.log(
-                    "Error",
-                    "Failed to load server provider, post the stacktrace/error on the parabot forums.",
-                    JOptionPane.ERROR_MESSAGE);
+            DialogHelper.showError(
+                    "Parabot",
+                    "Error loading provider",
+                    "Failed to load server provider, post the stacktrace/error on the parabot forums.");
         }
 
     }

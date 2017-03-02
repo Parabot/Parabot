@@ -9,15 +9,21 @@ import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.bdn.api.slack.SlackNotification;
+import org.parabot.core.ui.newui.controllers.services.LoginService;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.core.user.implementations.UserLoginActionListener;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author JKetelaar, Capslock
@@ -27,27 +33,59 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
 
     private final String                        clientId;
     private final List<UserLoginActionListener> userLoginActionListeners;
+    private       ExecutorService               pool;
     private       AuthorizationCode             authorizationCode;
+    private       LoginService                  loginService;
 
+    /**
+     * UserAuthenticator constructor
+     */
     public UserAuthenticator() {
         this.clientId = APIConfiguration.OAUTH_CLIENT_ID;
         this.userLoginActionListeners = new ArrayList<>();
 
         this.setListeners();
-
-        this.login();
+        this.setFixedThreadPool();
     }
 
+    /**
+     * Setting the pool to a fixed thread pool of 10 threads
+     */
+    private void setFixedThreadPool() {
+        this.pool = Executors.newFixedThreadPool(10);
+    }
+
+    /**
+     * Settings the login service, including a reset of the pool
+     *
+     * @param loginService service to be set
+     */
+    public void setLoginService(LoginService loginService) {
+        this.loginService = loginService;
+        this.setFixedThreadPool();
+    }
+
+    /**
+     * Setting the listeners using UserLoginActionListener
+     */
     private void setListeners() {
         userLoginActionListeners.add(SlackNotification.USER_LOGIN_ACTION_LISTENER);
     }
 
+    /**
+     * Refreshing the tokens we have, so we won't have expiry errors
+     */
     public void refreshToken() {
         if (authorizationCode != null && authorizationCode.getRefreshToken() != null) {
             authorizationCode = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, authorizationCode.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
         }
     }
 
+    /**
+     * Returns the access token. If expiring it will refresh the tokens
+     *
+     * @return Access token if available, otherwise null
+     */
     @Override
     public String getAccessToken() {
         if (authorizationCode != null) {
@@ -60,18 +98,54 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return null;
     }
 
-    public final boolean login() {
-        if (!readTokens()) {
-            if (!redirectToLogin()) {
-                this.onLogin(false);
-                return false;
-            }
+    /**
+     * Logs in with tokens we have in storage
+     *
+     * @return True if logged in went correctly, false if not
+     */
+    public final boolean loginWithTokens() {
+        if (readTokens()) {
+            this.onLogin(true);
+            this.afterLogin();
+            return true;
+        } else {
+            this.onLogin(false);
+            return false;
         }
-
-        this.onLogin(true);
-        return true;
     }
 
+    /**
+     * Logs in with website, most likely to be done when #loginWithTokens doesn't work
+     *
+     * @return True if logged in went correctly, false if not
+     */
+    public final boolean loginWithWebsite() {
+        if (redirectToLogin()) {
+            this.onLogin(true);
+            this.afterLogin();
+            return true;
+        } else {
+            this.onLogin(true);
+            return false;
+        }
+    }
+
+    /**
+     * First checks if login with tokens works, otherwise tries to login with website
+     *
+     * @return True if either #loginWithTokens or #loginWithWebsite returns true, false if both of them return false
+     */
+    public final boolean login() {
+        return loginWithTokens() || loginWithWebsite();
+    }
+
+    /**
+     * Validates the received access token against the API, to see if it's (still) valid
+     *
+     * @param accessToken Token to be checked
+     *
+     * @return True if valid, false if not
+     */
     private boolean validateAccessToken(String accessToken) {
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));
@@ -91,6 +165,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return false;
     }
 
+    /**
+     * Writes the tokens to the tokens file
+     *
+     * @param code The code object being used to write to the file
+     */
     private void writeTokens(AuthorizationCode code) {
         JSONObject object = new JSONObject();
         object.put("access_token", code.getAccessToken());
@@ -104,6 +183,11 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         }
     }
 
+    /**
+     * Reads the tokens from the tokens file and returns true if they're still valid
+     *
+     * @return True if tokens are valid, false if not
+     */
     private boolean readTokens() {
         JSONParser parser = WebUtil.getJsonParser();
 
@@ -126,7 +210,9 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
                     code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, code.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
                     if (code != null && code.getAccessToken() != null) {
                         if (this.validateAccessToken(code.getAccessToken())) {
+                            this.authorizationCode = code;
                             this.writeTokens(code);
+
                             return true;
                         }
                     }
@@ -139,6 +225,13 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return false;
     }
 
+    /**
+     * Parses the authorization code into OAuth tokens, using the API
+     *
+     * @param parameters Values to be written to the post to the API
+     *
+     * @return AuthorizationCode object if response is valid, null if not valid
+     */
     private AuthorizationCode getAuthorizationCodes(String parameters) {
         try {
             URL           url1       = new URL(APIConfiguration.INTERNAL_ROUTE_CLIENT);
@@ -158,39 +251,45 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
         return null;
     }
 
+    /**
+     * Redirects the user to the login page, with the internal browser
+     *
+     * @return True if login went fine, false if not
+     */
     private boolean redirectToLogin() {
-        String url = String.format(APIConfiguration.CREATE_COPY_LOGIN, this.clientId);
-        URI    uri = URI.create(url);
+        BrowserUserAuthenticator task   = new BrowserUserAuthenticator(loginService.getEngine());
+        Future                   future = pool.submit(task);
+
+        while (!future.isDone()) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String result = null;
         try {
-            Desktop.getDesktop().browse(uri);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, String.format("Please open %s manually", url),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            result = (String) future.get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
-        String message = "Once you're logged in the page you just opened shows a key.\nPlease paste it in here.";
-        String s       = JOptionPane.showInputDialog(null, message, "Paste key", JOptionPane.QUESTION_MESSAGE);
+        pool.shutdown();
 
-        if (s != null) {
-            String clientId = this.clientId;
-
-            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, s, APIConfiguration.COPY_LOGIN));
+        if (result != null) {
+            AuthorizationCode c = getAuthorizationCodes(TokenRequestType.AUTHORIZATION_CODE.createParameters(clientId, result, APIConfiguration.COPY_LOGIN));
             if (c != null && c.getAccessToken() != null) {
 
-                if (this.validateAccessToken(c.getAccessToken())) {
-                    this.authorizationCode = c;
-                    this.writeTokens(this.authorizationCode);
+                if (validateAccessToken(c.getAccessToken())) {
+                    authorizationCode = c;
+                    writeTokens(authorizationCode);
 
                     return true;
                 }
-            } else {
-                Core.verbose("Authorization code is null");
             }
         }
-        String failedMessage = "Incorrect key.\nPlease try again.";
-        JOptionPane.showMessageDialog(null, failedMessage,
-                "Incorrect key", JOptionPane.ERROR_MESSAGE);
+        Core.verbose("Authorization code is null");
 
         return false;
     }

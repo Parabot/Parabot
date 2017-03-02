@@ -4,8 +4,7 @@ import org.json.simple.parser.ParseException;
 import org.parabot.api.io.WebUtil;
 import org.parabot.core.user.SharedUserAuthenticator;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,7 +66,24 @@ public final class APICaller {
         return null;
     }
 
+    public static void downloadFile(InputStream inputStream, File destination){
+        byte[] buffer = new byte[8 * 1024];
+
+        try {
+            try (OutputStream output = new FileOutputStream(destination)) {
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public enum APIPoint {
+        DOWNLOAD_PROVIDER(APIConfiguration.DOWNLOAD_SERVER_PROVIDER, false, false, APIPointType.GET),
+
         LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, true, APIPointType.GET),
         DOWNLOAD_SERVER(APIConfiguration.API_ENDPOINT + "servers/download/%d", true, false, APIPointType.GET),
         GET_SERVER(APIConfiguration.API_ENDPOINT + "servers/get/%d", true, true, APIPointType.GET),

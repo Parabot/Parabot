@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPanel" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="505.0"
+            minWidth="692.0" prefHeight="505.0" prefWidth="692.0" stylesheets="@style/game_ui.css"
+            xmlns="http://javafx.com/javafx/8" fx:controller="org.parabot.core.ui.newui.controllers.GameUIController">
+    <children>
+        <AnchorPane fx:id="side_panel" prefHeight="505.0" prefWidth="150.0" styleClass="side-panel"
+                    stylesheets="@style/game_ui.css">
+            <children>
+                <VBox prefHeight="505.0" prefWidth="150.0" spacing="3.0">
+                    <children>
+                        <HBox onMouseClicked="#resizePanel">
+                            <children>
+                                <ImageView fx:id="expandCollapseButton" onMouseClicked="#resizePanel">
+                                    <image>
+                                        <Image url="@images/ic_menu_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <Region prefHeight="47.0" prefWidth="122.0"/>
+                        <HBox onMouseClicked="#openDebug" spacing="7.0">
+                            <children>
+                                <ImageView fx:id="debug_button">
+                                    <image>
+                                        <Image url="@images/ic_bug_report_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label" text="Debug"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#takeScreenshot" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_add_a_photo_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Screenshot"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#openNetwork" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_network_cell_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label" text="Network"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#openRandoms" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_pets_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label" text="Randoms"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#disableDiaglog" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_collections_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Disable Dialog"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#openLogger" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_event_note_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label" text="Logger"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#openReflectionExplorer" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_explore_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="101.0" styleClass="side-panel-label"
+                                       text="Reflection Explorer"/>
+                            </children>
+                        </HBox>
+                        <Separator prefHeight="1.0" prefWidth="57.0"/>
+                        <HBox onMouseClicked="#startScript" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_play_arrow_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Start Script"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#pauseScript" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_pause_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Pause Script"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#stopScript" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_close_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Stop Script"/>
+                            </children>
+                        </HBox>
+                        <Separator prefHeight="1.0" prefWidth="57.0"/>
+                        <HBox onMouseClicked="#clearCache" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_delete_sweep_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Clear Cache"/>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#handleNotifications" spacing="7.0">
+                            <children>
+                                <ImageView fx:id="notificationButton">
+                                    <image>
+                                        <Image url="@images/ic_notifications_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Notifications"/>
+                            </children>
+                        </HBox>
+                        <Separator prefHeight="1.0" prefWidth="57.0"/>
+                        <HBox fx:id="minimizeBox" onMouseClicked="#minimize" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_photo_size_select_small_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="100.0" styleClass="side-panel-label"
+                                       text="Minimize Window"/>
+                            </children>
+                        </HBox>
+                        <HBox fx:id="shutdownBox" onMouseClicked="#shutdown" spacing="7.0">
+                            <children>
+                                <ImageView>
+                                    <image>
+                                        <Image url="@images/ic_exit_to_app_white_24dp.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="24.0" prefWidth="93.0" styleClass="side-panel-label"
+                                       text="Close Window"/>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets left="5.0" right="5.0"/>
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <BorderPane fx:id="loaderPanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
+                    style="-fx-background-color: #2e2e2e;">
+            <center>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <ProgressBar fx:id="progressBar" prefHeight="33.0" prefWidth="556.0" progress="0.0"/>
+                        <Separator orientation="VERTICAL" prefHeight="11.0" prefWidth="4.0" visible="false"/>
+                        <Label fx:id="loadingLabel" alignment="CENTER" prefHeight="17.0" prefWidth="286.0"
+                               text="Loading..." textFill="WHITE"/>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+        <BorderPane fx:id="gamePanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0"
+                    style="-fx-background-color: #2e2e2e;"/>
+    </children>
+</AnchorPane>

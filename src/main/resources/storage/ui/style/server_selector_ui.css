@@ -1,0 +1,48 @@
+.main-panel {
+    -fx-background-color: #1a1a1a;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.header {
+    -fx-text-fill: #027ef5;
+    -fx-font-size: 86;
+    -fx-font-family: "Segoe UI Light";
+}
+
+.button {
+    -fx-background-color: #242424;
+    -fx-text-fill: #ffffff;
+    -fx-background-insets: 3, 3, 3, 3;
+    -fx-background-radius: 0, 0, 0, 0;
+}
+
+.button:hover {
+    -fx-border-color: #027ef5;
+}
+
+.list-view {
+    -fx-background-color: #1a1a1a;
+}
+
+.list-view .list-cell:odd {
+    -fx-cell-hover-color: #242424;
+    -fx-background-color: #242424;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-cell-hover-color: #1a1a1a;
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #1a1a1a;
+}
+
+.scroll-pane {
+    -fx-background-color: #1a1a1a;
+}

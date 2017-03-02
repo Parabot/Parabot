@@ -99,10 +99,10 @@ public class VerboseLoader extends JPanel implements ProgressListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
-                if (authenticator.login()) {
-                    authenticator.afterLogin();
-                    switchState(STATE_SERVER_SELECT);
-                }
+//                if (authenticator.login()) {
+//                    authenticator.afterLogin();
+//                    switchState(STATE_SERVER_SELECT);
+//                }
             }
         });
 

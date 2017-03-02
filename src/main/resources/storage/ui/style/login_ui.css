@@ -1,0 +1,24 @@
+.main-panel {
+    -fx-background-color: #1a1a1a;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.header {
+    -fx-text-fill: #027ef5;
+    -fx-font-size: 86;
+    -fx-font-family: "Segoe UI Light";
+}
+
+.button {
+    -fx-background-color: #242424;
+    -fx-text-fill: #ffffff;
+    -fx-background-insets: 3, 3, 3, 3;
+    -fx-background-radius: 0, 0, 0, 0;
+}
+
+.button:hover {
+    -fx-border-color: #027ef5;
+}

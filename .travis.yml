@@ -1,7 +1,6 @@
 language: java
 
 jdk:
-  - oraclejdk7
   - oraclejdk8
 
 before_install:
@@ -56,4 +55,4 @@ deploy:
       branch:
         - master
         - development
-      jdk: 'oraclejdk7'
+      jdk: 'oraclejdk8'

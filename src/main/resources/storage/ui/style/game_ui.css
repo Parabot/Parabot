@@ -1,0 +1,7 @@
+.side-panel {
+    -fx-background-color: #242424;
+}
+
+.side-panel-label {
+    -fx-text-fill: #ffffff;
+}

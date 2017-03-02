@@ -41,7 +41,7 @@ public abstract class ServerParser {
             Core.verbose("Server providers parsed.");
         }
 
-        Map<ServerDescription, ServerExecutor> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecutor>(SERVER_CACHE);
+        Map<ServerDescription, ServerExecutor> SORTED_SERVER_CACHE = new TreeMap<>(SERVER_CACHE);
 
         return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
     }

@@ -10,7 +10,10 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
+import org.parabot.environment.Environment;
 import org.parabot.environment.api.utils.StringUtils;
+import org.parabot.environment.servers.executers.PublicServerExecutor;
+import org.parabot.environment.servers.executers.ServerExecutor;
 
 import java.io.IOException;
 
@@ -25,11 +28,12 @@ public class ServerItem extends AnchorPane {
     private Label      versionLabel, descriptionLabel, authorsLabel, nameLabel;
 
     private ServerDescription serverDescription;
+    private ServerExecutor    serverExecutor;
 
     public ServerItem() {
     }
 
-    public void setServerDescription(ServerDescription serverDescription) {
+    public void setServerDescription(ServerDescription serverDescription, ServerExecutor serverExecutor) {
         FXMLLoader fxmlLoader = new FXMLLoader(ServerItem.class.getResource("/storage/ui/server/item_control.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -39,6 +43,7 @@ public class ServerItem extends AnchorPane {
         }
 
         this.serverDescription = serverDescription;
+        this.serverExecutor = serverExecutor;
 
         this.setName();
         this.setAuthors();
@@ -76,6 +81,8 @@ public class ServerItem extends AnchorPane {
 
     @FXML
     private void selectServer(MouseEvent event) {
+        Environment.load(this.serverDescription);
+
         Stage stage = (Stage) serverSelectorItemPane.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.GAME, stage);
     }

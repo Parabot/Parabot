@@ -8,6 +8,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.models.ServerItem;
@@ -31,7 +32,7 @@ public class ServerSelectorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         for (ServerDescription serverDescription : ServerParser.getDescriptions()) {
             ServerItem serverItem = Core.getInjector().getInstance(ServerItem.class);
-            serverItem.setServerDescription(serverDescription);
+            serverItem.setServerDescription(serverDescription, ServerParser.SERVER_CACHE.get(serverDescription));
             serverItemBox.getChildren().add(serverItem.getServerSelectorItemPane());
         }
 

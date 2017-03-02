@@ -3,6 +3,7 @@ package org.parabot.core.parsers.servers;
 import com.google.inject.Inject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.user.SharedUserAuthenticator;
@@ -41,11 +42,11 @@ public class PublicServers extends ServerParser implements UserAuthenticatorAcce
                 authors[i] = (String) author.get("username");
             }
             String    description = (String) jsonObject.get("description");
-            JSONArray details     = (JSONArray) jsonObject.get("authors");
+            JSONArray details     = (JSONArray) jsonObject.get("details");
 
             ServerDescription desc = new ServerDescription((int) id, name,
                     authors, version, description, details);
-            SERVER_CACHE.put(desc, new PublicServerExecutor(desc));
+            SERVER_CACHE.put(desc, Core.getInjector().getInstance(PublicServerExecutor.class).setServerDescription(desc));
         }
     }
 

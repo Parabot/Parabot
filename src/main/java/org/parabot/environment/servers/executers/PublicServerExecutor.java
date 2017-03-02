@@ -2,14 +2,11 @@ package org.parabot.environment.servers.executers;
 
 import com.google.inject.Inject;
 import org.parabot.api.io.Directories;
-import org.parabot.api.io.WebUtil;
 import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.Core;
-import org.parabot.core.bdn.api.APIConfiguration;
+import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.newui.components.DialogHelper;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.StringUtils;
@@ -17,13 +14,13 @@ import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.net.URL;
 
 /**
  * Fetches a server provider from the Parabot BDN
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
 public class PublicServerExecutor extends ServerExecutor {
 
@@ -32,8 +29,10 @@ public class PublicServerExecutor extends ServerExecutor {
     @Inject
     private SharedUserAuthenticator userAuthenticator;
 
-    public PublicServerExecutor(final ServerDescription description) {
+    public PublicServerExecutor setServerDescription(final ServerDescription description) {
         this.description = description;
+
+        return this;
     }
 
     @Override
@@ -43,15 +42,15 @@ public class PublicServerExecutor extends ServerExecutor {
 
             final File destination = new File(Directories.getCachePath(),
                     cachedServerProviderName + ".jar");
-            final String jarUrl = String.format(APIConfiguration.DOWNLOAD_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly());
 
             Core.verbose("Downloading provider...");
 
             if (destination.exists()) {
                 Core.verbose("Found cached server provider [MD5: " + cachedServerProviderName + "]");
             } else {
-                WebUtil.downloadFile(new URL(jarUrl), destination,
-                        Core.getInjector().getInstance(VerboseLoader.class));
+                APICaller.APIPoint point = APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams(description.getId());
+                InputStream inputStream = (InputStream) APICaller.callPoint(point, userAuthenticator);
+                APICaller.downloadFile(inputStream, destination);
                 Core.verbose("Server provider downloaded...");
             }
 

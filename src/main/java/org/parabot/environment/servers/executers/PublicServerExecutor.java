@@ -50,6 +50,7 @@ public class PublicServerExecutor extends ServerExecutor {
             } else {
                 APICaller.APIPoint point = APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams(description.getId());
                 InputStream inputStream = (InputStream) APICaller.callPoint(point, userAuthenticator);
+
                 APICaller.downloadFile(inputStream, destination);
                 Core.verbose("Server provider downloaded...");
             }

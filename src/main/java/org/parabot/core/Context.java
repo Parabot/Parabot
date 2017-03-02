@@ -53,6 +53,10 @@ public class Context {
     private PrintStream defaultErr = System.err;
 
     public Context() {
+        this.defaultOut = System.out;
+        this.defaultErr = System.err;
+
+        System.setProperty("sun.java.command", "");
     }
 
     /**
@@ -216,11 +220,6 @@ public class Context {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
 
         this.serverProvider = serverProvider;
-
-        this.defaultOut = System.out;
-        this.defaultErr = System.err;
-
-        System.setProperty("sun.java.command", "");
     }
 
     /**

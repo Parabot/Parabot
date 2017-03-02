@@ -210,7 +210,9 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
                     code = getAuthorizationCodes(TokenRequestType.REFRESH_TOKEN.createParameters(clientId, code.getRefreshToken(), APIConfiguration.CLOSE_PAGE));
                     if (code != null && code.getAccessToken() != null) {
                         if (this.validateAccessToken(code.getAccessToken())) {
+                            this.authorizationCode = code;
                             this.writeTokens(code);
+
                             return true;
                         }
                     }

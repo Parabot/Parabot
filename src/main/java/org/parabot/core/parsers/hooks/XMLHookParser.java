@@ -15,6 +15,7 @@ import org.parabot.core.asm.wrappers.Interface;
 import org.parabot.core.asm.wrappers.Invoker;
 import org.parabot.core.asm.wrappers.Setter;
 import org.parabot.core.asm.wrappers.Super;
+import org.parabot.core.exceptions.FieldNotFoundException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -120,7 +121,7 @@ public class XMLHookParser extends HookParser {
 	}
 
 	@Override
-	public Getter[] getGetters() {
+	public Getter[] getGetters() throws FieldNotFoundException {
 		 final NodeList getterRootList = doc.getElementsByTagName("getters");
 	        switch (getterRootList.getLength()) {
 	            case 0:
@@ -195,7 +196,7 @@ public class XMLHookParser extends HookParser {
 	}
 
 	@Override
-	public Setter[] getSetters() {
+	public Setter[] getSetters() throws FieldNotFoundException {
 		final NodeList setterRootList = doc.getElementsByTagName("setters");
         switch (setterRootList.getLength()) {
             case 0:
@@ -295,8 +296,7 @@ public class XMLHookParser extends HookParser {
     }
 
     private static final String getValue(String tag, Element element) {
-        NodeList nodes = element.getElementsByTagName(tag).item(0)
-                .getChildNodes();
+        NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = (Node) nodes.item(0);
         return node.getNodeValue();
     }

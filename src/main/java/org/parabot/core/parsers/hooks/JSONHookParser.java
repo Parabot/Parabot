@@ -15,6 +15,7 @@ import org.parabot.core.asm.wrappers.Interface;
 import org.parabot.core.asm.wrappers.Invoker;
 import org.parabot.core.asm.wrappers.Setter;
 import org.parabot.core.asm.wrappers.Super;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 /**
  * 
@@ -94,7 +95,7 @@ public class JSONHookParser extends HookParser {
 	}
 
 	@Override
-	public Getter[] getGetters() {
+	public Getter[] getGetters() throws FieldNotFoundException {
 		JSONArray a = (JSONArray) root.get("getters");
 
 		if (a != null && a.size() > 0) {
@@ -127,7 +128,7 @@ public class JSONHookParser extends HookParser {
 	}
 
 	@Override
-	public Setter[] getSetters() {
+	public Setter[] getSetters() throws FieldNotFoundException {
 		JSONArray a = (JSONArray) root.get("setters");
 
 		if (a != null && a.size() > 0) {

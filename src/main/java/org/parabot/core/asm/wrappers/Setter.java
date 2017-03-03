@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.adapters.AddSetterAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 /**
  * 
@@ -21,7 +22,7 @@ public class Setter implements Injectable {
 	private String desc;
 	private boolean methodStatic;
 	
-	public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic, final String fieldDesc) {
+	public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic, final String fieldDesc) throws FieldNotFoundException {
 		this.fieldLocation = ASMUtils.getClass(fieldLocation);
 		into = (into == null) ? fieldLocation : into;
 		this.into = ASMUtils.getClass(into);
@@ -31,7 +32,7 @@ public class Setter implements Injectable {
 		this.methodStatic = methodStatic;
 	}
 	
-	public Setter(final String fieldLocation, final String fieldName, final String methodName) {
+	public Setter(final String fieldLocation, final String fieldName, final String methodName) throws FieldNotFoundException {
 		this(fieldLocation, null, fieldName, methodName, null, false, null);
 	}
 	

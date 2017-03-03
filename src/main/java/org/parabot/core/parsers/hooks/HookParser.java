@@ -3,6 +3,7 @@ package org.parabot.core.parsers.hooks;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +26,9 @@ public abstract class HookParser {
 
     public abstract Super[] getSupers();
 
-    public abstract Getter[] getGetters();
+    public abstract Getter[] getGetters() throws FieldNotFoundException;
 
-    public abstract Setter[] getSetters();
+    public abstract Setter[] getSetters() throws FieldNotFoundException;
 
     public abstract Invoker[] getInvokers();
 
@@ -35,7 +36,7 @@ public abstract class HookParser {
 
     public abstract HashMap<String, String> getConstants();
 
-    public Injectable[] getInjectables() {
+    public Injectable[] getInjectables() throws FieldNotFoundException {
         ArrayList<Injectable> injectables = new ArrayList<>();
 
         Interface[] interfaces = getInterfaces();

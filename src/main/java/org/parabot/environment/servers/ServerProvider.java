@@ -68,6 +68,7 @@ public abstract class ServerProvider implements Opcodes {
 	}
 
 
+
     public void injectHooks() throws FailToParseHooksException, FieldNotFoundException {
 		HookFile hookFile = fetchHookFile();
 

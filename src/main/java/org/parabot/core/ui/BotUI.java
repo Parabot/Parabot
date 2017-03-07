@@ -34,8 +34,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     private static BotUI instance;
     private static JDialog dialog;
 
-    private JMenuItem run, pause, stop;
+    private JMenuBar menuBar;
+    private JMenu features, scripts, file;
+    private JMenuItem run, pause, stop, cacheClear, notifications;
     private boolean runScript, pauseScript;
+
 
     public BotUI(String username, String password) {
         if (instance != null) {
@@ -74,11 +77,11 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
 
     private void createMenu() {
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
 
-        JMenu file = new JMenu("File");
-        JMenu scripts = new JMenu("Script");
-        JMenu features = new JMenu("Features");
+        file = new JMenu("File");
+        scripts = new JMenu("Script");
+        features = new JMenu("Features");
 
         JMenuItem screenshot = new JMenuItem("Create screenshot");
         JMenuItem proxy = new JMenuItem("Network");
@@ -104,10 +107,10 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         stop.setEnabled(false);
         stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
 
-        JMenuItem cacheClear = new JMenuItem("Clear cache");
+        cacheClear = new JMenuItem("Clear cache");
         cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
 
-        JMenuItem notifications = new JMenuItem("Notifications");
+        notifications = new JMenuItem("Notifications");
         notifications.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
 
         screenshot.addActionListener(this);
@@ -341,4 +344,23 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     public void windowOpened(WindowEvent arg0) {
     }
 
+    public JMenu getFeatures() {
+        return features;
+    }
+
+    public JMenu getScripts() {
+        return scripts;
+    }
+
+    public JMenu getFile() {
+        return file;
+    }
+
+    public JMenuItem getCacheClear() {
+        return cacheClear;
+    }
+
+    public JMenuItem getNotifications() {
+        return notifications;
+    }
 }

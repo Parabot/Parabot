@@ -31,7 +31,7 @@ public class GameUIController {
     public static final int EXPANDED_LAYOUT_X = 150;
 
     @FXML
-    private BorderPane                 gamePanel, loaderPanel;
+    private BorderPane gamePanel, loaderPanel;
     @FXML
     private ImageView                  expandCollapseButton;
     @FXML

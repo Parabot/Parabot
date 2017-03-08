@@ -66,7 +66,7 @@ public final class APICaller {
         return null;
     }
 
-    public static void downloadFile(InputStream inputStream, File destination){
+    public static void downloadFile(InputStream inputStream, File destination) {
         byte[] buffer = new byte[8 * 1024];
 
         try {

@@ -4,6 +4,7 @@ import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.asm.wrappers.*;
 import org.parabot.core.exceptions.FieldNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import java.util.HashMap;
  * @author Everel
  */
 public abstract class HookParser {
-
 
     public HookParser(HookFile hookFile) {
 
@@ -34,7 +34,6 @@ public abstract class HookParser {
     public abstract Callback[] getCallbacks();
 
     public abstract HashMap<String, String> getConstants();
-
 
     public Injectable[] getInjectables() throws FieldNotFoundException {
 

@@ -1,9 +1,7 @@
 package org.parabot.core.exceptions;
 
 /**
- *
  * @author MaurerThomas
- *
  */
 public class FailToInjectHooksException extends Exception {
     public FailToInjectHooksException() {

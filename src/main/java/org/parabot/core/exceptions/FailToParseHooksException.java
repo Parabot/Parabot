@@ -1,9 +1,7 @@
 package org.parabot.core.exceptions;
 
 /**
- *
  * @author MaurerThomas
- *
  */
 public class FailToParseHooksException extends Exception {
     public FailToParseHooksException() {

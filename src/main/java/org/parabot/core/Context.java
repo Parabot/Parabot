@@ -219,7 +219,6 @@ public class Context {
      */
 
     public void load() throws FailToParseHooksException, FieldNotFoundException {
-        BotUI.getInstance().getJMenuBar().remove(2);
         Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
         serverProvider.init();
         serverProvider.parseJar();

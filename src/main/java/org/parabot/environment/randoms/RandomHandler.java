@@ -24,7 +24,7 @@ public class RandomHandler {
 
     public void init() {
         RandomParser.enable();
-        checkAndRun(RandomType.ON_SERVER_START);
+        runAll(RandomType.ON_SERVER_START);
     }
 
     /**
@@ -101,21 +101,48 @@ public class RandomHandler {
     }
 
     /**
+     * Executes a specific random
+     *
+     * @param r
+     * @return True if the random is executed, false if not
+     */
+    public boolean executeRandom(Random r){
+        if (r.activate()) {
+            Logger.addMessage("Running random '" + r.getName() + "'", true);
+            try {
+                r.execute();
+                return true;
+            }catch (Exception e){
+                Logger.addMessage("Random failed: '" + r.getName() + "'", false);
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Runs all randoms of a certain type
+     *
+     * @param type
+     */
+    public void runAll(RandomType type){
+        for (Random r : this.activeRandoms) {
+            if (r.getRandomType().getId() == type.getId()) {
+                executeRandom(r);
+            }
+        }
+    }
+
+    /**
      * Checks if random occurs and runs it
      *
      * @return returns <b>true</b> if a random has been executed, otherwise <b>false</b>
      */
     public boolean checkAndRun(RandomType type) {
         for (Random r : this.activeRandoms) {
-            if (r.getRandomType().getId() == type.getId() && r.activate()) {
-                Logger.addMessage("Running random '" + r.getName() + "'", true);
-                try {
-                    r.execute();
-                }catch (Exception e){
-                    Logger.addMessage("Random failed: '" + r.getName() + "'", false);
-                    e.printStackTrace();
-                }
-                return true;
+            if (r.getRandomType().getId() == type.getId()) {
+                return executeRandom(r);
             }
         }
         return false;

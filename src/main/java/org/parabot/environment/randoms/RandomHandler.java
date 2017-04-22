@@ -24,7 +24,7 @@ public class RandomHandler {
 
     public void init() {
         RandomParser.enable();
-        checkAndRun(RandomType.ON_SERVER_START);
+        runAll(RandomType.ON_SERVER_START);
     }
 
     /**

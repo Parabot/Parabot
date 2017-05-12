@@ -1,5 +1,6 @@
 package org.parabot.core.asm.redirect;
 
+import org.parabot.core.Core;
 import org.parabot.core.asm.RedirectClassAdapter;
 
 public class ThreadRedirect {
@@ -58,4 +59,8 @@ public class ThreadRedirect {
 		Thread.sleep(time);
 	}
 
+
+	public static void setUncaughtExceptionHandler(Thread t, Thread.UncaughtExceptionHandler handler){
+		t.setUncaughtExceptionHandler(handler);
+	}
 }

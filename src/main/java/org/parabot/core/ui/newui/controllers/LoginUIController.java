@@ -67,6 +67,11 @@ public class LoginUIController implements Initializable {
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER, stage);
     }
 
+    @FXML
+    void clearAccount(ActionEvent event) {
+
+    }
+
     private void toggleButtons() {
         loginButton.setDisable(!disabled);
         registerButton.setDisable(!disabled);

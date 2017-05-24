@@ -8,7 +8,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.models.ServerItem;

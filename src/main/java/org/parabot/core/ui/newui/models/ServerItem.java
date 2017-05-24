@@ -12,7 +12,6 @@ import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.Environment;
 import org.parabot.environment.api.utils.StringUtils;
-import org.parabot.environment.servers.executers.PublicServerExecutor;
 import org.parabot.environment.servers.executers.ServerExecutor;
 
 import java.io.IOException;

@@ -41,7 +41,7 @@ public class BotUI extends Application {
         if (OperatingSystem.getOS() == OperatingSystem.MAC) {
             try {
                 Class  t                = Class.forName("com.apple.eawt.Application");
-                Object application      = t.getMethod("getApplication", new Class[0]).invoke(null, new Object[0]);
+                Object application      = t.getMethod("getApplication", new Class[0]).invoke(null);
                 Method setDockIconImage = t.getMethod("setDockIconImage", java.awt.Image.class);
                 setDockIconImage.invoke(application, Images.getResource("/storage/images/icon.png"));
             } catch (Throwable var5) {
@@ -96,7 +96,8 @@ public class BotUI extends Application {
         LOGIN("/storage/ui/login.fxml", null, false),
         REGISTER("/storage/ui/register.fxml", null, false),
         REGISTER_SUCCESS("/storage/ui/register_success.fxml", null, false),
-        BROWSER("/storage/ui/browser.fxml", null, false);
+        BROWSER("/storage/ui/browser.fxml", null, false),
+        LOADER("/storage/ui/loader.fxml", null, false);
 
         private String  file;
         private Integer width;

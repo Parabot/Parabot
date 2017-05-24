@@ -27,12 +27,11 @@ public class DebugsUIController {
     private GridPane    inventoryGridPanel;
     @FXML
     private AnchorPane  playersPanel;
+    private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
     @FXML
     private ListView<?> objectsListView, groundItemsListView, npcsListView, bankItemsListView, playersListView;
     @FXML
     private ImageView interfacesIcon, mouseIcon, animationsIcon, actionsIcon, collisionFlagIcon, mapIcon;
-    
-    private final Pane[] debugPanes = { npcsPanel, objectsPanel, groundItemsPanel, bankItemsPanel, inventoryGridPanel, playersPanel };
 
     @FXML
     private void openBankItemsPanel(MouseEvent event) {

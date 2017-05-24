@@ -33,7 +33,11 @@ public class UILog {
                 break;
         }
 
-        DialogHelper.showMessage("Parabot", title, message, type);
+        try {
+            DialogHelper.showMessage("Parabot", title, message, type);
+        }catch (ExceptionInInitializerError e){
+            JOptionPane.showMessageDialog(null, message, title, messageType);
+        }
     }
 
 }

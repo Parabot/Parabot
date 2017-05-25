@@ -22,8 +22,8 @@ public class XMLHookParser extends HookParser {
 
     public XMLHookParser(HookFile hookFile) {
         super(hookFile);
-        interfaceMap = new HashMap<String, String>();
-        constants = new HashMap<String, String>();
+        interfaceMap = new HashMap<>();
+        constants = new HashMap<>();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory
                     .newInstance();

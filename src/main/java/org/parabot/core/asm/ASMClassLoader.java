@@ -3,6 +3,8 @@ package org.parabot.core.asm;
 import com.google.inject.Singleton;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.classpath.ClassPath;
 
 import java.net.MalformedURLException;
@@ -30,6 +32,10 @@ public class ASMClassLoader extends ClassLoader {
     public ASMClassLoader(final ClassPath classPath) {
         this.classCache = new HashMap<>();
         this.classPath = classPath;
+    }
+
+    public ASMClassLoader() {
+        new ASMClassLoader(Core.getInjector().getInstance(Context.class).getClassPath());
     }
 
     @Override

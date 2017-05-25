@@ -40,11 +40,12 @@ public class ServerDescription implements Comparable<ServerDescription> {
     }
 
     public ServerDescription(int id, final String serverName, final String author,
-                             final double revision) {
+                             final double revision, HashMap<String, String> details) {
         this.id = id;
         this.serverName = serverName;
         this.authors = new String[]{ author };
         this.revision = revision;
+        this.details = details;
     }
 
     public int getId() {

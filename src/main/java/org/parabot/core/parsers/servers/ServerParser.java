@@ -21,10 +21,10 @@ public abstract class ServerParser {
         SERVER_CACHE.clear();
         final ArrayList<ServerParser> parsers = new ArrayList<>();
         if (Core.isMode(Core.LaunchMode.INCLUDE_LOCAL)) {
-            // TODO: Load local servers
+            parsers.add(Core.getInjector().getInstance(LocalServers.class));
             parsers.add(Core.getInjector().getInstance(PublicServers.class));
         } else if (Core.isMode(Core.LaunchMode.LOCAL_ONLY)) {
-            // TODO: Load local servers
+            parsers.add(Core.getInjector().getInstance(LocalServers.class));
         } else {
             parsers.add(Core.getInjector().getInstance(PublicServers.class));
         }

@@ -14,13 +14,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 /**
  * The core of parabot
@@ -36,7 +34,7 @@ public class Core {
     private static boolean loadLocal; //Loads both local and public scripts/servers
 
     private static boolean validate = true;
-    private static boolean secure = true;
+    private static boolean secure   = true;
 
     private static Version currentVersion = Configuration.BOT_VERSION;
 
@@ -141,11 +139,11 @@ public class Core {
         File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
         if (f.isFile()) {
             try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                File location = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                MessageDigest md       = MessageDigest.getInstance("MD5");
+                File          location = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
                 if (location.exists()) {
-                    FileInputStream fis = new FileInputStream(location);
-                    byte[] dataBytes = new byte[1024];
+                    FileInputStream fis       = new FileInputStream(location);
+                    byte[]          dataBytes = new byte[1024];
 
                     int nread;
 
@@ -185,7 +183,7 @@ public class Core {
         try {
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                boolean latest = (Boolean) object.get("result");
+                boolean    latest = (Boolean) object.get("result");
                 if (!latest) {
                     Directories.clearCache();
                 }
@@ -250,5 +248,12 @@ public class Core {
             Core.verbose("Validation disabled");
             return true;
         }
+    }
+
+    /**
+     * Alerts the user that there is a new version
+     */
+    public static int newVersionAlert() {
+        return UILog.alert("Parabot Update", "There's a new version of Parabot! \nDo you wish to download it?\n\nThe current version could have some problems!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 }

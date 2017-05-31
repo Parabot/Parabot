@@ -20,14 +20,14 @@ public class UILog {
     }
 
     public static int alert(final String title, final String message) {
-        alert(title, message, JOptionPane.YES_NO_OPTION);
+        return alert(title, message, JOptionPane.YES_NO_OPTION);
     }
 
     public static int alert(final String title, final String message, int option) {
-        alert(title, message, option, JOptionPane.DEFAULT_OPTION);
+        return alert(title, message, option, JOptionPane.DEFAULT_OPTION);
     }
 
     public static int alert(final String title, final String message, int optionType, int messageType) {
-        JOptionPane.showConfirmDialog(null, message, title, optionType, messageType);
+        return JOptionPane.showConfirmDialog(null, message, title, optionType, messageType);
     }
 }

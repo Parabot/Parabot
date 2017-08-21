@@ -38,8 +38,13 @@ public class ToolkitRedirect {
 	public static Dimension getScreenSize(Toolkit t){
 		return new Dimension(0,0);
 	}
+
 	public static Image createImage(Toolkit t,byte[] b){
-		return t.createImage(b);
+		return null;
+	}
+
+	public static Image createImage(Toolkit t, String s){
+		return null;
 	}
 	
 	public static Image getImage(Toolkit t,URL u){

@@ -81,7 +81,7 @@ public class Script implements Runnable {
             return;
         }
 
-        context.getRandomHandler().checkAndRun(RandomType.ON_SCRIPT_START);
+        context.getRandomHandler().runAll(RandomType.ON_SCRIPT_START);
 
         Core.verbose("Detecting script framework...");
         context.setRunningScript(this);
@@ -120,7 +120,7 @@ public class Script implements Runnable {
         Core.verbose("Script stopped/finished, unloading and stopping...");
         onFinish();
 
-        context.getRandomHandler().checkAndRun(RandomType.ON_SCRIPT_FINISH);
+        context.getRandomHandler().runAll(RandomType.ON_SCRIPT_FINISH);
 
         Logger.addMessage("Script stopped.", false);
         context.getServerProvider().unloadScript(this);

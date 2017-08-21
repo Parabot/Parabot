@@ -125,6 +125,14 @@ public class ClassRedirect {
         return c.getResourceAsStream(res);
     }
 
+    public static boolean desiredAssertionStatus(Class<?> c) {
+        if (validStack()) {
+            return c.desiredAssertionStatus();
+        }
+
+        return !c.getName().contains("parabot") && c.desiredAssertionStatus();
+    }
+
     private static boolean validStack() {
         Exception e = new Exception();
         for (StackTraceElement elem : e.getStackTrace()) {

@@ -32,7 +32,7 @@ env:
     - secure: UG+b1tEgc8xv9x4r//2OAIK1RrYv6n209KTTFMMwcnAa7DI8HaP8nljRa5/VhDhuKHdlVrYH/tI90v7UVBs0GDVNwK5V17Io0fMm3FUGZekSthTCqqno5wAGa9r6a6mMLtSaSmIFeIKi0+0d2ZwplRuhj/dtEYjjBBj+kK8g4nE=
     - secure: St/fecUDInFBCRriYqgp2F8PU9/SooorgxD9Mrs+b0EsC7AbtSsQXvdIv2Lp6xzdQ0VSXPcLIhULPOYrmBKnGQ/NjXTIZXxnroyQxxnI6xyEWIZwiHRY/bKRJDRbQTxD9NL32szKiDSwnw7pu6llF4D64UqQvziq4Gm6VohU75M=
     - secure: bD15GVZWowiknbfLavh8CxSh0GsnF5kT4kZ6ggCuUDGyj0mzqf7dNRnchQIKkCG0WRYyTrFN4pEiygeywWsipEeAVv9Xhx3cuUZmzeQaR5KCWabSwJ8gK6jZd1YhcWmM9vrdPHobZr65MP0y/8mu/Fovgky9dY7KDf4G3SebNrM=
-    - PARABOT_VERSION=2.6.5
+    - PARABOT_VERSION=2.6.6
 
 cache:
   directories:

@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 
@@ -309,10 +310,7 @@ public class RefClass extends RefModifiers {
 		try {
 			for (RefMethod method : getMethods()) {
 				if (method.getName().equals(name)) {
-					if (parameters == null) {
-						return method;
-					}
-					if (method.getParameterTypes().equals(parameters)) {
+					if (parameters == null || Arrays.equals(method.getParameterTypes(), parameters)) {
 						return method;
 					}
 				}

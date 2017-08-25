@@ -7,7 +7,7 @@ public class APIConfiguration {
 
     public static final String NIGHTLY_PARAMETER = "nightly=%s";
 
-    public static final String OAUTH_CLIENT_ID = "6_4c55hudk3k000kscko48ws804skwsow0ow48sw0kco04gg88wg";
+    public static final String OAUTH_CLIENT_ID = "2_163spniuypxc44kcg8wgwg4gso8ocw484sss8osskw840c4g8c";
 //    public static final String OAUTH_CLIENT_ID = "27_3esr3gc8g8ow088k0c0kckcg84gssgkc8gsgo040owgkg8owkg";
 
     public static final String ENDPOINT              = "http://v3.bdn.parabot.org/app_dev.php/";

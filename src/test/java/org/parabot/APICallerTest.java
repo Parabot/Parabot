@@ -16,7 +16,7 @@ public class APICallerTest {
 
     @Test
     public void test() throws IOException {
-        InputStream stream = (InputStream) APICaller.callPoint(APICaller.APIPoint.DOWNLOAD_PROVIDER);
+        InputStream stream = (InputStream) APICaller.callPoint(APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams("default-provider", false));
         Assert.assertNotNull(stream);
 
         File tempFile = File.createTempFile("parabot_tmp", ".tmp", Directories.getDefaultDirectory());

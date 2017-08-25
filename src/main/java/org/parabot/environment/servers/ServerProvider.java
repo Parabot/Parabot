@@ -9,6 +9,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.bdn.api.servers.ServerDownloader;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.user.SharedUserAuthenticator;
+import org.parabot.core.user.implementations.UserAuthenticatorAccess;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
@@ -30,6 +32,8 @@ public abstract class ServerProvider implements Opcodes {
     private ServerDownloader serverDownloader;
 
     private ServerDescription serverDescription;
+
+    private SharedUserAuthenticator userAuthenticator;
 
     public ServerDescription getServerDescription() {
         return serverDescription;
@@ -74,7 +78,7 @@ public abstract class ServerProvider implements Opcodes {
      *
      * @return URL to client jar
      */
-    public abstract URL getJar();
+    public abstract URL getJar(SharedUserAuthenticator userAuthenticator);
 
     public abstract Applet fetchApplet();
 
@@ -131,7 +135,7 @@ public abstract class ServerProvider implements Opcodes {
     }
 
     public void parseJar() {
-        Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar());
+        Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar(userAuthenticator));
     }
 
     public void initScript(Script script) {
@@ -169,4 +173,7 @@ public abstract class ServerProvider implements Opcodes {
 
     }
 
+    public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
+        this.userAuthenticator = userAuthenticator;
+    }
 }

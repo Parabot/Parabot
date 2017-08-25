@@ -84,6 +84,7 @@ public class PublicServerExecutor extends ServerExecutor {
                 final ServerProvider serverProvider = (ServerProvider) con
                         .newInstance();
                 serverProvider.setServerDescription(description);
+                serverProvider.setUserAuthenticator(userAuthenticator);
                 super.finalize(serverProvider);
             } catch (NoClassDefFoundError | ClassNotFoundException ignored) {
                 DialogHelper.showError(

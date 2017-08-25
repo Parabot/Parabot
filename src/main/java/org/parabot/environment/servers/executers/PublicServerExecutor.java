@@ -48,7 +48,7 @@ public class PublicServerExecutor extends ServerExecutor {
             if (destination.exists()) {
                 Core.verbose("Found cached server provider [MD5: " + cachedServerProviderName + "]");
             } else {
-                APICaller.APIPoint point       = APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams(description.getId());
+                APICaller.APIPoint point       = APICaller.APIPoint.DOWNLOAD_PROVIDER.setPointParams(description.getDetail("provider"), description.getId());
                 InputStream        inputStream = (InputStream) APICaller.callPoint(point, userAuthenticator);
 
                 APICaller.downloadFile(inputStream, destination);

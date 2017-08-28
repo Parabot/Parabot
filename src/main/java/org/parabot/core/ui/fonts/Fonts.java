@@ -13,6 +13,7 @@ public class Fonts {
      * Calls the getResource with the default size of 12
      *
      * @param resource
+     *
      * @return
      */
     public static Font getResource(final String resource) {

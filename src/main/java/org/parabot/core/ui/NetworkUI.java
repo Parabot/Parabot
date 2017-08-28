@@ -27,17 +27,17 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     private static NetworkUI instance;
 
     private JComboBox<ProxyType> proxyType;
-    private JTextField proxyHost;
-    private IntTextField proxyPort;
-    private JButton submitButton;
+    private JTextField           proxyHost;
+    private IntTextField         proxyPort;
+    private JButton              submitButton;
 
     private JList<String>[] macList;
-    private JScrollPane[] macScrollList;
+    private JScrollPane[]   macScrollList;
 
-    private JCheckBox authCheckBox;
-    private JTextField authUsername;
+    private JCheckBox      authCheckBox;
+    private JTextField     authUsername;
     private JPasswordField authPassword;
-    private JButton randomize;
+    private JButton        randomize;
 
     private NetworkUI() {
         initGUI();
@@ -50,8 +50,9 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     @Override
     public void setVisible(boolean b) {
         BotUI.getInstance().setEnabled(!b);
-        if (ProxySocket.getProxyAddress() != null)
+        if (ProxySocket.getProxyAddress() != null) {
             proxyHost.setText(ProxySocket.getProxyAddress().getHostName());
+        }
         proxyPort.setText("" + ProxySocket.getProxyPort());
         proxyType.setSelectedItem(ProxySocket.getProxyType());
         authCheckBox.setSelected(ProxySocket.auth);
@@ -92,10 +93,10 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         randomize.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Random rand = new Random();
+                Random rand    = new Random();
                 byte[] macAddr = new byte[6];
                 rand.nextBytes(macAddr);
-                macAddr[0] = (byte)(macAddr[0] & (byte)254);
+                macAddr[0] = (byte) (macAddr[0] & (byte) 254);
                 for (int i = 0; i < macAddr.length; i++) {
                     int value = macAddr[i] & 0xFF;
                     macList[i].setSelectedIndex(value);
@@ -103,7 +104,6 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
                 }
             }
         });
-
 
         authCheckBox = new JCheckBox("Auth");
         authCheckBox.setSelected(ProxySocket.auth);
@@ -262,9 +262,10 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
                 .setLogin(username, password);
 
         byte[] mac = new byte[macList.length];
-        for (int i = 0; i < mac.length; i++)
+        for (int i = 0; i < mac.length; i++) {
             mac[i] = (byte) Short.parseShort(
                     (String) macList[i].getSelectedValue(), 16);
+        }
         NetworkInterface.setMac(mac);
 
         try {
@@ -277,8 +278,8 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
                 }
             }
             ProxyType type = (ProxyType) proxyType.getSelectedItem();
-            String host = proxyHost.getText();
-            int port = proxyPort.getValue();
+            String    host = proxyHost.getText();
+            int       port = proxyPort.getValue();
 
             ProxySocket.setProxy(type, host, port);
             UILog.log("Info", "Network settings have been set!");
@@ -340,8 +341,9 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 
             public void insertString(int offs, String str, AttributeSet a)
                     throws BadLocationException {
-                if (str == null)
+                if (str == null) {
                     return;
+                }
                 String oldString = getText(0, getLength());
                 String newString = oldString.substring(0, offs) + str
                         + oldString.substring(offs);

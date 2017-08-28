@@ -136,8 +136,9 @@ public class ClassRedirect {
     private static boolean validStack() {
         Exception e = new Exception();
         for (StackTraceElement elem : e.getStackTrace()) {
-            if (elem.getClassName().equals(Script.class.getName()))
+            if (elem.getClassName().equals(Script.class.getName())) {
                 return true;
+            }
         }
         return false;
     }

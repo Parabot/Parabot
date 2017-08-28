@@ -10,64 +10,64 @@ import java.net.URL;
 
 public class ToolkitRedirect {
 
-	private static final Clipboard clipboard = new Clipboard("default");
+    private static final Clipboard clipboard = new Clipboard("default");
 
-	static{
-		clipboard.setContents(new Transferable() {
-			@Override
-			public DataFlavor[] getTransferDataFlavors() {
-				return new DataFlavor[0];
-			}
+    static {
+        clipboard.setContents(new Transferable() {
+            @Override
+            public DataFlavor[] getTransferDataFlavors() {
+                return new DataFlavor[0];
+            }
 
-			@Override
-			public boolean isDataFlavorSupported(DataFlavor flavor) {
-				return false;
-			}
+            @Override
+            public boolean isDataFlavorSupported(DataFlavor flavor) {
+                return false;
+            }
 
-			@Override
-			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-				throw new UnsupportedFlavorException(flavor);
-			}
-		}, null);
-	}
+            @Override
+            public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+                throw new UnsupportedFlavorException(flavor);
+            }
+        }, null);
+    }
 
-	public static Toolkit getDefaultToolkit(){
-		return Toolkit.getDefaultToolkit();
-	}
-	
-	public static Dimension getScreenSize(Toolkit t){
-		return new Dimension(0,0);
-	}
+    public static Toolkit getDefaultToolkit() {
+        return Toolkit.getDefaultToolkit();
+    }
 
-	public static Image createImage(Toolkit t,byte[] b){
-		return null;
-	}
+    public static Dimension getScreenSize(Toolkit t) {
+        return new Dimension(0, 0);
+    }
 
-	public static Image createImage(Toolkit t, String s){
-		return null;
-	}
-	
-	public static Image getImage(Toolkit t,URL u){
-		return t.getImage(u);
-	}
-	
-	public static Image getImage(Toolkit t,String str){
-		return t.getImage(str);
-	}
+    public static Image createImage(Toolkit t, byte[] b) {
+        return null;
+    }
 
-	public static Cursor createCustomCursor(Toolkit t, Image i, Point p, String s){
-		return Cursor.getDefaultCursor();
-	}
+    public static Image createImage(Toolkit t, String s) {
+        return null;
+    }
 
-	public static Clipboard getSystemClipboard(Toolkit toolkit){
-		return clipboard;
-	}
+    public static Image getImage(Toolkit t, URL u) {
+        return t.getImage(u);
+    }
 
-	public static void sync(Toolkit toolkit){
-		toolkit.sync();
-	}
+    public static Image getImage(Toolkit t, String str) {
+        return t.getImage(str);
+    }
 
-	public static void sync(){
-		Toolkit.getDefaultToolkit().sync();
-	}
+    public static Cursor createCustomCursor(Toolkit t, Image i, Point p, String s) {
+        return Cursor.getDefaultCursor();
+    }
+
+    public static Clipboard getSystemClipboard(Toolkit toolkit) {
+        return clipboard;
+    }
+
+    public static void sync(Toolkit toolkit) {
+        toolkit.sync();
+    }
+
+    public static void sync() {
+        Toolkit.getDefaultToolkit().sync();
+    }
 }

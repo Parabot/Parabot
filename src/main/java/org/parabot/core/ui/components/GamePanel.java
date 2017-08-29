@@ -30,10 +30,6 @@ public class GamePanel extends JPanel {
                 GroupLayout.Alignment.LEADING).addGap(0, 418, Short.MAX_VALUE));
     }
 
-    public void addC(Component comp) {
-        add(comp, BorderLayout.CENTER);
-    }
-
     /**
      * Updates context of this panel and adds a different Applet to the panel
      *

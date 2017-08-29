@@ -98,8 +98,8 @@ public class GameUIController implements Initializable {
 
             panel.removeComponents();
             gameApplet.setSize(appletSize);
-            panel.addC(gameApplet);
-//            panel.addC(new JLabel("Test"));
+            panel.add(gameApplet);
+//            panel.add(new JLabel("Test"));
             panel.validate();
 
 //            JFrame frame = new JFrame();

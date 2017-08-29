@@ -1,7 +1,6 @@
 package org.parabot.core.ui.components;
 
 import com.google.inject.Singleton;
-import com.sun.istack.internal.Nullable;
 import org.parabot.core.Context;
 
 import javax.swing.*;

@@ -7,10 +7,6 @@ import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.parsers.hooks.HookParser;
-import org.parabot.core.ui.BotDialog;
-import org.parabot.core.ui.BotUI;
-import org.parabot.core.ui.components.GamePanel;
-import org.parabot.core.ui.listeners.PBKeyListener;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
@@ -18,12 +14,10 @@ import org.parabot.environment.scripts.Script;
 import org.parabot.environment.servers.ServerProvider;
 
 import java.applet.Applet;
-import java.awt.*;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TimerTask;
 
 /**
  * Game context
@@ -136,51 +130,6 @@ public class Context {
      */
     public void setApplet(final Applet applet) {
         gameApplet = applet;
-
-        if (getClient() == null) {
-            setClientInstance(gameApplet);
-        }
-
-        Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
-
-        final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
-        final Dimension appletSize = serverProvider.getGameDimensions();
-
-        panel.setPreferredSize(appletSize);
-        serverProvider.addMenuItems(Core.getInjector().getInstance(BotUI.class).getJMenuBar());
-        Core.getInjector().getInstance(BotUI.class).pack();
-        Core.getInjector().getInstance(BotUI.class).validate();
-
-        panel.removeComponents();
-        gameApplet.setSize(appletSize);
-        panel.add(gameApplet);
-        panel.validate();
-
-        gameApplet.init();
-        gameApplet.start();
-
-        java.util.Timer t = new java.util.Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
-            }
-        }, 1000);
-
-        Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
-        serverProvider.initMouse();
-        Core.verbose(TranslationHelper.translate("DONE"));
-        Core.verbose(TranslationHelper.translate("INIT_KEYBOARD"));
-        serverProvider.initKeyboard();
-        Core.verbose(TranslationHelper.translate("DONE"));
-
-        Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
-
-        applet.addKeyListener(Core.getInjector().getInstance(PBKeyListener.class));
-
-        Core.getInjector().getInstance(BotDialog.class).validate();
-        System.setOut(this.defaultOut);
-        System.setErr(this.defaultErr);
     }
 
     /**

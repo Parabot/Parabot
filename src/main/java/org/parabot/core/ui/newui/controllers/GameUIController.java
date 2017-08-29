@@ -1,5 +1,6 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,12 +11,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.api.utils.StringUtils;
@@ -47,6 +48,8 @@ public class GameUIController implements Initializable {
     private BorderPane                 loaderPanel;
     @FXML
     private SwingNode                  gamePanel;
+    @FXML
+    private Pane                       gamePanelParent;
     @FXML
     private ImageView                  expandCollapseButton;
     @FXML
@@ -86,33 +89,42 @@ public class GameUIController implements Initializable {
             context.load();
 
             ServerProvider serverProvider = context.getServerProvider();
-            Applet         applet         = serverProvider.fetchApplet();
-            context.setClientInstance(applet);
+            Applet         gameApplet     = serverProvider.fetchApplet();
+//            Applet gameApplet = new Applet();
+//            gameApplet.add(new JLabel("Test"));
 
-            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
+//            context.setClientInstance(gameApplet);
+//            context.setApplet(gameApplet);
+
+//            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
             final Dimension appletSize = serverProvider.getGameDimensions();
 
-            JFrame frame = new JFrame();
-            frame.add(panel, BorderLayout.CENTER);
-            frame.setVisible(true);
-            frame.setSize(appletSize);
+//            JPanel panel = new JPanel();
 
-            SwingUtilities.invokeLater(() -> gamePanel.setContent(panel));
+//            panel.add(new JLabel("Test"));
+
+            JPanel panel = new JPanel();
+//            Object o = gameApplet.getComponents();
+            panel.add(gameApplet);
             panel.setPreferredSize(appletSize);
 
-            panel.removeComponents();
-            applet.setSize(appletSize);
-            panel.add(applet);
-            panel.validate();
+            SwingUtilities.invokeLater(() -> gamePanel.setContent(panel));
 
-            applet.init();
-            applet.start();
+//            panel.removeComponents();
+            gameApplet.setSize(appletSize);
+//            panel.add(gameApplet);
+
+            gameApplet.validate();
+
+            gameApplet.init();
+            gameApplet.start();
+            panel.validate();
 
             Timer t = new Timer();
             t.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    applet.setBounds(0, 0, appletSize.width, appletSize.height);
+                    gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
                 }
             }, 1000);
 
@@ -122,7 +134,6 @@ public class GameUIController implements Initializable {
             Core.verbose(TranslationHelper.translate("INIT_KEYBOARD"));
             serverProvider.initKeyboard();
             Core.verbose(TranslationHelper.translate("DONE"));
-            Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
         }).start();
     }
 

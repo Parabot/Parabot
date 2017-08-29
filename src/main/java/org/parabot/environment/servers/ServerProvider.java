@@ -5,6 +5,7 @@ import org.objectweb.asm.Opcodes;
 import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
+import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.bdn.api.servers.ServerDownloader;
@@ -136,7 +137,7 @@ public abstract class ServerProvider implements Opcodes {
     }
 
     public void parseJar() {
-        Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar(userAuthenticator));
+        Core.getInjector().getInstance(ASMClassLoader.class).classPath.addJar(getJar(userAuthenticator));
     }
 
     public void initScript(Script script) {

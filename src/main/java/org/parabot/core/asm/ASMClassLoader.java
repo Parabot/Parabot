@@ -35,7 +35,8 @@ public class ASMClassLoader extends ClassLoader {
     }
 
     public ASMClassLoader() {
-        new ASMClassLoader(Core.getInjector().getInstance(Context.class).getClassPath());
+        this.classCache = new HashMap<>();
+        this.classPath = Core.getInjector().getInstance(Context.class).getClassPath();
     }
 
     @Override

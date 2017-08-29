@@ -22,7 +22,7 @@ public abstract class ServerExecutor {
 
         new Thread(() -> {
             try {
-                Core.getInjector().getInstance(BotUI.class).getCacheClear().setEnabled(false);
+//                Core.getInjector().getInstance(BotUI.class).getCacheClear().setEnabled(false);
 
                 Core.getInjector().getInstance(PaintComponent.class).startPainting(context);
 

@@ -182,7 +182,7 @@
         </AnchorPane>
         <BorderPane fx:id="loaderPanel" layoutX="36.0" prefHeight="505.0" prefWidth="657.0" style="-fx-background-color: #2e2e2e;">
          <center>
-            <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="657.0" BorderPane.alignment="CENTER">
+            <Pane fx:id="gamePanelParent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="657.0" BorderPane.alignment="CENTER">
                <children>
                   <SwingNode fx:id="gamePanel" />
                </children>

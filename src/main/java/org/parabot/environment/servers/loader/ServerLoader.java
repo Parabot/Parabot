@@ -1,6 +1,8 @@
 package org.parabot.environment.servers.loader;
 
 import org.objectweb.asm.tree.ClassNode;
+import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.environment.servers.ServerProvider;

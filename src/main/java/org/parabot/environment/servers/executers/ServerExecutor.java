@@ -17,17 +17,16 @@ public abstract class ServerExecutor {
     public abstract void run();
 
     public void finalize(final ServerProvider provider) {
+        Context context = Core.getInjector().getInstance(Context.class);
+        context.setServerProvider(provider);
+
         new Thread(() -> {
             try {
                 Core.getInjector().getInstance(BotUI.class).getCacheClear().setEnabled(false);
 
-                Context context = Core.getInjector().getInstance(Context.class);
-                context.setServerProvider(provider);
-                context.load();
-
                 Core.getInjector().getInstance(PaintComponent.class).startPainting(context);
 
-                Core.getInjector().getInstance(RandomHandler.class).init();
+//                Core.getInjector().getInstance(RandomHandler.class).init();
             } catch (Throwable t) {
                 t.printStackTrace();
             }

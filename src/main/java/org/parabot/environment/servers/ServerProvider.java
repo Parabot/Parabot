@@ -2,6 +2,7 @@ package org.parabot.environment.servers;
 
 import com.google.inject.Inject;
 import org.objectweb.asm.Opcodes;
+import org.parabot.api.io.build.BuildPath;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.asm.hooks.HookFile;
@@ -136,6 +137,7 @@ public abstract class ServerProvider implements Opcodes {
 
     public void parseJar() {
         Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar(userAuthenticator));
+        BuildPath.add(getJar(userAuthenticator));
     }
 
     public void initScript(Script script) {
@@ -153,9 +155,9 @@ public abstract class ServerProvider implements Opcodes {
 
         mouse.setComponent(applet);
 
-        applet.addMouseListener(mouse);
-        applet.addMouseMotionListener(mouse);
-        context.setMouse(mouse);
+//        applet.addMouseListener(mouse);
+//        applet.addMouseMotionListener(mouse);
+//        context.setMouse(mouse);
     }
 
     public void initKeyboard() {
@@ -165,8 +167,8 @@ public abstract class ServerProvider implements Opcodes {
 
         keyboard.setComponent(applet);
 
-        applet.addKeyListener(keyboard);
-        context.setKeyboard(keyboard);
+//        applet.addKeyListener(keyboard);
+//        context.setKeyboard(keyboard);
     }
 
     public void unloadScript(Script script) {

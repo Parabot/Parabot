@@ -1,6 +1,8 @@
 package org.parabot.core.ui.newui.controllers;
 
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,20 +12,31 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.parabot.api.io.Directories;
+import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
+import org.parabot.core.desc.ServerDescription;
+import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.api.utils.StringUtils;
+import org.parabot.environment.servers.ServerProvider;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author Fryslan, JKetelaar
  */
-public class GameUIController {
+public class GameUIController implements Initializable {
 
     public static final int WIDTH             = 692;
     public static final int EXPANDED_WIDTH    = 806;
@@ -31,7 +44,9 @@ public class GameUIController {
     public static final int EXPANDED_LAYOUT_X = 150;
 
     @FXML
-    private BorderPane gamePanel, loaderPanel;
+    private BorderPane                 loaderPanel;
+    @FXML
+    private SwingNode                  gamePanel;
     @FXML
     private ImageView                  expandCollapseButton;
     @FXML
@@ -63,6 +78,51 @@ public class GameUIController {
     void openDebug(MouseEvent e) {
         Stage stage = (Stage) gamePanel.getScene().getWindow();
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG, stage);
+    }
+
+    public void setGamePanel() {
+        new Thread(() -> {
+            Context context = Core.getInjector().getInstance(Context.class);
+            context.load();
+
+            ServerProvider serverProvider = context.getServerProvider();
+            Applet         applet         = serverProvider.fetchApplet();
+            context.setClientInstance(applet);
+
+            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
+            final Dimension appletSize = serverProvider.getGameDimensions();
+
+            JFrame frame = new JFrame();
+            frame.add(panel, BorderLayout.CENTER);
+            frame.setVisible(true);
+
+            SwingUtilities.invokeLater(() -> gamePanel.setContent(panel));
+            panel.setPreferredSize(appletSize);
+
+            panel.removeComponents();
+            applet.setSize(appletSize);
+            panel.add(applet);
+            panel.validate();
+
+            applet.init();
+            applet.start();
+
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    applet.setBounds(0, 0, appletSize.width, appletSize.height);
+                }
+            }, 1000);
+
+            Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
+            serverProvider.initMouse();
+            Core.verbose(TranslationHelper.translate("DONE"));
+            Core.verbose(TranslationHelper.translate("INIT_KEYBOARD"));
+            serverProvider.initKeyboard();
+            Core.verbose(TranslationHelper.translate("DONE"));
+            Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
+        }).start();
     }
 
     @FXML
@@ -182,4 +242,8 @@ public class GameUIController {
         gamePanel.setLayoutX(EXPANDED_LAYOUT_X);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setGamePanel();
+    }
 }

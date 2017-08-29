@@ -192,18 +192,13 @@ public class Context {
         serverProvider.parseJar();
         Core.verbose(TranslationHelper.translate("DONE"));
         Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
-        serverProvider.injectHooks();
+//        serverProvider.injectHooks();
         Core.verbose(TranslationHelper.translate("DONE"));
         Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
         if (Core.shouldDump()) {
             Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
             classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
             Core.verbose(TranslationHelper.translate("DONE"));
-        }
-        Applet applet = serverProvider.fetchApplet();
-        // If applet is null the server provider will call setApplet itself
-        if (applet != null) {
-            setApplet(applet);
         }
     }
 

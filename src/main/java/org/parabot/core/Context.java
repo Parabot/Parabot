@@ -192,7 +192,7 @@ public class Context {
         serverProvider.parseJar();
         Core.verbose(TranslationHelper.translate("DONE"));
         Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
-//        serverProvider.injectHooks();
+        serverProvider.injectHooks();
         Core.verbose(TranslationHelper.translate("DONE"));
         Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
         if (Core.shouldDump()) {

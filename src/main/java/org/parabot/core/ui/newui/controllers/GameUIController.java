@@ -80,7 +80,7 @@ public class GameUIController implements Initializable {
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG, stage);
     }
 
-    public void setGamePanel() {
+    private void setGamePanel() {
         new Thread(() -> {
             Context context = Core.getInjector().getInstance(Context.class);
             context.load();
@@ -95,6 +95,7 @@ public class GameUIController implements Initializable {
             JFrame frame = new JFrame();
             frame.add(panel, BorderLayout.CENTER);
             frame.setVisible(true);
+            frame.setSize(appletSize);
 
             SwingUtilities.invokeLater(() -> gamePanel.setContent(panel));
             panel.setPreferredSize(appletSize);

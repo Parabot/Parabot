@@ -137,7 +137,6 @@ public abstract class ServerProvider implements Opcodes {
 
     public void parseJar() {
         Core.getInjector().getInstance(Context.class).getClassPath().addJar(getJar(userAuthenticator));
-        BuildPath.add(getJar(userAuthenticator));
     }
 
     public void initScript(Script script) {
@@ -177,5 +176,9 @@ public abstract class ServerProvider implements Opcodes {
 
     public void setUserAuthenticator(SharedUserAuthenticator userAuthenticator) {
         this.userAuthenticator = userAuthenticator;
+    }
+
+    public SharedUserAuthenticator getUserAuthenticator() {
+        return userAuthenticator;
     }
 }

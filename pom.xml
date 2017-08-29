@@ -6,7 +6,7 @@
 
     <groupId>org.parabot</groupId>
     <artifactId>client</artifactId>
-    <version>3.0.0-RC-4</version>
+    <version>3.0.0-RC-5</version>
     <packaging>jar</packaging>
 
     <properties>

@@ -87,6 +87,7 @@ public final class APICaller {
         LIST_SERVERS(APIConfiguration.API_ENDPOINT + "servers/list", true, true, APIPointType.GET),
         DOWNLOAD_SERVER(APIConfiguration.API_ENDPOINT + "servers/download/%d", true, false, APIPointType.GET),
         GET_SERVER(APIConfiguration.API_ENDPOINT + "servers/get/%d", true, true, APIPointType.GET),
+        GET_SERVER_HOOKS(APIConfiguration.API_ENDPOINT + "servers/get/%d", true, true, APIPointType.GET),
 
         SEND_SLACK(APIConfiguration.API_ENDPOINT + "bot/notifications/slack/send/%d", true, true, APIPointType.POST),
         IN_SLACK(APIConfiguration.API_ENDPOINT + "users/in_slack", true, true, APIPointType.GET);

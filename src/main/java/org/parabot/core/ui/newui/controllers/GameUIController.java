@@ -1,6 +1,5 @@
 package org.parabot.core.ui.newui.controllers;
 
-import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.parabot.api.io.Directories;
-import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.components.GamePanel;
@@ -90,50 +88,41 @@ public class GameUIController implements Initializable {
 
             ServerProvider serverProvider = context.getServerProvider();
             Applet         gameApplet     = serverProvider.fetchApplet();
-//            Applet gameApplet = new Applet();
-//            gameApplet.add(new JLabel("Test"));
 
-//            context.setClientInstance(gameApplet);
-//            context.setApplet(gameApplet);
+            context.setClientInstance(gameApplet);
 
-//            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
+            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
             final Dimension appletSize = serverProvider.getGameDimensions();
 
-//            JPanel panel = new JPanel();
-
-//            panel.add(new JLabel("Test"));
-
-            JPanel panel = new JPanel();
-//            Object o = gameApplet.getComponents();
-            panel.add(gameApplet);
             panel.setPreferredSize(appletSize);
 
-            SwingUtilities.invokeLater(() -> gamePanel.setContent(panel));
-
-//            panel.removeComponents();
+            panel.removeComponents();
             gameApplet.setSize(appletSize);
-//            panel.add(gameApplet);
-
-            gameApplet.validate();
-
-            gameApplet.init();
-            gameApplet.start();
+            panel.addC(gameApplet);
+//            panel.addC(new JLabel("Test"));
             panel.validate();
 
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
-                }
-            }, 1000);
+//            JFrame frame = new JFrame();
+//            frame.add(panel);
+//            frame.setSize(appletSize);
+//            frame.setVisible(true);
+//            frame.pack();
+//            frame.validate();
 
-            Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
-            serverProvider.initMouse();
-            Core.verbose(TranslationHelper.translate("DONE"));
-            Core.verbose(TranslationHelper.translate("INIT_KEYBOARD"));
-            serverProvider.initKeyboard();
-            Core.verbose(TranslationHelper.translate("DONE"));
+            SwingUtilities.invokeLater(() -> {
+                gamePanel.setContent(panel);
+
+                gameApplet.init();
+                gameApplet.start();
+
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
+                    }
+                }, 1000);
+            });
         }).start();
     }
 

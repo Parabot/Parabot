@@ -1,6 +1,7 @@
 package org.parabot.core.ui.components;
 
 import com.google.inject.Singleton;
+import com.sun.istack.internal.Nullable;
 import org.parabot.core.Context;
 
 import javax.swing.*;
@@ -27,6 +28,10 @@ public class GamePanel extends JPanel {
                 GroupLayout.Alignment.LEADING).addGap(0, 770, Short.MAX_VALUE));
         panelLayout.setVerticalGroup(panelLayout.createParallelGroup(
                 GroupLayout.Alignment.LEADING).addGap(0, 418, Short.MAX_VALUE));
+    }
+
+    public void addC(Component comp) {
+        add(comp, BorderLayout.CENTER);
     }
 
     /**

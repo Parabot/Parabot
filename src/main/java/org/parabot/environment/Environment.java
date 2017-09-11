@@ -10,7 +10,6 @@ import org.parabot.environment.api.utils.WebUtil;
 
 import java.util.LinkedList;
 
-
 /**
  * Initializes the bot environment
  *

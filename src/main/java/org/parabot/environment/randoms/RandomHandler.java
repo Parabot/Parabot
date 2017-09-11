@@ -48,6 +48,7 @@ public class RandomHandler {
 
     /**
      * @param random
+     *
      * @deprecated
      */
     @Deprecated
@@ -78,15 +79,6 @@ public class RandomHandler {
     }
 
     /**
-     * Sets the whole random arraylist to the arraylist given as argument
-     *
-     * @param randoms The new random arraylist
-     */
-    public void setRandoms(ArrayList<Random> randoms) {
-        this.randoms = randoms;
-    }
-
-    /**
      * Clears all added randoms
      */
     public void clearRandoms() {
@@ -104,15 +96,16 @@ public class RandomHandler {
      * Executes a specific random
      *
      * @param r
+     *
      * @return True if the random is executed, false if not
      */
-    public boolean executeRandom(Random r){
+    public boolean executeRandom(Random r) {
         if (r.activate()) {
             Logger.addMessage("Running random '" + r.getName() + "'", true);
             try {
                 r.execute();
                 return true;
-            }catch (Exception e){
+            } catch (Exception e) {
                 Logger.addMessage("Random failed: '" + r.getName() + "'", false);
                 e.printStackTrace();
             }
@@ -126,7 +119,7 @@ public class RandomHandler {
      *
      * @param type
      */
-    public void runAll(RandomType type){
+    public void runAll(RandomType type) {
         for (Random r : this.activeRandoms) {
             if (r.getRandomType().getId() == type.getId()) {
                 executeRandom(r);
@@ -152,6 +145,7 @@ public class RandomHandler {
      * Checks if random occurs and runs it
      *
      * @return returns <b>true</b> if a random has been executed, otherwise <b>false</b>
+     *
      * @see RandomHandler#checkAndRun(RandomType)
      * @deprecated
      */
@@ -163,6 +157,15 @@ public class RandomHandler {
 
     public ArrayList<Random> getRandoms() {
         return this.randoms;
+    }
+
+    /**
+     * Sets the whole random arraylist to the arraylist given as argument
+     *
+     * @param randoms The new random arraylist
+     */
+    public void setRandoms(ArrayList<Random> randoms) {
+        this.randoms = randoms;
     }
 
     public ArrayList<Random> getActiveRandoms() {

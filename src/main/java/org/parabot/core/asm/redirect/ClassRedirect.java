@@ -8,8 +8,24 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.ProtectionDomain;
 
 public class ClassRedirect {
+
+    public static ProtectionDomain getProtectionDomain(final Class<?> clazz) {
+        if (validStack()) {
+            return AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
+                public ProtectionDomain run() {
+                    return clazz.getProtectionDomain();
+                }
+            });
+        }
+
+        System.err.println(clazz.getName() + " getProtectionDomain request Blocked.");
+        throw RedirectClassAdapter.createSecurityException();
+    }
 
     public static Object newInstance(Class<?> c) throws IllegalAccessException, InstantiationException {
         if (validStack()) {
@@ -136,8 +152,9 @@ public class ClassRedirect {
     private static boolean validStack() {
         Exception e = new Exception();
         for (StackTraceElement elem : e.getStackTrace()) {
-            if (elem.getClassName().equals(Script.class.getName()))
+            if (elem.getClassName().equals(Script.class.getName())) {
                 return true;
+            }
         }
         return false;
     }

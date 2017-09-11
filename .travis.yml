@@ -1,7 +1,9 @@
 language: java
 
+dist: trusty
+
 jdk:
-  - oraclejdk7
+  - openjdk7
   - oraclejdk8
 
 before_install:
@@ -56,7 +58,7 @@ deploy:
       branch:
         - master
         - development
-      jdk: 'oraclejdk7'
+      jdk: 'openjdk7'
 
   - provider: script
     script: "cp ./.travis/.travis.settings.xml $HOME/.m2/settings.xml && mvn package javadoc:javadoc deploy site:deploy"
@@ -65,4 +67,4 @@ deploy:
       repo: Parabot/Parabot
       branch:
         - master
-      jdk: 'oraclejdk7'
+      jdk: 'openjdk7'

@@ -5,6 +5,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.ImageProducer;
 import java.io.IOException;
 import java.net.URL;
 
@@ -46,7 +47,11 @@ public class ToolkitRedirect {
 	public static Image createImage(Toolkit t, String s){
 		return t.createImage(s);
 	}
-	
+
+	public static Image createImage(Toolkit t, ImageProducer i){
+		return t.createImage(i);
+	}
+
 	public static Image getImage(Toolkit t,URL u){
 		return t.getImage(u);
 	}

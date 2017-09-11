@@ -40,11 +40,11 @@ public class ToolkitRedirect {
 	}
 
 	public static Image createImage(Toolkit t,byte[] b){
-		return null;
+		return t.createImage(b);
 	}
 
 	public static Image createImage(Toolkit t, String s){
-		return null;
+		return t.createImage(s);
 	}
 	
 	public static Image getImage(Toolkit t,URL u){

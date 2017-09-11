@@ -24,7 +24,7 @@ public class ThreadRedirect {
 	}
 
 	public static Thread currentThread(){
-		return null;
+		return new Thread();
 	}
 
 	public static void join(Thread t) throws InterruptedException{

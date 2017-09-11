@@ -15,16 +15,13 @@ import java.security.ProtectionDomain;
 public class ClassRedirect {
 
     public static ProtectionDomain getProtectionDomain(final Class<?> clazz) {
-        if (validStack()) {
-            return AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
-                public ProtectionDomain run() {
-                    return clazz.getProtectionDomain();
-                }
-            });
-        }
+        System.err.println(clazz.getName() + " getProtectionDomain request granted.");
 
-        System.err.println(clazz.getName() + " getProtectionDomain request Blocked.");
-        throw RedirectClassAdapter.createSecurityException();
+        return AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
+            public ProtectionDomain run() {
+                return clazz.getProtectionDomain();
+            }
+        });
     }
 
     public static Object newInstance(Class<?> c) throws IllegalAccessException, InstantiationException {

@@ -1,5 +1,6 @@
 package org.parabot.core.asm.wrappers;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.parabot.core.asm.ASMUtils;
@@ -35,7 +36,7 @@ public class Invoker implements Injectable {
                    String argsDesc, String returnDesc, String methodName, boolean isInterface, String instanceCast, String argsCheckCastDesc) {
         this.into = ASMUtils.getClass(into);
         this.methodLocation = ASMUtils.getClass(methodLoc);
-        this.mn = getMethod(this.methodLocation, invMethName, argsDesc);
+        this.mn = getMethod(this.methodLocation, invMethName, argsDesc, returnDesc);
         this.returnDesc = returnDesc;
         this.methodName = methodName;
         this.argsDesc = argsDesc;
@@ -47,15 +48,15 @@ public class Invoker implements Injectable {
         this.argsCheckCastDesc = argsCheckCastDesc;
     }
 
-    private static MethodNode getMethod(ClassNode into, String name, String desc) {
-        for (Object m : into.methods) {
-            MethodNode methodNode = (MethodNode) m;
-            String     s          = methodNode.desc.substring(0, methodNode.desc.indexOf(')') + 1);
-            if (methodNode.name.equals(name) && s.equals(desc)) {
-                return methodNode;
-            }
-        }
-        return null;
+    private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
+    	for (Object method : into.methods) {
+			MethodNode m = (MethodNode) method;
+			if (m.name.equals(name) &&  m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
+					&& (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
+				return m;
+			}
+		}
+		return null;
     }
 
     /**

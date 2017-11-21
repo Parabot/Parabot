@@ -29,7 +29,6 @@ public final class Landing {
 
         parseArgs(args);
 
-
         Directories.validate();
 
         Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());

@@ -257,13 +257,13 @@ public class Core {
         return UILog.alert("Parabot Update", "There's a new version of Parabot! \nDo you wish to download it?\n\nThe current version could have some problems!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 
-    public static void printJavaVersion(){
-
-    }
-
+    /**
+     * Grabs the java version property
+     *
+     * @return java version
+     */
     public static double getJavaVersion(){
         String version = System.getProperty("java.version");
-
 
         return Double.valueOf(version.substring(0,3));
     }

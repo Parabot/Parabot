@@ -157,7 +157,10 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Create screenshot":
                 try {
                     Robot         robot         = new Robot();
-                    Rectangle     parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY() + (menuBar.getHeight() + file.getHeight()), getWidth(), getHeight() - 43);
+                    int menuBarHeight = menuBar.getHeight() + file.getHeight();
+                    Rectangle     parabotScreen = new Rectangle(
+                            (int) getLocation().getX(), (int) getLocation().getY() + menuBarHeight,
+                            getWidth(), getHeight() - menuBarHeight);
                     BufferedImage image         = robot.createScreenCapture(parabotScreen);
                     String        randString    = StringUtils.randomString(10);
                     boolean       search        = true;

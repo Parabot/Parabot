@@ -6,10 +6,10 @@ import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.Logger;
 import org.parabot.environment.api.utils.PBPreferences;
 import org.parabot.environment.api.utils.Time;
+import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomType;
 import org.parabot.environment.scripts.framework.*;
 import org.parabot.environment.scripts.framework.Frameworks;
-import org.parabot.environment.scripts.randoms.Random;
 
 import java.util.Collection;
 
@@ -59,6 +59,11 @@ public class Script implements Runnable {
 
     public final void setAbstractFrameWork(AbstractFramework f) {
         this.frameWork = f;
+    }
+
+    @Deprecated
+    public final void addRandom(org.parabot.environment.scripts.randoms.Random random) {
+        new IllegalArgumentException("This type of random is deprecated").printStackTrace();
     }
 
     public final void addRandom(Random random) {

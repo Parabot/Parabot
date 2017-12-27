@@ -1,47 +1,65 @@
 package org.parabot.core.ui.newui;
 
 import com.google.inject.Singleton;
-import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import org.parabot.api.Configuration;
 import org.parabot.api.io.images.Images;
 import org.parabot.api.misc.OperatingSystem;
 import org.parabot.core.Core;
 import org.parabot.core.ui.newui.controllers.GameUIController;
 import org.parabot.core.user.UserAuthenticator;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URL;
 
 /**
  * @author Fryslan, JKetelaar
  */
 @Singleton
-public class BotUI extends Application {
+public class BotUI extends JFrame {
+
+    private final JFXPanel jfxPanel;
+
+    public BotUI() {
+        super(Configuration.BOT_TITLE);
+        jfxPanel = new JFXPanel();
+    }
+
+    private void fillBotUI() {
+        this.add(jfxPanel);
+        this.setVisible(true);
+        this.setIcon();
+        this.setResizable(false);
+
+        switchState(ViewState.LOGIN);
+    }
 
     public void start() {
-        BotUI botUI = Core.getInjector().getInstance(BotUI.class);
-        Application.launch(botUI.getClass());
+        this.fillBotUI();
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.initStyle(StageStyle.UNDECORATED);
-        setIcon(stage);
-        switchState(ViewState.LOGIN, stage);
-    }
+    private void setIcon() {
+        try {
+            URL           resource = this.getClass().getResource("/storage/images/icon.png");
+            BufferedImage image    = ImageIO.read(resource);
+            this.setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    private void setIcon(Stage stage) {
-        stage.getIcons().add(new Image("/storage/images/icon.png"));
         if (OperatingSystem.getOS() == OperatingSystem.MAC) {
             try {
                 Class  t                = Class.forName("com.apple.eawt.Application");
-                Object application      = t.getMethod("getApplication", new Class[0]).invoke(null);
+                Object application      = t.getMethod("getApplication").invoke(null);
                 Method setDockIconImage = t.getMethod("setDockIconImage", java.awt.Image.class);
                 setDockIconImage.invoke(application, Images.getResource("/storage/images/icon.png"));
             } catch (Throwable var5) {
@@ -50,28 +68,23 @@ public class BotUI extends Application {
         }
     }
 
-    private void switchStateScene(ViewState viewState, Stage stage) {
+    private void switchStateScene(ViewState viewState) {
         Core.verbose("Switching state to: " + viewState.name());
 
         Platform.runLater(() -> {
             try {
-                Parent root = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
+                Parent root  = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
+                Scene  scene = new Scene(root);
 
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-
-                if (viewState.getWidth() != null) {
-                    stage.setWidth(viewState.getWidth());
-                }
-
-                stage.show();
+                this.jfxPanel.setScene(scene);
+                this.setSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public void switchState(ViewState viewState, Stage stage) {
+    public void switchState(ViewState viewState) {
         if (viewState.requiresLogin()) {
             Thread login = new Thread(() -> {
                 UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
@@ -86,7 +99,7 @@ public class BotUI extends Application {
                 e.printStackTrace();
             }
         }
-        switchStateScene(viewState, stage);
+        switchStateScene(viewState);
     }
 
     public enum ViewState {

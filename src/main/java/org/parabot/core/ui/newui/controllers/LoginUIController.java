@@ -49,8 +49,7 @@ public class LoginUIController implements Initializable {
 
         EventHandler handler = event14 -> {
             if (service.getResult()) {
-                Stage stage = (Stage) loginPanel.getScene().getWindow();
-                Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR, stage);
+                Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.SERVER_SELECTOR);
             } else {
                 DialogHelper.showError("Login", "Login failed", "It seems the login process failed, please try again.");
             }
@@ -63,8 +62,7 @@ public class LoginUIController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) {
-        Stage stage = (Stage) loginPanel.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER, stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER);
     }
 
     @FXML

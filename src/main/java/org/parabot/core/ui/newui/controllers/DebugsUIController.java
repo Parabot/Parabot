@@ -114,8 +114,7 @@ public class DebugsUIController {
 
     @FXML
     private void returnToGame(MouseEvent event) {
-        Stage stage = (Stage) returnPanel.getScene().getWindow();
-        new BotUI().switchState(BotUI.ViewState.GAME, stage);
+        new BotUI().switchState(BotUI.ViewState.GAME);
     }
 
     private void hideAllPanes() {

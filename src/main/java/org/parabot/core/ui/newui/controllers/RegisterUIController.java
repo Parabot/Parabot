@@ -28,8 +28,7 @@ public class RegisterUIController implements Initializable {
 
     @FXML
     private void returnToLogin(MouseEvent event) {
-        Stage stage = (Stage) pane.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.LOGIN, stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.LOGIN);
     }
 
     @FXML
@@ -46,8 +45,7 @@ public class RegisterUIController implements Initializable {
                 (ov, oldState, newState) -> {
                     if (engine.getLocation().contains("crossLogin")) {
                         engine.load(null);
-                        Stage stage = (Stage) pane.getScene().getWindow();
-                        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER_SUCCESS, stage);
+                        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.REGISTER_SUCCESS);
                     }
                 });
     }

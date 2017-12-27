@@ -77,8 +77,7 @@ public class GameUIController implements Initializable {
 
     @FXML
     void openDebug(MouseEvent e) {
-        Stage stage = (Stage) gamePanel.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG, stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG);
     }
 
     private void setGamePanel() {

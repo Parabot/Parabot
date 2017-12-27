@@ -82,7 +82,6 @@ public class ServerItem extends AnchorPane {
     private void selectServer(MouseEvent event) {
         Environment.load(this.serverDescription);
 
-        Stage stage = (Stage) serverSelectorItemPane.getScene().getWindow();
-        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.GAME, stage);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.GAME);
     }
 }

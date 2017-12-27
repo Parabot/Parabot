@@ -1,7 +1,6 @@
 package org.parabot.core.ui.newui;
 
 import com.google.inject.Singleton;
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +9,7 @@ import org.parabot.api.Configuration;
 import org.parabot.api.io.images.Images;
 import org.parabot.api.misc.OperatingSystem;
 import org.parabot.core.Core;
-import org.parabot.core.ui.newui.controllers.GameUIController;
+import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.user.UserAuthenticator;
 
 import javax.imageio.ImageIO;
@@ -27,18 +26,20 @@ import java.net.URL;
 @Singleton
 public class BotUI extends JFrame {
 
-    private final JFXPanel jfxPanel;
+    private final JFXPanel  jfxPanel;
+    private       GamePanel gamePanel;
+    private GameUI gameUI;
 
     public BotUI() {
         super(Configuration.BOT_TITLE);
-        jfxPanel = new JFXPanel();
+        this.jfxPanel = new JFXPanel();
+        this.gameUI = Core.getInjector().getInstance(GameUI.class);
     }
 
     private void fillBotUI() {
-        this.add(jfxPanel);
         this.setVisible(true);
         this.setIcon();
-        this.setResizable(false);
+//        this.setResizable(false);
 
         switchState(ViewState.LOGIN, true);
     }
@@ -71,22 +72,45 @@ public class BotUI extends JFrame {
     private void switchStateScene(ViewState viewState, boolean center) {
         Core.verbose("Switching state to: " + viewState.name());
 
-        Platform.runLater(() -> {
+        if (viewState != ViewState.GAME) {
+            this.setContentPane(jfxPanel);
+
             try {
                 Parent root  = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
                 Scene  scene = new Scene(root);
 
                 this.jfxPanel.setScene(scene);
                 this.getContentPane().setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
-                this.pack();
-
-                if (center) {
-                    this.setLocationRelativeTo(null);
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        } else {
+            JPanel parent = new JPanel(new BorderLayout());
+            gamePanel = this.gameUI.getContent();
+            parent.add(jfxPanel, BorderLayout.WEST);
+
+            try {
+                Parent root  = FXMLLoader.load(BotUI.class.getResource(ViewState.GAME.getFile()));
+                Scene  scene = new Scene(root);
+                this.jfxPanel.setScene(scene);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            parent.add(gamePanel, BorderLayout.CENTER);
+
+            parent.setSize(this.gameUI.getAppletSize());
+
+            this.setContentPane(parent);
+            this.setSize(parent.getSize());
+        }
+
+        this.pack();
+        this.validate();
+
+        if (center) {
+            this.setLocationRelativeTo(null);
+        }
     }
 
     private void switchState(ViewState viewState, boolean center) {
@@ -112,31 +136,25 @@ public class BotUI extends JFrame {
     }
 
     public enum ViewState {
-        DEBUG("/storage/ui/debugs.fxml", null, true),
-        GAME("/storage/ui/game.fxml", GameUIController.WIDTH, true),
-        SERVER_SELECTOR("/storage/ui/server_selector.fxml", null, true),
-        LOGIN("/storage/ui/login.fxml", null, false),
-        REGISTER("/storage/ui/register.fxml", null, false),
-        REGISTER_SUCCESS("/storage/ui/register_success.fxml", null, false),
-        BROWSER("/storage/ui/browser.fxml", null, false),
-        LOADER("/storage/ui/loader.fxml", null, false);
+        DEBUG("/storage/ui/debugs.fxml", true),
+        GAME("/storage/ui/game.fxml", true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true),
+        LOGIN("/storage/ui/login.fxml", false),
+        REGISTER("/storage/ui/register.fxml", false),
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false),
+        BROWSER("/storage/ui/browser.fxml", false),
+        LOADER("/storage/ui/loader.fxml", false);
 
         private String  file;
-        private Integer width;
         private boolean requiresLogin;
 
-        ViewState(String file, Integer width, boolean requiresLogin) {
+        ViewState(String file, boolean requiresLogin) {
             this.file = file;
-            this.width = width;
             this.requiresLogin = requiresLogin;
         }
 
         public boolean requiresLogin() {
             return requiresLogin;
-        }
-
-        public Integer getWidth() {
-            return width;
         }
 
         public String getFile() {

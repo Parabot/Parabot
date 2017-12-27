@@ -80,51 +80,6 @@ public class GameUIController implements Initializable {
         Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.DEBUG);
     }
 
-    private void setGamePanel() {
-        new Thread(() -> {
-            Context context = Core.getInjector().getInstance(Context.class);
-            context.load();
-
-            ServerProvider serverProvider = context.getServerProvider();
-            Applet         gameApplet     = serverProvider.fetchApplet();
-
-            context.setClientInstance(gameApplet);
-
-            final GamePanel panel      = Core.getInjector().getInstance(GamePanel.class);
-            final Dimension appletSize = serverProvider.getGameDimensions();
-
-            panel.setPreferredSize(appletSize);
-
-            panel.removeComponents();
-            gameApplet.setSize(appletSize);
-            panel.add(gameApplet);
-//            panel.add(new JLabel("Test"));
-            panel.validate();
-
-//            JFrame frame = new JFrame();
-//            frame.add(panel);
-//            frame.setSize(appletSize);
-//            frame.setVisible(true);
-//            frame.pack();
-//            frame.validate();
-
-            SwingUtilities.invokeLater(() -> {
-                gamePanel.setContent(panel);
-
-                gameApplet.init();
-                gameApplet.start();
-
-                Timer t = new Timer();
-                t.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
-                    }
-                }, 1000);
-            });
-        }).start();
-    }
-
     @FXML
     private void takeScreenshot(MouseEvent e) {
         try {
@@ -244,6 +199,6 @@ public class GameUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setGamePanel();
+
     }
 }

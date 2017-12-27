@@ -40,7 +40,7 @@ public class BotUI extends JFrame {
         this.setIcon();
         this.setResizable(false);
 
-        switchState(ViewState.LOGIN);
+        switchState(ViewState.LOGIN, true);
     }
 
     public void start() {
@@ -68,7 +68,7 @@ public class BotUI extends JFrame {
         }
     }
 
-    private void switchStateScene(ViewState viewState) {
+    private void switchStateScene(ViewState viewState, boolean center) {
         Core.verbose("Switching state to: " + viewState.name());
 
         Platform.runLater(() -> {
@@ -77,14 +77,19 @@ public class BotUI extends JFrame {
                 Scene  scene = new Scene(root);
 
                 this.jfxPanel.setScene(scene);
-                this.setSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+                this.getContentPane().setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+                this.pack();
+
+                if (center) {
+                    this.setLocationRelativeTo(null);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public void switchState(ViewState viewState) {
+    private void switchState(ViewState viewState, boolean center) {
         if (viewState.requiresLogin()) {
             Thread login = new Thread(() -> {
                 UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
@@ -99,7 +104,11 @@ public class BotUI extends JFrame {
                 e.printStackTrace();
             }
         }
-        switchStateScene(viewState);
+        switchStateScene(viewState, center);
+    }
+
+    public void switchState(ViewState viewState) {
+        switchState(viewState, false);
     }
 
     public enum ViewState {

@@ -75,12 +75,12 @@ public class Core {
     }
 
     public static void disableSec() {
-        UILog.log(
-                "Security Warning",
-                "Disabling the securty manager is ill advised.\n"
-                        + " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
-                        + "The security manager protects you from malicous code within the client, without it you are exposed!\n"
-                        + "\nPlease contact Parabot staff to resolve whatever problem you are having!");
+//        UILog.log(
+//                "Security Warning",
+//                "Disabling the securty manager is ill advised.\n"
+//                        + " Only do so if the client fails to load, or functions incorrectly (freezes,crashes, etc.)\n"
+//                        + "The security manager protects you from malicous code within the client, without it you are exposed!\n"
+//                        + "\nPlease contact Parabot staff to resolve whatever problem you are having!");
         Core.secure = false;
     }
 

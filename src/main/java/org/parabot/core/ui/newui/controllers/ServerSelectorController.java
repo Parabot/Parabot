@@ -29,13 +29,13 @@ public class ServerSelectorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        title.setText(Configuration.BOT_TITLE);
+
         for (ServerDescription serverDescription : ServerParser.getDescriptions()) {
             ServerItem serverItem = Core.getInjector().getInstance(ServerItem.class);
             serverItem.setServerDescription(serverDescription, ServerParser.SERVER_CACHE.get(serverDescription));
             serverItemBox.getChildren().add(serverItem.getServerSelectorItemPane());
         }
-
-        title.setText(Configuration.BOT_TITLE);
 
         /* Only allow vertical scrolling, disable horizontal scrolling */
         scrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {

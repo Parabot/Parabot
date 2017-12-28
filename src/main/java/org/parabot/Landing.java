@@ -26,14 +26,6 @@ public final class Landing {
 
         Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.isMode(Core.LaunchMode.LOCAL_ONLY));
 
-        try {
-            Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
-                    + UIManager.getSystemLookAndFeelClassName());
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-
         if (!Core.isMode(Core.LaunchMode.LOCAL_ONLY) && Core.hasValidation() && !Core.isValid()) {
             Core.downloadNewVersion();
             return;

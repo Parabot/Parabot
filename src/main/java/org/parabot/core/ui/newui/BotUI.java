@@ -86,9 +86,9 @@ public class BotUI extends JFrame {
         }
 
         if (scene != null) {
+
             if (viewState != ViewState.GAME) {
                 this.setContentPane(jfxPanel);
-
                 this.setJfxPanelScene(scene);
             } else {
                 center = true;
@@ -102,9 +102,7 @@ public class BotUI extends JFrame {
                     parent.add(gamePanel, BorderLayout.CENTER);
                     parent.add(jfxPanel, BorderLayout.WEST);
                 }
-
                 this.setJfxPanelScene(scene);
-
                 this.setContentPane(parent);
             }
 
@@ -126,8 +124,7 @@ public class BotUI extends JFrame {
 
     private void switchState(ViewState viewState, boolean center) {
         switchStateScene(ViewState.LOADER, false);
-//        if (viewState.isThreaded()) {
-        new Thread(() -> {
+        Thread screen = new Thread(() -> {
             while (locked){
                 Core.verbose("Waiting for lock...");
                 try {
@@ -136,6 +133,7 @@ public class BotUI extends JFrame {
                     e.printStackTrace();
                 }
             }
+
             if (viewState.requiresLogin()) {
                 Thread login = new Thread(() -> {
                     UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
@@ -152,10 +150,8 @@ public class BotUI extends JFrame {
             }
 
             switchStateScene(viewState, center);
-        }).start();
-//        }else{
-//            switchStateScene(viewState, center);
-//        }
+        });
+        screen.start();
     }
 
     public void switchState(ViewState viewState) {
@@ -163,23 +159,21 @@ public class BotUI extends JFrame {
     }
 
     public enum ViewState {
-        DEBUG("/storage/ui/debugs.fxml", true, false),
-        GAME("/storage/ui/game.fxml", true, true),
-        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true, false),
-        LOGIN("/storage/ui/login.fxml", false, false),
-        REGISTER("/storage/ui/register.fxml", false, false),
-        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false, false),
-        BROWSER("/storage/ui/browser.fxml", false, false),
-        LOADER("/storage/ui/loader.fxml", false, false);
+        DEBUG("/storage/ui/debugs.fxml", true),
+        GAME("/storage/ui/game.fxml", true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true),
+        LOGIN("/storage/ui/login.fxml", false),
+        REGISTER("/storage/ui/register.fxml", false),
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false),
+        BROWSER("/storage/ui/browser.fxml", false),
+        LOADER("/storage/ui/loader.fxml", false);
 
         private String  file;
         private boolean requiresLogin;
-        private boolean threaded;
 
-        ViewState(String file, boolean requiresLogin, boolean threaded) {
+        ViewState(String file, boolean requiresLogin) {
             this.file = file;
             this.requiresLogin = requiresLogin;
-            this.threaded = threaded;
         }
 
         public boolean requiresLogin() {
@@ -190,12 +184,5 @@ public class BotUI extends JFrame {
             return file;
         }
 
-        public boolean isThreaded() {
-            return threaded;
-        }
-    }
-
-    public JPanel getGameParent() {
-        return this.parent;
     }
 }

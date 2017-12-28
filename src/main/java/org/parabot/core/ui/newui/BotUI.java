@@ -85,13 +85,11 @@ public class BotUI extends JFrame {
             if (viewState != ViewState.GAME) {
                 this.setContentPane(jfxPanel);
 
-                this.jfxPanel.setScene(scene);
-                this.getContentPane().setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+                this.setJfxPanelScene(scene);
             } else {
                 center = true;
 
-                this.jfxPanel.setScene(scene);
-                this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+                this.setJfxPanelScene(scene);
 
                 if (parent == null) {
                     parent = new JPanel(new BorderLayout());
@@ -101,12 +99,9 @@ public class BotUI extends JFrame {
 
                     parent.add(gamePanel, BorderLayout.CENTER);
                     parent.add(jfxPanel, BorderLayout.WEST);
-
-                    parent.setSize(this.gameUI.getAppletSize());
                 }
 
                 this.setContentPane(parent);
-                this.setSize(parent.getSize());
             }
 
             this.pack();
@@ -116,6 +111,11 @@ public class BotUI extends JFrame {
                 this.setLocationRelativeTo(null);
             }
         }
+    }
+
+    private void setJfxPanelScene(Scene scene){
+        this.jfxPanel.setScene(scene);
+        this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
     }
 
     private void switchState(ViewState viewState, boolean center) {

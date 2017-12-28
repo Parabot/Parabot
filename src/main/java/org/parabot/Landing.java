@@ -6,7 +6,7 @@ import org.parabot.api.io.Directories;
 import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
-import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.ui.BotUI;
 
 /**
  * @author Everel, JKetelaar, Matt, Dane

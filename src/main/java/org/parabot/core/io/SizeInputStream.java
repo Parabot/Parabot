@@ -8,15 +8,13 @@ import java.io.InputStream;
  */
 public class SizeInputStream extends InputStream {
     public  int              bytesRead;
-    private ProgressListener l;
     private InputStream      in;
     private long             startTime;
     private double           size;
 
-    public SizeInputStream(InputStream in, int size, ProgressListener l) {
+    public SizeInputStream(InputStream in, int size) {
         this.in = in;
         this.size = size;
-        this.l = l;
         this.startTime = System.currentTimeMillis();
     }
 
@@ -29,34 +27,19 @@ public class SizeInputStream extends InputStream {
         if (b != -1) {
             bytesRead++;
         }
-        updateListener();
         return b;
     }
 
     public int read(byte[] b) throws IOException {
         int read = in.read(b);
         bytesRead += read;
-        updateListener();
         return read;
     }
 
     public int read(byte[] b, int off, int len) throws IOException {
         int read = in.read(b, off, len);
         bytesRead += read;
-        updateListener();
         return read;
-    }
-
-    private void updateListener() {
-        if (l != null) {
-            double percent = (bytesRead / size) * 100.0D;
-            l.onProgressUpdate(percent);
-
-            long   curTime     = System.currentTimeMillis();
-            double timeSeconds = (curTime - startTime) / 1000.0D;
-            double speed       = bytesRead / (1024.0D * 1024.0D) / timeSeconds;
-            l.updateDownloadSpeed(speed);
-        }
     }
 }
 

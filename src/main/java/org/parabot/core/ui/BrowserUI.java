@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui;
+package org.parabot.core.ui;
 
 import com.google.inject.Singleton;
 import javafx.fxml.FXMLLoader;
@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.parabot.core.Core;
-import org.parabot.core.ui.newui.controllers.BrowserUIController;
+import org.parabot.core.ui.controllers.BrowserUIController;
 
 import java.io.IOException;
 

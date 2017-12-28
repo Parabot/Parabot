@@ -1,7 +1,7 @@
 package org.parabot.core.ui.utils;
 
 import javafx.scene.control.Alert;
-import org.parabot.core.ui.newui.components.DialogHelper;
+import org.parabot.core.ui.components.DialogHelper;
 
 import javax.swing.*;
 

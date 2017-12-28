@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui;
+package org.parabot.core.ui;
 
 import org.parabot.core.Context;
 import org.parabot.core.Core;
@@ -52,11 +52,11 @@ public class GameUI {
 
         SwingUtilities.invokeLater(runnable);
 
-//        try {
-//            runnable.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            runnable.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public GamePanel getContent() {

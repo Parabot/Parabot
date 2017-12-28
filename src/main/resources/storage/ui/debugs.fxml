@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="454.0" prefWidth="600.0" styleClass="main-panel"
-            stylesheets="@style/debugs_ui.css" xmlns="http://javafx.com/javafx/8"
-            fx:controller="org.parabot.core.ui.newui.controllers.DebugsUIController">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="505.0" prefWidth="150.0" styleClass="main-panel" stylesheets="@style/debugs_ui.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.parabot.core.ui.controllers.DebugsUIController">
     <children>
-        <HBox layoutY="-1.0" prefHeight="454.0" prefWidth="600.0">
+        <HBox layoutY="-1.0" prefHeight="505.0" prefWidth="150.0">
             <children>
-                <Pane prefHeight="421.0" prefWidth="145.0" styleClass="side-panel" AnchorPane.bottomAnchor="0.0"
-                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="0.0">
+                <Pane prefHeight="505.0" prefWidth="150.0" styleClass="side-panel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <VBox layoutY="-1.0" prefHeight="454.0" prefWidth="151.0">
                             <children>
@@ -21,235 +22,171 @@
                                     <children>
                                         <Pane fx:id="returnPanel" onMouseClicked="#returnToGame">
                                             <children>
-                                                <ImageView fitHeight="24.0" fitWidth="24.0" layoutY="2.0"
-                                                           pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
-                                                        <Image url="@images/ic_chevron_left_white_24dp.png"/>
+                                                        <Image url="@images/ic_chevron_left_white_24dp.png" />
                                                     </image>
                                                     <HBox.margin>
-                                                        <Insets right="-3.0"/>
+                                                        <Insets right="-3.0" />
                                                     </HBox.margin>
                                                 </ImageView>
-                                                <ImageView fitHeight="30.0" fitWidth="28.0" layoutX="21.0"
-                                                           pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="30.0" fitWidth="28.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
-                                                        <Image url="@images/ic_bug_report_white_24dp.png"/>
+                                                        <Image url="@images/ic_bug_report_white_24dp.png" />
                                                     </image>
                                                     <VBox.margin>
-                                                        <Insets left="5.0" right="5.0" top="10.0"/>
+                                                        <Insets left="5.0" right="5.0" top="10.0" />
                                                     </VBox.margin>
                                                 </ImageView>
                                             </children>
                                         </Pane>
                                         <Label styleClass="side-panel-header-label" text="Debugs" textFill="#1a1a1a">
                                             <HBox.margin>
-                                                <Insets left="5.0"/>
+                                                <Insets left="5.0" />
                                             </HBox.margin>
                                         </Label>
                                     </children>
                                 </HBox>
-                                <Region prefHeight="33.0" prefWidth="141.0"/>
+                                <Region prefHeight="33.0" prefWidth="141.0" />
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openBankItemsPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Bank Items"/>
+                                        <Label styleClass="side-panel-label" text="Bank Items" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openGroundItemsPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Ground Items"/>
+                                        <Label styleClass="side-panel-label" text="Ground Items" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openInventoryItemsPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Inventory Items"/>
+                                        <Label styleClass="side-panel-label" text="Inventory Items" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openNpcsPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Npcs"/>
+                                        <Label styleClass="side-panel-label" text="Npcs" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openObjectsPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Objects"/>
+                                        <Label styleClass="side-panel-label" text="Objects" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#openPlayersPanel">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_more_vert_white_24dp.png"/>
+                                                <Image url="@images/ic_more_vert_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Players"/>
+                                        <Label styleClass="side-panel-label" text="Players" />
                                     </children>
                                 </HBox>
-                                <Region prefHeight="17.0" prefWidth="141.0"/>
+                                <Region prefHeight="17.0" prefWidth="141.0" />
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickActions" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="actionsIcon" fitHeight="24.0" fitWidth="24.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="actionsIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Actions"/>
+                                        <Label styleClass="side-panel-label" text="Actions" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickAnimations" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="animationsIcon" fitHeight="24.0" fitWidth="24.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="animationsIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Animations"/>
+                                        <Label styleClass="side-panel-label" text="Animations" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickCollisionFlags" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="collisionFlagIcon" fitHeight="24.0" fitWidth="24.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="collisionFlagIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Collision Flags"/>
+                                        <Label styleClass="side-panel-label" text="Collision Flags" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickInterfaces" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="interfacesIcon" fitHeight="24.0" fitWidth="24.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="interfacesIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Interfaces"/>
+                                        <Label styleClass="side-panel-label" text="Interfaces" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickMap" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="mapIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fx:id="mapIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Map(Coordinates)"/>
+                                        <Label styleClass="side-panel-label" text="Map(Coordinates)" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" onMouseClicked="#tickMouse" spacing="5.0">
                                     <children>
-                                        <ImageView fx:id="mouseIcon" fitHeight="24.0" fitWidth="24.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="mouseIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png"/>
+                                                <Image url="@images/ic_indeterminate_check_box_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Mouse"/>
+                                        <Label styleClass="side-panel-label" text="Mouse" />
                                     </children>
                                 </HBox>
-                                <Region prefHeight="44.0" prefWidth="141.0"/>
-                                <HBox fx:id="minimizeBox" alignment="CENTER_LEFT" onMouseClicked="#minimize"
-                                      spacing="5.0">
+                                <Region prefHeight="44.0" prefWidth="141.0" />
+                                <HBox fx:id="minimizeBox" alignment="CENTER_LEFT" onMouseClicked="#minimize" spacing="5.0">
                                     <children>
-                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@images/ic_photo_size_select_small_white_24dp.png"/>
+                                                <Image url="@images/ic_photo_size_select_small_white_24dp.png" />
                                             </image>
                                         </ImageView>
-                                        <Label styleClass="side-panel-label" text="Minimize"/>
+                                        <Label styleClass="side-panel-label" text="Minimize" />
                                     </children>
                                 </HBox>
                             </children>
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="10.0"/>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                             </padding>
                         </VBox>
                     </children>
                 </Pane>
-                <StackPane layoutX="139.0" prefHeight="400.0" prefWidth="461.0" AnchorPane.bottomAnchor="0.0"
-                           AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <children>
-                        <AnchorPane fx:id="bankItemsPanel" prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="bankItemsListView" prefHeight="454.0" prefWidth="458.0"/>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="groundItemsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
-                            <children>
-                                <ListView fx:id="groundItemsListView" prefHeight="454.0" prefWidth="458.0"/>
-                            </children>
-                        </AnchorPane>
-                        <GridPane fx:id="inventoryGridPanel" gridLinesVisible="true" visible="false">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                        </GridPane>
-                        <AnchorPane fx:id="npcsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
-                            <children>
-                                <ListView fx:id="npcsListView" prefHeight="454.0" prefWidth="458.0"/>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="objectsPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
-                            <children>
-                                <ListView fx:id="objectsListView" prefHeight="454.0" prefWidth="458.0"/>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="playersPanel" prefHeight="200.0" prefWidth="200.0" visible="false">
-                            <children>
-                                <ListView fx:id="playersListView" prefHeight="454.0" prefWidth="458.0"/>
-                            </children>
-                        </AnchorPane>
-                    </children>
-                </StackPane>
             </children>
         </HBox>
     </children>

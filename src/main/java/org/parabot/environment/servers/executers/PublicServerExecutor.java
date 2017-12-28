@@ -7,7 +7,7 @@ import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APICaller;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
-import org.parabot.core.ui.newui.components.DialogHelper;
+import org.parabot.core.ui.components.DialogHelper;
 import org.parabot.core.user.SharedUserAuthenticator;
 import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.servers.ServerProvider;

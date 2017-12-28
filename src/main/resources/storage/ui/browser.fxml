@@ -10,7 +10,7 @@
             minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" styleClass="main-panel"
             stylesheets="@style/browser_ui.css" xmlns="http://javafx.com/javafx/8"
-            fx:controller="org.parabot.core.ui.newui.controllers.BrowserUIController">
+            fx:controller="org.parabot.core.ui.controllers.BrowserUIController">
     <children>
         <VBox prefHeight="600.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

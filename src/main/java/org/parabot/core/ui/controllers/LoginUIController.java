@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.controllers;
+package org.parabot.core.ui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,12 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.newui.BotUI;
-import org.parabot.core.ui.newui.components.DialogHelper;
-import org.parabot.core.ui.newui.controllers.services.LoginService;
+import org.parabot.core.ui.BotUI;
+import org.parabot.core.ui.components.DialogHelper;
+import org.parabot.core.ui.controllers.services.LoginService;
 import org.parabot.core.user.UserAuthenticator;
 
 import java.net.URL;

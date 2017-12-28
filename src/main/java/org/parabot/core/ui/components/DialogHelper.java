@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.components;
+package org.parabot.core.ui.components;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;

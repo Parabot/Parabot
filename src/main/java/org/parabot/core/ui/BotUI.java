@@ -1,360 +1,205 @@
 package org.parabot.core.ui;
 
 import com.google.inject.Singleton;
-import javafx.application.Application;
-import org.parabot.api.io.Directories;
+import javafx.embed.swing.JFXPanel;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import org.parabot.api.Configuration;
 import org.parabot.api.io.images.Images;
 import org.parabot.api.misc.OperatingSystem;
-import org.parabot.api.ui.SwingUtil;
-import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.settings.Configuration;
 import org.parabot.core.ui.components.GamePanel;
-import org.parabot.core.ui.components.VerboseLoader;
-import org.parabot.core.ui.components.notifications.NotificationUI;
-import org.parabot.environment.api.utils.StringUtils;
-import org.parabot.environment.randoms.Random;
-import org.parabot.environment.randoms.RandomHandler;
-import org.parabot.environment.scripts.Script;
+import org.parabot.core.user.UserAuthenticator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.Method;
+import java.net.URL;
 
 /**
- * The bot user interface
- *
- * @author Dane, Everel, JKetelaar
+ * @author Fryslan, JKetelaar
  */
 @Singleton
-public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
+public class BotUI extends JFrame {
 
-    private static final long serialVersionUID = -2126184292879805519L;
-    private static JDialog dialog;
-
-    private JMenuBar menuBar;
-    private JMenu    features, scripts, file;
-    private JMenuItem run, pause, stop, cacheClear, notifications;
-    private boolean runScript, pauseScript;
+    private final JFXPanel  jfxPanel;
+    private       GamePanel gamePanel;
+    private       GameUI    gameUI;
+    private       JPanel    parent;
+    private       boolean   locked;
+    private       ViewState currentState;
 
     public BotUI() {
-        JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+        super(Configuration.BOT_TITLE);
+        this.jfxPanel = new JFXPanel();
+        this.gameUI = Core.getInjector().getInstance(GameUI.class);
+    }
 
-        setTitle(Configuration.BOT_TITLE);
-        setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createMenu();
+    private void fillBotUI() {
+        this.setVisible(true);
+        this.setIcon();
+        this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        setLayout(new BorderLayout());
-        addComponentListener(this);
-        addWindowListener(this);
+        switchState(ViewState.LOGIN, true);
+    }
 
-        add(Core.getInjector().getInstance(GamePanel.class));
-        Core.getInjector().getInstance(GamePanel.class).add(Core.getInjector().getInstance(VerboseLoader.class), BorderLayout.CENTER);
-        add(Core.getInjector().getInstance(Logger.class), BorderLayout.SOUTH);
+    public void start() {
+        this.fillBotUI();
+    }
 
-        SwingUtil.setParabotIcons(this);
+    private void setIcon() {
+        try {
+            URL           resource = this.getClass().getResource("/storage/images/icon.png");
+            BufferedImage image    = ImageIO.read(resource);
+            this.setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        pack();
-        setLocationRelativeTo(null);
-
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            Core.getInjector().getInstance(BotDialog.class).setBotUI(this).setVisible(false);
+        if (OperatingSystem.getOS() == OperatingSystem.MAC) {
+            try {
+                Class  t                = Class.forName("com.apple.eawt.Application");
+                Object application      = t.getMethod("getApplication").invoke(null);
+                Method setDockIconImage = t.getMethod("setDockIconImage", java.awt.Image.class);
+                setDockIconImage.invoke(application, Images.getResource("/storage/images/icon.png"));
+            } catch (Throwable var5) {
+                var5.printStackTrace();
+            }
         }
     }
 
-    private void createMenu() {
-        menuBar = new JMenuBar();
+    private void switchStateScene(ViewState viewState, boolean center) {
+        locked = true;
 
-        file = new JMenu("File");
-        scripts = new JMenu("Script");
-        features = new JMenu("Features");
+        Core.verbose("Switching state to: " + viewState.name());
 
-        JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy      = new JMenuItem("Network");
-        JMenuItem randoms    = new JMenuItem("Randoms");
-        JMenuItem dialog     = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger     = new JCheckBoxMenuItem("Logger");
-
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            dialog.setSelected(true);
+        Scene scene = null;
+        try {
+            Parent root = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
+            scene = new Scene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit     = new JMenuItem("Exit");
-
-        run = new JMenuItem("Run");
-        run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
-
-        pause = new JMenuItem("Pause");
-        pause.setEnabled(false);
-        pause.setIcon(new ImageIcon(Images.getResource("/storage/images/pause.png")));
-
-        stop = new JMenuItem("Stop");
-        stop.setEnabled(false);
-        stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
-
-        cacheClear = new JMenuItem("Clear cache");
-        cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
-
-        notifications = new JMenuItem("Notifications");
-        notifications.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
-
-        screenshot.addActionListener(this);
-        proxy.addActionListener(this);
-        randoms.addActionListener(this);
-        dialog.addActionListener(this);
-        logger.addActionListener(this);
-        explorer.addActionListener(this);
-        exit.addActionListener(this);
-        cacheClear.addActionListener(this);
-        notifications.addActionListener(this);
-
-        run.addActionListener(this);
-        pause.addActionListener(this);
-        stop.addActionListener(this);
-
-        file.add(screenshot);
-        file.add(proxy);
-        file.add(randoms);
-        file.add(dialog);
-        file.add(logger);
-        file.add(explorer);
-        file.add(exit);
-
-        scripts.add(run);
-        scripts.add(pause);
-        scripts.add(stop);
-
-        features.add(cacheClear);
-        features.add(notifications);
-
-        menuBar.add(file);
-        menuBar.add(scripts);
-        menuBar.add(features);
-
-        setJMenuBar(menuBar);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        this.performCommand(e.getActionCommand());
-    }
-
-    public void performCommand(String command) {
-        switch (command) {
-            case "Create screenshot":
-                try {
-                    Robot         robot         = new Robot();
-                    Rectangle     parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
-                    BufferedImage image         = robot.createScreenCapture(parabotScreen);
-                    String        randString    = StringUtils.randomString(10);
-                    boolean       search        = true;
-                    boolean       duplicate     = false;
-                    while (search) {
-                        File[] files;
-                        if ((files = Directories.getScreenshotDir().listFiles()) != null) {
-                            for (File f : files) {
-                                if (f.getAbsoluteFile().getName().contains(randString)) {
-                                    duplicate = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!duplicate) {
-                            search = false;
-                        } else {
-                            randString = StringUtils.randomString(10);
-                            duplicate = false;
-                        }
+        if (scene != null) {
+            if (!viewState.holdsApplet()) {
+                this.setContentPane(jfxPanel);
+                this.setJfxPanelScene(scene);
+            } else {
+                if (parent == null) {
+                    parent = new JPanel(new BorderLayout());
+                    if (gamePanel == null) {
+                        gamePanel = this.gameUI.getContent();
                     }
-                    File file = new File(Directories.getScreenshotDir().getPath() + "/" + randString + ".png");
-                    ImageIO.write(image, "png", file);
-
-                } catch (IOException | AWTException k) {
-                    k.printStackTrace();
                 }
-                break;
-            case "Exit":
-                System.exit(0);
-                break;
-            case "Network":
-                Core.getInjector().getInstance(NetworkUI.class).setVisible(true);
-                break;
-            case "Randoms":
-                ArrayList<String> randoms = new ArrayList<>();
-                for (Random r : Core.getInjector().getInstance(RandomHandler.class).getRandoms()) {
-                    randoms.add(r.getName());
+
+                this.setJfxPanelScene(scene);
+
+                parent.add(jfxPanel, BorderLayout.WEST);
+                parent.add(gamePanel, BorderLayout.CENTER);
+
+                this.setContentPane(parent);
+            }
+
+            this.pack();
+            this.validate();
+            this.repaint();
+
+            if (center) {
+                this.setLocationRelativeTo(null);
+            }
+        }
+
+        locked = false;
+    }
+
+    private void setJfxPanelScene(Scene scene) {
+        this.jfxPanel.setScene(scene);
+        this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+        this.jfxPanel.repaint();
+    }
+
+    private void switchState(ViewState viewState, boolean center) {
+        if (this.currentState == null || !this.currentState.holdsApplet()) {
+            switchStateScene(ViewState.LOADER, false);
+        }
+
+        Thread screen = new Thread(() -> {
+            while (locked) {
+                Core.verbose("Waiting for lock...");
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                Core.getInjector().getInstance(RandomUI.class).openFrame(randoms);
-                break;
-            case "Reflection explorer":
-                new ReflectUI().setVisible(true);
-                break;
-            case "Run":
-                if (pauseScript) {
-                    pauseScript = false;
-                    pause.setEnabled(true);
-                    run.setEnabled(false);
-                    setScriptState(Script.STATE_RUNNING);
-                    break;
+            }
+
+            if (viewState.requiresLogin()) {
+                Thread login = new Thread(() -> {
+                    UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
+                    if (authenticator.getAccessToken() == null) {
+                        Core.verbose("User not logged in, view requires logged in state");
+                    }
+                });
+
+                try {
+                    login.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                new ScriptSelector().setVisible(true);
-                break;
-            case "Pause":
-                setScriptState(Script.STATE_PAUSE);
-                pause.setEnabled(false);
-                run.setEnabled(true);
-                pauseScript = true;
-                break;
-            case "Stop":
-                if (pauseScript) {
-                    pauseScript = false;
-                    pause.setEnabled(false);
-                    run.setEnabled(true);
-                    stop.setEnabled(false);
-                }
-                setScriptState(Script.STATE_STOPPED);
-                break;
-            case "Logger":
-                Logger logger = Core.getInjector().getInstance(Logger.class);
-                logger.setVisible(!logger.isVisible());
-                pack();
-                revalidate();
-                if (!logger.isClearable()) {
-                    logger.setClearable();
-                } else if (logger.isClearable() && !logger.isVisible()) {
-                    Logger.clearLogger();
-                    Logger.addMessage("Logger initialised", false);
-                }
-                break;
-            case "Disable dialog":
-                Core.getInjector().getInstance(BotDialog.class).setVisible(!dialog.isVisible());
-                break;
-            case "Clear cache":
-                Directories.clearCache();
-                break;
-            case "Notifications":
-                Application.launch(NotificationUI.class);
-                break;
-            default:
-                System.out.println("Invalid command: " + command);
-                break;
+            }
+
+            switchStateScene(viewState, center);
+        });
+        screen.start();
+
+        this.currentState = viewState;
+    }
+
+    public void switchState(ViewState viewState) {
+        switchState(viewState, false);
+    }
+
+    public ViewState getCurrentState() {
+        return currentState;
+    }
+
+    public enum ViewState {
+        DEBUG("/storage/ui/debugs.fxml", true, true),
+        GAME("/storage/ui/game.fxml", true, true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true, false),
+        LOGIN("/storage/ui/login.fxml", false, false),
+        REGISTER("/storage/ui/register.fxml", false, false),
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false, false),
+        BROWSER("/storage/ui/browser.fxml", false, false),
+        LOADER("/storage/ui/loader.fxml", false, false);
+
+        private String  file;
+        private boolean requiresLogin;
+        private boolean applet;
+
+        ViewState(String file, boolean requiresLogin, boolean applet) {
+            this.file = file;
+            this.requiresLogin = requiresLogin;
+            this.applet = applet;
         }
-    }
 
-    protected void setDialog(JDialog dialog) {
-        BotUI.dialog = dialog;
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-        if (dialog == null || !isVisible()) {
-            return;
+        public boolean holdsApplet() {
+            return applet;
         }
-        Point gameLocation = Core.getInjector().getInstance(GamePanel.class).getLocationOnScreen();
-        dialog.setLocation(gameLocation.x, gameLocation.y);
-    }
 
-    public void toggleRun() {
-        runScript = !runScript;
-        if (runScript) {
-            scriptRunning();
-        } else {
-            scriptStopped();
+        public boolean requiresLogin() {
+            return requiresLogin;
         }
-    }
 
-    private void scriptRunning() {
-        run.setEnabled(false);
-        pause.setEnabled(true);
-        stop.setEnabled(true);
-    }
-
-    private void scriptStopped() {
-        run.setEnabled(true);
-        pause.setEnabled(false);
-        stop.setEnabled(false);
-    }
-
-    private void setScriptState(int state) {
-        Context context = Core.getInjector().getInstance(Context.class);
-        if (context.getRunningScript() != null) {
-            context.getRunningScript().setState(state);
+        public String getFile() {
+            return file;
         }
-    }
 
-    @Override
-    public void componentResized(ComponentEvent e) {
-        if (isVisible()) {
-            Core.getInjector().getInstance(BotDialog.class).setSize(getSize());
-        }
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowClosed(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent arg0) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent arg0) {
-        if (isVisible()) {
-            Core.getInjector().getInstance(BotDialog.class).setVisible(false);
-            Core.getInjector().getInstance(BotDialog.class).setVisible(true);
-        }
-    }
-
-    @Override
-    public void windowIconified(WindowEvent arg0) {
-
-    }
-
-    @Override
-    public void windowOpened(WindowEvent arg0) {
-    }
-
-    public JMenu getFeatures() {
-        return features;
-    }
-
-    public JMenu getScripts() {
-        return scripts;
-    }
-
-    public JMenu getFile() {
-        return file;
-    }
-
-    public JMenuItem getCacheClear() {
-        return cacheClear;
-    }
-
-    public JMenuItem getNotifications() {
-        return notifications;
     }
 }

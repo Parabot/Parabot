@@ -1,15 +1,13 @@
-package org.parabot.core.ui.newui.models;
+package org.parabot.core.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.newui.BotUI;
 import org.parabot.environment.Environment;
 import org.parabot.environment.api.utils.StringUtils;
 import org.parabot.environment.servers.executers.ServerExecutor;

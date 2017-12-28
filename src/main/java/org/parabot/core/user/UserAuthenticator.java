@@ -9,7 +9,7 @@ import org.parabot.api.io.WebUtil;
 import org.parabot.core.Core;
 import org.parabot.core.bdn.api.APIConfiguration;
 import org.parabot.core.bdn.api.slack.SlackNotification;
-import org.parabot.core.ui.newui.controllers.services.LoginService;
+import org.parabot.core.ui.controllers.services.LoginService;
 import org.parabot.core.user.OAuth.AuthorizationCode;
 import org.parabot.core.user.implementations.UserLoginActionListener;
 

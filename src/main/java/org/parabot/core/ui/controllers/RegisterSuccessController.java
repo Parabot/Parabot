@@ -1,11 +1,10 @@
-package org.parabot.core.ui.newui.controllers;
+package org.parabot.core.ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import org.parabot.core.Core;
-import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.ui.BotUI;
 
 /**
  * @author Fryslan

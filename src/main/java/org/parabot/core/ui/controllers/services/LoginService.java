@@ -1,11 +1,11 @@
-package org.parabot.core.ui.newui.controllers.services;
+package org.parabot.core.ui.controllers.services;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import org.parabot.core.bdn.api.APIConfiguration;
-import org.parabot.core.ui.newui.BrowserUI;
+import org.parabot.core.ui.BrowserUI;
 import org.parabot.core.user.UserAuthenticator;
 
 /**

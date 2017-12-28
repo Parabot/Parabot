@@ -1,7 +1,6 @@
 package org.parabot.core.arguments.landing;
 
 import org.parabot.core.arguments.LandingArgument;
-import org.parabot.core.ui.ServerSelector;
 
 /**
  * @author EmmaStone
@@ -18,6 +17,6 @@ public class Server implements LandingArgument {
         String[] values = value.toString().split(" ");
         int      i      = 0;
 
-        ServerSelector.initServer = values[++i];
+        // ToDo: V3
     }
 }

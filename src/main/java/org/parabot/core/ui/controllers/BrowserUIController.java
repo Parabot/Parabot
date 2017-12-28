@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.controllers;
+package org.parabot.core.ui.controllers;
 
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;

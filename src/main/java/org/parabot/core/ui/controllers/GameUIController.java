@@ -1,6 +1,5 @@
-package org.parabot.core.ui.newui.controllers;
+package org.parabot.core.ui.controllers;
 
-import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
@@ -13,24 +12,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.parabot.api.io.Directories;
-import org.parabot.core.Context;
 import org.parabot.core.Core;
-import org.parabot.core.ui.components.GamePanel;
-import org.parabot.core.ui.newui.BotUI;
+import org.parabot.core.ui.BotUI;
 import org.parabot.environment.api.utils.StringUtils;
-import org.parabot.environment.servers.ServerProvider;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author Fryslan, JKetelaar

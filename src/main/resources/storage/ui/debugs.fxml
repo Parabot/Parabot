@@ -8,7 +8,7 @@
             minWidth="-Infinity"
             prefHeight="454.0" prefWidth="600.0" styleClass="main-panel"
             stylesheets="@style/debugs_ui.css" xmlns="http://javafx.com/javafx/8"
-            fx:controller="org.parabot.core.ui.newui.controllers.DebugsUIController">
+            fx:controller="org.parabot.core.ui.controllers.DebugsUIController">
     <children>
         <HBox layoutY="-1.0" prefHeight="454.0" prefWidth="600.0">
             <children>

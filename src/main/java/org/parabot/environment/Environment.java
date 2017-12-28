@@ -6,7 +6,6 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.lib.javafx.JavaFX;
 import org.parabot.core.parsers.servers.ServerParser;
-import org.parabot.core.ui.components.VerboseLoader;
 
 import java.util.LinkedList;
 
@@ -30,7 +29,7 @@ public class Environment extends org.parabot.api.io.libraries.Environment {
      */
     public static void load(final ServerDescription desc) {
         for (Library lib : libs) {
-            loadLibrary(lib, true);
+            loadLibrary(lib);
         }
 
         Core.verbose("Loading server: " + desc.toString() + "...");
@@ -42,16 +41,12 @@ public class Environment extends org.parabot.api.io.libraries.Environment {
      * Loads library into environment
      *
      * @param library
-     * @param verboseLoader defines if verboseLoader should be enabled
      */
-    public static void loadLibrary(Library library, boolean verboseLoader) {
+    public static void loadLibrary(Library library) {
         if (library.requiresJar()) {
             if (!library.hasJar()) {
                 Core.verbose("Downloading " + library.getLibraryName() + "...");
-                if (verboseLoader) {
-                    VerboseLoader.setState("Downloading " + library.getLibraryName() + "...");
-                }
-                WebUtil.downloadFile(library.getDownloadLink(), library.getJarFile(), Core.getInjector().getInstance(VerboseLoader.class));
+                WebUtil.downloadFile(library.getDownloadLink(), library.getJarFile());
                 Core.verbose("Downloaded " + library.getLibraryName() + ".");
             }
             Core.verbose("Initializing " + library.getLibraryName());

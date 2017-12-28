@@ -10,7 +10,6 @@ import org.parabot.core.Core;
 import org.parabot.core.asm.ClassRemapper;
 import org.parabot.core.asm.RedirectClassAdapter;
 import org.parabot.core.io.SizeInputStream;
-import org.parabot.core.ui.components.VerboseLoader;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -82,7 +81,7 @@ public class ClassPath {
         try {
             final int size = connection.getContentLength();
             final SizeInputStream sizeInputStream = new SizeInputStream(
-                    connection.getInputStream(), size, Core.getInjector().getInstance(VerboseLoader.class));
+                    connection.getInputStream(), size);
             final ZipInputStream zin = new ZipInputStream(sizeInputStream);
             ZipEntry             e;
             while ((e = zin.getNextEntry()) != null) {
@@ -94,13 +93,11 @@ public class ClassPath {
                 } else {
                     loadResource(e.getName(), zin);
                 }
-                VerboseLoader.setState("Downloading: " + e.getName());
             }
             zin.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Core.getInjector().getInstance(VerboseLoader.class).onProgressUpdate(100);
     }
 
     /**

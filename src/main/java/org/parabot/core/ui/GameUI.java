@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui;
+package org.parabot.core.ui;
 
 import org.parabot.core.Context;
 import org.parabot.core.Core;

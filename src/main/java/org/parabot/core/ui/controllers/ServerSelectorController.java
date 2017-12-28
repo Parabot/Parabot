@@ -1,4 +1,4 @@
-package org.parabot.core.ui.newui.controllers;
+package org.parabot.core.ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +10,7 @@ import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.settings.Configuration;
-import org.parabot.core.ui.newui.models.ServerItem;
+import org.parabot.core.ui.ServerItem;
 
 import java.net.URL;
 import java.util.ResourceBundle;

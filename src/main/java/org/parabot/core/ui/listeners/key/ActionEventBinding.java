@@ -17,7 +17,8 @@ public class ActionEventBinding extends Binding {
 
     @Override
     public void perform() {
-        Core.getInjector().getInstance(BotUI.class).performCommand(actionString);
+        // ToDo: Perform command in V3
+        // Core.getInjector().getInstance(BotUI.class).performCommand(actionString);
     }
 
 }

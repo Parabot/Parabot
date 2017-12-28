@@ -31,6 +31,7 @@ public class BotUI extends JFrame {
     private       GameUI    gameUI;
     private       JPanel    parent;
     private       boolean   locked;
+    private       ViewState currentState;
 
     public BotUI() {
         super(Configuration.BOT_TITLE);
@@ -86,28 +87,28 @@ public class BotUI extends JFrame {
         }
 
         if (scene != null) {
-
-            if (viewState != ViewState.GAME) {
+            if (!viewState.holdsApplet()) {
                 this.setContentPane(jfxPanel);
                 this.setJfxPanelScene(scene);
             } else {
-                center = true;
-
                 if (parent == null) {
                     parent = new JPanel(new BorderLayout());
                     if (gamePanel == null) {
                         gamePanel = this.gameUI.getContent();
                     }
-
-                    parent.add(gamePanel, BorderLayout.CENTER);
-                    parent.add(jfxPanel, BorderLayout.WEST);
                 }
+
                 this.setJfxPanelScene(scene);
+
+                parent.add(jfxPanel, BorderLayout.WEST);
+                parent.add(gamePanel, BorderLayout.CENTER);
+
                 this.setContentPane(parent);
             }
 
             this.pack();
             this.validate();
+            this.repaint();
 
             if (center) {
                 this.setLocationRelativeTo(null);
@@ -120,12 +121,16 @@ public class BotUI extends JFrame {
     private void setJfxPanelScene(Scene scene) {
         this.jfxPanel.setScene(scene);
         this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+        this.jfxPanel.repaint();
     }
 
     private void switchState(ViewState viewState, boolean center) {
-        switchStateScene(ViewState.LOADER, false);
+        if (this.currentState == null || !this.currentState.holdsApplet()) {
+            switchStateScene(ViewState.LOADER, false);
+        }
+
         Thread screen = new Thread(() -> {
-            while (locked){
+            while (locked) {
                 Core.verbose("Waiting for lock...");
                 try {
                     Thread.sleep(20);
@@ -152,28 +157,40 @@ public class BotUI extends JFrame {
             switchStateScene(viewState, center);
         });
         screen.start();
+
+        this.currentState = viewState;
     }
 
     public void switchState(ViewState viewState) {
         switchState(viewState, false);
     }
 
+    public ViewState getCurrentState() {
+        return currentState;
+    }
+
     public enum ViewState {
-        DEBUG("/storage/ui/debugs.fxml", true),
-        GAME("/storage/ui/game.fxml", true),
-        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true),
-        LOGIN("/storage/ui/login.fxml", false),
-        REGISTER("/storage/ui/register.fxml", false),
-        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false),
-        BROWSER("/storage/ui/browser.fxml", false),
-        LOADER("/storage/ui/loader.fxml", false);
+        DEBUG("/storage/ui/debugs.fxml", true, true),
+        GAME("/storage/ui/game.fxml", true, true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true, false),
+        LOGIN("/storage/ui/login.fxml", false, false),
+        REGISTER("/storage/ui/register.fxml", false, false),
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false, false),
+        BROWSER("/storage/ui/browser.fxml", false, false),
+        LOADER("/storage/ui/loader.fxml", false, false);
 
         private String  file;
         private boolean requiresLogin;
+        private boolean applet;
 
-        ViewState(String file, boolean requiresLogin) {
+        ViewState(String file, boolean requiresLogin, boolean applet) {
             this.file = file;
             this.requiresLogin = requiresLogin;
+            this.applet = applet;
+        }
+
+        public boolean holdsApplet() {
+            return applet;
         }
 
         public boolean requiresLogin() {

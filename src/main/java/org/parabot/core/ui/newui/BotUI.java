@@ -134,9 +134,7 @@ public class BotUI extends JFrame {
             }
         }
 
-        // Check if heavy thread
-        // ToDo: Make this a variable in ViewState
-        if (viewState == ViewState.GAME) {
+        if (viewState.isThreaded()) {
             new Thread(() -> switchStateScene(viewState, center)).start();
         }else{
             switchStateScene(viewState, center);
@@ -148,21 +146,23 @@ public class BotUI extends JFrame {
     }
 
     public enum ViewState {
-        DEBUG("/storage/ui/debugs.fxml", true),
-        GAME("/storage/ui/game.fxml", true),
-        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true),
-        LOGIN("/storage/ui/login.fxml", false),
-        REGISTER("/storage/ui/register.fxml", false),
-        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false),
-        BROWSER("/storage/ui/browser.fxml", false),
-        LOADER("/storage/ui/loader.fxml", false);
+        DEBUG("/storage/ui/debugs.fxml", true, false),
+        GAME("/storage/ui/game.fxml", true, true),
+        SERVER_SELECTOR("/storage/ui/server_selector.fxml", true, false),
+        LOGIN("/storage/ui/login.fxml", false, false),
+        REGISTER("/storage/ui/register.fxml", false, false),
+        REGISTER_SUCCESS("/storage/ui/register_success.fxml", false, false),
+        BROWSER("/storage/ui/browser.fxml", false, false),
+        LOADER("/storage/ui/loader.fxml", false, false);
 
         private String  file;
         private boolean requiresLogin;
+        private boolean threaded;
 
-        ViewState(String file, boolean requiresLogin) {
+        ViewState(String file, boolean requiresLogin, boolean threaded) {
             this.file = file;
             this.requiresLogin = requiresLogin;
+            this.threaded = threaded;
         }
 
         public boolean requiresLogin() {
@@ -171,6 +171,10 @@ public class BotUI extends JFrame {
 
         public String getFile() {
             return file;
+        }
+
+        public boolean isThreaded() {
+            return threaded;
         }
     }
 }

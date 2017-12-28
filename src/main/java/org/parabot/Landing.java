@@ -16,7 +16,6 @@ import org.parabot.core.ui.BotUI;
 public final class Landing {
 
     public static void main(String... args) {
-
         parseArgs(args);
 
         Directories.validate();

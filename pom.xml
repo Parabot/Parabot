@@ -72,17 +72,17 @@
         <dependency>
             <groupId>org.parabot</groupId>
             <artifactId>internal-api</artifactId>
-            <version>1.51.1</version>
+            <version>1.51.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>3.0</version>
+            <version>4.1.0</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
-            <version>6.0-alpha-1</version>
+            <version>6.0-alpha-2</version>
         </dependency>
     </dependencies>
 

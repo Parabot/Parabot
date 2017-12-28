@@ -28,7 +28,8 @@ public class BotUI extends JFrame {
 
     private final JFXPanel  jfxPanel;
     private       GamePanel gamePanel;
-    private GameUI gameUI;
+    private       GameUI    gameUI;
+    private JPanel parent;
 
     public BotUI() {
         super(Configuration.BOT_TITLE);
@@ -39,7 +40,7 @@ public class BotUI extends JFrame {
     private void fillBotUI() {
         this.setVisible(true);
         this.setIcon();
-//        this.setResizable(false);
+        this.setResizable(false);
 
         switchState(ViewState.LOGIN, true);
     }
@@ -72,44 +73,48 @@ public class BotUI extends JFrame {
     private void switchStateScene(ViewState viewState, boolean center) {
         Core.verbose("Switching state to: " + viewState.name());
 
-        if (viewState != ViewState.GAME) {
-            this.setContentPane(jfxPanel);
+        Scene scene = null;
+        try {
+            Parent root = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
+            scene = new Scene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            try {
-                Parent root  = FXMLLoader.load(BotUI.class.getResource(viewState.getFile()));
-                Scene  scene = new Scene(root);
+        if (scene != null) {
+            if (viewState != ViewState.GAME) {
+                this.setContentPane(jfxPanel);
 
                 this.jfxPanel.setScene(scene);
                 this.getContentPane().setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            JPanel parent = new JPanel(new BorderLayout());
-            gamePanel = this.gameUI.getContent();
-            parent.add(jfxPanel, BorderLayout.WEST);
+            } else {
+                center = true;
 
-            try {
-                Parent root  = FXMLLoader.load(BotUI.class.getResource(ViewState.GAME.getFile()));
-                Scene  scene = new Scene(root);
                 this.jfxPanel.setScene(scene);
-            }catch (IOException e){
-                e.printStackTrace();
+                this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
+
+                if (parent == null) {
+                    parent = new JPanel(new BorderLayout());
+                    if (gamePanel == null) {
+                        gamePanel = this.gameUI.getContent();
+                    }
+
+                    parent.add(gamePanel, BorderLayout.CENTER);
+                    parent.add(jfxPanel, BorderLayout.WEST);
+
+                    parent.setSize(this.gameUI.getAppletSize());
+                }
+
+                this.setContentPane(parent);
+                this.setSize(parent.getSize());
             }
 
-            parent.add(gamePanel, BorderLayout.CENTER);
+            this.pack();
+            this.validate();
 
-            parent.setSize(this.gameUI.getAppletSize());
-
-            this.setContentPane(parent);
-            this.setSize(parent.getSize());
-        }
-
-        this.pack();
-        this.validate();
-
-        if (center) {
-            this.setLocationRelativeTo(null);
+            if (center) {
+                this.setLocationRelativeTo(null);
+            }
         }
     }
 
@@ -128,7 +133,13 @@ public class BotUI extends JFrame {
                 e.printStackTrace();
             }
         }
-        switchStateScene(viewState, center);
+
+        // Check if heavy thread
+        if (viewState == ViewState.GAME) {
+            new Thread(() -> switchStateScene(viewState, center)).start();
+        }else{
+            switchStateScene(viewState, center);
+        }
     }
 
     public void switchState(ViewState viewState) {

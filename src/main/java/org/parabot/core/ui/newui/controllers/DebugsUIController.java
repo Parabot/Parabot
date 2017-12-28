@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.parabot.core.Core;
 import org.parabot.core.ui.newui.BotUI;
 
 /**
@@ -114,7 +115,7 @@ public class DebugsUIController {
 
     @FXML
     private void returnToGame(MouseEvent event) {
-        new BotUI().switchState(BotUI.ViewState.GAME);
+        Core.getInjector().getInstance(BotUI.class).switchState(BotUI.ViewState.GAME);
     }
 
     private void hideAllPanes() {

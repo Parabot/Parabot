@@ -67,12 +67,12 @@ public class GameUIController implements Initializable {
 
     @FXML
     private void resizePanel(MouseEvent e) {
-        double width = rootPanel.getWidth();
-        if (width == WIDTH) {
-            expand();
-        } else {
-            collapse();
-        }
+//        double width = rootPanel.getWidth();
+//        if (width == WIDTH) {
+//            expand();
+//        } else {
+//            collapse();
+//        }
     }
 
     @FXML

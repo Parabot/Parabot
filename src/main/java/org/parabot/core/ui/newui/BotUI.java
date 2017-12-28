@@ -29,7 +29,6 @@ public class BotUI extends JFrame {
     private final JFXPanel  jfxPanel;
     private       GamePanel gamePanel;
     private       GameUI    gameUI;
-    private JPanel parent;
     private       JPanel    parent;
     private       boolean   locked;
 
@@ -43,6 +42,7 @@ public class BotUI extends JFrame {
         this.setVisible(true);
         this.setIcon();
         this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         switchState(ViewState.LOGIN, true);
     }
@@ -73,6 +73,8 @@ public class BotUI extends JFrame {
     }
 
     private void switchStateScene(ViewState viewState, boolean center) {
+        locked = true;
+
         Core.verbose("Switching state to: " + viewState.name());
 
         Scene scene = null;
@@ -91,8 +93,6 @@ public class BotUI extends JFrame {
             } else {
                 center = true;
 
-                this.setJfxPanelScene(scene);
-
                 if (parent == null) {
                     parent = new JPanel(new BorderLayout());
                     if (gamePanel == null) {
@@ -102,6 +102,8 @@ public class BotUI extends JFrame {
                     parent.add(gamePanel, BorderLayout.CENTER);
                     parent.add(jfxPanel, BorderLayout.WEST);
                 }
+
+                this.setJfxPanelScene(scene);
 
                 this.setContentPane(parent);
             }
@@ -113,34 +115,46 @@ public class BotUI extends JFrame {
                 this.setLocationRelativeTo(null);
             }
         }
+
+        locked = false;
     }
 
-    private void setJfxPanelScene(Scene scene){
+    private void setJfxPanelScene(Scene scene) {
         this.jfxPanel.setScene(scene);
         this.jfxPanel.setPreferredSize(new Dimension((int) scene.getWidth(), (int) scene.getHeight()));
     }
 
     private void switchState(ViewState viewState, boolean center) {
-        if (viewState.requiresLogin()) {
-            Thread login = new Thread(() -> {
-                UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
-                if (authenticator.getAccessToken() == null) {
-                    Core.verbose("User not logged in, view requires logged in state");
+        switchStateScene(ViewState.LOADER, false);
+//        if (viewState.isThreaded()) {
+        new Thread(() -> {
+            while (locked){
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            });
-
-            try {
-                login.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        }
+            if (viewState.requiresLogin()) {
+                Thread login = new Thread(() -> {
+                    UserAuthenticator authenticator = Core.getInjector().getInstance(UserAuthenticator.class);
+                    if (authenticator.getAccessToken() == null) {
+                        Core.verbose("User not logged in, view requires logged in state");
+                    }
+                });
 
-        if (viewState.isThreaded()) {
-            new Thread(() -> switchStateScene(viewState, center)).start();
-        }else{
+                try {
+                    login.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             switchStateScene(viewState, center);
-        }
+        }).start();
+//        }else{
+//            switchStateScene(viewState, center);
+//        }
     }
 
     public void switchState(ViewState viewState) {

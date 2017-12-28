@@ -45,8 +45,6 @@ public class GameUIController implements Initializable {
     @FXML
     private BorderPane                 loaderPanel;
     @FXML
-    private SwingNode                  gamePanel;
-    @FXML
     private Pane                       gamePanelParent;
     @FXML
     private ImageView                  expandCollapseButton;
@@ -67,12 +65,12 @@ public class GameUIController implements Initializable {
 
     @FXML
     private void resizePanel(MouseEvent e) {
-//        double width = rootPanel.getWidth();
-//        if (width == WIDTH) {
+        double width = rootPanel.getWidth();
+        if (width == WIDTH) {
 //            expand();
-//        } else {
-//            collapse();
-//        }
+        } else {
+//            expand();
+        }
     }
 
     @FXML
@@ -188,13 +186,11 @@ public class GameUIController implements Initializable {
     private void collapse() {
         Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
         stage.setWidth(WIDTH);
-        gamePanel.setLayoutX(LAYOUT_X);
     }
 
     private void expand() {
         Stage stage = (Stage) expandCollapseButton.getScene().getWindow();
         stage.setWidth(EXPANDED_WIDTH);
-        gamePanel.setLayoutX(EXPANDED_LAYOUT_X);
     }
 
     @Override

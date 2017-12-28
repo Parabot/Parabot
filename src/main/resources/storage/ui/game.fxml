@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="rootPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="505.0" minWidth="150.0" prefHeight="505.0" prefWidth="150.0" stylesheets="@style/game_ui.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="org.parabot.core.ui.newui.controllers.GameUIController">
+<AnchorPane fx:id="rootPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="505.0" minWidth="30.0" prefHeight="505.0" prefWidth="30.0" stylesheets="@style/game_ui.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="org.parabot.core.ui.newui.controllers.GameUIController">
     <children>
         <AnchorPane fx:id="side_panel" prefHeight="505.0" prefWidth="150.0" styleClass="side-panel" stylesheets="@style/game_ui.css">
             <children>

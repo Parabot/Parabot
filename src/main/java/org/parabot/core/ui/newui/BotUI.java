@@ -129,6 +129,7 @@ public class BotUI extends JFrame {
 //        if (viewState.isThreaded()) {
         new Thread(() -> {
             while (locked){
+                Core.verbose("Waiting for lock...");
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
@@ -192,5 +193,9 @@ public class BotUI extends JFrame {
         public boolean isThreaded() {
             return threaded;
         }
+    }
+
+    public JPanel getGameParent() {
+        return this.parent;
     }
 }

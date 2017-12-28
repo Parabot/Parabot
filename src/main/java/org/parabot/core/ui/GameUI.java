@@ -52,11 +52,11 @@ public class GameUI {
 
         SwingUtilities.invokeLater(runnable);
 
-//        try {
-//            runnable.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            runnable.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public GamePanel getContent() {

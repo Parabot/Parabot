@@ -8,9 +8,6 @@ import org.parabot.core.Core;
 import org.parabot.core.arguments.LandingArgument;
 import org.parabot.core.ui.newui.BotUI;
 
-import javax.swing.*;
-import java.io.IOException;
-
 /**
  * @author Everel, JKetelaar, Matt, Dane
  * @version 3.0
@@ -18,7 +15,7 @@ import java.io.IOException;
  */
 public final class Landing {
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
 
         parseArgs(args);
 

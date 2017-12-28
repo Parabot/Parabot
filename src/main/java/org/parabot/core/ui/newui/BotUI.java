@@ -135,6 +135,7 @@ public class BotUI extends JFrame {
         }
 
         // Check if heavy thread
+        // ToDo: Make this a variable in ViewState
         if (viewState == ViewState.GAME) {
             new Thread(() -> switchStateScene(viewState, center)).start();
         }else{

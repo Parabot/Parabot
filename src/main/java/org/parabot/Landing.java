@@ -11,7 +11,7 @@ import org.parabot.core.ui.BotUI;
 /**
  * @author Everel, JKetelaar, Matt, Dane
  * @version 3.0
- * @see <a href="http://www.parabot.org">Homepage</a>
+ * @see <a href="https://www.parabot.org">Homepage</a>
  */
 public final class Landing {
 

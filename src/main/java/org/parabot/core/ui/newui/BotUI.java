@@ -30,6 +30,8 @@ public class BotUI extends JFrame {
     private       GamePanel gamePanel;
     private       GameUI    gameUI;
     private JPanel parent;
+    private       JPanel    parent;
+    private       boolean   locked;
 
     public BotUI() {
         super(Configuration.BOT_TITLE);

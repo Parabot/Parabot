@@ -1,13 +1,13 @@
 package org.parabot.core.parsers.scripts;
 
+import org.parabot.core.Core;
+import org.parabot.core.desc.ScriptDescription;
+import org.parabot.environment.scripts.executers.ScriptExecuter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.parabot.core.Core;
-import org.parabot.core.desc.ScriptDescription;
-import org.parabot.environment.scripts.executers.ScriptExecuter;
 
 /**
  * Abstract class for parsing scripts
@@ -17,8 +17,6 @@ import org.parabot.environment.scripts.executers.ScriptExecuter;
 public abstract class ScriptParser {
 
     public static final Map<ScriptDescription, ScriptExecuter> SCRIPT_CACHE = new HashMap<ScriptDescription, ScriptExecuter>();
-
-    public abstract void execute();
 
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
@@ -43,10 +41,12 @@ public abstract class ScriptParser {
             }
             Core.verbose("Scripts parsed.");
         }
-        
-        Map<ScriptDescription, ScriptExecuter> SORTED_SCRIPT_CACHE = new TreeMap<ScriptDescription, ScriptExecuter>( SCRIPT_CACHE );
+
+        Map<ScriptDescription, ScriptExecuter> SORTED_SCRIPT_CACHE = new TreeMap<ScriptDescription, ScriptExecuter>(SCRIPT_CACHE);
 
         return SORTED_SCRIPT_CACHE.keySet().toArray(new ScriptDescription[SORTED_SCRIPT_CACHE.size()]);
     }
+
+    public abstract void execute();
 
 }

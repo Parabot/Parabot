@@ -114,7 +114,7 @@ public class Timer {
         elapsed -= minute * 60000;
         int second = (int) (elapsed / 1000);
         if (day > 0) {
-            b.append(day < 10 ? "0" : "").append(day).append("d:");
+            b.append(day).append("d:");
         }
         b.append(hour < 10 ? "0" : "").append(hour).append(":");
         b.append(minute < 10 ? "0" : "").append(minute).append(":");

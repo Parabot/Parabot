@@ -5,18 +5,18 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * A server manifest
- * @author Everel
  *
+ * @author Everel
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ServerManifest {
 
-	String author();
+    String author();
 
-	String name();
+    String name();
 
-	double version();
+    double version();
 
-	Type type();
+    Type type();
 
 }

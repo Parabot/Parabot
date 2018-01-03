@@ -21,6 +21,17 @@ public class Timer {
 
     /**
      * Timer Constructor
+     *
+     * @param end
+     * @param start
+     */
+    public Timer(long end, long start) {
+        this.start = start;
+        this.end = System.currentTimeMillis() + end;
+    }
+
+    /**
+     * Timer Constructor
      */
     public Timer() {
         this(0);

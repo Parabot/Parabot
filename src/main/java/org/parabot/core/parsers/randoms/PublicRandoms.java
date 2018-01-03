@@ -28,14 +28,14 @@ public class PublicRandoms extends RandomParser {
             download();
         }
         try {
-            URL url = myJar.toURI().toURL();
-            URL[] urls = new URL[]{url};
+            URL    url    = myJar.toURI().toURL();
+            URL[]  urls   = new URL[]{ url };
             String server = Context.getInstance().getServerProviderInfo().getServerName();
 
-            URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
-            Class<?> classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
-            Method method = classToLoad.getDeclaredMethod("init", String.class);
-            Object instance = classToLoad.newInstance();
+            URLClassLoader child       = new URLClassLoader(urls, this.getClass().getClassLoader());
+            Class<?>       classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
+            Method         method      = classToLoad.getDeclaredMethod("init", String.class);
+            Object         instance    = classToLoad.newInstance();
             System.out.println(server);
             method.invoke(instance, server);
             Core.verbose("Successfully parsed public random!");

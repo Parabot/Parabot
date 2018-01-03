@@ -18,6 +18,14 @@ public class ProjectProperties {
         setProperties();
     }
 
+    public static Version getProjectVersion() {
+        return new Version(getInstance().getCached().getProperty("application.version"));
+    }
+
+    public static ProjectProperties getInstance() {
+        return instance == null ? instance = new ProjectProperties() : instance;
+    }
+
     private void setProperties() {
         InputStream input;
         try {
@@ -34,13 +42,5 @@ public class ProjectProperties {
 
     private Properties getCached() {
         return cached;
-    }
-
-    public static Version getProjectVersion() {
-        return new Version(getInstance().getCached().getProperty("application.version"));
-    }
-
-    public static ProjectProperties getInstance() {
-        return instance == null ? instance = new ProjectProperties() : instance;
     }
 }

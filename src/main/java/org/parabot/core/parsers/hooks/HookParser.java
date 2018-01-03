@@ -3,6 +3,7 @@ package org.parabot.core.parsers.hooks;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.asm.wrappers.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,9 +16,8 @@ import java.util.HashMap;
  */
 public abstract class HookParser {
 
-
     public HookParser(HookFile hookFile) {
-        
+
     }
 
     public abstract Interface[] getInterfaces();
@@ -25,18 +25,18 @@ public abstract class HookParser {
     public abstract Super[] getSupers();
 
     public abstract Getter[] getGetters();
-    
+
     public abstract Setter[] getSetters();
 
     public abstract Invoker[] getInvokers();
 
     public abstract Callback[] getCallbacks();
-    
+
     public abstract HashMap<String, String> getConstants();
 
     public Injectable[] getInjectables() {
         ArrayList<Injectable> injectables = new ArrayList<Injectable>();
-        Interface[] interfaces = getInterfaces();
+        Interface[]           interfaces  = getInterfaces();
         if (interfaces != null) {
             Collections.addAll(injectables, interfaces);
         }

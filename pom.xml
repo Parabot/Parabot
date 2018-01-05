@@ -12,7 +12,7 @@
 
     <properties>
         <jdk.version>1.7</jdk.version>
-        <build.version></build.version>
+        <build.version/>
         <additionalparam>-Xdoclint:none</additionalparam>
     </properties>
 
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-all</artifactId>
-            <version>5.0.4</version>
+            <version>6.0_BETA</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.parabot</groupId>
             <artifactId>internal-api</artifactId>
-            <version>1.51.1</version>
+            <version>1.51.2</version>
         </dependency>
     </dependencies>
 

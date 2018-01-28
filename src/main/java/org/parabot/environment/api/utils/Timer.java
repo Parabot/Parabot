@@ -15,8 +15,18 @@ public class Timer {
      * @param end
      */
     public Timer(long end) {
-
         start = System.currentTimeMillis();
+        this.end = System.currentTimeMillis() + end;
+    }
+
+    /**
+     * Timer Constructor
+     *
+     * @param end
+     * @param start
+     */
+    public Timer(long end, long start) {
+        this.start = start;
         this.end = System.currentTimeMillis() + end;
     }
 
@@ -99,7 +109,7 @@ public class Timer {
     }
 
     /**
-     * Generates string based on HH:MM:SS
+     * Generates string based on DD:HH:MM:SS
      *
      * @return String
      */
@@ -107,9 +117,16 @@ public class Timer {
     public String toString() {
         StringBuilder b       = new StringBuilder();
         long          elapsed = getElapsedTime();
-        int           second  = (int) (elapsed / 1000 % 60);
-        int           minute  = (int) (elapsed / 60000 % 60);
-        int           hour    = (int) (elapsed / 3600000 % 60);
+        int           day     = (int) (elapsed / 86400000);
+        elapsed -= day * 86400000;
+        int hour = (int) (elapsed / 3600000);
+        elapsed -= hour * 3600000;
+        int minute = (int) (elapsed / 60000);
+        elapsed -= minute * 60000;
+        int second = (int) (elapsed / 1000);
+        if (day > 0) {
+            b.append(day).append("d:");
+        }
         b.append(hour < 10 ? "0" : "").append(hour).append(":");
         b.append(minute < 10 ? "0" : "").append(minute).append(":");
         b.append(second < 10 ? "0" : "").append(second);

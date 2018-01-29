@@ -1,12 +1,10 @@
 package org.parabot.core.io;
 
 /**
- * 
  * Keeps track of a progress
- * 
- * @author Everel
  *
+ * @author Everel
  */
-public interface ProgressListener extends org.parabot.api.io.ProgressListener{
+public interface ProgressListener extends org.parabot.api.io.ProgressListener {
 
 }

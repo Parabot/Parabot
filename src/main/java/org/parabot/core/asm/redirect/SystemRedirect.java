@@ -1,7 +1,6 @@
 package org.parabot.core.asm.redirect;
 
 import org.parabot.core.Core;
-import org.parabot.core.Directories;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -10,7 +9,7 @@ public class SystemRedirect {
 
     public static PrintStream out = System.out;
     public static PrintStream err = System.err;
-    public static InputStream in = System.in;
+    public static InputStream in  = System.in;
 
     public static long currentTimeMillis() {
         return System.currentTimeMillis();

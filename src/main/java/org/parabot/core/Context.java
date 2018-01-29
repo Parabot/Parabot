@@ -33,32 +33,32 @@ import java.util.TimerTask;
  */
 public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
-    private static ArrayList<Paintable> paintables = new ArrayList<Paintable>();
-    
-    private static Context instance;
-    private static String username;
+    private static      ArrayList<Paintable>          paintables   = new ArrayList<Paintable>();
 
-    private ASMClassLoader classLoader;
-    private ClassPath classPath;
-    private ServerProvider serverProvider;
-    private Applet gameApplet;
-    private HookParser hookParser;
-    private Script runningScript;
-    private RandomHandler randomHandler;
-    private Object clientInstance;
-    private PaintDebugger paintDebugger;
-    private Mouse mouse;
-    private Keyboard keyboard;
-    private PBKeyListener pbKeyListener;
+    private static Context instance;
+    private static String  username;
+
+    private ASMClassLoader     classLoader;
+    private ClassPath          classPath;
+    private ServerProvider     serverProvider;
+    private Applet             gameApplet;
+    private HookParser         hookParser;
+    private Script             runningScript;
+    private RandomHandler      randomHandler;
+    private Object             clientInstance;
+    private PaintDebugger      paintDebugger;
+    private Mouse              mouse;
+    private Keyboard           keyboard;
+    private PBKeyListener      pbKeyListener;
     private ServerProviderInfo providerInfo;
-    private JSONParser jsonParser;
+    private JSONParser         jsonParser;
 
     private PrintStream defaultOut;
     private PrintStream defaultErr = System.err;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
-        
+
         System.setProperty("sun.java.command", "");
         this.serverProvider = serverProvider;
         this.paintDebugger = new PaintDebugger();
@@ -75,9 +75,17 @@ public class Context {
     public static Context getInstance(ServerProvider serverProvider) {
         return instance == null ? instance = new Context(serverProvider) : instance;
     }
-    
+
     public static Context getInstance() {
-    	return getInstance(null);
+        return getInstance(null);
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        Context.username = username;
     }
 
     /**
@@ -88,12 +96,12 @@ public class Context {
     }
 
     /**
-     * Sets the hook parser
+     * Gets the mouse
      *
-     * @param hookParser
+     * @return mouse
      */
-    public void setHookParser(final HookParser hookParser) {
-        this.hookParser = hookParser;
+    public Mouse getMouse() {
+        return mouse;
     }
 
     /**
@@ -106,14 +114,13 @@ public class Context {
     }
 
     /**
-     * Gets the mouse
+     * Gets the keyboard
      *
-     * @return mouse
+     * @return keyboard
      */
-    public Mouse getMouse() {
-        return mouse;
+    public Keyboard getKeyboard() {
+        return keyboard;
     }
-
 
     /**
      * Sets the keyboard
@@ -122,15 +129,6 @@ public class Context {
      */
     public void setKeyboard(final Keyboard keyboard) {
         this.keyboard = keyboard;
-    }
-
-    /**
-     * Gets the keyboard
-     *
-     * @return keyboard
-     */
-    public Keyboard getKeyboard() {
-        return keyboard;
     }
 
     /**
@@ -161,50 +159,27 @@ public class Context {
     }
 
     /**
-     * Loads the game
-     */
-    public void load() {
-        Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
-        serverProvider.init();
-        serverProvider.parseJar();
-        Core.verbose(TranslationHelper.translate("DONE"));
-        Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
-        serverProvider.injectHooks();
-        Core.verbose(TranslationHelper.translate("DONE"));
-        Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
-        if(Core.shouldDump()) {
-        	Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
-        	classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
-        	Core.verbose(TranslationHelper.translate("DONE"));
-        }
-        Applet applet = serverProvider.fetchApplet();
-        // if applet is null the server provider will call setApplet itself
-        if(applet != null) {
-            setApplet(applet);
-        }
-    }
-    
-    /**
      * Sets the bot target applet
+     *
      * @param applet
      */
     public void setApplet(final Applet applet) {
-    	gameApplet = applet;
-    	
-    	if (getClient() == null) {
+        gameApplet = applet;
+
+        if (getClient() == null) {
             setClientInstance(gameApplet);
         }
 
         Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
-        
-        final GamePanel panel = GamePanel.getInstance();
+
+        final GamePanel panel      = GamePanel.getInstance();
         final Dimension appletSize = serverProvider.getGameDimensions();
-        
+
         panel.setPreferredSize(appletSize);
         serverProvider.addMenuItems(BotUI.getInstance().getJMenuBar());
         BotUI.getInstance().pack();
         BotUI.getInstance().validate();
-        
+
         panel.removeComponents();
         gameApplet.setSize(appletSize);
         panel.add(gameApplet);
@@ -220,7 +195,7 @@ public class Context {
                 gameApplet.setBounds(0, 0, appletSize.width, appletSize.height);
             }
         }, 1000);
-        
+
         Core.verbose(TranslationHelper.translate("INIT_MOUSE"));
         serverProvider.initMouse();
         Core.verbose(TranslationHelper.translate("DONE"));
@@ -231,10 +206,34 @@ public class Context {
         Core.verbose(TranslationHelper.translate("INIT_KEY_LISTENER"));
         this.pbKeyListener = new PBKeyListener();
         applet.addKeyListener(this.pbKeyListener);
-        
+
         BotDialog.getInstance().validate();
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);
+    }
+
+    /**
+     * Loads the game
+     */
+    public void load() {
+        Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
+        serverProvider.init();
+        serverProvider.parseJar();
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("INJECTING_HOOKS"));
+        serverProvider.injectHooks();
+        Core.verbose(TranslationHelper.translate("DONE"));
+        Core.verbose(TranslationHelper.translate("FETCHING_GAME_APPLET"));
+        if (Core.shouldDump()) {
+            Core.verbose(TranslationHelper.translate("DUMPING_INJECTED_CLIENT"));
+            classPath.dump(new File(Directories.getWorkspace(), "dump.jar"));
+            Core.verbose(TranslationHelper.translate("DONE"));
+        }
+        Applet applet = serverProvider.fetchApplet();
+        // if applet is null the server provider will call setApplet itself
+        if (applet != null) {
+            setApplet(applet);
+        }
     }
 
     /**
@@ -245,24 +244,24 @@ public class Context {
     public ServerProvider getServerProvider() {
         return serverProvider;
     }
-    
+
     /**
-     * 
      * Sets provider info of this context
-     * 
+     *
      * @param providerInfo
      */
     public void setProviderInfo(ServerProviderInfo providerInfo) {
-    	this.providerInfo = providerInfo;
+        this.providerInfo = providerInfo;
     }
-    
+
     /**
      * Gets ServerProvider info
      * Can be null if this is not a public server provider
+     *
      * @return info about this provider
      */
     public ServerProviderInfo getServerProviderInfo() {
-    	return this.providerInfo;
+        return this.providerInfo;
     }
 
     /**
@@ -329,12 +328,12 @@ public class Context {
     }
 
     /**
-     * Sets the current running script, if a script stops it will call this method with a null argument
+     * Sets the hook parser
      *
-     * @param script
+     * @param hookParser
      */
-    public void setRunningScript(final Script script) {
-        this.runningScript = script;
+    public void setHookParser(final HookParser hookParser) {
+        this.hookParser = hookParser;
     }
 
     /**
@@ -345,21 +344,23 @@ public class Context {
     public Script getRunningScript() {
         return this.runningScript;
     }
-    
+
+    /**
+     * Sets the current running script, if a script stops it will call this method with a null argument
+     *
+     * @param script
+     */
+    public void setRunningScript(final Script script) {
+        this.runningScript = script;
+    }
+
     /**
      * Gets the random handler
+     *
      * @return random handler
      */
     public RandomHandler getRandomHandler() {
-    	return this.randomHandler;
-    }
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        Context.username = username;
+        return this.randomHandler;
     }
 
     public JSONParser getJsonParser() {

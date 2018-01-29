@@ -4,9 +4,8 @@ import org.parabot.core.ui.utils.UILog;
 
 public class Version implements Comparable<Version> {
 
-    private String version;
-
     private static boolean notified;
+    private String version;
 
     public Version(String version) {
         if (version == null) {
@@ -18,11 +17,24 @@ public class Version implements Comparable<Version> {
         this.version = version;
     }
 
+    private static void notifyRC() {
+        if (!notified) {
+            UILog.log(
+                    "Version warning",
+                    "This is an RC version of Parabot\n" +
+                            "This could be an unstable version of Parabot, and might crash at anytime\n\n" +
+                            "If you find an error within the client, please report any at:\n" +
+                            "https://github.com/Parabot/Parabot/issues"
+            );
+            notified = true;
+        }
+    }
+
     public final String get() {
         return this.version;
     }
 
-    public boolean isNightly(){
+    public boolean isNightly() {
         return this.version.contains("RC");
     }
 
@@ -39,7 +51,7 @@ public class Version implements Comparable<Version> {
 
         String[] thisParts = this.get().split("\\.");
         String[] thatParts = that.get().split("\\.");
-        int length = Math.max(thisParts.length, thatParts.length);
+        int      length    = Math.max(thisParts.length, thatParts.length);
 
         for (int i = 0; i < length; i++) {
             int thisPart = i < thisParts.length ?
@@ -59,18 +71,5 @@ public class Version implements Comparable<Version> {
     @Override
     public boolean equals(Object that) {
         return this == that || that != null && this.getClass() == that.getClass() && this.compareTo((Version) that) == 0;
-    }
-
-    private static void notifyRC() {
-        if (!notified) {
-            UILog.log(
-                    "Version warning",
-                    "This is an RC version of Parabot\n" +
-                            "This could be an unstable version of Parabot, and might crash at anytime\n\n" +
-                            "If you find an error within the client, please report any at:\n" +
-                            "https://github.com/Parabot/Parabot/issues"
-            );
-            notified = true;
-        }
     }
 }

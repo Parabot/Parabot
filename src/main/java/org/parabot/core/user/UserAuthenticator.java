@@ -104,6 +104,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      * @return True if logged in went correctly, false if not
      */
     public final boolean loginWithTokens() {
+
         if (readTokens()) {
             this.onLogin(true);
             this.afterLogin();
@@ -148,6 +149,7 @@ public class UserAuthenticator implements SharedUserAuthenticator, UserLoginActi
      */
     private boolean validateAccessToken(String accessToken) {
         try {
+            System.out.println(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));
             HttpURLConnection urlConnection = (HttpURLConnection) WebUtil.getConnection(new URL(String.format(APIConfiguration.VALIDATE_ACCESS_TOKEN, accessToken)));
             if (urlConnection != null && urlConnection.getResponseCode() == 200) {
                 BufferedReader bufferedReader = WebUtil.getReader(urlConnection);

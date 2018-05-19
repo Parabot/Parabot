@@ -8,12 +8,12 @@ public class APIConfiguration {
     public static final String NIGHTLY_PARAMETER = "nightly=%s";
 
     // Live
-    public static final String OAUTH_CLIENT_ID = "2_163spniuypxc44kcg8wgwg4gso8ocw484sss8osskw840c4g8c";
-    public static final String ENDPOINT              = "http://v3.bdn.parabot.org/app_dev.php/";
+//    public static final String OAUTH_CLIENT_ID = "2_163spniuypxc44kcg8wgwg4gso8ocw484sss8osskw840c4g8c";
+//    public static final String ENDPOINT              = "http://v3.bdn.parabot.org/app_dev.php/";
 
     // Test
-    // public static final String ENDPOINT              = "http://bdn-v3.test/";
-    // public static final String OAUTH_CLIENT_ID = "2_5mktbxz3fysckwsgc0g8g40gk48wwso4kc4w04o0swgsg80kos";
+    public static final String OAUTH_CLIENT_ID = "4_wdg0tnpp7lwg4ck0wk4w4kooss8gow4cwoogsg4g8wckwgsgg";
+    public static final String ENDPOINT        = "http://v3.bdn.parabot.test/";
 
     public static final String API_ENDPOINT          = ENDPOINT + "api/";
     public static final String CLOSE_PAGE            = ENDPOINT + "close";

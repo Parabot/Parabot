@@ -1,6 +1,7 @@
 package org.parabot;
 
 import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
@@ -9,6 +10,7 @@ import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
+import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
 import java.io.File;
@@ -24,22 +26,15 @@ import java.io.IOException;
 public final class Landing {
     private static String username;
     private static String password;
-    private static double JAVA_VERSION = getVersion ();
-
-    static double getVersion () {
-        String version = System.getProperty("java.version");
-        int pos = version.indexOf('.');
-        pos = version.indexOf('.', pos+1);
-        return Double.parseDouble (version.substring (0, pos));
-    }
 
 
     public static void main(String... args) throws IOException {
 
-        if (JAVA_VERSION >= 9){
+        if (Context.getJavaVersion() >= 9){
             UILog.log("Parabot", "Please downgrade to Java 8 in order to use Parabot");
             System.exit(0);
         }
+
         parseArgs(args);
 
         Directories.validate();

@@ -24,9 +24,22 @@ import java.io.IOException;
 public final class Landing {
     private static String username;
     private static String password;
+    private static double JAVA_VERSION = getVersion ();
+
+    static double getVersion () {
+        String version = System.getProperty("java.version");
+        int pos = version.indexOf('.');
+        pos = version.indexOf('.', pos+1);
+        return Double.parseDouble (version.substring (0, pos));
+    }
+
 
     public static void main(String... args) throws IOException {
 
+        if (JAVA_VERSION >= 9){
+            UILog.log("Parabot", "Please downgrade to Java 8 in order to use Parabot");
+            System.exit(0);
+        }
         parseArgs(args);
 
         Directories.validate();

@@ -6,8 +6,7 @@ import org.parabot.environment.scripts.Script;
 
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
@@ -25,7 +24,7 @@ public class ClassRedirect {
     }
 
     public static Object newInstance(Class<?> c) throws IllegalAccessException, InstantiationException {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.newInstance();
         }
 
@@ -34,7 +33,7 @@ public class ClassRedirect {
     }
 
     public static Field getDeclaredField(Class<?> c, String s) throws NoSuchFieldException, SecurityException {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getDeclaredField(s);
         }
 
@@ -43,7 +42,7 @@ public class ClassRedirect {
     }
 
     public static Method getDeclaredMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getDeclaredMethod(name, params);
         }
 
@@ -65,7 +64,7 @@ public class ClassRedirect {
     }
 
     public static Field[] getDeclaredFields(Class<?> c) {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getDeclaredFields();
         }
         System.err.println(c.getName() + "#getDeclaredFields()" + " Blocked.");
@@ -73,7 +72,7 @@ public class ClassRedirect {
     }
 
     public static Method[] getDeclaredMethods(Class<?> c) {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getDeclaredMethods();
         }
         System.err.println(c.getName() + "#getDeclaredMethods()" + " Blocked.");
@@ -81,7 +80,7 @@ public class ClassRedirect {
     }
 
     public static Field[] getFields(Class<?> c) {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getFields();
         }
         System.err.println(c.getName() + "#getFields()" + " Blocked.");
@@ -89,7 +88,7 @@ public class ClassRedirect {
     }
 
     public static Annotation[] getAnnotations(Class<?> c) {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getAnnotations();
         }
         System.err.println(c.getName() + "#getFields()" + " Blocked.");
@@ -105,7 +104,7 @@ public class ClassRedirect {
     }
 
     public static Method getMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getMethod(name, params);
         }
         System.err.println(c.getName() + "#getMethod()" + " Blocked.");
@@ -114,7 +113,7 @@ public class ClassRedirect {
 
     public static Field getField(Class<?> c, String name)
             throws NoSuchFieldException, SecurityException {
-        if (validStack()) {
+        if (validStack() || validRequest(c)) {
             return c.getField(name);
         }
         System.err.println(c.getName() + "#getField()" + " Blocked.");
@@ -146,6 +145,62 @@ public class ClassRedirect {
         return !c.getName().contains("parabot") && c.desiredAssertionStatus();
     }
 
+    public static Type getGenericSuperclass(Class c) {
+        return c.getGenericSuperclass();
+    }
+
+    public static boolean isArray(Class c) {
+        return c.isArray();
+    }
+
+    public static int getModifiers(Class c) {
+        return c.getModifiers();
+    }
+
+    public static Class getEnclosingClass(Class c) {
+        return c.getEnclosingClass();
+    }
+
+    public static boolean isPrimitive(Class c) {
+        return c.isPrimitive();
+    }
+
+    public static boolean isAssignableFrom(Class c1, Class c2) {
+        return c1.isAssignableFrom(c2);
+    }
+
+    public static boolean isAnonymousClass(Class c) {
+        return c.isAnonymousClass();
+    }
+
+    public static boolean isLocalClass(Class c) {
+        return c.isLocalClass();
+    }
+
+    public static boolean isInterface(Class c) {
+        return c.isInterface();
+    }
+
+    public static Class[] getInterfaces(Class c) {
+        return c.getInterfaces();
+    }
+
+    public static Type[] getGenericInterfaces(Class c) {
+        return c.getGenericInterfaces();
+    }
+
+    public static TypeVariable[] getTypeParameters(Class c) {
+        return c.getTypeParameters();
+    }
+
+    public static Annotation getAnnotation(Class c, Class annotationClass) {
+        return c.getAnnotation(annotationClass);
+    }
+
+    public static Constructor getDeclaredConstructor(Class c, Class[] parameterTypes) throws NoSuchMethodException, SecurityException {
+        return c.getDeclaredConstructor(parameterTypes);
+    }
+
     private static boolean validStack() {
         Exception e = new Exception();
         for (StackTraceElement elem : e.getStackTrace()) {
@@ -154,5 +209,9 @@ public class ClassRedirect {
             }
         }
         return false;
+    }
+
+    private static boolean validRequest(Class c) {
+        return !c.getName().toLowerCase().contains("parabot");
     }
 }

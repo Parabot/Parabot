@@ -212,6 +212,7 @@ public class ClassRedirect {
     }
 
     private static boolean validRequest(Class c) {
+        Core.verbose("Got request for class: " + c.getName());
         return !c.getName().toLowerCase().contains("parabot");
     }
 }

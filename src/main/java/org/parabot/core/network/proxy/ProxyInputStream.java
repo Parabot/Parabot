@@ -3,7 +3,7 @@ package org.parabot.core.network.proxy;
 import java.io.*;
 import org.parabot.core.GameSync;
 
-protected final class ProxyInputStream extends FilterInputStream{
+final class ProxyInputStream extends FilterInputStream{
     
     public ProxyInputStream(InputStream in){
         super(in);

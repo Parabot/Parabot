@@ -35,7 +35,7 @@ public class ProxySocket extends Socket {
     }
 
     
-    public InputStream getInputStream(){
+    public InputStream getInputStream() throws IOException {
         if(pin != null){
             return pin;
         }

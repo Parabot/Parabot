@@ -1,18 +1,18 @@
 package org.parabot.core.parsers.randoms;
 
-import org.parabot.api.io.WebUtil;
-import org.parabot.core.Configuration;
-import org.parabot.core.Context;
-import org.parabot.core.Core;
-import org.parabot.core.Directories;
-import org.parabot.core.io.NoProgressListener;
-
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import org.parabot.api.io.WebUtil;
+import org.parabot.api.output.Logger;
+import org.parabot.core.Configuration;
+import org.parabot.core.Context;
+import org.parabot.core.Core;
+import org.parabot.core.Directories;
+import org.parabot.core.io.NoProgressListener;
 
 /**
  * @author JKetelaar
@@ -23,12 +23,21 @@ public class PublicRandoms extends RandomParser {
 
     @Override
     public void parse() {
-        File myJar = new File(Directories.getCachePath() + File.separator + fileName);
-        if (!myJar.exists() || !myJar.canRead()) {
-            download();
+
+        final File destination = new File(Directories.getCachePath() + File.separator + fileName);
+        final URL overrideDownload = Context.getInstance().getServerProviderInfo().getRandoms();
+        if (overrideDownload == null) {
+            throw new NullPointerException("randoms() URL is null - expected to default to BDN URL!");
+        }
+
+        Core.verbose(String.format("[%s] Destination: %s | dl: %s", getClass().getName(), destination, overrideDownload));
+
+        if (!destination.exists() || !destination.canRead()) {
+            Core.verbose(String.format("[%s] Missing %s - downloading from %s...", PublicRandoms.class.getSimpleName(), destination.getAbsolutePath(), overrideDownload));
+            download(destination, overrideDownload);
         }
         try {
-            URL    url    = myJar.toURI().toURL();
+            URL    url    = destination.toURI().toURL();
             URL[]  urls   = new URL[]{ url };
             String server = Context.getInstance().getServerProviderInfo().getServerName();
 
@@ -36,7 +45,7 @@ public class PublicRandoms extends RandomParser {
             Class<?>       classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
             Method         method      = classToLoad.getDeclaredMethod("init", String.class);
             Object         instance    = classToLoad.newInstance();
-            System.out.println(server);
+            Core.verbose(String.format("[%s] %s %s", PublicRandoms.class.getSimpleName(), "Initing core Randoms for", server));
             method.invoke(instance, server);
             Core.verbose("Successfully parsed public random!");
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | MalformedURLException e) {
@@ -45,17 +54,14 @@ public class PublicRandoms extends RandomParser {
         }
     }
 
-    private void download() {
+    private void download(final File destination, URL downloadLink) {
         try {
-            File random = new File(Directories.getCachePath() + File.separator + fileName);
-            if (random.exists()) {
+            if (destination.exists()) {
                 Core.verbose("Public random dependency already exists, no need to download it...");
                 return;
             }
 
-            String downloadLink = ((Configuration.BOT_VERSION.isNightly()) ? Configuration.GET_RANDOMS + Configuration.NIGHTLY_APPEND : Configuration.GET_RANDOMS);
-
-            WebUtil.downloadFile(new URL(downloadLink), random, new NoProgressListener());
+            WebUtil.downloadFile(downloadLink, destination, new NoProgressListener());
         } catch (Exception e) {
             e.printStackTrace();
         }

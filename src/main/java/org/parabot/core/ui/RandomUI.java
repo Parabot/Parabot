@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import java.awt.Button;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.environment.randoms.Random;
@@ -40,8 +41,14 @@ public class RandomUI implements ActionListener {
         if (randoms.size() > 0) {
             checkBoxes = new ArrayList<>();
             for (int i = 0; i < randoms.size(); i++) {
+
+                Button btn = new Button("Run now: "+randoms.get(i));
+                btn.setBounds(6, 35 + (i * 35), 200, 23);
+                btn.addActionListener(this);
+                frame.getContentPane().add(btn);
+
                 JCheckBox checkBox = new JCheckBox(randoms.get(i));
-                checkBox.setBounds(6, 35 + (i * 35), 250, 23);
+                checkBox.setBounds((int)btn.getBounds().getMaxX()+10, 35 + (i * 35), 250, 23);
                 frame.getContentPane().add(checkBox);
                 if (isActive(randoms.get(i))) {
                     checkBox.setSelected(true);
@@ -61,20 +68,31 @@ public class RandomUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Context.getInstance().getRandomHandler().clearActiveRandoms();
-        if (checkBoxes != null && checkBoxes.size() > 0) {
-            for (JCheckBox checkBox : this.checkBoxes) {
-                if (checkBox.isSelected()) {
-                    for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
-                        if (r.getName().equalsIgnoreCase(checkBox.getText().toLowerCase())) {
-                            Core.verbose("Actived random '" + r.getName() + "'");
-                            Context.getInstance().getRandomHandler().setActive(r.getName());
+        org.parabot.api.output.Logger.debug("RandomUI", e.toString()+" | "+e.getActionCommand());
+        if (e.getActionCommand().startsWith("Run now: ")) {
+            org.parabot.api.output.Logger.debug("RandomUI", e.getActionCommand().substring(9));
+            for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+                if (r.getName().equalsIgnoreCase(e.getActionCommand().substring(9))) {
+                    Core.verbose("Executing random '" + r.getName() + "'");
+                    Context.getInstance().getRandomHandler().executeRandom(r);
+                }
+            }
+        } else {
+            Context.getInstance().getRandomHandler().clearActiveRandoms();
+            if (checkBoxes != null && checkBoxes.size() > 0) {
+                for (JCheckBox checkBox : this.checkBoxes) {
+                    if (checkBox.isSelected()) {
+                        for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {
+                            if (r.getName().equalsIgnoreCase(checkBox.getText().toLowerCase())) {
+                                Core.verbose("Actived random '" + r.getName() + "'");
+                                Context.getInstance().getRandomHandler().setActive(r.getName());
+                            }
                         }
                     }
                 }
             }
+            this.frame.dispose();
         }
-        this.frame.dispose();
     }
 
     private boolean isActive(String random) {

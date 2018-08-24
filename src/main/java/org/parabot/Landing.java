@@ -41,7 +41,7 @@ public final class Landing {
             t.printStackTrace();
         }
 
-        if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
+        if (Core.hasValidation() && !Core.isValid()) {
             if (Core.newVersionAlert() == JOptionPane.YES_OPTION) {
                 Core.downloadNewVersion();
                 return;

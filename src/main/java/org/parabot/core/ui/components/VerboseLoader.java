@@ -61,7 +61,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         setOpaque(false);
 
         if (username != null && password != null) {
-            if (Core.inDebugMode() || manager.login(username, password, false)) {
+            if (Core.skipLogin() || manager.login(username, password, false)) {
                 currentState = STATE_SERVER_SELECT;
             }
         }

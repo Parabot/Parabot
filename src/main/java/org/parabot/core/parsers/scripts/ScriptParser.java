@@ -21,12 +21,11 @@ public abstract class ScriptParser {
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
         final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
+
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
-            parsers.add(new BDNScripts());
-        } else if (Core.inDebugMode()) {
-            parsers.add(new LocalJavaScripts());
-        } else {
+        }
+        if (Core.loadBdn()) {
             parsers.add(new BDNScripts());
         }
 

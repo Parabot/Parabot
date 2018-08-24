@@ -135,6 +135,12 @@ public final class Landing {
                 case "-no_validation":
                     Core.disableValidation();
                     break;
+                case "-nobdn":
+                    Core.setLoadBdn(false);
+                    break;
+                case "-skiplogin":
+                    Core.setSkipLogin(true);
+                    break;
             }
         }
     }

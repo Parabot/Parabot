@@ -28,22 +28,45 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("Duplicates")
 public class Core {
 
-    private static boolean debug;
+    private static boolean debug; // in debug mode, we will print more detailed error messages.
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
+    private static boolean skipLogin; // default false, we won't skip login.
 
-    private static boolean validate = true;
+    private static boolean validate = true; // default true, always check for new parabot versions.
     private static boolean secure   = true;
+    private static boolean loadBdn   = true; // default true, loading BDN scripts and servers.
+
 
     private static Version currentVersion = Configuration.BOT_VERSION;
 
+    /**
+     * Set if we are to load BDN servers and scripts, or skip.
+     * @param loadBdn
+     */
+    public static void setLoadBdn(boolean loadBdn) {
+        Core.loadBdn = loadBdn;
+    }
+
+    /**
+     * Turn off checking for newer parabot versions.
+     */
     public static void disableValidation() {
         Core.validate = false;
     }
 
     public static boolean hasValidation() {
         return validate;
+    }
+
+
+    /**
+     * If you want to skip parabot login.
+     * @param skipLogin
+     */
+    public static void setSkipLogin(boolean skipLogin) {
+        Core.skipLogin = skipLogin;
     }
 
     /**
@@ -255,5 +278,13 @@ public class Core {
      */
     public static int newVersionAlert() {
         return UILog.alert("Parabot Update", "There's a new version of Parabot! \nDo you wish to download it?\n\nThe current version could have some problems!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
+
+    public static boolean skipLogin() {
+        return skipLogin;
+    }
+
+    public static boolean loadBdn() {
+        return loadBdn;
     }
 }

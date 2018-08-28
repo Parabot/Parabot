@@ -9,6 +9,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
     private String serverName;
     private String author;
     private double revision;
+    public int uuid;
 
     public ServerDescription(final String serverName, final String author,
                              final double revision) {

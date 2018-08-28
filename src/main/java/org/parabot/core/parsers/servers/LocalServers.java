@@ -86,17 +86,24 @@ public class LocalServers extends ServerParser {
                 if ((bank = object.get("bank")) != null) {
                     bankTabs = (int) bank;
                 }
+                String     uuidStr = (String) object.get("uuid"); // optional
+
 
                 JSONObject locations = (JSONObject) object.get("locations");
                 String     server    = (String) locations.get("server");
                 String     provider  = (String) locations.get("provider");
                 String     hooks     = (String) locations.get("hooks");
 
+
                 Core.verbose("[Local server]: " + name);
+
                 ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs);
 
-                ServerDescription desc = new ServerDescription(name,
-                        author, version);
+                ServerDescription desc = new ServerDescription(name, author, version);
+                if (uuidStr != null && uuidStr.length() > 0) {
+                    desc.uuid = Integer.parseInt(uuidStr);
+                }
+
                 SERVER_CACHE.put(desc, new LocalPublicServerExecuter(name, serverProviderInfo, server, provider));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();

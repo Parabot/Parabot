@@ -135,6 +135,9 @@ public final class Landing {
                 case "-no_validation":
                     Core.disableValidation();
                     break;
+                case "-uuid":
+                    Core.quickLaunchByUuid = Integer.parseInt(args[++i]);
+                    break;
             }
         }
     }

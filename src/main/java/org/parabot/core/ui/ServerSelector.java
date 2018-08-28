@@ -85,11 +85,13 @@ public class ServerSelector extends JPanel {
             }
         }
 
-        final String serverName = initServer.toLowerCase(); // match the pre-requested server name to quick-launch
-        for (ServerComponent widget : widgets) {
-            if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
-                Environment.load(widget.desc);
-                return true;
+        if (initServer != null) {
+            final String serverName = initServer.toLowerCase(); // match the pre-requested server name to quick-launch
+            for (ServerComponent widget : widgets) {
+                if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
+                    Environment.load(widget.desc);
+                    return true;
+                }
             }
         }
         return false;

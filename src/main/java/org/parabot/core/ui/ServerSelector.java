@@ -24,7 +24,7 @@ public class ServerSelector extends JPanel {
 
     public ServerSelector() {
         Queue<ServerComponent> widgets = getServers();
-        if (initServer != null || Core.quickLaunchByUuid > 0) {
+        if (initServer != null || Core.getQuickLaunchByUuid() > -1) {
             if (runServer(widgets)) {
                 initServer = null;
                 return;
@@ -76,13 +76,14 @@ public class ServerSelector extends JPanel {
         if (widgets == null || widgets.isEmpty()) {
             return false;
         }
-        if (Core.quickLaunchByUuid > 0) { // match the pre-requested server config uuid to quick-launch
+        if (Core.getQuickLaunchByUuid() > -1) { // match the pre-requested server config uuid to quick-launch
             for (ServerComponent widget : widgets) {
-                if (widget.desc.uuid ==  Core.quickLaunchByUuid) {
+                if (widget.desc.uuid ==  Core.getQuickLaunchByUuid()) {
                     Environment.load(widget.desc);
                     return true;
                 }
             }
+            System.err.println("No server config with -uuid "+Core.getQuickLaunchByUuid()+" was found to quick launch.");
         }
 
         if (initServer != null) {
@@ -93,6 +94,7 @@ public class ServerSelector extends JPanel {
                     return true;
                 }
             }
+            System.err.println("No server config with -server "+serverName+" was found to quick launch.");
         }
         return false;
     }

@@ -1,12 +1,16 @@
 package org.parabot.core.parsers.scripts;
 
+import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
+import org.parabot.core.ui.Logger;
+import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
 
@@ -33,7 +37,12 @@ public class BDNScripts extends ScriptParser {
     @Override
     public void execute() {
         if (!manager.isLoggedIn()) {
-            System.err.println("Not logged in...");
+            System.err.println("Scripts from the BDN cannot be loaded because you are not logged into your Parabot Account.");
+            Logger.addMessage("Scripts from the BDN cannot be loaded because you are not logged into your Parabot Account.");
+            if (!Core.inLoadLocal()) {
+                // This alert is suppressed in loadlocal mode, since any existing local scripts will be displayed.
+                UILog.log("BDN Scripts", "Scripts from the BDN cannot be loaded \nbecause you are not logged into your\nParabot Account.");
+            }
             return;
         }
 

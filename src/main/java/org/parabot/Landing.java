@@ -41,7 +41,7 @@ public final class Landing {
             t.printStackTrace();
         }
 
-        if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
+        if (Core.hasValidation() && !Core.isValid()) {
             if (Core.newVersionAlert() == JOptionPane.YES_OPTION) {
                 Core.downloadNewVersion();
                 return;
@@ -134,6 +134,12 @@ public final class Landing {
                     break;
                 case "-no_validation":
                     Core.disableValidation();
+                    break;
+                case "-nobdn":
+                    Core.setLoadBdn(false);
+                    break;
+                case "-skiplogin":
+                    Core.setSkipLogin(true);
                     break;
             }
         }

@@ -55,8 +55,8 @@ public class PublicServers extends ServerParser {
             br.close();
 
         } catch (Exception e) {
-            UILog.log("Error", "Failed to load public servers. Either disable your anti-virus or request support on the forums.", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
+            UILog.log("Error", "Failed to load public servers. Either disable your anti-virus or request support on the forums.", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

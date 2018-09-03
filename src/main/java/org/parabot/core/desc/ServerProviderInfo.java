@@ -154,7 +154,11 @@ public class ServerProviderInfo {
 
     public URL getRandoms() {
         try {
-            return new URL(properties.getProperty("randoms_jar"));
+            String randomsUrl = properties.getProperty("randoms_jar");
+            if (randomsUrl == null || randomsUrl.length() == 0) {
+                randomsUrl = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
+            }
+            return new URL(randomsUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

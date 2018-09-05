@@ -65,6 +65,9 @@ public class XMLHookParser extends HookParser {
     }
 
     private static final String getValue(String tag, Element element) {
+        if (element.getElementsByTagName(tag).item(0) == null) {
+            throw new NullPointerException("MISSING HOOK TAG: The '"+tag+"' xml tag is missing from one of the hooks of type: "+element.getParentNode().getNodeName());
+        }
         NodeList nodes = element.getElementsByTagName(tag).item(0)
                 .getChildNodes();
         if (nodes.getLength() == 0 || nodes.item(0) == null) {

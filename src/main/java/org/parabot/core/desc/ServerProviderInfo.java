@@ -57,7 +57,19 @@ public class ServerProviderInfo {
      * @param name Server name
      * @param clientClass Entry class within the client jar
      * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
-     * @param randoms
+     */
+    public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs) {
+        this(clientJar, hooks, name, clientClass, bankTabs, null);
+    }
+
+    /**
+     * Initialize configuration with data provided by {@link org.parabot.core.parsers.servers.LocalServers} from a {@code /parabot/servers/config.json} file. Also loads the default Settings map from the BDN.
+     * @param clientJar Name of the client jar file
+     * @param hooks Name of the hooks file
+     * @param name Server name
+     * @param clientClass Entry class within the client jar
+     * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
+     * @param randoms A URL to an endpoint where the Randoms are located. Can be Null, in which case getRandoms() will fallback to the default BDN Randoms URL.
      */
     public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs, String randoms) {
         this.properties = new Properties();

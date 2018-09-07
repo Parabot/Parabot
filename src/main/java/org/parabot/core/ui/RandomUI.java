@@ -68,7 +68,7 @@ public class RandomUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        org.parabot.api.output.Logger.debug("RandomUI", e.toString()+" | "+e.getActionCommand());
+        org.parabot.api.output.Logger.debug("RandomUI", "Action event: " + e.toString() + " | " + e.getActionCommand());
         if (e.getActionCommand().startsWith("Run now: ")) {
             org.parabot.api.output.Logger.debug("RandomUI", e.getActionCommand().substring(9));
             for (Random r : Context.getInstance().getRandomHandler().getRandoms()) {

@@ -40,7 +40,7 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
         Label        l0     = new Label();
         inject.add(new LabelNode(l0));
         int offset = 0;
-        if (args != null && args.length > 0) {
+        if (args != null) {
             for (int arg : args) {
                 if (Modifier.isStatic(method.access)) {
                     int loadOpcode = ASMUtils.getLoadOpcode(types[arg]

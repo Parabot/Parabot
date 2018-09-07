@@ -164,16 +164,22 @@ public class ServerProviderInfo {
         return settings;
     }
 
+    /**
+     * Gets the URL to download the Randoms JAR from.
+     * @return The provided URL in the server config JSON (denoted by 'randoms:') or, fallback to the default BDN URL.
+     */
     public URL getRandoms() {
         try {
             String randomsUrl = properties.getProperty("randoms_jar");
             if (randomsUrl == null || randomsUrl.length() == 0) {
+                // Fallback to default BDN URL if there is no 'randoms' specified in the server JSON configuration.
                 randomsUrl = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
             }
             return new URL(randomsUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        // Will never return null, unless the BDN URL is changed. It shouldn't be.
         return null;
     }
 }

@@ -27,7 +27,7 @@ public class PublicRandoms extends RandomParser {
         final File destination = new File(Directories.getCachePath() + File.separator + fileName);
         final URL overrideDownload = Context.getInstance().getServerProviderInfo().getRandoms();
         if (overrideDownload == null) {
-            throw new NullPointerException("randoms() URL is null - expected to default to BDN URL!");
+            throw new NullPointerException("Unable to grab URL for Randoms jar. Default URL for BDN randoms must have changed!");
         }
 
         Core.verbose(String.format("[%s] Destination: %s | dl: %s", getClass().getName(), destination, overrideDownload));

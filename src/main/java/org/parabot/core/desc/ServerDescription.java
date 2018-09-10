@@ -38,6 +38,9 @@ public class ServerDescription implements Comparable<ServerDescription> {
 
     @Override
     public int compareTo(ServerDescription o) {
+        if (this.getServerName().equalsIgnoreCase(o.getServerName())) {
+            return 1;
+        }
         return this.getServerName().compareTo(o.getServerName());
     }
 

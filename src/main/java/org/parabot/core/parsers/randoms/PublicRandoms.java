@@ -30,10 +30,10 @@ public class PublicRandoms extends RandomParser {
             throw new NullPointerException("Unable to grab URL for Randoms jar. Default URL for BDN randoms must have changed!");
         }
 
-        Core.verbose(String.format("[%s] Destination: %s | dl: %s", getClass().getName(), destination, overrideDownload));
+        Core.verbose(String.format("[%s] Destination: %s | dl: %s", getClass().getSimpleName(), destination, overrideDownload));
 
         if (!destination.exists() || !destination.canRead()) {
-            Core.verbose(String.format("[%s] Missing %s - downloading from %s...", PublicRandoms.class.getSimpleName(), destination.getAbsolutePath(), overrideDownload));
+            Core.verbose(String.format("[%s] Missing %s - downloading from %s...", getClass().getSimpleName(), destination.getAbsolutePath(), overrideDownload));
             download(destination, overrideDownload);
         }
         try {
@@ -45,7 +45,7 @@ public class PublicRandoms extends RandomParser {
             Class<?>       classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
             Method         method      = classToLoad.getDeclaredMethod("init", String.class);
             Object         instance    = classToLoad.newInstance();
-            Core.verbose(String.format("[%s] %s %s", PublicRandoms.class.getSimpleName(), "Initing core Randoms for", server));
+            Core.verbose(String.format("[%s] %s %s", getClass().getSimpleName(), "Initing core Randoms for", server));
             method.invoke(instance, server);
             Core.verbose("Successfully parsed public random!");
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | MalformedURLException e) {

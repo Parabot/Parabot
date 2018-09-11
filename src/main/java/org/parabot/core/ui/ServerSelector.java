@@ -83,7 +83,7 @@ public class ServerSelector extends JPanel {
                     return true;
                 }
             }
-            System.err.println("No server config with -uuid "+Core.getQuickLaunchByUuid()+" was found to quick launch.");
+            System.err.println("No server config with -uuid " + Core.getQuickLaunchByUuid() + " was found to quick launch.");
         }
 
         if (initServer != null) {
@@ -94,7 +94,7 @@ public class ServerSelector extends JPanel {
                     return true;
                 }
             }
-            System.err.println("No server config with -server "+serverName+" was found to quick launch.");
+            System.err.println("No server config with -server " + serverName + " was found to quick launch.");
         }
         return false;
     }

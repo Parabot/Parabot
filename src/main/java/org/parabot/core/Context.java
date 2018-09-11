@@ -185,8 +185,12 @@ public class Context {
         panel.add(gameApplet);
         panel.validate();
 
+        serverProvider.preAppletInit();
+
         gameApplet.init();
         gameApplet.start();
+
+        serverProvider.postAppletStart();
 
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {

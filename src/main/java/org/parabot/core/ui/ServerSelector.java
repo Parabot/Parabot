@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Core;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.ServerComponent;
@@ -23,7 +24,7 @@ public class ServerSelector extends JPanel {
 
     public ServerSelector() {
         Queue<ServerComponent> widgets = getServers();
-        if (initServer != null) {
+        if (initServer != null || Core.getQuickLaunchByUuid() > -1) {
             if (runServer(widgets)) {
                 initServer = null;
                 return;
@@ -67,7 +68,7 @@ public class ServerSelector extends JPanel {
     }
 
     /**
-     * This method is called when -server argument is given
+     * This method is called when -server argument is given, or -uuid arg is given.
      *
      * @param widgets
      */
@@ -75,12 +76,25 @@ public class ServerSelector extends JPanel {
         if (widgets == null || widgets.isEmpty()) {
             return false;
         }
-        final String serverName = initServer.toLowerCase();
-        for (ServerComponent widget : widgets) {
-            if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
-                Environment.load(widget.desc);
-                return true;
+        if (Core.getQuickLaunchByUuid() > -1) { // match the pre-requested server config uuid to quick-launch
+            for (ServerComponent widget : widgets) {
+                if (widget.desc.uuid ==  Core.getQuickLaunchByUuid()) {
+                    Environment.load(widget.desc);
+                    return true;
+                }
             }
+            System.err.println("No server config with -uuid " + Core.getQuickLaunchByUuid() + " was found to quick launch.");
+        }
+
+        if (initServer != null) {
+            final String serverName = initServer.toLowerCase(); // match the pre-requested server name to quick-launch
+            for (ServerComponent widget : widgets) {
+                if (widget.desc.getServerName().toLowerCase().equals(serverName)) {
+                    Environment.load(widget.desc);
+                    return true;
+                }
+            }
+            System.err.println("No server config with -server " + serverName + " was found to quick launch.");
         }
         return false;
     }

@@ -28,7 +28,8 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("Duplicates")
 public class Core {
 
-    private static boolean debug;
+    private static int quickLaunchByUuid = -1; // used like -server, but denoted by an Int rather than the server name
+    private static boolean debug; // in debug mode, we will print more detailed error messages.
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
@@ -44,6 +45,14 @@ public class Core {
 
     public static boolean hasValidation() {
         return validate;
+    }
+
+    public static int getQuickLaunchByUuid() {
+        return quickLaunchByUuid;
+    }
+
+    public static void setQuickLaunchByUuid(int quickLaunchByUuid) {
+        Core.quickLaunchByUuid = quickLaunchByUuid;
     }
 
     /**

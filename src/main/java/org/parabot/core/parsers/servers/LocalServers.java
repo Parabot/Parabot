@@ -1,7 +1,13 @@
 package org.parabot.core.parsers.servers;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.parabot.core.Configuration;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.classpath.ClassPath;
@@ -12,12 +18,6 @@ import org.parabot.environment.servers.ServerManifest;
 import org.parabot.environment.servers.executers.LocalPublicServerExecuter;
 import org.parabot.environment.servers.executers.LocalServerExecuter;
 import org.parabot.environment.servers.loader.ServerLoader;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 
 /**
  * Parses local server providers located in the servers directory
@@ -93,11 +93,15 @@ public class LocalServers extends ServerParser {
                 String     server    = (String) locations.get("server");
                 String     provider  = (String) locations.get("provider");
                 String     hooks     = (String) locations.get("hooks");
-
-
-                Core.verbose("[Local server]: " + name);
-
-                ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs);
+                String     randoms = (String) locations.get("randoms");
+              
+                if (randoms == null) {
+                    randoms = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
+                }
+                
+                Core.verbose("[LocalServers]: Parsed server: " + name);
+              
+                ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs, randoms);
 
                 ServerDescription desc = new ServerDescription(name, author, version);
                 if (uuidStr != null && uuidStr.length() > 0) {

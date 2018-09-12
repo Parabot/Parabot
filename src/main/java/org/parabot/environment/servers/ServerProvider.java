@@ -146,4 +146,20 @@ public abstract class ServerProvider implements Opcodes {
 
     }
 
+    /**
+     * Called in Context.setApplet before applet.init() is called. Exclusively used for manipulating the Frame attached
+     * to the applet of Roatpkz.
+     */
+    public void preAppletInit() {
+
+    }
+
+    /**
+     * Called in Context.setApplet before after applet.start()  and applet.init() are called. Exclusively used for manipulating the Frame attached
+     * to the applet of Roatpkz.
+     */
+    public void postAppletStart() {
+
+    }
+
 }

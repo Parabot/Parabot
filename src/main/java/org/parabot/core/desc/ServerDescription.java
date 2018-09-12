@@ -9,6 +9,7 @@ public class ServerDescription implements Comparable<ServerDescription> {
     private String serverName;
     private String author;
     private double revision;
+    public int uuid;
 
     public ServerDescription(final String serverName, final String author,
                              final double revision) {
@@ -37,6 +38,9 @@ public class ServerDescription implements Comparable<ServerDescription> {
 
     @Override
     public int compareTo(ServerDescription o) {
+        if (this.getServerName().equalsIgnoreCase(o.getServerName())) {
+            return 1;
+        }
         return this.getServerName().compareTo(o.getServerName());
     }
 

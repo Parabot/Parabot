@@ -44,6 +44,10 @@ public class Keyboard implements KeyListener {
     }
 
     public void sendKeys(String s) {
+        sendKeys(s, true);
+    }
+
+    public void sendKeys(String s, boolean enterAfter) {
 
         pressTime = System.currentTimeMillis();
         for (char c : s.toCharArray()) {
@@ -56,7 +60,9 @@ public class Keyboard implements KeyListener {
                 sendKeyEvent(ke);
             }
         }
-        clickKey(10);
+        if (enterAfter) {
+            clickKey(10);
+        }
     }
 
     public void clickKey(char c) {

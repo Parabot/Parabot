@@ -86,7 +86,7 @@ public class RandomUI {
         btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Logger.addMessage("Active randoms count: "+Context.getInstance().getRandomHandler().getActiveRandoms().size());
+                Logger.addMessage("Active randoms count: " + Context.getInstance().getRandomHandler().getActiveRandoms().size());
                 frame.dispose();
             }
         });

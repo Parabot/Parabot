@@ -79,6 +79,19 @@ public class RandomHandler {
     }
 
     /**
+     * Removes a Random from the Active list.
+     *
+     * @param random
+     */
+    public void removeActive(String random) {
+        for (Random r : this.randoms) {
+            if (r.getName().equalsIgnoreCase(random.toLowerCase())) {
+                this.activeRandoms.remove(r);
+            }
+        }
+    }
+
+    /**
      * Clears all added randoms
      */
     public void clearRandoms() {
@@ -170,5 +183,14 @@ public class RandomHandler {
 
     public ArrayList<Random> getActiveRandoms() {
         return this.activeRandoms;
+    }
+
+    public Random forName(String randomName) {
+        for (Random r : randoms) {
+            if (r.getName().equalsIgnoreCase(randomName.toLowerCase())) {
+                return r;
+            }
+        }
+        return null;
     }
 }

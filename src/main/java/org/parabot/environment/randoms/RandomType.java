@@ -8,7 +8,8 @@ public enum RandomType {
     SCRIPT(0, "Script"),
     ON_SCRIPT_START(1, "On script start"),
     ON_SERVER_START(2, "On server start"),
-    ON_SCRIPT_FINISH(3, "On script finish");
+    ON_SCRIPT_FINISH(3, "On script finish"),
+    SERVER_CUSTOM(4, "Custom to Server");
 
     private int    id;
     private String name;

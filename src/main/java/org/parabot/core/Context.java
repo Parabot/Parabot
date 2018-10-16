@@ -71,7 +71,7 @@ public class Context {
     }
 
     /**
-     * Returns the instance of this class, based ona  given ServerProvider
+     * Returns the instance of this class, based on a given ServerProvider
      *
      * @param serverProvider
      *

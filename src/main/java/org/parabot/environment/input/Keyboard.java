@@ -16,6 +16,12 @@ import java.util.Random;
 public class Keyboard implements KeyListener {
     private static HashMap<Character, Character> specialChars;
 
+    /**
+     * {@code KeyEvent.VK_ENTER} is actually New Line, '\n'.
+     * The code for the Enter button is 13. It has no associated {@link KeyEvent} constant.
+     */
+    public static final int ENTER_KEYCODE = 13;
+
     static {
         char[] spChars = { '~', '!', '@', '#', '%', '^', '&', '*', '(', ')',
                 '_', '+', '{', '}', ':', '<', '>', '?', '"', '|' };
@@ -38,12 +44,30 @@ public class Keyboard implements KeyListener {
         return Context.getInstance().getKeyboard();
     }
 
+    /**
+     * Generates a random number in the range of 40-140.
+     * @return The random number
+     */
     private static long getRandom() {
         Random rand = new Random();
         return rand.nextInt(100) + 40;
     }
 
+    /**
+     * Types the given String and afterwards presses Enter.
+     *
+     * @param s The String to type.
+     */
     public void sendKeys(String s) {
+        sendKeys(s, true);
+    }
+
+    /**
+     * Types the given String and optionally presses Enter afterwards.
+     * @param s The String to type.
+     * @param enterAfter True if {@code KeyEvent.VK_ENTER} should be pressed afterwards. This is actually the '\n' character, for New Line. Useful for logging in.
+     */
+    public void sendKeys(String s, boolean enterAfter) {
 
         pressTime = System.currentTimeMillis();
         for (char c : s.toCharArray()) {
@@ -56,9 +80,15 @@ public class Keyboard implements KeyListener {
                 sendKeyEvent(ke);
             }
         }
-        clickKey(10);
+        if (enterAfter) {
+            clickKey(KeyEvent.VK_ENTER);
+        }
     }
 
+    /**
+     * Creates and sends a single KeyEvent using the given Char.
+     * @param c The char to send.
+     */
     public void clickKey(char c) {
 
         pressTime = System.currentTimeMillis();
@@ -67,6 +97,11 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /**
+     * Creates and sends a given KeyEvent using the given keyCode.
+     * <p>Use constants where possible, from {@link KeyEvent}, such as {@code KeyEvent.VK_ENTER}
+     * @param keyCode The keycode to send.
+     */
     public void clickKey(int keyCode) {
 
         pressTime = System.currentTimeMillis();
@@ -75,6 +110,12 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /**
+     * Creates and sends a given PRESS KeyEvent using the given keyCode. Note, this does not send a Release Event
+     * typically associated with a key click.
+     * <p>Use constants where possible, from {@link KeyEvent}, such as {@code KeyEvent.VK_ENTER}
+     * @param keyCode
+     */
     public void pressKey(int keyCode) {
 
         pressTime = System.currentTimeMillis();
@@ -82,6 +123,12 @@ public class Keyboard implements KeyListener {
         sendKeyEvent(ke);
     }
 
+    /**
+     * Creates and sends a given RELEASE KeyEvent using the given keyCode. Note, this does not send a Press Event
+     * typically associated with a key click.
+     * <p>Use constants where possible, from {@link KeyEvent}, such as {@code KeyEvent.VK_ENTER}
+     * @param keyCode
+     */
     public void releaseKey(int keyCode) {
 
         pressTime = System.currentTimeMillis();
@@ -89,6 +136,15 @@ public class Keyboard implements KeyListener {
         sendKeyEvent(ke);
     }
 
+    /**
+     * Creates KeyEvents to perform a Click of the given Char. This includes a Press, Typed and Release event
+     * in addition to an initial shiftDown and ending shiftUp if the character is a Special Char such as {@code !"£$%^&*(}
+     *
+     *       {@see specialChars}
+     * @param target Component this event is linked to.
+     * @param c Char to send.
+     * @return KeyEvents for each action.
+     */
     private KeyEvent[] createKeyClick(Component target, char c) {
 
         pressTime += 2 * getRandom();
@@ -129,27 +185,23 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /**
+     * Creates KeyEvents for Press and Release of the given keyCode.
+     * @param target
+     * @param keyCode
+     * @return An array containing Press and Release KeyEvents.
+     */
     private KeyEvent[] createKeyClick(Component target, int keyCode) {
-        int modifier = 0;
-        switch (keyCode) {
-            case KeyEvent.VK_SHIFT:
-                modifier = KeyEvent.SHIFT_MASK;
-                break;
-            case KeyEvent.VK_ALT:
-                modifier = KeyEvent.ALT_MASK;
-                break;
-            case KeyEvent.VK_CONTROL:
-                modifier = KeyEvent.CTRL_MASK;
-                break;
-        }
-        KeyEvent pressed = new KeyEvent(target, KeyEvent.KEY_PRESSED,
-                pressTime, modifier, keyCode, KeyEvent.CHAR_UNDEFINED);
-        KeyEvent released = new KeyEvent(target, KeyEvent.KEY_RELEASED,
-                pressTime + getRandom(), 0, keyCode, KeyEvent.CHAR_UNDEFINED);
 
-        return new KeyEvent[]{ pressed, released };
+        return new KeyEvent[]{ createKeyPress(target, keyCode), createKeyRelease(target, keyCode) };
     }
 
+    /**
+     * Creates a Press type KeyEvent
+     * @param target
+     * @param keyCode
+     * @return
+     */
     private KeyEvent createKeyPress(Component target, int keyCode) {
         int modifier = 0;
         switch (keyCode) {
@@ -169,26 +221,23 @@ public class Keyboard implements KeyListener {
         return pressed;
     }
 
+    /**
+     * Creates a Release type KeyEvent
+     * @param target
+     * @param keyCode
+     * @return
+     */
     private KeyEvent createKeyRelease(Component target, int keyCode) {
-        @SuppressWarnings("unused")
-        int modifier = 0;
-        switch (keyCode) {
-            case KeyEvent.VK_SHIFT:
-                modifier = KeyEvent.SHIFT_MASK;
-                break;
-            case KeyEvent.VK_ALT:
-                modifier = KeyEvent.ALT_MASK;
-                break;
-            case KeyEvent.VK_CONTROL:
-                modifier = KeyEvent.CTRL_MASK;
-                break;
-        }
         KeyEvent released = new KeyEvent(target, KeyEvent.KEY_RELEASED,
                 pressTime + getRandom(), 0, keyCode, KeyEvent.CHAR_UNDEFINED);
 
         return released;
     }
 
+    /**
+     * Actually triggers sending of a given KeyEvent in the instance of KeyListeners' {@code component} field.
+     * @param e
+     */
     public void sendKeyEvent(KeyEvent e) {
         for (KeyListener kl : component.getKeyListeners()) {
             if (kl instanceof Keyboard) {
@@ -210,16 +259,28 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /**
+     * Allows the {@code KeyListener.keyPressed} event to be overridden.
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
     }
 
+    /**
+     * Allows the {@code KeyListener.keyReleased} event to be overridden.
+     * @param e
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
 
+    /**
+     * Allows the {@code KeyListener.keyTyped} event to be overridden.
+     * @param e
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 

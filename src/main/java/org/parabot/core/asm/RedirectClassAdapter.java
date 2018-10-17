@@ -16,8 +16,12 @@ import java.util.Map;
 
 public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
+    public static Map<String, Class<?>> getRedirects() {
+        return redirects;
+    }
+
     private static final Map<String, Class<?>> redirects = new HashMap<String, Class<?>>();
-    private static PrintStream str_out, class_out;
+    private static       PrintStream           str_out, class_out;
 
     static {
         redirects.put("java/awt/Toolkit", ToolkitRedirect.class);

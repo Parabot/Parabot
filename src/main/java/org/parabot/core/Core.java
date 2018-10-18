@@ -29,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 public class Core {
 
     private static int quickLaunchByUuid = -1; // used like -server, but denoted by an Int rather than the server name
-    private static boolean debug; // in debug mode, we will print more detailed error messages.
+    private static boolean debug; // Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages. 
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers

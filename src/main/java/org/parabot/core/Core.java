@@ -170,7 +170,9 @@ public class Core {
                     String result;
                     if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        return (boolean) object.get("result");
+                        boolean upToDate = (boolean) object.get("result");
+                        Core.verbose("Local checksum: " + URLEncoder.encode(sb.toString(), "UTF-8") + ". " + (upToDate ? "This matches BDN and is up to date." : "BDN mismatch, must be Out Of Date."));
+                        return upToDate;
                     }
                 }
             } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
@@ -196,6 +198,7 @@ public class Core {
                 if (!latest) {
                     Directories.clearCache();
                 }
+                Core.verbose("Local version: " + currentVersion.get() + ". " + (latest ? "This is up to date." : "This is Out Of Date. Cache will be cleared."));
                 return latest;
             }
         } catch (IOException | ParseException e) {

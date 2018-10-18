@@ -72,7 +72,7 @@ public class Core {
     }
 
     /**
-     * Enabled debug mode
+     * Set debug mode AKA Offline Mode. If true, BDN login will be skipped, so BDN Servers or Scripts will be unavailable.
      *
      * @param debug
      */
@@ -104,7 +104,7 @@ public class Core {
     }
 
     /**
-     * @return if the client is in debug mode.
+     * @return if the client is in debug mode AKA Offline Mode. BDN Servers and Scripts are unavailable.
      */
     public static boolean inDebugMode() {
         return debug;

@@ -73,6 +73,7 @@ public final class Landing {
                     System.exit(0);
                     break;
                 case "-debug":
+                case "-offlinemode":
                     Core.setDebug(true);
                     break;
                 case "-v":

@@ -32,11 +32,11 @@ import java.util.TimerTask;
  * @author Everel, JKetelaar, Matt
  */
 public class Context {
-    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<ThreadGroup, Context>();
-    private static      ArrayList<Paintable>          paintables   = new ArrayList<Paintable>();
+    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
 
-    private static Context instance;
-    private static String  username;
+    private static ArrayList<Paintable> paintables = new ArrayList<>();
+    private static Context              instance;
+    private static String               username;
 
     private ASMClassLoader     classLoader;
     private ClassPath          classPath;
@@ -52,38 +52,58 @@ public class Context {
     private PBKeyListener      pbKeyListener;
     private ServerProviderInfo providerInfo;
     private JSONParser         jsonParser;
-
-    private PrintStream defaultOut;
-    private PrintStream defaultErr = System.err;
+    private PrintStream        defaultOut;
+    private PrintStream        defaultErr;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
 
         System.setProperty("sun.java.command", "");
+
         this.serverProvider = serverProvider;
         this.paintDebugger = new PaintDebugger();
         this.classPath = new ClassPath();
         this.classLoader = new ASMClassLoader(classPath);
         this.randomHandler = new RandomHandler();
-
         this.jsonParser = new JSONParser();
-
         this.defaultOut = System.out;
         this.defaultErr = System.err;
     }
 
+    /**
+     * Returns the instance of this class, based on a given ServerProvider
+     *
+     * @param serverProvider
+     *
+     * @return
+     */
     public static Context getInstance(ServerProvider serverProvider) {
         return instance == null ? instance = new Context(serverProvider) : instance;
     }
 
+    /**
+     * Returns the instance of this class
+     *
+     * @return
+     */
     public static Context getInstance() {
         return getInstance(null);
     }
 
+    /**
+     * Returns the username of the current logged in user to Parabot
+     *
+     * @return
+     */
     public static String getUsername() {
         return username;
     }
 
+    /**
+     * Sets the username for the logged in user to Parabot
+     *
+     * @param username
+     */
     public static void setUsername(String username) {
         Context.username = username;
     }
@@ -185,8 +205,12 @@ public class Context {
         panel.add(gameApplet);
         panel.validate();
 
+        serverProvider.preAppletInit();
+
         gameApplet.init();
         gameApplet.start();
+
+        serverProvider.postAppletStart();
 
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {
@@ -230,7 +254,8 @@ public class Context {
             Core.verbose(TranslationHelper.translate("DONE"));
         }
         Applet applet = serverProvider.fetchApplet();
-        // if applet is null the server provider will call setApplet itself
+
+        // If applet is null the server provider will call setApplet itself
         if (applet != null) {
             setApplet(applet);
         }
@@ -363,10 +388,20 @@ public class Context {
         return this.randomHandler;
     }
 
+    /**
+     * Returns the JSON Parser instance
+     *
+     * @return
+     */
     public JSONParser getJsonParser() {
         return jsonParser;
     }
 
+    /**
+     * Returns the PBKeyListener instance
+     *
+     * @return
+     */
     public PBKeyListener getPbKeyListener() {
         return pbKeyListener;
     }

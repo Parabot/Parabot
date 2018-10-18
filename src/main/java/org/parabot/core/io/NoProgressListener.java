@@ -13,4 +13,19 @@ public class NoProgressListener implements ProgressListener {
     public void updateDownloadSpeed(double mbPerSecond) {
 
     }
+
+    @Override
+    public void updateMessage(String message) {
+
+    }
+
+    @Override
+    public void updateMessageAndProgress(String message, double progress) {
+
+    }
+
+    @Override
+    public double getCurrentProgress() {
+        return 0;
+    }
 }

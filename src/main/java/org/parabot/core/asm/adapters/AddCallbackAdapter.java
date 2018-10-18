@@ -40,17 +40,19 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
         Label        l0     = new Label();
         inject.add(new LabelNode(l0));
         int offset = 0;
-        for (int arg : args) {
-            if (Modifier.isStatic(method.access)) {
-                int loadOpcode = ASMUtils.getLoadOpcode(types[arg]
-                        .getDescriptor());
-                inject.add(new VarInsnNode(loadOpcode, arg + offset));
-                if (loadOpcode == Opcodes.LLOAD) {
-                    offset++;
+        if (args != null) {
+            for (int arg : args) {
+                if (Modifier.isStatic(method.access)) {
+                    int loadOpcode = ASMUtils.getLoadOpcode(types[arg]
+                            .getDescriptor());
+                    inject.add(new VarInsnNode(loadOpcode, arg + offset));
+                    if (loadOpcode == Opcodes.LLOAD) {
+                        offset++;
+                    }
+                } else {
+                    inject.add(new VarInsnNode(ASMUtils.getLoadOpcode(types[arg]
+                            .getDescriptor()), arg + 1));
                 }
-            } else {
-                inject.add(new VarInsnNode(ASMUtils.getLoadOpcode(types[arg]
-                        .getDescriptor()), arg + 1));
             }
         }
         inject.add(new MethodInsnNode(INVOKESTATIC,

@@ -6,6 +6,7 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.input.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +73,7 @@ public class LoginUI extends JFrame {
         txtUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == Keyboard.ENTER_KEYCODE) {
                     txtPassword.requestFocus();
                 }
             }
@@ -85,7 +86,7 @@ public class LoginUI extends JFrame {
         txtPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == 10 || e.getKeyCode() == 13) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == Keyboard.ENTER_KEYCODE) {
                     attemptLogin();
                 }
             }

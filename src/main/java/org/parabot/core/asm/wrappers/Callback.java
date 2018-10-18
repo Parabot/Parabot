@@ -26,14 +26,16 @@ public class Callback implements Injectable {
         this.invokeMethod = callbackMethod;
         this.desc = callbackDesc;
         this.conditional = conditional;
-        if (args.contains(",")) {
-            final String[] strArgs = args.split(",");
-            this.args = new int[strArgs.length];
-            for (int i = 0; i < this.args.length; i++) {
-                this.args[i] = Integer.parseInt(strArgs[i]);
+        if (args.length() > 0) {
+            if (args.contains(",")) {
+                final String[] strArgs = args.split(",");
+                this.args = new int[strArgs.length];
+                for (int i = 0; i < this.args.length; i++) {
+                    this.args[i] = Integer.parseInt(strArgs[i]);
+                }
+            } else {
+                this.args = new int[]{Integer.parseInt(args)};
             }
-        } else {
-            this.args = new int[]{ Integer.parseInt(args) };
         }
     }
 

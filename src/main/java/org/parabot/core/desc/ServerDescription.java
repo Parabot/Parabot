@@ -10,12 +10,24 @@ public class ServerDescription implements Comparable<ServerDescription> {
     private String author;
     private double revision;
     public int uuid;
+    private String updated;
+    private boolean active;
 
     public ServerDescription(final String serverName, final String author,
                              final double revision) {
         this.serverName = serverName;
         this.author = author;
         this.revision = revision;
+        this.updated = "Unknown";
+    }
+
+    public ServerDescription(final String serverName, final String author,
+                             final double revision, String updated, boolean active) {
+        this.serverName = serverName;
+        this.author = author;
+        this.revision = revision;
+        this.updated = updated == null ? "Unknown" : updated;
+        this.active = active;
     }
 
     public String getServerName() {
@@ -28,6 +40,14 @@ public class ServerDescription implements Comparable<ServerDescription> {
 
     public double getRevision() {
         return this.revision;
+    }
+
+    public boolean getActive() {
+        return this.active;
+    }
+
+    public String getUpdated() {
+        return this.updated;
     }
 
     @Override
@@ -46,5 +66,4 @@ public class ServerDescription implements Comparable<ServerDescription> {
         }
         return this.getServerName().compareTo(o.getServerName());
     }
-
 }

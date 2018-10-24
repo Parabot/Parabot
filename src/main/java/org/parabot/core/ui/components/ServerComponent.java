@@ -3,12 +3,14 @@ package org.parabot.core.ui.components;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
+import org.parabot.environment.api.utils.Random;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Collections;
 
 /**
  * A neat looking server component
@@ -59,16 +61,24 @@ public class ServerComponent extends JPanel implements MouseListener,
         g.setFont(title);
         String serverName = desc.getServerName();
         int    sw         = g.getFontMetrics().stringWidth(serverName);
-        g.drawString(serverName, (w / 2) - (sw / 2), 30);
+        g.drawString(serverName, 15, 18);
 
         Font normal = Fonts.getResource("leelawadee.ttf");
         g.setFont(normal);
         FontMetrics fm       = g.getFontMetrics();
-        String      author   = "Author: " + desc.getAuthor();
-        String      revision = "Revision: " + desc.getRevision();
+        String      author   = "By " + desc.getAuthor();
+        String      revision = "v" + desc.getRevision();
+        String      active = desc.getActive() ? "Active" : "Outdated";
+        String updated = "Last updated: " + desc.getUpdated();
 
-        g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
-        g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);
+        g.drawString(revision, 15 + fm.stringWidth(serverName) + 35, 18);
+        g.drawString(author, 15 + (fm.stringWidth(revision) + fm.stringWidth(serverName)) + 40, 18);
+
+        g.setColor(desc.getActive() ? Color.GREEN : Color.red);
+        g.drawString(active, 15 + (fm.stringWidth(revision) + fm.stringWidth(serverName) + fm.stringWidth(author)) + 45, 18);
+
+        g.setColor(Color.black);
+        g.drawString(updated, 15 + fm.stringWidth(revision) + fm.stringWidth(serverName) + fm.stringWidth(author) + fm.stringWidth(active) + 50, 18);
     }
 
     public void load(final ServerDescription desc) {

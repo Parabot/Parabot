@@ -3,7 +3,7 @@
 
 # Parabot
 
-Parabot V2.6.8.
+Parabot V2.7
 
 #### Links
 
@@ -42,7 +42,7 @@ Then you'll need to add the dependency:
         <dependency>
             <groupId>org.parabot</groupId>
             <artifactId>client</artifactId>
-            <version>2.6.3</version>
+            <version>2.7</version>
         </dependency>
     </dependencies>
 ```

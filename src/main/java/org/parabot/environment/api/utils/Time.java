@@ -64,7 +64,9 @@ public final class Time {
      */
     public static boolean sleep(SleepCondition conn, int timeout, int minimumTimeout) {
         long start = System.currentTimeMillis();
-        if(!sleep(conn, timeout)) return false;
+        if(!sleep(conn, timeout)) {
+            return false;
+        }
         long t;
         if((t = System.currentTimeMillis() - start) < minimumTimeout) {
             Time.sleep((int)(minimumTimeout - t));

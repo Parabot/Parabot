@@ -115,7 +115,7 @@ public class Timer {
      * @param startAmount   start amount
      * @return              hourly gains
      */
-    public int getPerHour(final int gained, int startAmount) {
+    public int getPerHour(final int gained, final int startAmount) {
         return (int) (((gained - startAmount) * 3600000D) / (System.currentTimeMillis() - start));
     }
 

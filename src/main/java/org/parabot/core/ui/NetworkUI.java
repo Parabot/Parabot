@@ -264,7 +264,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         byte[] mac = new byte[macList.length];
         for (int i = 0; i < mac.length; i++) {
             mac[i] = (byte) Short.parseShort(
-                    (String) macList[i].getSelectedValue(), 16);
+                    macList[i].getSelectedValue(), 16);
         }
         NetworkInterface.setMac(mac);
 

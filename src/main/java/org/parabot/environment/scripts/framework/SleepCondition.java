@@ -12,7 +12,7 @@ public interface SleepCondition {
      *
      * @return <b>true</b> if valid, otherwise <b>false</b>.
      */
-    public boolean isValid();
+    boolean isValid();
 
 }
 

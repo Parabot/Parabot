@@ -174,7 +174,7 @@ public class Core {
 
                     byte[] mdbytes = md.digest();
 
-                    StringBuilder sb = new StringBuilder("");
+                    StringBuilder sb = new StringBuilder();
                     for (byte mdbyte : mdbytes) {
                         sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
                     }

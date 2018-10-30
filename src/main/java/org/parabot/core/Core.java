@@ -25,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Everel, JKetelaar
  */
-@SuppressWarnings("Duplicates")
 public class Core {
 
     /**

@@ -45,9 +45,7 @@ public class ParabotFont {
         if (obj != null) {
             if (obj instanceof ParabotFont) {
                 ParabotFont otherFont = (ParabotFont) obj;
-                if (otherFont.getSize() == this.getSize()) {
-                    return true;
-                }
+                return otherFont.getSize() == this.getSize();
             }
         }
         return false;

@@ -255,7 +255,7 @@ public class ReflectUI extends JFrame {
         StringBuilder builder = new StringBuilder();
         builder.append("<h1>").append(refClass.getClassName()).append("</h1><br/>");
         if (refClass.getClassName().contains(".")) {
-            builder.append("<b>Package: </b>").append(refClass.getClassName().substring(0, refClass.getClassName().lastIndexOf("."))).append("<br/>");
+            builder.append("<b>Package: </b>").append(refClass.getClassName(), 0, refClass.getClassName().lastIndexOf(".")).append("<br/>");
         }
         builder.append("<b>Abstract: </b>").append(refClass.isAbstract() ? "yes" : "no").append("<br/>");
         builder.append("<b>Interface: </b>").append(refClass.isInterface() ? "yes" : "no").append("<br/>");

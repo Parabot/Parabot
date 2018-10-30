@@ -28,11 +28,23 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("Duplicates")
 public class Core {
 
-    private static int quickLaunchByUuid = -1; // used like -server, but denoted by an Int rather than the server name
-    private static boolean debug; // Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages. 
+    /**
+     * Used like -server, but denoted by an Int rather than the server name
+     */
+    private static int quickLaunchByUuid = -1;
+
+    /**
+     * Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages.
+     */
+    private static boolean debug;
+
+    /**
+     * Loads both local and public scripts/servers
+     */
+    private static boolean loadLocal;
+
     private static boolean verbose;
     private static boolean dump;
-    private static boolean loadLocal; //Loads both local and public scripts/servers
 
     private static boolean validate = true;
     private static boolean secure   = true;
@@ -169,8 +181,8 @@ public class Core {
 
                     String result;
                     if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
-                        JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        boolean upToDate = (boolean) object.get("result");
+                        JSONObject object   = (JSONObject) WebUtil.getJsonParser().parse(result);
+                        boolean    upToDate = (boolean) object.get("result");
                         Core.verbose("Local checksum: " + URLEncoder.encode(sb.toString(), "UTF-8") + ". " + (upToDate ? "This matches BDN and is up to date." : "BDN mismatch, must be Out Of Date."));
                         return upToDate;
                     }

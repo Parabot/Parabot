@@ -27,7 +27,7 @@ public class JavaScriptLoader extends ASMClassLoader {
      * @return string array of class names that extends ServerProvider
      */
     public final String[] getScriptClassNames() {
-        final List<String> classNames = new ArrayList<String>();
+        final List<String> classNames = new ArrayList<>();
         for (ClassNode c : classPath.classes.values()) {
             if (c.superName.replace('/', '.').equals(
                     Script.class.getName())) {

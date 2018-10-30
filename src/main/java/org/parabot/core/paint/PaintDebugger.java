@@ -17,8 +17,8 @@ public class PaintDebugger {
     private final Queue<String>                     stringDebug;
 
     public PaintDebugger() {
-        this.debuggers = new HashMap<String, AbstractDebugger>();
-        this.stringDebug = new LinkedList<String>();
+        this.debuggers = new HashMap<>();
+        this.stringDebug = new LinkedList<>();
     }
 
     public static final PaintDebugger getInstance() {

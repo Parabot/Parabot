@@ -20,7 +20,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
         return redirects;
     }
 
-    private static final Map<String, Class<?>> redirects = new HashMap<String, Class<?>>();
+    private static final Map<String, Class<?>> redirects = new HashMap<>();
     private static       PrintStream           str_out, class_out;
 
     static {

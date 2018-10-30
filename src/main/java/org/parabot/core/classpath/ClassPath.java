@@ -46,12 +46,12 @@ public class ClassPath {
     }
 
     public ClassPath(final boolean isJar) {
-        this.classNames = new ArrayList<String>();
-        this.classes = new HashMap<String, ClassNode>();
-        this.resources = new HashMap<String, File>();
+        this.classNames = new ArrayList<>();
+        this.classes = new HashMap<>();
+        this.resources = new HashMap<>();
         this.classRemapper = new ClassRemapper();
         this.parseJar = true;
-        this.jarFiles = new ArrayList<URL>();
+        this.jarFiles = new ArrayList<>();
         this.isJar = isJar;
     }
 

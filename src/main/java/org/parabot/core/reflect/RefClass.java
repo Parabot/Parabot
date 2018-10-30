@@ -104,7 +104,7 @@ public class RefClass extends RefModifiers {
      * fields
      */
     public RefField[] getFields() {
-        ArrayList<RefField> fields = new ArrayList<RefField>();
+        ArrayList<RefField> fields = new ArrayList<>();
         // add all static fields
         for (Field f : clazz.getDeclaredFields()) {
             if (Modifier.isStatic(f.getModifiers())) {
@@ -266,7 +266,7 @@ public class RefClass extends RefModifiers {
      * methods
      */
     public RefMethod[] getMethods() {
-        ArrayList<RefMethod> methods = new ArrayList<RefMethod>();
+        ArrayList<RefMethod> methods = new ArrayList<>();
         // add all static methods
         for (Method m : clazz.getDeclaredMethods()) {
             if (Modifier.isStatic(m.getModifiers())) {

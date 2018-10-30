@@ -35,7 +35,7 @@ public abstract class HookParser {
     public abstract HashMap<String, String> getConstants();
 
     public Injectable[] getInjectables() {
-        ArrayList<Injectable> injectables = new ArrayList<Injectable>();
+        ArrayList<Injectable> injectables = new ArrayList<>();
         Interface[]           interfaces  = getInterfaces();
         if (interfaces != null) {
             Collections.addAll(injectables, interfaces);

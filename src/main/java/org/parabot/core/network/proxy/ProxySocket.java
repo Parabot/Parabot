@@ -12,7 +12,7 @@ import java.util.List;
 public class ProxySocket extends Socket {
 
     public static boolean auth = false;
-    private static List<ProxySocket> connections = new ArrayList<ProxySocket>();
+    private static List<ProxySocket> connections = new ArrayList<>();
     private static ProxyType proxyType = ProxyType.NONE;
     private static int proxyPort = 0;
     private static String username = null, password = null;

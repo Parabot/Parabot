@@ -15,7 +15,7 @@ import java.util.TreeMap;
  * @author Everel
  */
 public abstract class ServerParser {
-    public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<ServerDescription, ServerExecuter>();
+    public static final Map<ServerDescription, ServerExecuter> SERVER_CACHE = new HashMap<>();
 
     public static final ServerDescription[] getDescriptions() {
         SERVER_CACHE.clear();
@@ -41,7 +41,7 @@ public abstract class ServerParser {
             Core.verbose("Server providers parsed.");
         }
 
-        Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<ServerDescription, ServerExecuter>(SERVER_CACHE);
+        Map<ServerDescription, ServerExecuter> SORTED_SERVER_CACHE = new TreeMap<>(SERVER_CACHE);
 
         return SORTED_SERVER_CACHE.keySet().toArray(new ServerDescription[SORTED_SERVER_CACHE.size()]);
     }

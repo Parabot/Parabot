@@ -26,7 +26,7 @@ public class ASMClassLoader extends ClassLoader {
     private Map<String, Class<?>> classCache;
 
     public ASMClassLoader(final ClassPath classPath) {
-        this.classCache = new HashMap<String, Class<?>>();
+        this.classCache = new HashMap<>();
         this.classPath = classPath;
     }
 

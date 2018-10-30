@@ -27,7 +27,7 @@ public class Keyboard implements KeyListener {
                 '_', '+', '{', '}', ':', '<', '>', '?', '"', '|' };
         char[] replace = { '`', '1', '2', '3', '5', '6', '7', '8', '9', '0',
                 '-', '=', '[', ']', ';', ',', '.', '/', '\'', '\\' };
-        specialChars = new HashMap<Character, Character>(spChars.length);
+        specialChars = new HashMap<>(spChars.length);
         for (int x = 0; x < spChars.length; ++x) {
             specialChars.put(spChars[x], replace[x]);
         }

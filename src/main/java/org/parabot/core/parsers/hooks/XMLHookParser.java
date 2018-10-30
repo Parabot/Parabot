@@ -22,8 +22,8 @@ public class XMLHookParser extends HookParser {
 
     public XMLHookParser(HookFile hookFile) {
         super(hookFile);
-        interfaceMap = new HashMap<String, String>();
-        constants = new HashMap<String, String>();
+        interfaceMap = new HashMap<>();
+        constants = new HashMap<>();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory
                     .newInstance();
@@ -103,7 +103,7 @@ public class XMLHookParser extends HookParser {
         if (interfaces.getLength() == 0) {
             return null;
         }
-        final ArrayList<Interface> interfaceList = new ArrayList<Interface>();
+        final ArrayList<Interface> interfaceList = new ArrayList<>();
         for (int x = 0; x < interfaces.getLength(); x++) {
             final Node n = interfaces.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {
@@ -140,7 +140,7 @@ public class XMLHookParser extends HookParser {
         if (supers.getLength() == 0) {
             return null;
         }
-        final ArrayList<Super> superList = new ArrayList<Super>();
+        final ArrayList<Super> superList = new ArrayList<>();
         for (int x = 0; x < supers.getLength(); x++) {
             final Node n = supers.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {
@@ -176,7 +176,7 @@ public class XMLHookParser extends HookParser {
         if (getters.getLength() == 0) {
             return null;
         }
-        final ArrayList<Getter> getterList = new ArrayList<Getter>();
+        final ArrayList<Getter> getterList = new ArrayList<>();
         for (int x = 0; x < getters.getLength(); x++) {
             final Node n = getters.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {
@@ -251,7 +251,7 @@ public class XMLHookParser extends HookParser {
         if (setters.getLength() == 0) {
             return null;
         }
-        final ArrayList<Setter> setterList = new ArrayList<Setter>();
+        final ArrayList<Setter> setterList = new ArrayList<>();
         for (int x = 0; x < setters.getLength(); x++) {
             final Node n = setters.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {
@@ -324,7 +324,7 @@ public class XMLHookParser extends HookParser {
         if (invokers.getLength() == 0) {
             return null;
         }
-        final ArrayList<Invoker> invokerList = new ArrayList<Invoker>();
+        final ArrayList<Invoker> invokerList = new ArrayList<>();
         for (int x = 0; x < invokers.getLength(); x++) {
             final Node n = invokers.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {
@@ -421,7 +421,7 @@ public class XMLHookParser extends HookParser {
         if (callbacks.getLength() == 0) {
             return null;
         }
-        final ArrayList<Callback> callbackList = new ArrayList<Callback>();
+        final ArrayList<Callback> callbackList = new ArrayList<>();
         for (int x = 0; x < callbacks.getLength(); x++) {
             final Node n = callbacks.item(x);
             if (n.getNodeType() != Node.ELEMENT_NODE) {

@@ -42,8 +42,8 @@ public final class ScriptSelector extends JFrame {
     private JEditorPane scriptInfo;
 
     public ScriptSelector() {
-        this.categories = new HashMap<String, DefaultMutableTreeNode>();
-        this.format = new HashMap<String, ScriptDescription>();
+        this.categories = new HashMap<>();
+        this.format = new HashMap<>();
         this.root = new DefaultMutableTreeNode("Scripts");
         this.WIDTH = 640;
         this.HEIGHT = 256 + 128;

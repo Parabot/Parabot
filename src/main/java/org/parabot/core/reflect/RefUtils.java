@@ -9,7 +9,7 @@ import java.util.Set;
  */
 public class RefUtils {
 
-    public static final Set<Class<?>> PRIMITIVE_TYPES = new HashSet<Class<?>>(
+    public static final Set<Class<?>> PRIMITIVE_TYPES = new HashSet<>(
             Arrays.asList(Boolean.class, Character.class, Byte.class,
                     Short.class, Integer.class, Long.class, Float.class,
                     Double.class, Void.class));

@@ -62,7 +62,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
 
     @SuppressWarnings("unchecked")
     private void initGUI() {
-        proxyType = new JComboBox<ProxyType>(ProxyType.values());
+        proxyType = new JComboBox<>(ProxyType.values());
         proxyType.setSelectedItem(ProxySocket.getProxyType());
 
         proxyType.addActionListener(this);
@@ -296,7 +296,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         for (int i = 0; i < 256; i++) {
             hexStrings[i] = String.format("%02X", i);
         }
-        JList<String> ret = new JList<String>(hexStrings);
+        JList<String> ret = new JList<>(hexStrings);
         ret.setVisibleRowCount(3);
         ret.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return ret;

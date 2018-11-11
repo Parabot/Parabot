@@ -50,7 +50,7 @@ public class PublicServers extends ServerParser {
                 boolean     active    = Boolean.parseBoolean(String.valueOf(jsonObject.get("active")));
 
                 ServerDescription desc = new ServerDescription(name,
-                        author, version, updated, active);
+                        author, version, updated, active, true);
                 SERVER_CACHE.put(desc, new PublicServerExecuter(name));
             }
 

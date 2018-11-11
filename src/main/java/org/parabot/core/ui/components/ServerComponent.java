@@ -70,6 +70,7 @@ public class ServerComponent extends JPanel implements MouseListener,
         String      revision = "v" + desc.getRevision();
         String      active = desc.getActive() ? "Active" : "Outdated";
         String updated = desc.getUpdated().equalsIgnoreCase("unknown") ? "" : "(updated " + desc.getUpdated() + ")";
+        String local = desc.isBdn() ? "" : "[Local]";
 
         g.drawString(revision,  sw + 35, 18);
         g.drawString(author, (fm.stringWidth(revision) + sw) + 40, 18);
@@ -79,6 +80,7 @@ public class ServerComponent extends JPanel implements MouseListener,
 
         g.setColor(Color.black);
         g.drawString(updated, fm.stringWidth(revision) + sw + fm.stringWidth(author) + fm.stringWidth(active) + 50, 18);
+        g.drawString(local, fm.stringWidth(revision) + sw + fm.stringWidth(author) + fm.stringWidth(active) + + fm.stringWidth(updated) + 55, 18);
     }
 
     public void load(final ServerDescription desc) {

@@ -31,7 +31,7 @@ public final class Landing {
     public static void main(String... args) throws IOException {
 
         if (Context.getJavaVersion() >= 9){
-            UILog.log("Parabot", "Please downgrade to Java 8 in order to use Parabot");
+            UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
             System.exit(0);
         }
 

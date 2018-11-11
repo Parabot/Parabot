@@ -2,7 +2,6 @@ package org.parabot.core.ui.listeners;
 
 import org.parabot.core.ui.listeners.key.ActionEventBinding;
 import org.parabot.core.ui.listeners.key.Binding;
-import org.parabot.environment.OperatingSystem;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -31,15 +30,15 @@ public class PBKeyListener implements KeyListener {
     }
 
     public void addBinding(Binding binding) {
-        for (Binding bind : this.bindings){
-            if (bind.getKey() == binding.getKey()){
+        for (Binding bind : this.bindings) {
+            if (bind.getKey() == binding.getKey()) {
                 return;
             }
         }
         this.bindings.add(binding);
     }
 
-    public void resetBindings(){
+    public void resetBindings() {
         this.bindings = new ArrayList<>();
         this.fillBindings();
     }

@@ -66,8 +66,18 @@ public class XMLHookParser extends HookParser {
     }
 
     private static final String getValue(String tag, Element element) {
-        NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node     node  = (Node) nodes.item(0);
+        if (element.getElementsByTagName(tag).item(0) == null) {
+            throw new NullPointerException("MISSING HOOK TAG: The '" + tag + "' xml tag is missing from one of the hooks of type: " + element.getParentNode().getNodeName());
+        }
+        NodeList nodes = element.getElementsByTagName(tag).item(0)
+                .getChildNodes();
+        if (nodes.getLength() == 0 || nodes.item(0) == null) {
+            if (Core.inVerboseMode()) {
+                System.err.println("WARNING: Invalid Hook " + tag + " subnode. Tag is missing or empty?");
+            }
+            return "";
+        }
+        Node node = (Node) nodes.item(0);
         return node.getNodeValue();
     }
 
@@ -78,7 +88,7 @@ public class XMLHookParser extends HookParser {
                 .getElementsByTagName("interfaces");
         switch (interfaceRootList.getLength()) {
             case 0:
-                return new Interface[0];
+                return null;
             case 1:
                 break;
             default:
@@ -87,12 +97,12 @@ public class XMLHookParser extends HookParser {
         }
         final Node node = interfaceRootList.item(0);
         if (node.getNodeType() != Node.ELEMENT_NODE) {
-            return new Interface[0];
+            return null;
         }
         final Element  interfaceRoot = (Element) node;
         final NodeList interfaces    = interfaceRoot.getElementsByTagName("add");
         if (interfaces.getLength() == 0) {
-            return new Interface[0];
+            return null;
         }
         final ArrayList<Interface> interfaceList = new ArrayList<Interface>();
         for (int x = 0; x < interfaces.getLength(); x++) {

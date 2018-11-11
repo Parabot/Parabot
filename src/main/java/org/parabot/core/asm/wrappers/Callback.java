@@ -6,47 +6,47 @@ import org.parabot.core.asm.adapters.AddCallbackAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
 
 /**
- * 
  * This class is used for injecting a callback into a methodnode
- * 
- * @author Everel
  *
+ * @author Everel
  */
 public class Callback implements Injectable {
-	private MethodNode method;
-	private String invokeClass;
-	private String invokeMethod;
-	private String desc;
-	private int[] args;
-	private boolean conditional;
-	
-	public Callback(final String className, final String methodName,
-			final String methodDesc, final String callbackClass,
-			final String callbackMethod, final String callbackDesc, String args, final boolean conditional) {
-		this.method = ASMUtils.getMethod(className, methodName, methodDesc);
-		this.invokeClass = callbackClass;
-		this.invokeMethod = callbackMethod;
-		this.desc = callbackDesc;
-		this.conditional = conditional;
-		if (args.contains(",")) {
-			final String[] strArgs = args.split(",");
-			this.args = new int[strArgs.length];
-			for (int i = 0; i < this.args.length; i++) {
-				this.args[i] = Integer.parseInt(strArgs[i]);
-			}
-		} else {
-			this.args = new int[] { Integer.parseInt(args) };
-		}
-	}
+    private MethodNode method;
+    private String     invokeClass;
+    private String     invokeMethod;
+    private String     desc;
+    private int[]      args;
+    private boolean    conditional;
 
-	@Override
-	public void inject() {
-		getAdapter().inject();
-	}
+    public Callback(final String className, final String methodName,
+                    final String methodDesc, final String callbackClass,
+                    final String callbackMethod, final String callbackDesc, String args, final boolean conditional) {
+        this.method = ASMUtils.getMethod(className, methodName, methodDesc);
+        this.invokeClass = callbackClass;
+        this.invokeMethod = callbackMethod;
+        this.desc = callbackDesc;
+        this.conditional = conditional;
+        if (args.length() > 0) {
+            if (args.contains(",")) {
+                final String[] strArgs = args.split(",");
+                this.args = new int[strArgs.length];
+                for (int i = 0; i < this.args.length; i++) {
+                    this.args[i] = Integer.parseInt(strArgs[i]);
+                }
+            } else {
+                this.args = new int[]{Integer.parseInt(args)};
+            }
+        }
+    }
 
-	public AddCallbackAdapter getAdapter() {
-		return new AddCallbackAdapter(this.method, this.invokeClass,
-				this.invokeMethod, this.desc, this.args, this.conditional);
-	}
+    @Override
+    public void inject() {
+        getAdapter().inject();
+    }
+
+    public AddCallbackAdapter getAdapter() {
+        return new AddCallbackAdapter(this.method, this.invokeClass,
+                this.invokeMethod, this.desc, this.args, this.conditional);
+    }
 
 }

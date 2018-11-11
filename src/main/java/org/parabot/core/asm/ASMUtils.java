@@ -28,6 +28,7 @@ public class ASMUtils implements Opcodes {
     }
 
     public static FieldNode getField(ClassNode node, String fieldName, String desc) throws FieldNotFoundException {
+
         if (desc == null) {
             return getField(node, fieldName);
         }

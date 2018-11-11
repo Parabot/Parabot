@@ -31,14 +31,13 @@ import java.util.ArrayList;
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
     private static final long serialVersionUID = -2126184292879805519L;
-    private static BotUI instance;
+    private static BotUI   instance;
     private static JDialog dialog;
 
     private JMenuBar menuBar;
-    private JMenu features, scripts, file;
+    private JMenu    features, scripts, file;
     private JMenuItem run, pause, stop, cacheClear, notifications;
     private boolean runScript, pauseScript;
-
 
     public BotUI(String username, String password) {
         if (instance != null) {
@@ -75,7 +74,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         return instance;
     }
 
-
     private void createMenu() {
         menuBar = new JMenuBar();
 
@@ -84,17 +82,17 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         features = new JMenu("Features");
 
         JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy = new JMenuItem("Network");
-        JMenuItem randoms = new JMenuItem("Randoms");
-        JMenuItem dialog = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger = new JCheckBoxMenuItem("Logger");
+        JMenuItem proxy      = new JMenuItem("Network");
+        JMenuItem randoms    = new JMenuItem("Randoms");
+        JMenuItem dialog     = new JCheckBoxMenuItem("Disable dialog");
+        JMenuItem logger     = new JCheckBoxMenuItem("Logger");
 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             dialog.setSelected(true);
         }
 
         JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem exit     = new JMenuItem("Exit");
 
         run = new JMenuItem("Run");
         run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
@@ -146,7 +144,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         menuBar.add(scripts);
         menuBar.add(features);
 
-
         setJMenuBar(menuBar);
     }
 
@@ -159,12 +156,15 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         switch (command) {
             case "Create screenshot":
                 try {
-                    Robot robot = new Robot();
-                    Rectangle parabotScreen = new Rectangle((int) getLocation().getX(), (int) getLocation().getY(), getWidth(), getHeight());
-                    BufferedImage image = robot.createScreenCapture(parabotScreen);
-                    String randString = StringUtils.randomString(10);
-                    boolean search = true;
-                    boolean duplicate = false;
+                    Robot         robot         = new Robot();
+                    int menuBarHeight = menuBar.getHeight() + file.getHeight();
+                    Rectangle     parabotScreen = new Rectangle(
+                            (int) getLocation().getX(), (int) getLocation().getY() + menuBarHeight,
+                            getWidth(), getHeight() - menuBarHeight);
+                    BufferedImage image         = robot.createScreenCapture(parabotScreen);
+                    String        randString    = StringUtils.randomString(10);
+                    boolean       search        = true;
+                    boolean       duplicate     = false;
                     while (search) {
                         File[] files;
                         if ((files = Directories.getScreenshotDir().listFiles()) != null) {

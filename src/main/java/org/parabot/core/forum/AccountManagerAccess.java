@@ -1,14 +1,12 @@
 package org.parabot.core.forum;
 
 /**
- * 
  * Gives access to account details
- * 
- * @author Everel
  *
+ * @author Everel
  */
 public interface AccountManagerAccess {
-	
-	public void setManager(AccountManager manager);
+
+    public void setManager(AccountManager manager);
 
 }

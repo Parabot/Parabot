@@ -6,8 +6,8 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.io.ProgressListener;
 import org.parabot.core.ui.ServerSelector;
-import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.fonts.Fonts;
+import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
@@ -24,22 +24,13 @@ import java.awt.image.RescaleOp;
  * @author Everel, EmmaStone
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
+    public static final  int STATE_LOADING        = 1;
     private static final long serialVersionUID = 7412412644921803896L;
+    private static final int STATE_AUTHENTICATION = 0;
+    private static final int STATE_SERVER_SELECT  = 2;
     private static VerboseLoader current;
     private static String state = "Initializing loader...";
-
-    private static final int STATE_AUTHENTICATION = 0;
-    public static final int STATE_LOADING = 1;
-    private static final int STATE_SERVER_SELECT = 2;
-    private int currentState;
-
     private static AccountManager manager;
-
-    private FontMetrics fontMetrics;
-    private BufferedImage background, banner, loginBox;
-    private ProgressBar progressBar;
-    private JPanel loginPanel;
-
     public static final AccountManagerAccess MANAGER_FETCHER = new AccountManagerAccess() {
 
         @Override
@@ -48,6 +39,11 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
 
     };
+    private int currentState;
+    private FontMetrics   fontMetrics;
+    private BufferedImage background, banner, loginBox;
+    private ProgressBar progressBar;
+    private JPanel      loginPanel;
 
     private VerboseLoader(String username, String password) {
         if (current != null) {
@@ -77,10 +73,38 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
     }
 
+    /**
+     * Gets instance of this panel
+     *
+     * @return instance of this panel
+     */
+    public static VerboseLoader get(String username, String password) {
+        return current == null ? new VerboseLoader(username, password) : current;
+    }
+
+    /**
+     * Gets instance of this panel
+     *
+     * @return instance of this panel
+     */
+    public static VerboseLoader get() {
+        return current == null ? new VerboseLoader(null, null) : current;
+    }
+
+    /**
+     * Updates the status message and repaints the panel
+     *
+     * @param message
+     */
+    public static void setState(final String message) {
+        state = message;
+        current.repaint();
+    }
+
     public void addServerPanel() {
-        JPanel servers = ServerSelector.getInstance();
-        GridBagLayout bagLayout = (GridBagLayout) getLayout();
-        GridBagConstraints c = new GridBagConstraints();
+        JPanel             servers   = ServerSelector.getInstance();
+        GridBagLayout      bagLayout = (GridBagLayout) getLayout();
+        GridBagConstraints c         = new GridBagConstraints();
 
         c.weightx = 1;
         c.weighty = 1;
@@ -139,7 +163,6 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         passwordLabel.setAlignmentX(Box.CENTER_ALIGNMENT);
         passwordLabel.setForeground(Color.white);
 
-
         login.setAlignmentX(Box.CENTER_ALIGNMENT);
         login.setOpaque(false);
 
@@ -189,16 +212,15 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-
         Graphics2D g = (Graphics2D) graphics;
         g.setRenderingHint(
                 RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.drawImage(background, 0, 0, null);
-        float[] scales = {1f, 1f, 1f, 0.9f};
-        float[] offsets = new float[4];
-        RescaleOp rop = new RescaleOp(scales, offsets, null);
+        float[]   scales  = { 1f, 1f, 1f, 0.9f };
+        float[]   offsets = new float[4];
+        RescaleOp rop     = new RescaleOp(scales, offsets, null);
         g.drawImage(banner, rop, 0, 0);
 
         g.setStroke(new BasicStroke(5));
@@ -236,41 +258,11 @@ public class VerboseLoader extends JPanel implements ProgressListener {
             g.drawString(state, x, 200);
         }
 
-
         g.setFont(Fonts.getResource("leelawadee.ttf"));
         final String version = Configuration.BOT_VERSION.get();
         g.drawString(version,
                 getWidth() - g.getFontMetrics().stringWidth(version) - 10,
                 getHeight() - 12);
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get(String username, String password) {
-        return current == null ? new VerboseLoader(username, password) : current;
-    }
-
-    /**
-     * Gets instance of this panel
-     *
-     * @return instance of this panel
-     */
-    public static VerboseLoader get() {
-        return current == null ? new VerboseLoader(null, null) : current;
-    }
-
-
-    /**
-     * Updates the status message and repaints the panel
-     *
-     * @param message
-     */
-    public static void setState(final String message) {
-        state = message;
-        current.repaint();
     }
 
     @Override
@@ -282,5 +274,21 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     @Override
     public void updateDownloadSpeed(double mbPerSecond) {
         progressBar.setText(String.format("(%.2fMB/s)", mbPerSecond));
+    }
+
+    @Override
+    public void updateMessage(String message) {
+        VerboseLoader.setState(message);
+    }
+
+    @Override
+    public void updateMessageAndProgress(String message, double progress) {
+        VerboseLoader.setState(message);
+        onProgressUpdate(progress);
+    }
+
+    @Override
+    public double getCurrentProgress() {
+        return progressBar.getValue();
     }
 }

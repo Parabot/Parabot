@@ -2,35 +2,22 @@ package org.parabot.core.parsers.servers;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.core.Configuration;
-import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
-import org.parabot.core.build.BuildPath;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.desc.ServerProviderInfo;
-import org.parabot.core.ui.components.VerboseLoader;
-import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerManifest;
-import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.executers.LocalPublicServerExecuter;
 import org.parabot.environment.servers.executers.LocalServerExecuter;
-import org.parabot.environment.servers.executers.PublicServerExecuter;
 import org.parabot.environment.servers.loader.ServerLoader;
-
-import javax.swing.*;
 
 /**
  * Parses local server providers located in the servers directory
@@ -86,30 +73,41 @@ public class LocalServers extends ServerParser {
             }
         }
 
-        for (File file : Directories.listJSONFiles(Directories.getServerPath())){
+        for (File file : Directories.listJSONFiles(Directories.getServerPath())) {
             Core.verbose("[Local server in]: " + file.getName());
             try {
-                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
-                String name = (String) object.get("name");
-                String author = (String) object.get("author");
-                double version = (Double) object.get("version");
-                String clientClass = (String) object.get("client-class");
-                Object bank;
-                int bankTabs = 0;
-                if ((bank = object.get("bank")) != null){
+                JSONObject object      = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
+                String     name        = (String) object.get("name");
+                String     author      = (String) object.get("author");
+                double     version     = (Double) object.get("version");
+                String     clientClass = (String) object.get("client-class");
+                Object     bank;
+                int        bankTabs    = 0;
+                if ((bank = object.get("bank")) != null) {
                     bankTabs = (int) bank;
                 }
+                String     uuidStr = (String) object.get("uuid"); // optional
+
 
                 JSONObject locations = (JSONObject) object.get("locations");
-                String server = (String) locations.get("server");
-                String provider = (String) locations.get("provider");
-                String hooks = (String) locations.get("hooks");
+                String     server    = (String) locations.get("server");
+                String     provider  = (String) locations.get("provider");
+                String     hooks     = (String) locations.get("hooks");
+                String     randoms = (String) locations.get("randoms");
+              
+                if (randoms == null) {
+                    randoms = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
+                }
+                
+                Core.verbose("[LocalServers]: Parsed server: " + name);
+              
+                ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs, randoms);
 
-                Core.verbose("[Local server]: " + name);
-                ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs);
+                ServerDescription desc = new ServerDescription(name, author, version);
+                if (uuidStr != null && uuidStr.length() > 0) {
+                    desc.uuid = Integer.parseInt(uuidStr);
+                }
 
-                ServerDescription desc = new ServerDescription(name,
-                        author, version);
                 SERVER_CACHE.put(desc, new LocalPublicServerExecuter(name, serverProviderInfo, server, provider));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();

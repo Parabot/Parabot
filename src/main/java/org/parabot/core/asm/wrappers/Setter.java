@@ -19,7 +19,7 @@ public class Setter implements Injectable {
     private String    name;
     private String    desc;
     private boolean   methodStatic;
-
+  
     public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic, final String fieldDesc) throws FieldNotFoundException {
         this.fieldLocation = ASMUtils.getClass(fieldLocation);
         into = (into == null) ? fieldLocation : into;

@@ -74,15 +74,14 @@ public abstract class ServerProvider implements Opcodes {
         if (hookFile == null) {
             return;
         }
-
-        HookParser parser = hookFile.getParser();
-
+        HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
 
         if (injectables.length <= 0) {
             VerboseLoader.setState("Failed to parse all hooks");
             throw new FailToParseHooksException("Failed to parse all hooks");
         }
+      
         for (Injectable inj : injectables) {
             inj.inject();
         }
@@ -149,6 +148,22 @@ public abstract class ServerProvider implements Opcodes {
     }
 
     public void unloadScript(Script script) {
+
+    }
+
+    /**
+     * Called in Context.setApplet before applet.init() is called. Exclusively used for manipulating the Frame attached
+     * to the applet of Roatpkz.
+     */
+    public void preAppletInit() {
+
+    }
+
+    /**
+     * Called in Context.setApplet before after applet.start()  and applet.init() are called. Exclusively used for manipulating the Frame attached
+     * to the applet of Roatpkz.
+     */
+    public void postAppletStart() {
 
     }
 

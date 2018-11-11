@@ -35,6 +35,7 @@ public class Getter implements Injectable {
     public Getter(final String into, final String fieldLocation, final String fieldNode,
                   final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier,
                   final String fieldDesc) throws FieldNotFoundException {
+
         this.into = ASMUtils.getClass(into);
         this.fieldLocation = ASMUtils.getClass(fieldLocation);
         this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);

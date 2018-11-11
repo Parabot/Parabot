@@ -69,16 +69,16 @@ public class ServerComponent extends JPanel implements MouseListener,
         String      author   = "By " + desc.getAuthor();
         String      revision = "v" + desc.getRevision();
         String      active = desc.getActive() ? "Active" : "Outdated";
-        String updated = "Last updated: " + desc.getUpdated();
+        String updated = desc.getUpdated().equalsIgnoreCase("unknown") ? "" : "(updated " + desc.getUpdated() + ")";
 
-        g.drawString(revision, 15 + fm.stringWidth(serverName) + 35, 18);
-        g.drawString(author, 15 + (fm.stringWidth(revision) + fm.stringWidth(serverName)) + 40, 18);
+        g.drawString(revision,  sw + 35, 18);
+        g.drawString(author, (fm.stringWidth(revision) + sw) + 40, 18);
 
         g.setColor(desc.getActive() ? Color.GREEN : Color.red);
-        g.drawString(active, 15 + (fm.stringWidth(revision) + fm.stringWidth(serverName) + fm.stringWidth(author)) + 45, 18);
+        g.drawString(active, (fm.stringWidth(revision) + sw + fm.stringWidth(author)) + 45, 18);
 
         g.setColor(Color.black);
-        g.drawString(updated, 15 + fm.stringWidth(revision) + fm.stringWidth(serverName) + fm.stringWidth(author) + fm.stringWidth(active) + 50, 18);
+        g.drawString(updated, fm.stringWidth(revision) + sw + fm.stringWidth(author) + fm.stringWidth(active) + 50, 18);
     }
 
     public void load(final ServerDescription desc) {

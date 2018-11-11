@@ -1,6 +1,7 @@
 package org.parabot;
 
 import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
@@ -9,6 +10,7 @@ import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
+import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
 import java.io.File;
@@ -25,7 +27,13 @@ public final class Landing {
     private static String username;
     private static String password;
 
+
     public static void main(String... args) throws IOException {
+
+        if (Context.getJavaVersion() >= 9){
+            UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
+            System.exit(0);
+        }
 
         parseArgs(args);
 

@@ -50,7 +50,28 @@ public class ServerProviderInfo {
         }
     }
 
+    /**
+     * Initialize configuration with data provided by {@link org.parabot.core.parsers.servers.LocalServers} from a {@code /parabot/servers/config.json} file. Also loads the default Settings map from the BDN.
+     * @param clientJar Name of the client jar file
+     * @param hooks Name of the hooks file
+     * @param name Server name
+     * @param clientClass Entry class within the client jar
+     * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
+     */
     public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs) {
+        this(clientJar, hooks, name, clientClass, bankTabs, null);
+    }
+
+    /**
+     * Initialize configuration with data provided by {@link org.parabot.core.parsers.servers.LocalServers} from a {@code /parabot/servers/config.json} file. Also loads the default Settings map from the BDN.
+     * @param clientJar Name of the client jar file
+     * @param hooks Name of the hooks file
+     * @param name Server name
+     * @param clientClass Entry class within the client jar
+     * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
+     * @param randoms A URL to an endpoint where the Randoms are located. Can be Null, in which case getRandoms() will fallback to the default BDN Randoms URL.
+     */
+    public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs, String randoms) {
         this.properties = new Properties();
         this.settings = new HashMap<>();
 
@@ -69,6 +90,7 @@ public class ServerProviderInfo {
         this.properties.setProperty("provider_crc32", String.valueOf(getCRC32(name, "provider")));
         this.properties.setProperty("client_crc32", String.valueOf(getCRC32(name, "client")));
         this.properties.setProperty("bank_tabs", String.valueOf(bankTabs));
+        this.properties.setProperty("randoms_jar", randoms);
     }
 
     private long getCRC32(String name, String type) {
@@ -140,5 +162,24 @@ public class ServerProviderInfo {
 
     public HashMap<String, Integer> getSettings() {
         return settings;
+    }
+
+    /**
+     * Gets the URL to download the Randoms JAR from.
+     * @return The provided URL in the server config JSON (denoted by 'randoms:') or, fallback to the default BDN URL.
+     */
+    public URL getRandoms() {
+        try {
+            String randomsUrl = properties.getProperty("randoms_jar");
+            if (randomsUrl == null || randomsUrl.length() == 0) {
+                // Fallback to default BDN URL if there is no 'randoms' specified in the server JSON configuration.
+                randomsUrl = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
+            }
+            return new URL(randomsUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        // Will never return null, unless the BDN URL is changed. It shouldn't be.
+        return null;
     }
 }

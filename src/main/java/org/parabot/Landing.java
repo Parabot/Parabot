@@ -17,10 +17,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Parabot v2.6
+ * Parabot v2.7
  *
  * @author Everel, JKetelaar, Matt, Dane
- * @version 2.6
+ * @version 2.7
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {
@@ -81,6 +81,7 @@ public final class Landing {
                     System.exit(0);
                     break;
                 case "-debug":
+                case "-offlinemode":
                     Core.setDebug(true);
                     break;
                 case "-v":
@@ -142,6 +143,9 @@ public final class Landing {
                     break;
                 case "-no_validation":
                     Core.disableValidation();
+                    break;
+                case "-uuid":
+                    Core.setQuickLaunchByUuid(Integer.parseInt(args[++i]));
                     break;
             }
         }

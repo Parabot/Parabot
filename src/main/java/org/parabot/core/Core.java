@@ -28,7 +28,8 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("Duplicates")
 public class Core {
 
-    private static boolean debug;
+    private static int quickLaunchByUuid = -1; // used like -server, but denoted by an Int rather than the server name
+    private static boolean debug; // Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages. 
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
@@ -44,6 +45,14 @@ public class Core {
 
     public static boolean hasValidation() {
         return validate;
+    }
+
+    public static int getQuickLaunchByUuid() {
+        return quickLaunchByUuid;
+    }
+
+    public static void setQuickLaunchByUuid(int quickLaunchByUuid) {
+        Core.quickLaunchByUuid = quickLaunchByUuid;
     }
 
     /**
@@ -63,7 +72,7 @@ public class Core {
     }
 
     /**
-     * Enabled debug mode
+     * Set debug mode AKA Offline Mode. If true, BDN login will be skipped, so BDN Servers or Scripts will be unavailable.
      *
      * @param debug
      */
@@ -95,7 +104,7 @@ public class Core {
     }
 
     /**
-     * @return if the client is in debug mode.
+     * @return if the client is in debug mode AKA Offline Mode. BDN Servers and Scripts are unavailable.
      */
     public static boolean inDebugMode() {
         return debug;
@@ -161,7 +170,9 @@ public class Core {
                     String result;
                     if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
                         JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        return (boolean) object.get("result");
+                        boolean upToDate = (boolean) object.get("result");
+                        Core.verbose("Local checksum: " + URLEncoder.encode(sb.toString(), "UTF-8") + ". " + (upToDate ? "This matches BDN and is up to date." : "BDN mismatch, must be Out Of Date."));
+                        return upToDate;
                     }
                 }
             } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
@@ -187,6 +198,7 @@ public class Core {
                 if (!latest) {
                     Directories.clearCache();
                 }
+                Core.verbose("Local version: " + currentVersion.get() + ". " + (latest ? "This is up to date." : "This is Out Of Date. Cache will be cleared."));
                 return latest;
             }
         } catch (IOException | ParseException e) {

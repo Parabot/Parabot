@@ -54,6 +54,30 @@ public final class Time {
     }
 
     /**
+     * Sleeps until SleepCondition is valid, but with a minimum timeout.
+     *
+     * @param conn              the condition.
+     * @param timeout           the time in milliseconds before it stops sleeping.
+     * @param minimumTimeout    the minimum time to sleep.
+     *
+     * @return whether it ran successfully without timing out.
+     */
+    public static boolean sleep(SleepCondition conn, int timeout, int minimumTimeout) {
+        long start = System.currentTimeMillis();
+
+        if(!sleep(conn, timeout)) {
+            return false;
+        }
+
+        long t;
+        if((t = System.currentTimeMillis() - start) < minimumTimeout) {
+            Time.sleep((int)(minimumTimeout - t));
+        }
+
+        return true;
+    }
+
+    /**
      * Gets current time in milliseconds
      *
      * @return time in ms

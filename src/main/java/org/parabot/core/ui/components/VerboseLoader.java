@@ -275,4 +275,20 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     public void updateDownloadSpeed(double mbPerSecond) {
         progressBar.setText(String.format("(%.2fMB/s)", mbPerSecond));
     }
+
+    @Override
+    public void updateMessage(String message) {
+        VerboseLoader.setState(message);
+    }
+
+    @Override
+    public void updateMessageAndProgress(String message, double progress) {
+        VerboseLoader.setState(message);
+        onProgressUpdate(progress);
+    }
+
+    @Override
+    public double getCurrentProgress() {
+        return progressBar.getValue();
+    }
 }

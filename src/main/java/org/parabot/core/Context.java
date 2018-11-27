@@ -70,6 +70,13 @@ public class Context {
         this.defaultErr = System.err;
     }
 
+    public static double getJavaVersion() {
+        String version = System.getProperty("java.version");
+        int pos = version.indexOf('.');
+        pos = version.indexOf('.', pos+1);
+        return Double.parseDouble(version.substring (0, pos));
+    }
+
     /**
      * Returns the instance of this class, based on a given ServerProvider
      *

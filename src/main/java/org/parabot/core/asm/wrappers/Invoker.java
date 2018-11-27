@@ -79,4 +79,8 @@ public class Invoker implements Injectable {
                 this.argsDesc, this.returnDesc, this.methodName, this.isInterface, this.instanceCast, this.argsCheckCastDesc);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Injectable type: Invoker, accessor: %s, method name: %s, invokes method: %s", methodLocation.name, methodName, mName);
+    }
 }

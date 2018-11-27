@@ -49,4 +49,19 @@ public class Callback implements Injectable {
                 this.invokeMethod, this.desc, this.args, this.conditional);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Injectable type: Callback");
+
+        if(method != null) {
+            sb.append(", intercepts method: ").append(method.name);
+        }
+
+        sb.append(", calls class: ").append(invokeClass)
+                .append(", calls method: ").append(invokeMethod);
+
+        return sb.toString();
+    }
 }

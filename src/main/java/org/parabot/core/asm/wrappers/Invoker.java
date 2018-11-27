@@ -81,10 +81,6 @@ public class Invoker implements Injectable {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("Injectable type: Invoker")
-                .append(", accessor: ").append(methodLocation.name)
-                .append(", method name: ").append(methodName)
-                .append(", invokes method: ").append(mName).toString();
+        return String.format("Injectable type: Invoker, accessor: %s, method name: %s, invokes method: %s", methodLocation.name, methodName, mName);
     }
 }

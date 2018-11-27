@@ -25,7 +25,7 @@ public class Setter implements Injectable {
         this.into = ASMUtils.getClass(into);
         this.field = ASMUtils.getField(this.fieldLocation, fieldName, fieldDesc);
         this.name = methodName;
-        this.desc = (desc == null) && this.field != null ? this.field.desc : desc;
+        this.desc = (desc == null && this.field != null) ? this.field.desc : desc;
         this.methodStatic = methodStatic;
     }
 

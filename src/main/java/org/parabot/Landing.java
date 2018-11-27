@@ -35,6 +35,11 @@ public final class Landing {
             System.exit(0);
         }
 
+        if(!System.getProperty("os.arch").contains("64")) {
+            UILog.log("Parabot", "You are not running a 64-bit version of java, this might cause the client to lag or crash unexpectedly.\r\n" +
+                    "It's recommended to upgrade to a 64-bit version.");
+        }
+
         parseArgs(args);
 
         Directories.validate();

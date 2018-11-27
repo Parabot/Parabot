@@ -7,6 +7,7 @@ import org.parabot.environment.scripts.Script;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
@@ -56,6 +57,15 @@ public class ClassRedirect {
         }
         Core.verbose("Received #forName(" + name + ") call");
         return Class.forName(name);
+    }
+
+    public static URL getResource(Class<?> c, String path) {
+        if(validStack() || validRequest(c)) {
+            return c.getResource(path);
+        }
+
+        System.err.println(c.getName() + "#getResource(" + path + ") Blocked.");
+        throw RedirectClassAdapter.createSecurityException();
     }
 
     public static ClassLoader getClassLoader(Class<?> c) {
@@ -213,6 +223,6 @@ public class ClassRedirect {
 
     private static boolean validRequest(Class c) {
         Core.verbose("Got request for class: " + c.getName());
-        return !c.getName().toLowerCase().contains("parabot");
+        return c.getName().toLowerCase().contains("parabot");
     }
 }

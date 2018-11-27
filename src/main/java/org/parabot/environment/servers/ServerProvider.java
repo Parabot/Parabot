@@ -5,6 +5,7 @@ import org.parabot.core.Context;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
@@ -21,6 +22,7 @@ import java.net.URL;
  * @author Everel
  */
 public abstract class ServerProvider implements Opcodes {
+    private boolean crashed = false;
 
     /**
      * Get the game/applet dimensions
@@ -74,12 +76,29 @@ public abstract class ServerProvider implements Opcodes {
 
         HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
+
         if (injectables == null) {
             return;
         }
-        for (Injectable inj : injectables) {
-            inj.inject();
+
+        int index = 0;
+
+        try {
+            for (Injectable inj : injectables) {
+                inj.inject();
+                index++;
+            }
+        } catch (NullPointerException ex) {
+            if(!crashed) {
+                Injectable inj = injectables[index];
+
+                UILog.log("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff/Dev Team.\r\n\r\n" +
+                        "Broken hook:\r\n"+inj, JOptionPane.ERROR_MESSAGE);
+            }
+            crashed = true;
+            throw ex;
         }
+
         Context.getInstance().setHookParser(parser);
     }
 

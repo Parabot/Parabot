@@ -5,6 +5,8 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.parabot.core.Context;
+import org.parabot.core.exceptions.FieldNotFoundException;
+import org.parabot.core.ui.components.VerboseLoader;
 
 import java.lang.reflect.Modifier;
 
@@ -25,7 +27,8 @@ public class ASMUtils implements Opcodes {
         return null;
     }
 
-    public static FieldNode getField(ClassNode node, String fieldName, String desc) {
+    public static FieldNode getField(ClassNode node, String fieldName, String desc) throws FieldNotFoundException {
+
         if (desc == null) {
             return getField(node, fieldName);
         }
@@ -35,7 +38,8 @@ public class ASMUtils implements Opcodes {
                 return fieldNodeObject;
             }
         }
-        return null;
+        VerboseLoader.setState("Failed to find field");
+        throw new FieldNotFoundException("Failed to find field");
     }
 
     public static ClassNode getClass(String className) {

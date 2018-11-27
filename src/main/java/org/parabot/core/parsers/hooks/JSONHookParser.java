@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class JSONHookParser extends HookParser {
     }
 
     @Override
-    public Getter[] getGetters() {
+    public Getter[] getGetters() throws FieldNotFoundException {
         JSONArray a = (JSONArray) root.get("getters");
 
         if (a != null && a.size() > 0) {
@@ -120,7 +121,7 @@ public class JSONHookParser extends HookParser {
     }
 
     @Override
-    public Setter[] getSetters() {
+    public Setter[] getSetters() throws FieldNotFoundException {
         JSONArray a = (JSONArray) root.get("setters");
 
         if (a != null && a.size() > 0) {

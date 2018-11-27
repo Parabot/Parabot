@@ -4,7 +4,10 @@ import org.objectweb.asm.Opcodes;
 import org.parabot.core.Context;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
+import org.parabot.core.exceptions.FailToParseHooksException;
+import org.parabot.core.exceptions.FieldNotFoundException;
 import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
@@ -65,18 +68,20 @@ public abstract class ServerProvider implements Opcodes {
         return null;
     }
 
-    public void injectHooks() {
+    public void injectHooks() throws FailToParseHooksException, FieldNotFoundException {
         HookFile hookFile = fetchHookFile();
 
         if (hookFile == null) {
             return;
         }
-
         HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
-        if (injectables == null) {
-            return;
+
+        if (injectables.length <= 0) {
+            VerboseLoader.setState("Failed to parse all hooks");
+            throw new FailToParseHooksException("Failed to parse all hooks");
         }
+      
         for (Injectable inj : injectables) {
             inj.inject();
         }

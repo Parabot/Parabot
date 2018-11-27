@@ -5,6 +5,8 @@ import org.parabot.api.translations.TranslationHelper;
 import org.parabot.core.asm.ASMClassLoader;
 import org.parabot.core.classpath.ClassPath;
 import org.parabot.core.desc.ServerProviderInfo;
+import org.parabot.core.exceptions.FailToParseHooksException;
+import org.parabot.core.exceptions.FieldNotFoundException;
 import org.parabot.core.paint.PaintDebugger;
 import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.ui.BotDialog;
@@ -32,8 +34,8 @@ import java.util.TimerTask;
  * @author Everel, JKetelaar, Matt
  */
 public class Context {
-    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
 
+    public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
     private static ArrayList<Paintable> paintables = new ArrayList<>();
     private static Context              instance;
     private static String               username;
@@ -52,6 +54,7 @@ public class Context {
     private PBKeyListener      pbKeyListener;
     private ServerProviderInfo providerInfo;
     private JSONParser         jsonParser;
+
     private PrintStream        defaultOut;
     private PrintStream        defaultErr;
 
@@ -105,7 +108,7 @@ public class Context {
     public static String getUsername() {
         return username;
     }
-
+  
     /**
      * Sets the username for the logged in user to Parabot
      *
@@ -120,24 +123,6 @@ public class Context {
      */
     public void setClientInstance(Object object) {
         this.clientInstance = object;
-    }
-
-    /**
-     * Gets the mouse
-     *
-     * @return mouse
-     */
-    public Mouse getMouse() {
-        return mouse;
-    }
-
-    /**
-     * Sets the mouse
-     *
-     * @param mouse
-     */
-    public void setMouse(final Mouse mouse) {
-        this.mouse = mouse;
     }
 
     /**
@@ -156,6 +141,24 @@ public class Context {
      */
     public void setKeyboard(final Keyboard keyboard) {
         this.keyboard = keyboard;
+    }
+
+    /**
+     * Gets the mouse
+     *
+     * @return mouse
+     */
+    public Mouse getMouse() {
+        return mouse;
+    }
+
+    /**
+     * Sets the mouse
+     *
+     * @param mouse
+     */
+    public void setMouse(final Mouse mouse) {
+        this.mouse = mouse;
     }
 
     /**
@@ -246,7 +249,8 @@ public class Context {
     /**
      * Loads the game
      */
-    public void load() {
+
+    public void load() throws FailToParseHooksException, FieldNotFoundException {
         Core.verbose(TranslationHelper.translate("PARSING_SERVER_JAR"));
         serverProvider.init();
         serverProvider.parseJar();
@@ -261,8 +265,7 @@ public class Context {
             Core.verbose(TranslationHelper.translate("DONE"));
         }
         Applet applet = serverProvider.fetchApplet();
-
-        // If applet is null the server provider will call setApplet itself
+        // if applet is null the server provider will call setApplet itself
         if (applet != null) {
             setApplet(applet);
         }

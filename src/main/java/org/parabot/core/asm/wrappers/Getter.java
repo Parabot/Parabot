@@ -6,6 +6,7 @@ import org.parabot.core.Core;
 import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.adapters.AddGetterAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 /**
  * This class injects a getter which gets a specific field
@@ -33,12 +34,13 @@ public class Getter implements Injectable {
      */
     public Getter(final String into, final String fieldLocation, final String fieldNode,
                   final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier,
-                  final String fieldDesc) {
+                  final String fieldDesc) throws FieldNotFoundException {
+
         this.into = ASMUtils.getClass(into);
         this.fieldLocation = ASMUtils.getClass(fieldLocation);
         this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
         this.methodName = methodName;
-        this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
+        this.returnDesc = returnDesc == null ? null : returnDesc;
         this.staticMethod = staticMethod;
         this.multiplier = multiplier;
         Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");

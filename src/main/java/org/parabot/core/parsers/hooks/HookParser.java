@@ -3,6 +3,7 @@ package org.parabot.core.parsers.hooks;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.exceptions.FieldNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,9 +25,9 @@ public abstract class HookParser {
 
     public abstract Super[] getSupers();
 
-    public abstract Getter[] getGetters();
+    public abstract Getter[] getGetters() throws FieldNotFoundException;
 
-    public abstract Setter[] getSetters();
+    public abstract Setter[] getSetters() throws FieldNotFoundException;
 
     public abstract Invoker[] getInvokers();
 
@@ -34,33 +35,32 @@ public abstract class HookParser {
 
     public abstract HashMap<String, String> getConstants();
 
-    public Injectable[] getInjectables() {
-        ArrayList<Injectable> injectables = new ArrayList<Injectable>();
-        Interface[]           interfaces  = getInterfaces();
-        if (interfaces != null) {
-            Collections.addAll(injectables, interfaces);
-        }
+    public Injectable[] getInjectables() throws FieldNotFoundException {
+
+        ArrayList<Injectable> injectables = new ArrayList<>();
+
+        Interface[] interfaces = getInterfaces();
+        Collections.addAll(injectables, interfaces);
+
         Getter[] getters = getGetters();
-        if (getters != null) {
-            Collections.addAll(injectables, getters);
-        }
+        Collections.addAll(injectables, getters);
+
         Setter[] setters = getSetters();
-        if (setters != null) {
-            Collections.addAll(injectables, setters);
-        }
-        Super[] supers = getSupers();
-        if (supers != null) {
-            Collections.addAll(injectables, supers);
-        }
+        Collections.addAll(injectables, setters);
+
         Invoker[] invokers = getInvokers();
-        if (invokers != null) {
-            Collections.addAll(injectables, invokers);
-        }
+        Collections.addAll(injectables, invokers);
+
         Callback[] callbacks = getCallbacks();
-        if (callbacks != null) {
-            Collections.addAll(injectables, callbacks);
+        Collections.addAll(injectables, callbacks);
+
+        Super[] supers = getSupers();
+        Collections.addAll(injectables, supers);
+
+        if (injectables.isEmpty()) {
+            return new Injectable[0];
         }
+
         return injectables.toArray(new Injectable[injectables.size()]);
     }
-
 }

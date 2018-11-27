@@ -43,8 +43,8 @@ public class AddGetterAdapter implements Opcodes, Injectable {
         this.fieldLocation = fieldLocation;
         this.fieldNode = fieldNode;
         this.methodName = methodName;
-        this.returnDesc = returnDesc == null ? fieldNode.desc : returnDesc;
-        this.staticField = Modifier.isStatic(fieldNode.access);
+        this.returnDesc = returnDesc == null && fieldNode != null ? fieldNode.desc : returnDesc;
+        this.staticField = fieldNode != null && Modifier.isStatic(fieldNode.access);
         this.staticMethod = staticMethod;
         this.multiplier = multiplier;
     }

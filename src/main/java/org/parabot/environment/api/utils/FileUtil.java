@@ -1,10 +1,8 @@
 package org.parabot.environment.api.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -87,5 +85,16 @@ public class FileUtil {
             source.close();
         }
         destination.close();
+    }
+
+    public static String getFileContents(File file) throws IOException {
+        return new String(Files.readAllBytes(file.toPath()));
+    }
+
+    public static void writeFileContents(File file, String contents) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+        writer.write(contents);
+
+        writer.close();
     }
 }

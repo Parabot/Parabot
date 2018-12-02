@@ -182,4 +182,32 @@ public class ServerProviderInfo {
         // Will never return null, unless the BDN URL is changed. It shouldn't be.
         return null;
     }
+
+
+    /**
+     * This is a temporary method until the bdn gets updated
+     * @param serverName
+     * @return
+     */
+    public static String getProviderVersion(String serverName) {
+        try {
+            serverName = serverName.toLowerCase();
+            String providerInfo = String.format("http://v3.bdn.parabot.org/api/bot/list/%s-provider?latest=true", serverName);
+            String response = WebUtil.getContents(providerInfo);
+
+            if (response.length() > 0) {
+                JSONObject jsonObject = (JSONObject) WebUtil.getJsonParser().parse(response);
+
+                if (jsonObject.get("version") != null) {
+                    return jsonObject.get("version").toString();
+                }
+            } else if (response.equals("")) {
+                return getProviderVersion("default");
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
 }

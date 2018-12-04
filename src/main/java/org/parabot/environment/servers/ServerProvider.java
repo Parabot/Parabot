@@ -1,6 +1,7 @@
 package org.parabot.environment.servers;
 
 import org.objectweb.asm.Opcodes;
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
@@ -14,6 +15,8 @@ import javax.swing.*;
 import java.applet.Applet;
 import java.applet.AppletStub;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -92,8 +95,15 @@ public abstract class ServerProvider implements Opcodes {
             if(!crashed) {
                 Injectable inj = injectables[index];
 
-                UILog.log("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff/Dev Team.\r\n\r\n" +
-                        "Broken hook:\r\n"+inj, JOptionPane.ERROR_MESSAGE);
+                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff/Dev Team.\r\n\r\n" +
+                        "Broken hook:\r\n"+inj, new Object[]{"Close", "Report here..."}, JOptionPane.ERROR_MESSAGE);
+
+                if(resp == 1) {
+                    URI uri = URI.create(Configuration.COMMUNITY + "forum/135-reports/");
+                    try {
+                        Desktop.getDesktop().browse(uri);
+                    } catch (IOException ignore) {}
+                }
             }
             crashed = true;
             throw ex;

@@ -95,11 +95,11 @@ public abstract class ServerProvider implements Opcodes {
             if(!crashed) {
                 Injectable inj = injectables[index];
 
-                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff/Dev Team.\r\n\r\n" +
+                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff.\r\n\r\n" +
                         "Broken hook:\r\n"+inj, new Object[]{"Close", "Report here..."}, JOptionPane.ERROR_MESSAGE);
 
                 if(resp == 1) {
-                    URI uri = URI.create(Configuration.COMMUNITY + "forum/135-reports/");
+                    URI uri = URI.create(Configuration.COMMUNITY_PAGE + "forum/135-reports/");
                     try {
                         Desktop.getDesktop().browse(uri);
                     } catch (IOException ignore) {}

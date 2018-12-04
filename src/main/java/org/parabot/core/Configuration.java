@@ -24,6 +24,6 @@ public class Configuration extends org.parabot.api.Configuration {
 
     public static final Version BOT_VERSION             = ProjectProperties.getProjectVersion();
 
-    public static final String COMMUNITY                = "https://www.parabot.org/community/";
-    public static final String REGISTRATION_PAGE        = COMMUNITY + "register/";
+    public static final String COMMUNITY_PAGE           = "https://www.parabot.org/community/";
+    public static final String REGISTRATION_PAGE        = COMMUNITY_PAGE + "register/";
 }

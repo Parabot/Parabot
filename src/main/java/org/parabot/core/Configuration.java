@@ -11,8 +11,10 @@ public class Configuration extends org.parabot.api.Configuration {
     public static final String LOGIN_SERVER             = "http://bdn.parabot.org/api/v2/users/login";
     public static final String GET_SCRIPTS              = "http://bdn.parabot.org/api/get.php?action=scripts_scripts&server=";
     public static final String GET_SCRIPT               = "http://bdn.parabot.org/api/get.php?action=scripts_script&id=";
+    public static final String GET_SERVER_PROVIDER_TYPE = "http://v3.bdn.parabot.org/api/bot/server/type?server=";
     public static final String GET_SERVER_PROVIDERS     = "http://bdn.parabot.org/api/get.php?action=server_providers";
     public static final String GET_SERVER_PROVIDER      = "http://v3.bdn.parabot.org/api/bot/download/provider?nightly=%s&server=%s";
+    public static final String SERVER_PROVIDER_INFO     = "http://v3.bdn.parabot.org/api/bot/list/%s?latest=true";
     public static final String GET_SERVER_PROVIDER_INFO = "http://bdn.parabot.org/api/get.php?action=server_information&name=";
     public static final String GET_SERVER_SETTINGS      = "http://bdn.parabot.org/api/get.php?action=get_settings";
     public static final String GET_BOT_VERSION          = "http://bdn.parabot.org/api/v2/bot/version";

@@ -57,7 +57,7 @@ public class PublicServerExecuter extends ServerExecuter {
 
             Core.verbose("Downloading: " + jarUrl + " ...");
 
-            String providerVersion = ServerProviderInfo.getProviderVersion(serverName);
+            String providerVersion = serverProviderInfo.getProviderVersion();
             if(providerVersion == null) {
                 providerVersion = "error";
             }

@@ -12,8 +12,8 @@ public class WebUtil extends org.parabot.api.io.WebUtil {
     /**
      * Fetches a single value from a JSON string at the given url
      *
-     * @param url
-     * @param key
+     * @param url url to get the JSON string from
+     * @param key key to search for in the JSON string
      * @return value that belongs to given key
      */
     public static String getJsonValue(String url, String key) {

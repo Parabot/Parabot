@@ -39,7 +39,7 @@ public class PublicServerExecuter extends ServerExecuter {
     private String serverName;
 
     private PBLocalPreferences settings;
-    private final String CACHE_VERSION_KEY = "cachedProviderVersion";
+    private final String cacheVersionKey = "cachedProviderVersion";
 
     public PublicServerExecuter(final String serverName) {
         this.serverName = serverName;
@@ -63,9 +63,9 @@ public class PublicServerExecuter extends ServerExecuter {
             }
 
             settings = new PBLocalPreferences(serverProviderInfo.getClientCRC32()+".json");
-            if(settings.getSetting(CACHE_VERSION_KEY) != null) {
-                Core.verbose(String.format("Latest provider version: %s, local provider version: %s", settings.getSetting(CACHE_VERSION_KEY), providerVersion));
-                if(!settings.getSetting(CACHE_VERSION_KEY).equals(providerVersion)) {
+            if(settings.getSetting(cacheVersionKey) != null) {
+                Core.verbose(String.format("Latest provider version: %s, local provider version: %s", settings.getSetting(cacheVersionKey), providerVersion));
+                if(!settings.getSetting(cacheVersionKey).equals(providerVersion)) {
                     Core.verbose("Local provider outdated, clearing cache.");
                     Directories.clearCache();
                 }
@@ -73,7 +73,7 @@ public class PublicServerExecuter extends ServerExecuter {
                 Core.verbose("No local provider version in settings, adding to settings file");
             }
 
-            settings.addSetting(CACHE_VERSION_KEY, providerVersion);
+            settings.addSetting(cacheVersionKey, providerVersion);
 
             if (destination.exists()) {
                 Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");

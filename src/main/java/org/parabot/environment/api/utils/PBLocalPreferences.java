@@ -8,14 +8,13 @@ import java.io.File;
 import java.util.HashMap;
 
 /**
- * Manages preferences in a local json file in the Parabot settings folder
+ * Manages preferences in a local file in JSON format in the Parabot settings folder
  *
  * @author AlexanderBielen
  */
 public class PBLocalPreferences {
     private static JSONParser parser = new JSONParser();
     private File settingsFile;
-
 
     public PBLocalPreferences(String fileName) {
         settingsFile = new File(Directories.getSettingsPath() + "/" + secureFileName(fileName));
@@ -63,8 +62,8 @@ public class PBLocalPreferences {
     /**
      * Adds a setting, or overwrites it if it exists
      *
-     * @param key
-     * @param value
+     * @param key key of the setting
+     * @param value value of the setting
      */
     public void addSetting(String key, String value) {
         HashMap<String, String> pair = new HashMap<>();
@@ -75,8 +74,8 @@ public class PBLocalPreferences {
     /**
      * Fetches a setting
      *
-     * @param key
-     * @return
+     * @param key key to get the value for
+     * @return value that belongs to given key or null if non-existent
      */
     public String getSetting(String key) {
         if(getSettings() == null) {
@@ -89,8 +88,8 @@ public class PBLocalPreferences {
     /**
      * Adjusts an existing setting
      *
-     * @param key
-     * @param value
+     * @param key key to adjust the value for
+     * @param value value for the key
      */
     public void adjustSetting(String key, String value) {
         addSetting(key, value);
@@ -99,7 +98,7 @@ public class PBLocalPreferences {
     /**
      * Removes a setting
      *
-     * @param key
+     * @param key key to remove
      */
     public void removeSetting(String key) {
         JSONObject json = getSettings();
@@ -107,7 +106,13 @@ public class PBLocalPreferences {
         writeSettings(json, false);
     }
 
-    private static String secureFileName(String fileName) {
-        return fileName.replace("..", "");
+    /**
+     * Replaces all double dots to make sure the link does not leave the settings folder
+     *
+     * @param filePath path to secure
+     * @return secured string
+     */
+    private static String secureFileName(String filePath) {
+        return filePath.replace("..", "");
     }
 }

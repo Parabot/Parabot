@@ -1,10 +1,14 @@
 package org.parabot.core.ui.components.notifications;
 
+import org.parabot.api.Configuration;
 import org.parabot.api.output.Verboser;
 import org.parabot.api.ui.JavaFxUtil;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * A JavaFX Panel embedded into a Swing JFrame - handles notification settings
@@ -15,13 +19,17 @@ public class NotificationUI extends JavaFxUtil {
 
     final NotificationUI n;
 
-    private NotificationUI() {
-        super("/storage/ui/notifications.fxml", NotificationUIController.class);
+    private NotificationUI() throws URISyntaxException, MalformedURLException {
+        super(Configuration.class.getClass().getResource("/storage/ui/notifications.fxml").toURI().toURL(), NotificationUIController.class);
         this.n = this;
     }
 
     public static void create() {
-        new NotificationUI();
+        try {
+            new NotificationUI();
+        } catch (URISyntaxException | MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

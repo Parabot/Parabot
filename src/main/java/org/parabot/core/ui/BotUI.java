@@ -1,8 +1,10 @@
 package org.parabot.core.ui;
 
 import javafx.application.Application;
+import org.parabot.api.io.WebUtil;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
@@ -21,6 +23,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -67,6 +71,14 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             BotDialog.getInstance().setVisible(false);
+        }
+        try {
+            String contents = WebUtil.getContents(new URL("http://v3.bdn.parabot.org/api/bot/register/java"), "java=" + Core.getJavaVersion());
+            if(contents == null){
+                Core.verbose("Could not register Java version");
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 

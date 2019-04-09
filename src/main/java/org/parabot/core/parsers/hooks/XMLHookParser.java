@@ -192,10 +192,14 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addGetter) ? getValue(
-                    "classname", addGetter) : interfaceMap.get(getValue(
+                    "classname", addGetter) : getInterMapValue(getValue(
                     "accessor", addGetter));
-            final String into = isSet("into", addGetter) ? getValue("into",
+            String into = isSet("into", addGetter) ? getValue("into",
                     addGetter) : className;
+            if (into != null && into.contains("%s")) { // replacement target
+                into = getInterMapValue(into.substring(into.indexOf("%s") + 2));
+                System.out.println("Getters() -> into replaced with "+into);
+            }
             final long   multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = getValue("field", addGetter);
             final String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
@@ -267,7 +271,7 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addSetter) ? getValue(
-                    "classname", addSetter) : interfaceMap.get(getValue(
+                    "classname", addSetter) : getInterMapValue(getValue(
                     "accessor", addSetter));
             final String into = isSet("into", addSetter) ? getValue("into",
                     addSetter) : className;
@@ -340,15 +344,27 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addInvoker) ? getValue(
-                    "classname", addInvoker) : interfaceMap.get(getValue(
+                    "classname", addInvoker) : getInterMapValue(getValue(
                     "accessor", addInvoker));
-            final String into = isSet("into", addInvoker) ? getValue("into",
+            String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
+            final String prevInto = into;
+            if (into != null && into.contains("%s")) { // replacement target
+                into = getInterMapValue(into.substring(into.indexOf("%s") + 2));
+                System.out.println("Invokers() -> into '"+prevInto+"' replaced with "+into);
+            }
             final String methodName    = getValue("methodname", addInvoker);
             final String invMethodName = getValue("invokemethod", addInvoker);
             final String argsDesc      = getValue("argsdesc", addInvoker);
-            String returnDesc = isSet("desc", addInvoker) ? resolveDesc(getValue(
-                    "desc", addInvoker)) : null;
+            String returnDesc = isSet("desc", addInvoker) ? getValue(
+                    "desc", addInvoker) : null;
+            if (returnDesc != null && returnDesc.contains("%s")) {
+                final String prevReturnDesc = returnDesc;
+                returnDesc = "L" + getInterMapValue(returnDesc.substring(returnDesc.indexOf("%s") + 2)) + ";";
+                System.out.println("Invokers() -> returnDesc '"+prevReturnDesc+"' replaced with "+returnDesc);
+            } else {
+                returnDesc = resolveDesc(returnDesc);
+            }
 
             final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
@@ -359,6 +375,12 @@ public class XMLHookParser extends HookParser {
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);
+    }
+
+    public String getInterMapValue(String key) {
+        if (!interfaceMap.containsKey(key))
+            throw new RuntimeException("no interface by name: "+key);
+        return interfaceMap.get(key);
     }
 
     @Override
@@ -438,7 +460,7 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addCallback) ? getValue(
-                    "classname", addCallback) : interfaceMap.get(getValue(
+                    "classname", addCallback) : getInterMapValue(getValue(
                     "accessor", addCallback));
 
             final String  methodName  = getValue("methodname", addCallback);

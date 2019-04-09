@@ -38,6 +38,7 @@ public class ASMUtils implements Opcodes {
                 return fieldNodeObject;
             }
         }
+        System.err.println("WARN: failed to find field named: "+node.name+"."+fieldName+" "+desc);
         return null;
     }
 

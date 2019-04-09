@@ -1,5 +1,6 @@
 package org.parabot.core.parsers.hooks;
 
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
@@ -11,10 +12,154 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class XMLHookParser extends HookParser {
+    public Document getDoc() {
+        return doc;
+    }
+
+    @Override
+    public void verifyHooks() {
+        XMLHookParser parser = (XMLHookParser) Context.getInstance().getHookParser();
+
+        final NodeList getterRootList = parser.getDoc().getElementsByTagName("getters");
+        switch (getterRootList.getLength()) {
+            case 0:
+                return;
+            case 1:
+                break;
+            default:
+                throw new RuntimeException(
+                        "Hook file may not contains multiple <getters> tags ");
+        }
+        final Node node = getterRootList.item(0);
+        if (node.getNodeType() != Node.ELEMENT_NODE) {
+            return;
+        }
+        final Element  getterRoot = (Element) node;
+        final NodeList getters    = getterRoot.getElementsByTagName("add");
+        if (getters.getLength() == 0) {
+            return;
+        }
+        for (int x = 0; x < getters.getLength(); x++) {
+            final Node n = getters.item(x);
+            if (n.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+            final Element addGetter = (Element) n;
+            if (parser.isSet("classname", addGetter) && parser.isSet("accessor", addGetter)) {
+                throw new RuntimeException(
+                        "Can't set classname and accessor tag together.");
+            }
+            if (parser.isSet("accessor", addGetter) && !parser.isParsedInterfaces()) {
+                throw new RuntimeException(
+                        "You'll need to parse interfaces first.");
+            }
+            final String className = parser.isSet("classname", addGetter) ? parser.getValue(
+                    "classname", addGetter) : parser.getInterMapValue(parser.getValue(
+                    "accessor", addGetter));
+
+            String into = parser.isSet("into", addGetter) ? parser.getValue("into",
+                    addGetter) : className;
+            final String prevInto = into;
+            if (into != null && into.contains("%s")) { // replacement target
+                into = parser.getInterMapValue(into.substring(into.indexOf("%s") + 2));
+                System.out.println("Getters() -> into '"+prevInto+"' replaced with "+into);
+            }
+            final long   multiplier = parser.isSet("multiplier", addGetter) ? Long.parseLong(parser.getValue("multiplier", addGetter)) : 0L;
+            final String fieldName  = parser.getValue("field", addGetter);
+            final String fieldDesc  = parser.isSet("descfield", addGetter) ? parser.getValue("descfield", addGetter) : null;
+            final String methodName = parser.getValue("methodname", addGetter);
+            boolean staticMethod = parser.isSet("methstatic", addGetter) ? (parser.getValue(
+                    "methstatic", addGetter).equals("true")) : false;
+            String returnDesc = parser.isSet("desc", addGetter) ? parser.getValue("desc",
+                    addGetter) : null;
+            String array = "";
+            if (returnDesc != null && returnDesc.contains("%s")) {
+                StringBuilder str = new StringBuilder();
+                if (returnDesc.startsWith("[")) {
+                    for (int i = 0; i < returnDesc.length(); i++) {
+                        if (returnDesc.charAt(i) == '[') {
+                            array += '[';
+                        }
+                    }
+                    returnDesc = returnDesc.replaceAll("\\[", "");
+                }
+                str.append(array)
+                        .append('L')
+                        .append(String.format(returnDesc,
+                                AddInterfaceAdapter.getAccessorPackage()))
+                        .append(";");
+                returnDesc = str.toString();
+            }
+
+            if (parser.isSet("accessor", addGetter)) {
+                String a = parser.getValue("accessor", addGetter);
+
+                String api = (AddInterfaceAdapter.getAccessorPackage() + a).replace("/", ".");
+                // System.out.println("[API] searching: "+api);
+                try {
+                    boolean found = false;
+                    Method[] methods  = allMethods(Context.getInstance().getASMClassLoader().loadClass(api));
+                    //System.out.println("matching '"+methodName+"' with "+api+"'s "+methods.length+" => "+Arrays.stream(methods).map(Method::getName).collect(Collectors.toList()));
+                    for (Method method : methods) {
+                        if (method.getName().equals(methodName)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.err.println("A hook you've added doesn't exist in the API!! "+api+"."+methodName);
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    private Method[] allMethods(Class<?> representingClass) {
+        List<Method> methodList = new ArrayList<>(0);
+        methodList.addAll(Arrays.asList(representingClass.getDeclaredMethods()));
+        if (representingClass.getInterfaces() != null && representingClass.getInterfaces().length > 0) {
+            for (Class<?> anInterface : representingClass.getInterfaces()) {
+                methodList.addAll(Arrays.asList(allMethods(anInterface)));
+            }
+        }
+        if (representingClass.getSuperclass() != null && representingClass.getSuperclass() != Object.class) {
+            methodList.addAll(Arrays.asList(allMethods(representingClass.getSuperclass())));
+        }
+        return methodList.toArray(new Method[0]);
+    }
+
+    class GetterInfo {
+        public String into, className, fieldName, methodName, returnDesc, fieldDesc;
+        boolean staticM; long multi;
+        public GetterInfo(String into, String className, String fieldName, String methodName, String returnDesc, boolean staticMethod, long multiplier, String fieldDesc) {
+            this.into = into;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.methodName = methodName;
+            this.returnDesc = returnDesc;
+            this.staticM = staticMethod;
+            this.multi = multiplier; this.fieldDesc = fieldDesc;
+        }
+    }
+
+    public HashMap<String, String> getInterfaceMap() {
+        return interfaceMap;
+    }
+
+    public boolean isParsedInterfaces() {
+        return parsedInterfaces;
+    }
+
     private Document                doc;
     private HashMap<String, String> interfaceMap;
     private HashMap<String, String> constants;
@@ -60,11 +205,11 @@ public class XMLHookParser extends HookParser {
         return returnDesc;
     }
 
-    private static final boolean isSet(String tag, Element element) {
+    public static final boolean isSet(String tag, Element element) {
         return element.getElementsByTagName(tag).getLength() > 0;
     }
 
-    private static final String getValue(String tag, Element element) {
+    public static final String getValue(String tag, Element element) {
         if (element.getElementsByTagName(tag).item(0) == null) {
             throw new NullPointerException("MISSING HOOK TAG: The '" + tag + "' xml tag is missing from one of the hooks of type: " + element.getParentNode().getNodeName());
         }

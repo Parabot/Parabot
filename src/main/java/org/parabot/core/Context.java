@@ -218,6 +218,7 @@ public class Context {
         gameApplet.start();
 
         serverProvider.postAppletStart();
+        getHookParser().verifyHooks();
 
         java.util.Timer t = new java.util.Timer();
         t.schedule(new TimerTask() {

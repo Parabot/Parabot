@@ -63,4 +63,6 @@ public abstract class HookParser {
         return injectables.toArray(new Injectable[injectables.size()]);
     }
 
+    public abstract void verifyHooks();
+
 }

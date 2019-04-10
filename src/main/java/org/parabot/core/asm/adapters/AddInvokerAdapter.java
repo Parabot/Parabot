@@ -129,6 +129,7 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 
         m.visitInsn(ASMUtils.getReturnOpcode(this.returnDesc));
         m.visitMaxs(0, 0);
+       //System.out.println("invoker: inserted method "+m.name + m.desc+" \t"+m.access+" "+m.signature);
         this.into.methods.add(m);
     }
 

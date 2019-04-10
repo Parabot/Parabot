@@ -511,12 +511,22 @@ public class XMLHookParser extends HookParser {
                 returnDesc = resolveDesc(returnDesc);
             }
 
+            String invokeReturnDesc = isSet("invokereturndesc", addInvoker) ? getValue(
+                    "invokereturndesc", addInvoker) : returnDesc;
+            if (invokeReturnDesc != null && invokeReturnDesc.contains("%s")) {
+                final String prevReturnDesc = invokeReturnDesc;
+                invokeReturnDesc = "L" + getInterMapValue(invokeReturnDesc.substring(invokeReturnDesc.indexOf("%s") + 2)) + ";";
+                System.out.println("Invokers() -> returnDesc '"+prevReturnDesc+"' replaced with "+invokeReturnDesc);
+            } else {
+                invokeReturnDesc = resolveDesc(invokeReturnDesc);
+            }
+
             final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
             final String  checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
             final Invoker invoker = new Invoker(into, className, invMethodName,
-                    argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc);
+                    argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc, invokeReturnDesc);
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);

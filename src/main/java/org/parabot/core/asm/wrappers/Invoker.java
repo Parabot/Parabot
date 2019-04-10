@@ -34,17 +34,21 @@ public class Invoker implements Injectable {
 
     public Invoker(String into, String methodLoc, String invMethName,
                    String argsDesc, String returnDesc, String methodName, boolean isInterface, String instanceCast, String argsCheckCastDesc) {
+        this(into, methodLoc, invMethName, argsDesc, returnDesc, methodName, isInterface, instanceCast, argsCheckCastDesc, returnDesc);
+    }
+    public Invoker(String into, String methodLoc, String invMethName,
+                   String argsDesc, String returnDesc, String methodName, boolean isInterface, String instanceCast, String argsCheckCastDesc, String invokerReturnDesc) {
         this.into = ASMUtils.getClass(into);
         this.methodLocation = ASMUtils.getClass(methodLoc);
         this.mn = getMethod(this.methodLocation, invMethName, argsDesc, returnDesc);
-        this.returnDesc = returnDesc;
+        this.returnDesc = invokerReturnDesc;
         this.methodName = methodName;
         this.argsDesc = argsDesc;
         this.isInterface = isInterface;
         this.instanceCast = instanceCast;
 
         this.mName = invMethName;
-        this.mDesc = argsDesc + returnDesc;
+        this.mDesc = argsDesc + invokerReturnDesc;
         this.argsCheckCastDesc = argsCheckCastDesc;
     }
 

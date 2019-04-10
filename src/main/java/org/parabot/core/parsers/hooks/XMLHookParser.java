@@ -183,7 +183,14 @@ public class XMLHookParser extends HookParser {
         }
     }
 
-    private static String resolveDesc(String returnDesc) {
+    /**
+     * Replaces the %s in a tag with the ACCESSOR PACKAGE. so final result is PACKAGE + givenWord
+     * <br> no replacement with interfaces involved.
+     * <br> If you're looking for <i>accessor name substitition</i> use {@link resolveRealFromInter} instead.
+     * @param returnDesc
+     * @return
+     */
+    public static String resolveDesc(String returnDesc) {
         String array = "";
         if (returnDesc != null && returnDesc.contains("%s")) {
             StringBuilder str = new StringBuilder();
@@ -341,13 +348,15 @@ public class XMLHookParser extends HookParser {
                     "accessor", addGetter));
             String into = isSet("into", addGetter) ? getValue("into",
                     addGetter) : className;
-            if (into != null && into.contains("%s")) { // replacement target
-                into = getInterMapValue(into.substring(into.indexOf("%s") + 2));
-                System.out.println("Getters() -> into replaced with "+into);
-            }
+            if (into != null)
+                into = resolveRealFromInter(into, true);
             final long   multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = getValue("field", addGetter);
-            final String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
+
+            String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
+            if (fieldDesc != null)
+                fieldDesc = resolveRealFromInter(fieldDesc);
+
             final String methodName = getValue("methodname", addGetter);
             boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
                     "methstatic", addGetter).equals("true")) : false;
@@ -494,32 +503,22 @@ public class XMLHookParser extends HookParser {
             String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
             final String prevInto = into;
-            if (into != null && into.contains("%s")) { // replacement target
-                into = getInterMapValue(into.substring(into.indexOf("%s") + 2));
-                System.out.println("Invokers() -> into '"+prevInto+"' replaced with "+into);
-            }
+            if (into != null)
+                into = resolveRealFromInter(into, true);
             final String methodName    = getValue("methodname", addInvoker);
             final String invMethodName = getValue("invokemethod", addInvoker);
             final String argsDesc      = getValue("argsdesc", addInvoker);
             String returnDesc = isSet("desc", addInvoker) ? getValue(
                     "desc", addInvoker) : null;
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                final String prevReturnDesc = returnDesc;
-                returnDesc = "L" + getInterMapValue(returnDesc.substring(returnDesc.indexOf("%s") + 2)) + ";";
-                System.out.println("Invokers() -> returnDesc '"+prevReturnDesc+"' replaced with "+returnDesc);
-            } else {
-                returnDesc = resolveDesc(returnDesc);
-            }
+            if (returnDesc != null)
+                returnDesc = returnDesc.contains("%s") ? resolveDesc(returnDesc) :
+                        resolveRealFromInter(returnDesc);
 
             String invokeReturnDesc = isSet("invokereturndesc", addInvoker) ? getValue(
                     "invokereturndesc", addInvoker) : returnDesc;
-            if (invokeReturnDesc != null && invokeReturnDesc.contains("%s")) {
-                final String prevReturnDesc = invokeReturnDesc;
-                invokeReturnDesc = "L" + getInterMapValue(invokeReturnDesc.substring(invokeReturnDesc.indexOf("%s") + 2)) + ";";
-                System.out.println("Invokers() -> returnDesc '"+prevReturnDesc+"' replaced with "+invokeReturnDesc);
-            } else {
-                invokeReturnDesc = resolveDesc(invokeReturnDesc);
-            }
+            if (invokeReturnDesc != null)
+                invokeReturnDesc = invokeReturnDesc.contains("%s") ? resolveDesc(invokeReturnDesc) :
+                        resolveRealFromInter(invokeReturnDesc);
 
             final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
@@ -530,6 +529,36 @@ public class XMLHookParser extends HookParser {
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);
+    }
+
+    public String resolveRealFromInter(String returnDesc) {
+        return resolveRealFromInter(returnDesc, false);
+    }
+    public String resolveRealFromInter(String returnDesc, boolean ignoreClassPrefix) {
+        String array = "";
+        final String old = returnDesc;
+        if (returnDesc != null && returnDesc.contains("%s")) {
+            StringBuilder str = new StringBuilder();
+            if (returnDesc.startsWith("[")) {
+                for (int i = 0; i < returnDesc.length(); i++) {
+                    if (returnDesc.charAt(i) == '[') {
+                        array += '[';
+                    }
+                }
+                returnDesc = returnDesc.replaceAll("\\[", "");
+            }
+            String key = returnDesc.substring(returnDesc.indexOf("%s") + 2);
+            returnDesc = returnDesc.replaceAll(key, "");
+            str.append(array);
+            if (!ignoreClassPrefix)
+                    str.append('L');
+            str.append(String.format(returnDesc, getInterMapValue(key)));
+            if (!ignoreClassPrefix)
+                    str.append(";");
+            returnDesc = str.toString();
+            System.out.println("[resolveReal] "+old+" -> "+returnDesc);
+        }
+        return returnDesc;
     }
 
     public String getInterMapValue(String key) {

@@ -66,11 +66,8 @@ public class XMLHookParser extends HookParser {
 
             String into = parser.isSet("into", addGetter) ? parser.getValue("into",
                     addGetter) : className;
-            final String prevInto = into;
-            if (into != null && into.contains("%s")) { // replacement target
-                into = parser.getInterMapValue(into.substring(into.indexOf("%s") + 2));
-                System.out.println("Getters() -> into '"+prevInto+"' replaced with "+into);
-            }
+            if (into != null)
+                into = resolveRealFromInter(into, true);
             final long   multiplier = parser.isSet("multiplier", addGetter) ? Long.parseLong(parser.getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = parser.getValue("field", addGetter);
             final String fieldDesc  = parser.isSet("descfield", addGetter) ? parser.getValue("descfield", addGetter) : null;
@@ -79,24 +76,8 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addGetter).equals("true")) : false;
             String returnDesc = parser.isSet("desc", addGetter) ? parser.getValue("desc",
                     addGetter) : null;
-            String array = "";
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                StringBuilder str = new StringBuilder();
-                if (returnDesc.startsWith("[")) {
-                    for (int i = 0; i < returnDesc.length(); i++) {
-                        if (returnDesc.charAt(i) == '[') {
-                            array += '[';
-                        }
-                    }
-                    returnDesc = returnDesc.replaceAll("\\[", "");
-                }
-                str.append(array)
-                        .append('L')
-                        .append(String.format(returnDesc,
-                                AddInterfaceAdapter.getAccessorPackage()))
-                        .append(";");
-                returnDesc = str.toString();
-            }
+            if (returnDesc != null)
+                returnDesc = resolveDesc(returnDesc);
 
             if (parser.isSet("accessor", addGetter)) {
                 String a = parser.getValue("accessor", addGetter);
@@ -362,24 +343,8 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addGetter).equals("true")) : false;
             String returnDesc = isSet("desc", addGetter) ? getValue("desc",
                     addGetter) : null;
-            String array = "";
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                StringBuilder str = new StringBuilder();
-                if (returnDesc.startsWith("[")) {
-                    for (int i = 0; i < returnDesc.length(); i++) {
-                        if (returnDesc.charAt(i) == '[') {
-                            array += '[';
-                        }
-                    }
-                    returnDesc = returnDesc.replaceAll("\\[", "");
-                }
-                str.append(array)
-                        .append('L')
-                        .append(String.format(returnDesc,
-                                AddInterfaceAdapter.getAccessorPackage()))
-                        .append(";");
-                returnDesc = str.toString();
-            }
+            if (returnDesc != null)
+                returnDesc = resolveDesc(returnDesc);
             final Getter get = new Getter(into, className, fieldName,
                     methodName, returnDesc, staticMethod, multiplier, fieldDesc);
             getterList.add(get);
@@ -436,24 +401,8 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addSetter).equals("true")) : false;
             String returnDesc = isSet("desc", addSetter) ? getValue("desc",
                     addSetter) : null;
-            String array = "";
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                StringBuilder str = new StringBuilder();
-                if (returnDesc.startsWith("[")) {
-                    for (int i = 0; i < returnDesc.length(); i++) {
-                        if (returnDesc.charAt(i) == '[') {
-                            array += '[';
-                        }
-                    }
-                    returnDesc = returnDesc.replaceAll("\\[", "");
-                }
-                str.append(array)
-                        .append('L')
-                        .append(String.format(returnDesc,
-                                AddInterfaceAdapter.getAccessorPackage()))
-                        .append(";");
-                returnDesc = str.toString();
-            }
+            if (returnDesc != null)
+                returnDesc = resolveDesc(returnDesc);
             final Setter get = new Setter(className, into, fieldName,
                     methodName, returnDesc, staticMethod, fieldDesc);
             setterList.add(get);
@@ -502,7 +451,7 @@ public class XMLHookParser extends HookParser {
                     "accessor", addInvoker));
             String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
-            final String prevInto = into;
+
             if (into != null)
                 into = resolveRealFromInter(into, true);
             final String methodName    = getValue("methodname", addInvoker);
@@ -534,6 +483,7 @@ public class XMLHookParser extends HookParser {
     public String resolveRealFromInter(String returnDesc) {
         return resolveRealFromInter(returnDesc, false);
     }
+
     public String resolveRealFromInter(String returnDesc, boolean ignoreClassPrefix) {
         String array = "";
         final String old = returnDesc;

@@ -465,9 +465,8 @@ public class XMLHookParser extends HookParser {
 
             String invokeReturnDesc = isSet("invokereturndesc", addInvoker) ? getValue(
                     "invokereturndesc", addInvoker) : returnDesc;
-            if (invokeReturnDesc != null)
-                invokeReturnDesc = invokeReturnDesc.contains("%s") ? resolveDesc(invokeReturnDesc) :
-                        resolveRealFromInter(invokeReturnDesc);
+            if (invokeReturnDesc != null && invokeReturnDesc.contains("%s"))
+                invokeReturnDesc = resolveDesc(invokeReturnDesc);
 
             final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;

@@ -66,7 +66,7 @@ public class XMLHookParser extends HookParser {
 
             String into = parser.isSet("into", addGetter) ? parser.getValue("into",
                     addGetter) : className;
-            if (into != null)
+            if (into != null && into.contains("%"))
                 into = resolveRealFromInter(into, true);
             final long   multiplier = parser.isSet("multiplier", addGetter) ? Long.parseLong(parser.getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = parser.getValue("field", addGetter);
@@ -76,7 +76,7 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addGetter).equals("true")) : false;
             String returnDesc = parser.isSet("desc", addGetter) ? parser.getValue("desc",
                     addGetter) : null;
-            if (returnDesc != null)
+            if (returnDesc != null && returnDesc.contains("%"))
                 returnDesc = resolveDesc(returnDesc);
 
             if (parser.isSet("accessor", addGetter)) {
@@ -329,13 +329,13 @@ public class XMLHookParser extends HookParser {
                     "accessor", addGetter));
             String into = isSet("into", addGetter) ? getValue("into",
                     addGetter) : className;
-            if (into != null)
+            if (into != null && into.contains("%"))
                 into = resolveRealFromInter(into, true);
             final long   multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = getValue("field", addGetter);
 
             String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
-            if (fieldDesc != null)
+            if (fieldDesc != null && fieldDesc.contains("%"))
                 fieldDesc = resolveRealFromInter(fieldDesc);
 
             final String methodName = getValue("methodname", addGetter);
@@ -343,7 +343,7 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addGetter).equals("true")) : false;
             String returnDesc = isSet("desc", addGetter) ? getValue("desc",
                     addGetter) : null;
-            if (returnDesc != null)
+            if (returnDesc != null && returnDesc.contains("%"))
                 returnDesc = resolveDesc(returnDesc);
             final Getter get = new Getter(into, className, fieldName,
                     methodName, returnDesc, staticMethod, multiplier, fieldDesc);
@@ -401,7 +401,7 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addSetter).equals("true")) : false;
             String returnDesc = isSet("desc", addSetter) ? getValue("desc",
                     addSetter) : null;
-            if (returnDesc != null)
+            if (returnDesc != null && returnDesc.contains("%"))
                 returnDesc = resolveDesc(returnDesc);
             final Setter get = new Setter(className, into, fieldName,
                     methodName, returnDesc, staticMethod, fieldDesc);
@@ -452,19 +452,18 @@ public class XMLHookParser extends HookParser {
             String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
 
-            if (into != null)
+            if (into != null && into.contains("%"))
                 into = resolveRealFromInter(into, true);
             final String methodName    = getValue("methodname", addInvoker);
             final String invMethodName = getValue("invokemethod", addInvoker);
             final String argsDesc      = getValue("argsdesc", addInvoker);
-            String returnDesc = isSet("desc", addInvoker) ? getValue(
+            String clientMethodReturnDesc = isSet("desc", addInvoker) ? getValue(
                     "desc", addInvoker) : null;
-            if (returnDesc != null)
-                returnDesc = returnDesc.contains("%s") ? resolveDesc(returnDesc) :
-                        resolveRealFromInter(returnDesc);
+            if (clientMethodReturnDesc != null && clientMethodReturnDesc.contains("%s"))
+                clientMethodReturnDesc = resolveRealFromInter(clientMethodReturnDesc);
 
             String invokeReturnDesc = isSet("invokereturndesc", addInvoker) ? getValue(
-                    "invokereturndesc", addInvoker) : returnDesc;
+                    "invokereturndesc", addInvoker) : clientMethodReturnDesc;
             if (invokeReturnDesc != null && invokeReturnDesc.contains("%s"))
                 invokeReturnDesc = resolveDesc(invokeReturnDesc);
 
@@ -473,7 +472,7 @@ public class XMLHookParser extends HookParser {
             final String  checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
             final Invoker invoker = new Invoker(into, className, invMethodName,
-                    argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc, invokeReturnDesc);
+                    argsDesc, clientMethodReturnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc, invokeReturnDesc);
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);

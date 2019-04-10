@@ -3,6 +3,7 @@ package org.parabot.core.asm.adapters;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+import org.parabot.core.Core;
 
 public class AddDebugAdapter {
     private ClassNode  owner;
@@ -17,7 +18,16 @@ public class AddDebugAdapter {
         this.mn = mn;
     }
 
+    @Override
+    public String toString() {
+        return "AddDebugAdapter{" +
+                "owner=" + owner +
+                ", mn=" + mn +
+                '}';
+    }
+
     public void inject() {
+        Core.verbose("Injecting: " + this.toString());
         InsnList inject = new InsnList();
         Label    l0     = new Label();
         inject.add(new LabelNode(l0));

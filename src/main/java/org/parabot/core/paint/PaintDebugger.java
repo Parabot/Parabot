@@ -57,7 +57,15 @@ public class PaintDebugger {
     }
 
     public final void toggle(final String name) {
-        debuggers.get(name).toggle();
+        if (debuggers.containsKey(name)) {
+            try {
+                debuggers.get(name).toggle();
+            } catch (ClassCastException e) {
+                System.err.println("[Paint] toggle() - you probably need a <descfield> tag on this hook! Exception: "+e);
+            }
+        } else {
+            System.err.println("No such debugger to toggle: " + name);
+        }
     }
 
     public final boolean isEnabled(final String name) {

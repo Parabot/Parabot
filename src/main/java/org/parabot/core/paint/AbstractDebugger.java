@@ -12,7 +12,7 @@ public abstract class AbstractDebugger implements Paintable {
     /**
      * Toggles this debugger
      */
-    public abstract void toggle();
+    public abstract void toggle() throws ClassCastException;
 
     /**
      * @return True if this debugger is enabled, otherwise false

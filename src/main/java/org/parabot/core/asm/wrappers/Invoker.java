@@ -51,11 +51,15 @@ public class Invoker implements Injectable {
     private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
     	for (Object method : into.methods) {
 			MethodNode m = (MethodNode) method;
-			if (m.name.equals(name) &&  m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
+			if (!m.name.equals(name))
+			    continue;
+            //System.out.println("comparing invoker... "+m.desc.substring(0, m.desc.indexOf(')') + 1)+" vs "+argsDesc+" and "+(returnDesc == null ? "" :  Type.getType(m.desc).getReturnType().getDescriptor())+" vs "+returnDesc);
+			if (m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
 					&& (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
 				return m;
 			}
 		}
+        System.err.println("WARNING: no methodnode found for "+into.name+"."+name+" \t "+argsDesc+" -> "+returnDesc);
 		return null;
     }
 

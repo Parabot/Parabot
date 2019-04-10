@@ -114,7 +114,7 @@ public class XMLHookParser extends HookParser {
                         }
                     }
                     if (!found) {
-                        System.err.println("A hook you've added doesn't exist in the API!! "+api+"."+methodName);
+                        System.err.println("A hook you've added doesn't exist in the API!! "+api+"."+methodName+" \t\t"+fieldDesc+" --> "+returnDesc);
                     }
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();

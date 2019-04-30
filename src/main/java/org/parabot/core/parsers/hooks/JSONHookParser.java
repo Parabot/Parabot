@@ -12,7 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Dane
+ * Parses a JSON file which injects the hooks and other bytecode manipulation
+ * methods
+ *
+ * @author Dane, JKetelaar
  */
 public class JSONHookParser extends HookParser {
     private JSONObject              root;
@@ -69,6 +72,11 @@ public class JSONHookParser extends HookParser {
             return i;
         }
         return null;
+    }
+
+    @Override
+    public Map<String, String> getInterfaceMap() {
+        return this.interfaces;
     }
 
     @Override

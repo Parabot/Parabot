@@ -3,6 +3,7 @@ package org.parabot.environment.servers;
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
+import org.parabot.core.Core;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.parsers.hooks.HookParser;
@@ -79,6 +80,7 @@ public abstract class ServerProvider implements Opcodes {
 
         HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
+        Core.verbose("[ServerProvider] HookParser parsed "+injectables.length+" injectables!");
 
         if (injectables == null) {
             return;

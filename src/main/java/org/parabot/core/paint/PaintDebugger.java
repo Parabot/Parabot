@@ -4,6 +4,7 @@ import org.parabot.core.Context;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -30,9 +31,17 @@ public class PaintDebugger {
     }
 
     public void debug(Graphics g) {
-        for (final AbstractDebugger d : debuggers.values()) {
+        for (Iterator<AbstractDebugger> iterator = debuggers.values().iterator();
+             iterator.hasNext(); ) {
+            final AbstractDebugger d = iterator.next();
             if (d.isEnabled()) {
-                d.paint(g);
+                try {
+                    d.paint(g);
+                } catch (Exception e) {
+                    iterator.remove();
+                    System.err.println("[PaintDebugger] Error while painting " + d.getClass().getName() + ". The debugger has been removed, you must restart Parabot to enable it again once the issue is fixed. Exception: " + e);
+                    e.printStackTrace();
+                }
             }
         }
         g.setColor(Color.green);
@@ -48,7 +57,15 @@ public class PaintDebugger {
     }
 
     public final void toggle(final String name) {
-        debuggers.get(name).toggle();
+        if (debuggers.containsKey(name)) {
+            try {
+                debuggers.get(name).toggle();
+            } catch (ClassCastException e) {
+                System.err.println("[Paint] toggle() - you probably need a <descfield> tag on this hook! Exception: "+e);
+            }
+        } else {
+            System.err.println("No such debugger to toggle: " + name);
+        }
     }
 
     public final boolean isEnabled(final String name) {

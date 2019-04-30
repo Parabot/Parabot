@@ -34,28 +34,36 @@ public class Invoker implements Injectable {
 
     public Invoker(String into, String methodLoc, String invMethName,
                    String argsDesc, String returnDesc, String methodName, boolean isInterface, String instanceCast, String argsCheckCastDesc) {
+        this(into, methodLoc, invMethName, argsDesc, returnDesc, methodName, isInterface, instanceCast, argsCheckCastDesc, returnDesc);
+    }
+    public Invoker(String into, String methodLoc, String invMethName,
+                   String argsDesc, String clientMethodReturnDesc, String methodName, boolean isInterface, String instanceCast, String argsCheckCastDesc, String invokerReturnDesc) {
         this.into = ASMUtils.getClass(into);
         this.methodLocation = ASMUtils.getClass(methodLoc);
-        this.mn = getMethod(this.methodLocation, invMethName, argsDesc, returnDesc);
-        this.returnDesc = returnDesc;
+        this.mn = getMethod(this.methodLocation, invMethName, argsDesc, clientMethodReturnDesc);
+        this.returnDesc = invokerReturnDesc;
         this.methodName = methodName;
         this.argsDesc = argsDesc;
         this.isInterface = isInterface;
         this.instanceCast = instanceCast;
 
         this.mName = invMethName;
-        this.mDesc = argsDesc + returnDesc;
+        this.mDesc = argsDesc + invokerReturnDesc;
         this.argsCheckCastDesc = argsCheckCastDesc;
     }
 
     private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
     	for (Object method : into.methods) {
 			MethodNode m = (MethodNode) method;
-			if (m.name.equals(name) &&  m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
+			if (!m.name.equals(name))
+			    continue;
+            //System.out.println("comparing invoker... "+m.desc.substring(0, m.desc.indexOf(')') + 1)+" vs "+argsDesc+" and "+(returnDesc == null ? "" :  Type.getType(m.desc).getReturnType().getDescriptor())+" vs "+returnDesc);
+			if (m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
 					&& (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
 				return m;
 			}
 		}
+        System.err.println("WARNING: no methodnode found for "+into.name+"."+name+" \t "+argsDesc+" -> "+returnDesc);
 		return null;
     }
 

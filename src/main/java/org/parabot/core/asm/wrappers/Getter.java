@@ -7,6 +7,8 @@ import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.adapters.AddGetterAdapter;
 import org.parabot.core.asm.interfaces.Injectable;
 
+import java.util.Arrays;
+
 /**
  * This class injects a getter which gets a specific field
  *
@@ -34,14 +36,19 @@ public class Getter implements Injectable {
     public Getter(final String into, final String fieldLocation, final String fieldNode,
                   final String methodName, final String returnDesc, final boolean staticMethod, final long multiplier,
                   final String fieldDesc) {
-        this.into = ASMUtils.getClass(into);
-        this.fieldLocation = ASMUtils.getClass(fieldLocation);
-        this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
-        this.methodName = methodName;
-        this.returnDesc = (returnDesc == null && this.fieldNode != null) ? this.fieldNode.desc : returnDesc;
-        this.staticMethod = staticMethod;
-        this.multiplier = multiplier;
-        Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");
+        try {
+            this.into = ASMUtils.getClass(into);
+            this.fieldLocation = ASMUtils.getClass(fieldLocation);
+            this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
+            this.methodName = methodName;
+            this.returnDesc = (returnDesc == null && this.fieldNode != null) ? this.fieldNode.desc : returnDesc;
+            this.staticMethod = staticMethod;
+            this.multiplier = multiplier;
+            Core.verbose("Getter: " + methodName + "[" + fieldLocation + "." + fieldNode + "]");
+        } catch (Exception e) {
+            System.err.println("Exception in getter init - " + Arrays.toString(new String[]{ into, fieldLocation, fieldNode, methodName, returnDesc, String.valueOf(staticMethod), String.valueOf(multiplier), fieldDesc }));
+            e.printStackTrace();
+        }
     }
 
     /**

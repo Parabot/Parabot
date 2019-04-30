@@ -238,4 +238,9 @@ public class JSONHookParser extends HookParser {
 
         return this.constants;
     }
+
+    @Override
+    public void verifyHooks() {
+
+    }
 }

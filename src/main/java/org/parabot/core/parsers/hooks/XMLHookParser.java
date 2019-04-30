@@ -1,5 +1,6 @@
 package org.parabot.core.parsers.hooks;
 
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
@@ -11,10 +12,135 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class XMLHookParser extends HookParser {
+    public Document getDoc() {
+        return doc;
+    }
+
+    @Override
+    public void verifyHooks() {
+        XMLHookParser parser = (XMLHookParser) Context.getInstance().getHookParser();
+
+        final NodeList getterRootList = parser.getDoc().getElementsByTagName("getters");
+        switch (getterRootList.getLength()) {
+            case 0:
+                return;
+            case 1:
+                break;
+            default:
+                throw new RuntimeException(
+                        "Hook file may not contains multiple <getters> tags ");
+        }
+        final Node node = getterRootList.item(0);
+        if (node.getNodeType() != Node.ELEMENT_NODE) {
+            return;
+        }
+        final Element  getterRoot = (Element) node;
+        final NodeList getters    = getterRoot.getElementsByTagName("add");
+        if (getters.getLength() == 0) {
+            return;
+        }
+        for (int x = 0; x < getters.getLength(); x++) {
+            final Node n = getters.item(x);
+            if (n.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+            final Element addGetter = (Element) n;
+            if (parser.isSet("classname", addGetter) && parser.isSet("accessor", addGetter)) {
+                throw new RuntimeException(
+                        "Can't set classname and accessor tag together.");
+            }
+            if (parser.isSet("accessor", addGetter) && !parser.isParsedInterfaces()) {
+                throw new RuntimeException(
+                        "You'll need to parse interfaces first.");
+            }
+            final String className = parser.isSet("classname", addGetter) ? parser.getValue(
+                    "classname", addGetter) : parser.getInterMapValue(parser.getValue(
+                    "accessor", addGetter));
+
+            String into = parser.isSet("into", addGetter) ? parser.getValue("into",
+                    addGetter) : className;
+            if (into != null && into.contains("%"))
+                into = resolveRealFromInter(into, true);
+            final long   multiplier = parser.isSet("multiplier", addGetter) ? Long.parseLong(parser.getValue("multiplier", addGetter)) : 0L;
+            final String fieldName  = parser.getValue("field", addGetter);
+            final String fieldDesc  = parser.isSet("descfield", addGetter) ? parser.getValue("descfield", addGetter) : null;
+            final String methodName = parser.getValue("methodname", addGetter);
+            boolean staticMethod = parser.isSet("methstatic", addGetter) ? (parser.getValue(
+                    "methstatic", addGetter).equals("true")) : false;
+            String returnDesc = parser.isSet("desc", addGetter) ? parser.getValue("desc",
+                    addGetter) : null;
+            if (returnDesc != null && returnDesc.contains("%"))
+                returnDesc = resolveDesc(returnDesc);
+
+            if (parser.isSet("accessor", addGetter)) {
+                String a = parser.getValue("accessor", addGetter);
+
+                String api = (AddInterfaceAdapter.getAccessorPackage() + a).replace("/", ".");
+                // System.out.println("[API] searching: "+api);
+                try {
+                    boolean found = false;
+                    Method[] methods  = allMethods(Context.getInstance().getASMClassLoader().loadClass(api));
+                    //System.out.println("matching '"+methodName+"' with "+api+"'s "+methods.length+" => "+Arrays.stream(methods).map(Method::getName).collect(Collectors.toList()));
+                    for (Method method : methods) {
+                        if (method.getName().equals(methodName)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.err.println("A hook you've added doesn't exist in the API!! "+api+"."+methodName+" \t\t"+fieldDesc+" --> "+returnDesc);
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    private Method[] allMethods(Class<?> representingClass) {
+        List<Method> methodList = new ArrayList<>(0);
+        methodList.addAll(Arrays.asList(representingClass.getDeclaredMethods()));
+        if (representingClass.getInterfaces() != null && representingClass.getInterfaces().length > 0) {
+            for (Class<?> anInterface : representingClass.getInterfaces()) {
+                methodList.addAll(Arrays.asList(allMethods(anInterface)));
+            }
+        }
+        if (representingClass.getSuperclass() != null && representingClass.getSuperclass() != Object.class) {
+            methodList.addAll(Arrays.asList(allMethods(representingClass.getSuperclass())));
+        }
+        return methodList.toArray(new Method[0]);
+    }
+
+    class GetterInfo {
+        public String into, className, fieldName, methodName, returnDesc, fieldDesc;
+        boolean staticM; long multi;
+        public GetterInfo(String into, String className, String fieldName, String methodName, String returnDesc, boolean staticMethod, long multiplier, String fieldDesc) {
+            this.into = into;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.methodName = methodName;
+            this.returnDesc = returnDesc;
+            this.staticM = staticMethod;
+            this.multi = multiplier; this.fieldDesc = fieldDesc;
+        }
+    }
+
+    public HashMap<String, String> getInterfaceMap() {
+        return interfaceMap;
+    }
+
+    public boolean isParsedInterfaces() {
+        return parsedInterfaces;
+    }
+
     private Document                doc;
     private HashMap<String, String> interfaceMap;
     private HashMap<String, String> constants;
@@ -38,7 +164,14 @@ public class XMLHookParser extends HookParser {
         }
     }
 
-    private static String resolveDesc(String returnDesc) {
+    /**
+     * Replaces the %s in a tag with the ACCESSOR PACKAGE. so final result is PACKAGE + givenWord
+     * <br> no replacement with interfaces involved.
+     * <br> If you're looking for <i>accessor name substitition</i> use {@link resolveRealFromInter} instead.
+     * @param returnDesc
+     * @return
+     */
+    public static String resolveDesc(String returnDesc) {
         String array = "";
         if (returnDesc != null && returnDesc.contains("%s")) {
             StringBuilder str = new StringBuilder();
@@ -60,11 +193,11 @@ public class XMLHookParser extends HookParser {
         return returnDesc;
     }
 
-    private static final boolean isSet(String tag, Element element) {
+    public static final boolean isSet(String tag, Element element) {
         return element.getElementsByTagName(tag).getLength() > 0;
     }
 
-    private static final String getValue(String tag, Element element) {
+    public static final String getValue(String tag, Element element) {
         if (element.getElementsByTagName(tag).item(0) == null) {
             throw new NullPointerException("MISSING HOOK TAG: The '" + tag + "' xml tag is missing from one of the hooks of type: " + element.getParentNode().getNodeName());
         }
@@ -192,36 +325,26 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addGetter) ? getValue(
-                    "classname", addGetter) : interfaceMap.get(getValue(
+                    "classname", addGetter) : getInterMapValue(getValue(
                     "accessor", addGetter));
-            final String into = isSet("into", addGetter) ? getValue("into",
+            String into = isSet("into", addGetter) ? getValue("into",
                     addGetter) : className;
+            if (into != null && into.contains("%"))
+                into = resolveRealFromInter(into, true);
             final long   multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
             final String fieldName  = getValue("field", addGetter);
-            final String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
+
+            String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
+            if (fieldDesc != null && fieldDesc.contains("%"))
+                fieldDesc = resolveRealFromInter(fieldDesc);
+
             final String methodName = getValue("methodname", addGetter);
             boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
                     "methstatic", addGetter).equals("true")) : false;
             String returnDesc = isSet("desc", addGetter) ? getValue("desc",
                     addGetter) : null;
-            String array = "";
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                StringBuilder str = new StringBuilder();
-                if (returnDesc.startsWith("[")) {
-                    for (int i = 0; i < returnDesc.length(); i++) {
-                        if (returnDesc.charAt(i) == '[') {
-                            array += '[';
-                        }
-                    }
-                    returnDesc = returnDesc.replaceAll("\\[", "");
-                }
-                str.append(array)
-                        .append('L')
-                        .append(String.format(returnDesc,
-                                AddInterfaceAdapter.getAccessorPackage()))
-                        .append(";");
-                returnDesc = str.toString();
-            }
+            if (returnDesc != null && returnDesc.contains("%"))
+                returnDesc = resolveDesc(returnDesc);
             final Getter get = new Getter(into, className, fieldName,
                     methodName, returnDesc, staticMethod, multiplier, fieldDesc);
             getterList.add(get);
@@ -267,7 +390,7 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addSetter) ? getValue(
-                    "classname", addSetter) : interfaceMap.get(getValue(
+                    "classname", addSetter) : getInterMapValue(getValue(
                     "accessor", addSetter));
             final String into = isSet("into", addSetter) ? getValue("into",
                     addSetter) : className;
@@ -278,24 +401,8 @@ public class XMLHookParser extends HookParser {
                     "methstatic", addSetter).equals("true")) : false;
             String returnDesc = isSet("desc", addSetter) ? getValue("desc",
                     addSetter) : null;
-            String array = "";
-            if (returnDesc != null && returnDesc.contains("%s")) {
-                StringBuilder str = new StringBuilder();
-                if (returnDesc.startsWith("[")) {
-                    for (int i = 0; i < returnDesc.length(); i++) {
-                        if (returnDesc.charAt(i) == '[') {
-                            array += '[';
-                        }
-                    }
-                    returnDesc = returnDesc.replaceAll("\\[", "");
-                }
-                str.append(array)
-                        .append('L')
-                        .append(String.format(returnDesc,
-                                AddInterfaceAdapter.getAccessorPackage()))
-                        .append(";");
-                returnDesc = str.toString();
-            }
+            if (returnDesc != null && returnDesc.contains("%"))
+                returnDesc = resolveDesc(returnDesc);
             final Setter get = new Setter(className, into, fieldName,
                     methodName, returnDesc, staticMethod, fieldDesc);
             setterList.add(get);
@@ -340,25 +447,72 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addInvoker) ? getValue(
-                    "classname", addInvoker) : interfaceMap.get(getValue(
+                    "classname", addInvoker) : getInterMapValue(getValue(
                     "accessor", addInvoker));
-            final String into = isSet("into", addInvoker) ? getValue("into",
+            String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
+
+            if (into != null && into.contains("%"))
+                into = resolveRealFromInter(into, true);
             final String methodName    = getValue("methodname", addInvoker);
             final String invMethodName = getValue("invokemethod", addInvoker);
             final String argsDesc      = getValue("argsdesc", addInvoker);
-            String returnDesc = isSet("desc", addInvoker) ? resolveDesc(getValue(
-                    "desc", addInvoker)) : null;
+            String clientMethodReturnDesc = isSet("desc", addInvoker) ? getValue(
+                    "desc", addInvoker) : null;
+            if (clientMethodReturnDesc != null && clientMethodReturnDesc.contains("%s"))
+                clientMethodReturnDesc = resolveRealFromInter(clientMethodReturnDesc);
+
+            String invokeReturnDesc = isSet("invokereturndesc", addInvoker) ? getValue(
+                    "invokereturndesc", addInvoker) : clientMethodReturnDesc;
+            if (invokeReturnDesc != null && invokeReturnDesc.contains("%s"))
+                invokeReturnDesc = resolveDesc(invokeReturnDesc);
 
             final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
             final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
             final String  checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
             final Invoker invoker = new Invoker(into, className, invMethodName,
-                    argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc);
+                    argsDesc, clientMethodReturnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc, invokeReturnDesc);
             invokerList.add(invoker);
         }
         return invokerList.toArray(new Invoker[invokerList.size()]);
+    }
+
+    public String resolveRealFromInter(String returnDesc) {
+        return resolveRealFromInter(returnDesc, false);
+    }
+
+    public String resolveRealFromInter(String returnDesc, boolean ignoreClassPrefix) {
+        String array = "";
+        final String old = returnDesc;
+        if (returnDesc != null && returnDesc.contains("%s")) {
+            StringBuilder str = new StringBuilder();
+            if (returnDesc.startsWith("[")) {
+                for (int i = 0; i < returnDesc.length(); i++) {
+                    if (returnDesc.charAt(i) == '[') {
+                        array += '[';
+                    }
+                }
+                returnDesc = returnDesc.replaceAll("\\[", "");
+            }
+            String key = returnDesc.substring(returnDesc.indexOf("%s") + 2);
+            returnDesc = returnDesc.replaceAll(key, "");
+            str.append(array);
+            if (!ignoreClassPrefix)
+                    str.append('L');
+            str.append(String.format(returnDesc, getInterMapValue(key)));
+            if (!ignoreClassPrefix)
+                    str.append(";");
+            returnDesc = str.toString();
+            System.out.println("[resolveReal] "+old+" -> "+returnDesc);
+        }
+        return returnDesc;
+    }
+
+    public String getInterMapValue(String key) {
+        if (!interfaceMap.containsKey(key))
+            throw new RuntimeException("no interface by name: "+key);
+        return interfaceMap.get(key);
     }
 
     @Override
@@ -438,7 +592,7 @@ public class XMLHookParser extends HookParser {
                         "You'll need to parse interfaces first.");
             }
             final String className = isSet("classname", addCallback) ? getValue(
-                    "classname", addCallback) : interfaceMap.get(getValue(
+                    "classname", addCallback) : getInterMapValue(getValue(
                     "accessor", addCallback));
 
             final String  methodName  = getValue("methodname", addCallback);

@@ -4,10 +4,12 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.interfaces.Injectable;
 
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 /**
  * Injects a callback, invokes a given static method
@@ -34,7 +36,20 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
     }
 
     @Override
+    public String toString() {
+        return "AddCallbackAdapter{" +
+                "method=" + method.name +
+                ", invokeClass='" + invokeClass + '\'' +
+                ", invokeMethod='" + invokeMethod + '\'' +
+                ", desc='" + desc + '\'' +
+                ", args=" + Arrays.toString(args) +
+                ", conditional=" + conditional +
+                '}';
+    }
+
+    @Override
     public void inject() {
+        Core.verbose("Injecting: " + this.toString());
         final Type[] types  = Type.getArgumentTypes(this.method.desc);
         InsnList     inject = new InsnList();
         Label        l0     = new Label();

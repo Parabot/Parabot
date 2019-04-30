@@ -4,6 +4,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.parabot.core.Core;
 import org.parabot.core.asm.ASMUtils;
 import org.parabot.core.asm.interfaces.Injectable;
 
@@ -48,7 +49,26 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
     }
 
     @Override
+    public String toString() {
+        return "AddInvokerAdapter{" +
+                "into=" + into.name +
+                ", methodLocation=" + methodLocation.name +
+                ", mn=" + mn.name +
+                ", argsDesc='" + argsDesc + '\'' +
+                ", returnDesc='" + returnDesc + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", isInterface=" + isInterface +
+                ", instanceCast='" + instanceCast + '\'' +
+                ", mName='" + mName + '\'' +
+                ", mDesc='" + mDesc + '\'' +
+                ", argsCheckCast='" + argsCheckCast + '\'' +
+                ", isStatic=" + isStatic +
+                '}';
+    }
+
+    @Override
     public void inject() {
+        Core.verbose("Injecting: " + this.toString());
         String mArgsDesc = argsCheckCast == null ? this.argsDesc : this.argsCheckCast;
 
         MethodNode m = new MethodNode(ACC_PUBLIC, this.methodName,
@@ -109,6 +129,7 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
 
         m.visitInsn(ASMUtils.getReturnOpcode(this.returnDesc));
         m.visitMaxs(0, 0);
+       //System.out.println("invoker: inserted method "+m.name + m.desc+" \t"+m.access+" "+m.signature);
         this.into.methods.add(m);
     }
 

@@ -22,6 +22,7 @@ public class ASMUtils implements Opcodes {
                 return fieldNodeObject;
             }
         }
+        System.err.println("WARNING: no field found for "+node.name+"."+fieldName);
         return null;
     }
 
@@ -29,12 +30,15 @@ public class ASMUtils implements Opcodes {
         if (desc == null) {
             return getField(node, fieldName);
         }
+        if (node.fields == null)
+            throw new NullPointerException("null fields for "+node.name);
         for (final Object fieldNode : node.fields) {
             FieldNode fieldNodeObject = (FieldNode) fieldNode;
             if (fieldNodeObject.name.equals(fieldName) && fieldNodeObject.desc.equals(desc)) {
                 return fieldNodeObject;
             }
         }
+        System.err.println("WARN: failed to find field named: "+node.name+"."+fieldName+" "+desc);
         return null;
     }
 
@@ -45,6 +49,7 @@ public class ASMUtils implements Opcodes {
                 return node;
             }
         }
+        System.err.println("WARN: failed to find class named: "+className);
         return null;
     }
 
@@ -61,6 +66,7 @@ public class ASMUtils implements Opcodes {
                 return methodNode;
             }
         }
+        System.err.println("WARNING: no Method found for "+location.name+"."+methodName+" "+methodDesc);
         return null;
     }
 

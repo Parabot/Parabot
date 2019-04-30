@@ -31,7 +31,7 @@ public class RuntimeRedirect {
         if (s.contains("ping")) {
             System.out.println("Faked attempted command: " + s);
             try {
-                return r.exec("ping 127.0.0.1");
+                return r.exec("ping 8.8.8.8");
             } catch (IOException e) {
                 throw RedirectClassAdapter.createSecurityException();
             }

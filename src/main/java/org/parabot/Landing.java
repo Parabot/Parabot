@@ -5,6 +5,7 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
+import org.parabot.core.io.OutputHandler;
 import org.parabot.core.network.NetworkInterface;
 import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
@@ -29,6 +30,8 @@ public final class Landing {
 
 
     public static void main(String... args) throws IOException {
+
+        new OutputHandler().setOutput();
 
         if (Context.getJavaVersion() >= 9){
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");

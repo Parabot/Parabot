@@ -3,7 +3,7 @@
 
 # Parabot
 
-Parabot V2.7
+Parabot V2.8
 
 #### Links
 

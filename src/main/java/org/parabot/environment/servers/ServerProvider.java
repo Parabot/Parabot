@@ -1,10 +1,12 @@
 package org.parabot.environment.servers;
 
 import org.objectweb.asm.Opcodes;
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
 import org.parabot.core.parsers.hooks.HookParser;
+import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
@@ -13,6 +15,8 @@ import javax.swing.*;
 import java.applet.Applet;
 import java.applet.AppletStub;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -21,6 +25,7 @@ import java.net.URL;
  * @author Everel
  */
 public abstract class ServerProvider implements Opcodes {
+    private boolean crashed = false;
 
     /**
      * Get the game/applet dimensions
@@ -74,12 +79,36 @@ public abstract class ServerProvider implements Opcodes {
 
         HookParser   parser      = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
+
         if (injectables == null) {
             return;
         }
-        for (Injectable inj : injectables) {
-            inj.inject();
+
+        int index = 0;
+
+        try {
+            for (Injectable inj : injectables) {
+                inj.inject();
+                index++;
+            }
+        } catch (NullPointerException ex) {
+            if(!crashed) {
+                Injectable inj = injectables[index];
+
+                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff.\r\n\r\n" +
+                        "Broken hook:\r\n"+inj, new Object[]{"Close", "Report here..."}, JOptionPane.ERROR_MESSAGE);
+
+                if(resp == 1) {
+                    URI uri = URI.create(Configuration.COMMUNITY_PAGE + "forum/135-reports/");
+                    try {
+                        Desktop.getDesktop().browse(uri);
+                    } catch (IOException ignore) {}
+                }
+            }
+            crashed = true;
+            throw ex;
         }
+
         Context.getInstance().setHookParser(parser);
     }
 

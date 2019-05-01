@@ -13,7 +13,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Parses an XML file which injects the hooks and other bytecode manipulation
+ * methods
+ *
+ * @author JKetelaar
+ */
 public class XMLHookParser extends HookParser {
     private Document                doc;
     private HashMap<String, String> interfaceMap;
@@ -117,6 +124,11 @@ public class XMLHookParser extends HookParser {
             interfaceList.add(inf);
         }
         return interfaceList.toArray(new Interface[interfaceList.size()]);
+    }
+
+    @Override
+    public Map<String, String> getInterfaceMap() {
+        return this.interfaceMap;
     }
 
     @Override

@@ -7,12 +7,13 @@ import org.parabot.core.asm.wrappers.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Parses an XML files which injects the hooks and other bytecode manipulation
+ * Parses a structured format file which injects the hooks and other bytecode manipulation
  * methods
  *
- * @author Everel
+ * @author Everel, JKetelaar
  */
 public abstract class HookParser {
 
@@ -21,6 +22,8 @@ public abstract class HookParser {
     }
 
     public abstract Interface[] getInterfaces();
+
+    public abstract Map<String, String> getInterfaceMap();
 
     public abstract Super[] getSupers();
 

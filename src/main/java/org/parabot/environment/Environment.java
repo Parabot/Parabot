@@ -33,7 +33,7 @@ public class Environment extends org.parabot.api.io.libraries.Environment {
             loadLibrary(lib, true);
         }
 
-        Core.verbose("Loading server: " + desc.toString() + "...");
+        Core.verbose("[Environment] Loading server: " + desc.toString() + "...");
 
         ServerParser.SERVER_CACHE.get(desc).run();
     }

@@ -1,6 +1,5 @@
 package org.parabot.core.ui;
 
-import javafx.application.Application;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Directories;
@@ -248,7 +247,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 Directories.clearCache();
                 break;
             case "Notifications":
-                Application.launch(NotificationUI.class);
+                NotificationUI.create();
                 break;
             default:
                 System.out.println("Invalid command: " + command);

@@ -166,6 +166,7 @@ public class ServerProviderInfo {
 
     /**
      * Gets the URL to download the Randoms JAR from.
+     *
      * @return The provided URL in the server config JSON (denoted by 'randoms:') or, fallback to the default BDN URL.
      */
     public URL getRandoms() {
@@ -180,6 +181,21 @@ public class ServerProviderInfo {
             e.printStackTrace();
         }
         // Will never return null, unless the BDN URL is changed. It shouldn't be.
+        return null;
+    }
+
+    /**
+     * Gets the current provider version
+     *
+     * @return provider version
+     */
+    public String getProviderVersion() {
+        String providerType = WebUtil.getJsonValue(String.format(Configuration.GET_SERVER_PROVIDER_TYPE , properties.getProperty("name")), "type");
+        if(providerType != null) {
+            String providerInfo = String.format(Configuration.SERVER_PROVIDER_INFO, providerType);
+            return WebUtil.getJsonValue(providerInfo, "version");
+        }
+
         return null;
     }
 }

@@ -1,5 +1,6 @@
 package org.parabot.core.network.proxy;
 
+import org.parabot.core.Core;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class ProxySocket extends Socket {
                 socket.close();
                 value++;
             } catch (Exception e) {
-
+                Core.verbose("Error closing proxy connection: " + e.getMessage());
             }
         }
         return value;

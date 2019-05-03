@@ -61,4 +61,8 @@ public class ThreadRedirect {
     public static void setUncaughtExceptionHandler(Thread t, Thread.UncaughtExceptionHandler handler) {
         t.setUncaughtExceptionHandler(handler);
     }
+
+    public static boolean isInterrupted(Thread thread) {
+        return thread.isInterrupted();
+    }
 }

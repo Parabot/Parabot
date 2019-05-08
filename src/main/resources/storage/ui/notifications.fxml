@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0"
-            prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.parabot.core.ui.components.notifications.NotificationUIController">
+            prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1">
     <bottom>
         <Button mnemonicParsing="false" text="Save" BorderPane.alignment="CENTER" onAction="#save">
             <BorderPane.margin>

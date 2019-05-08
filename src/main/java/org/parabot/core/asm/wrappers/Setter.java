@@ -25,7 +25,7 @@ public class Setter implements Injectable {
         this.into = ASMUtils.getClass(into);
         this.field = ASMUtils.getField(this.fieldLocation, fieldName, fieldDesc);
         this.name = methodName;
-        this.desc = (desc == null) ? this.field.desc : desc;
+        this.desc = (desc == null && this.field != null) ? this.field.desc : desc;
         this.methodStatic = methodStatic;
     }
 
@@ -52,4 +52,21 @@ public class Setter implements Injectable {
         return new AddSetterAdapter(fieldLocation, into, field, name, desc, methodStatic);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Injectable type: Setter");
+
+        if(fieldLocation.interfaces.size() > 0) {
+            sb.append(", accessor type: ").append(fieldLocation.interfaces.get(0).toString().replace('/', '.'));
+        }
+
+        if(field != null) {
+            sb.append(", field: ").append(field.name);
+        }
+
+        sb.append(", method name: ").append(name);
+
+        return sb.toString();
+    }
 }

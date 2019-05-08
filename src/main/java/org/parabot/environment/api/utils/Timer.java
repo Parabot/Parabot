@@ -105,7 +105,18 @@ public class Timer {
      * @return hourly gains
      */
     public int getPerHour(final int gained) {
-        return (int) ((gained) * 3600000D / (System.currentTimeMillis() - start));
+        return getPerHour(gained, 0);
+    }
+
+    /**
+     * Calculates hourly gains based on given variable, with variable start amount
+     *
+     * @param gained        total gained amount
+     * @param startAmount   start amount
+     * @return              hourly gains
+     */
+    public int getPerHour(final int gained, final int startAmount) {
+        return (int) (((gained - startAmount) * 3600000D) / (System.currentTimeMillis() - start));
     }
 
     /**

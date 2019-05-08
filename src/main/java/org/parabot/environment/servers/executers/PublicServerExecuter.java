@@ -11,6 +11,7 @@ import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.PBLocalPreferences;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
@@ -37,6 +38,9 @@ public class PublicServerExecuter extends ServerExecuter {
     };
     private String serverName;
 
+    private PBLocalPreferences settings;
+    private final String cacheVersionKey = "cachedProviderVersion";
+
     public PublicServerExecuter(final String serverName) {
         this.serverName = serverName;
     }
@@ -52,6 +56,24 @@ public class PublicServerExecuter extends ServerExecuter {
             final String jarUrl = String.format(Configuration.GET_SERVER_PROVIDER, Configuration.BOT_VERSION.isNightly(), serverName);
 
             Core.verbose("Downloading: " + jarUrl + " ...");
+
+            String providerVersion = serverProviderInfo.getProviderVersion();
+            if(providerVersion == null) {
+                providerVersion = "error";
+            }
+
+            settings = new PBLocalPreferences(serverProviderInfo.getClientCRC32()+".json");
+            if(settings.getSetting(cacheVersionKey) != null) {
+                Core.verbose(String.format("Latest provider version: %s, local provider version: %s", settings.getSetting(cacheVersionKey), providerVersion));
+                if(!settings.getSetting(cacheVersionKey).equals(providerVersion)) {
+                    Core.verbose("Local provider outdated, clearing cache.");
+                    Directories.clearCache();
+                }
+            } else {
+                Core.verbose("No local provider version in settings, adding to settings file");
+            }
+
+            settings.addSetting(cacheVersionKey, providerVersion);
 
             if (destination.exists()) {
                 Core.verbose("Found cached server provider [CRC32: " + serverProviderInfo.getCRC32() + "]");

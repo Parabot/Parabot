@@ -1,6 +1,7 @@
 package org.parabot;
 
 import org.parabot.api.translations.TranslationHelper;
+import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.forum.AccountManager;
@@ -9,6 +10,7 @@ import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
+import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
 import java.io.File;
@@ -26,6 +28,16 @@ public final class Landing {
     private static String password;
 
     public static void main(String... args) throws IOException {
+
+        if (Context.getJavaVersion() >= 9) {
+            UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
+            System.exit(0);
+        }
+
+        if (!System.getProperty("os.arch").contains("64")) {
+            UILog.log("Parabot", "You are not running a 64-bit version of Java, this might cause the client to lag or crash unexpectedly.\r\n" +
+                    "It's recommended to upgrade to a 64-bit version.");
+        }
 
         parseArgs(args);
 
@@ -138,6 +150,9 @@ public final class Landing {
                     break;
                 case "-uuid":
                     Core.setQuickLaunchByUuid(Integer.parseInt(args[++i]));
+                    break;
+                default:
+                    System.err.println(String.format("Unknown argument given: %s", arg.toLowerCase()));
                     break;
             }
         }

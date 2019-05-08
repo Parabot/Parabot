@@ -38,7 +38,7 @@ public class Getter implements Injectable {
         this.fieldLocation = ASMUtils.getClass(fieldLocation);
         this.fieldNode = ASMUtils.getField(ASMUtils.getClass(fieldLocation), fieldNode, fieldDesc);
         this.methodName = methodName;
-        this.returnDesc = returnDesc == null ? this.fieldNode.desc : returnDesc;
+        this.returnDesc = (returnDesc == null && this.fieldNode != null) ? this.fieldNode.desc : returnDesc;
         this.staticMethod = staticMethod;
         this.multiplier = multiplier;
         Core.verbose(methodName + "[" + fieldLocation + "." + fieldNode + "]");
@@ -77,4 +77,21 @@ public class Getter implements Injectable {
         return new AddGetterAdapter(into, fieldLocation, fieldNode, methodName, returnDesc, staticMethod, multiplier);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Injectable type: Getter");
+
+        if(fieldLocation.interfaces.size() > 0) {
+            sb.append(", accessor type: ").append(fieldLocation.interfaces.get(0).toString().replace('/', '.'));
+        }
+
+        if(fieldNode != null) {
+            sb.append(", field: ").append(fieldNode.name);
+        }
+
+        sb.append(", method name: ").append(methodName);
+
+        return sb.toString();
+    }
 }

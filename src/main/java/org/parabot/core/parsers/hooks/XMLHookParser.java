@@ -13,22 +13,29 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Parses an XML file which injects the hooks and other bytecode manipulation
+ * methods
+ *
+ * @author JKetelaar
+ */
 public class XMLHookParser extends HookParser {
-    private Document                doc;
+    private Document doc;
     private HashMap<String, String> interfaceMap;
     private HashMap<String, String> constants;
-    private boolean                 parsedInterfaces;
+    private boolean parsedInterfaces;
 
     public XMLHookParser(HookFile hookFile) {
         super(hookFile);
-        interfaceMap = new HashMap<String, String>();
-        constants = new HashMap<String, String>();
+        interfaceMap = new HashMap<>();
+        constants = new HashMap<>();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory
                     .newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(hookFile.getInputStream());
+            doc = dBuilder.parse(hookFile.getInputStream(manager));
             doc.getDocumentElement().normalize();
             if (!doc.getDocumentElement().getNodeName().equals("injector")) {
                 throw new RuntimeException("Incorrect hook file.");
@@ -36,48 +43,6 @@ public class XMLHookParser extends HookParser {
         } catch (Throwable t) {
             throw new RuntimeException("Unable to parse hooks " + t);
         }
-    }
-
-    private static String resolveDesc(String returnDesc) {
-        String array = "";
-        if (returnDesc != null && returnDesc.contains("%s")) {
-            StringBuilder str = new StringBuilder();
-            if (returnDesc.startsWith("[")) {
-                for (int i = 0; i < returnDesc.length(); i++) {
-                    if (returnDesc.charAt(i) == '[') {
-                        array += '[';
-                    }
-                }
-                returnDesc = returnDesc.replaceAll("\\[", "");
-            }
-            str.append(array)
-                    .append('L')
-                    .append(String.format(returnDesc,
-                            AddInterfaceAdapter.getAccessorPackage()))
-                    .append(";");
-            returnDesc = str.toString();
-        }
-        return returnDesc;
-    }
-
-    private static final boolean isSet(String tag, Element element) {
-        return element.getElementsByTagName(tag).getLength() > 0;
-    }
-
-    private static final String getValue(String tag, Element element) {
-        if (element.getElementsByTagName(tag).item(0) == null) {
-            throw new NullPointerException("MISSING HOOK TAG: The '" + tag + "' xml tag is missing from one of the hooks of type: " + element.getParentNode().getNodeName());
-        }
-        NodeList nodes = element.getElementsByTagName(tag).item(0)
-                .getChildNodes();
-        if (nodes.getLength() == 0 || nodes.item(0) == null) {
-            if (Core.inVerboseMode()) {
-                System.err.println("WARNING: Invalid Hook " + tag + " subnode. Tag is missing or empty?");
-            }
-            return "";
-        }
-        Node node = (Node) nodes.item(0);
-        return node.getNodeValue();
     }
 
     @Override
@@ -98,8 +63,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  interfaceRoot = (Element) node;
-        final NodeList interfaces    = interfaceRoot.getElementsByTagName("add");
+        final Element interfaceRoot = (Element) node;
+        final NodeList interfaces = interfaceRoot.getElementsByTagName("add");
         if (interfaces.getLength() == 0) {
             return null;
         }
@@ -109,14 +74,19 @@ public class XMLHookParser extends HookParser {
             if (n.getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-            final Element addInterface   = (Element) n;
-            final String  className      = getValue("classname", addInterface);
-            final String  interfaceClass = getValue("interface", addInterface);
+            final Element addInterface = (Element) n;
+            final String className = getValue("classname", addInterface);
+            final String interfaceClass = getValue("interface", addInterface);
             interfaceMap.put(interfaceClass, className);
             final Interface inf = new Interface(className, interfaceClass);
             interfaceList.add(inf);
         }
         return interfaceList.toArray(new Interface[interfaceList.size()]);
+    }
+
+    @Override
+    public Map<String, String> getInterfaceMap() {
+        return this.interfaceMap;
     }
 
     @Override
@@ -135,8 +105,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  superRoot = (Element) node;
-        final NodeList supers    = superRoot.getElementsByTagName("add");
+        final Element superRoot = (Element) node;
+        final NodeList supers = superRoot.getElementsByTagName("add");
         if (supers.getLength() == 0) {
             return null;
         }
@@ -146,10 +116,10 @@ public class XMLHookParser extends HookParser {
             if (n.getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-            final Element addSuper   = (Element) n;
-            final String  className  = getValue("classname", addSuper);
-            final String  superClass = getValue("super", addSuper);
-            final Super   sup        = new Super(className, superClass);
+            final Element addSuper = (Element) n;
+            final String className = getValue("classname", addSuper);
+            final String superClass = getValue("super", addSuper);
+            final Super sup = new Super(className, superClass);
             superList.add(sup);
         }
         return superList.toArray(new Super[superList.size()]);
@@ -171,8 +141,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  getterRoot = (Element) node;
-        final NodeList getters    = getterRoot.getElementsByTagName("add");
+        final Element getterRoot = (Element) node;
+        final NodeList getters = getterRoot.getElementsByTagName("add");
         if (getters.getLength() == 0) {
             return null;
         }
@@ -196,9 +166,9 @@ public class XMLHookParser extends HookParser {
                     "accessor", addGetter));
             final String into = isSet("into", addGetter) ? getValue("into",
                     addGetter) : className;
-            final long   multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
-            final String fieldName  = getValue("field", addGetter);
-            final String fieldDesc  = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
+            final long multiplier = isSet("multiplier", addGetter) ? Long.parseLong(getValue("multiplier", addGetter)) : 0L;
+            final String fieldName = getValue("field", addGetter);
+            final String fieldDesc = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
             final String methodName = getValue("methodname", addGetter);
             boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
                     "methstatic", addGetter).equals("true")) : false;
@@ -246,8 +216,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  setterRoot = (Element) node;
-        final NodeList setters    = setterRoot.getElementsByTagName("add");
+        final Element setterRoot = (Element) node;
+        final NodeList setters = setterRoot.getElementsByTagName("add");
         if (setters.getLength() == 0) {
             return null;
         }
@@ -271,8 +241,8 @@ public class XMLHookParser extends HookParser {
                     "accessor", addSetter));
             final String into = isSet("into", addSetter) ? getValue("into",
                     addSetter) : className;
-            final String fieldName  = getValue("field", addSetter);
-            final String fieldDesc  = isSet("descfield", addSetter) ? getValue("descfield", addSetter) : null;
+            final String fieldName = getValue("field", addSetter);
+            final String fieldDesc = isSet("descfield", addSetter) ? getValue("descfield", addSetter) : null;
             final String methodName = getValue("methodname", addSetter);
             boolean staticMethod = isSet("methstatic", addSetter) ? (getValue(
                     "methstatic", addSetter).equals("true")) : false;
@@ -319,8 +289,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  invokerRoot = (Element) node;
-        final NodeList invokers    = invokerRoot.getElementsByTagName("add");
+        final Element invokerRoot = (Element) node;
+        final NodeList invokers = invokerRoot.getElementsByTagName("add");
         if (invokers.getLength() == 0) {
             return null;
         }
@@ -344,15 +314,15 @@ public class XMLHookParser extends HookParser {
                     "accessor", addInvoker));
             final String into = isSet("into", addInvoker) ? getValue("into",
                     addInvoker) : className;
-            final String methodName    = getValue("methodname", addInvoker);
+            final String methodName = getValue("methodname", addInvoker);
             final String invMethodName = getValue("invokemethod", addInvoker);
-            final String argsDesc      = getValue("argsdesc", addInvoker);
+            final String argsDesc = getValue("argsdesc", addInvoker);
             String returnDesc = isSet("desc", addInvoker) ? resolveDesc(getValue(
                     "desc", addInvoker)) : null;
 
-            final boolean isInterface       = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
-            final String  instanceCast      = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
-            final String  checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
+            final boolean isInterface = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
+            final String instanceCast = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
+            final String checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
             final Invoker invoker = new Invoker(into, className, invMethodName,
                     argsDesc, returnDesc, methodName, isInterface, instanceCast, checkCastArgsDesc);
@@ -381,7 +351,7 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  constantRoot  = (Element) node;
+        final Element constantRoot = (Element) node;
         final NodeList constantsList = constantRoot.getElementsByTagName("add");
         if (constantsList.getLength() == 0) {
             // return empty hashmap
@@ -393,8 +363,8 @@ public class XMLHookParser extends HookParser {
                 continue;
             }
             final Element addConstant = (Element) n;
-            final String  key         = getValue("key", addConstant);
-            final String  value       = getValue("value", addConstant);
+            final String key = getValue("key", addConstant);
+            final String value = getValue("value", addConstant);
             constants.put(key, value);
         }
         return constants;
@@ -416,8 +386,8 @@ public class XMLHookParser extends HookParser {
         if (node.getNodeType() != Node.ELEMENT_NODE) {
             return null;
         }
-        final Element  callbackRoot = (Element) node;
-        final NodeList callbacks    = callbackRoot.getElementsByTagName("add");
+        final Element callbackRoot = (Element) node;
+        final NodeList callbacks = callbackRoot.getElementsByTagName("add");
         if (callbacks.getLength() == 0) {
             return null;
         }
@@ -441,12 +411,12 @@ public class XMLHookParser extends HookParser {
                     "classname", addCallback) : interfaceMap.get(getValue(
                     "accessor", addCallback));
 
-            final String  methodName  = getValue("methodname", addCallback);
-            final String  callClass   = getValue("callclass", addCallback);
-            final String  callMethod  = getValue("callmethod", addCallback);
-            final String  callDesc    = getValue("calldesc", addCallback);
-            final String  callArgs    = getValue("callargs", addCallback);
-            final String  desc        = getValue("desc", addCallback);
+            final String methodName = getValue("methodname", addCallback);
+            final String callClass = getValue("callclass", addCallback);
+            final String callMethod = getValue("callmethod", addCallback);
+            final String callDesc = getValue("calldesc", addCallback);
+            final String callArgs = getValue("callargs", addCallback);
+            final String desc = getValue("desc", addCallback);
             final boolean conditional = isSet("conditional", addCallback);
 
             final Callback callback = new Callback(className, methodName, desc,
@@ -454,6 +424,48 @@ public class XMLHookParser extends HookParser {
             callbackList.add(callback);
         }
         return callbackList.toArray(new Callback[callbackList.size()]);
+    }
+
+    private static String resolveDesc(String returnDesc) {
+        String array = "";
+        if (returnDesc != null && returnDesc.contains("%s")) {
+            StringBuilder str = new StringBuilder();
+            if (returnDesc.startsWith("[")) {
+                for (int i = 0; i < returnDesc.length(); i++) {
+                    if (returnDesc.charAt(i) == '[') {
+                        array += '[';
+                    }
+                }
+                returnDesc = returnDesc.replaceAll("\\[", "");
+            }
+            str.append(array)
+                    .append('L')
+                    .append(String.format(returnDesc,
+                            AddInterfaceAdapter.getAccessorPackage()))
+                    .append(";");
+            returnDesc = str.toString();
+        }
+        return returnDesc;
+    }
+
+    private static final boolean isSet(String tag, Element element) {
+        return element.getElementsByTagName(tag).getLength() > 0;
+    }
+
+    private static final String getValue(String tag, Element element) {
+        if (element.getElementsByTagName(tag).item(0) == null) {
+            throw new NullPointerException("MISSING HOOK TAG: The '" + tag + "' xml tag is missing from one of the hooks of type: " + element.getParentNode().getNodeName());
+        }
+        NodeList nodes = element.getElementsByTagName(tag).item(0)
+                .getChildNodes();
+        if (nodes.getLength() == 0 || nodes.item(0) == null) {
+            if (Core.inVerboseMode()) {
+                System.err.println("WARNING: Invalid Hook " + tag + " subnode. Tag is missing or empty?");
+            }
+            return "";
+        }
+        Node node = (Node) nodes.item(0);
+        return node.getNodeValue();
     }
 
 }

@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
+import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.parsers.scripts.BDNScripts;
 import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.ui.components.VerboseLoader;
@@ -48,6 +49,7 @@ public final class AccountManager {
         accessors.add(PublicServers.MANAGER_FETCHER);
         accessors.add(PublicServerExecuter.MANAGER_FETCHER);
         accessors.add(PBPreferences.MANAGER_FETCHER);
+        accessors.add(HookParser.MANAGER_FETCHER);
 
         for (final AccountManagerAccess accessor : accessors) {
             accessor.setManager(instance);

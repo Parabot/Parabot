@@ -35,7 +35,7 @@ public class XMLHookParser extends HookParser {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory
                     .newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(hookFile.getInputStream());
+            doc = dBuilder.parse(hookFile.getInputStream(manager));
             doc.getDocumentElement().normalize();
             if (!doc.getDocumentElement().getNodeName().equals("injector")) {
                 throw new RuntimeException("Incorrect hook file.");

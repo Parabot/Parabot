@@ -65,4 +65,8 @@ public class ThreadRedirect {
     public static boolean isInterrupted(Thread thread) {
         return thread.isInterrupted();
     }
+
+    public static long getId(Thread thread) {
+        return thread.getId();
+    }
 }

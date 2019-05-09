@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.parabot</groupId>
             <artifactId>internal-api</artifactId>
-            <version>1.53.1</version>
+            <version>1.60.1</version>
         </dependency>
     </dependencies>
 
@@ -191,13 +191,13 @@
             <uniqueVersion>false</uniqueVersion>
             <id>parabot-maven</id>
             <name>Custom Maven Repository</name>
-            <url>ftp://maven.parabot.org</url>
+            <url>ftp://maven.parabot.org/public_html</url>
             <layout>default</layout>
         </repository>
         <site>
             <id>parabot-maven</id>
             <name>Frontend Parabot Maven</name>
-            <url>ftp://maven.parabot.org/docs/${artifactId}/</url>
+            <url>ftp://maven.parabot.org/public_html/docs/${artifactId}/</url>
         </site>
     </distributionManagement>
 

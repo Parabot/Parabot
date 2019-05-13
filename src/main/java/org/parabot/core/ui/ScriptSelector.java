@@ -160,14 +160,7 @@ public final class ScriptSelector extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String s = getScriptName(tree.getSelectionPath().toString());
-                if (s != null) {
-                    try {
-                        WebUtil.getContents("http://bdn.parabot.org/api/v2/scripts/local", "script=" + URLEncoder.encode(s, "UTF-8") + "&username=" + URLEncoder.encode(Context.getUsername(), "UTF-8"));
-                    } catch (MalformedURLException | UnsupportedEncodingException e1) {
-                        e1.printStackTrace();
-                    }
-                    runScript(format.get(s));
-                }
+                runScript(format.get(s));
             }
         });
 

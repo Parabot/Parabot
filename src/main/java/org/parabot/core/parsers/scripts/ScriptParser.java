@@ -16,11 +16,11 @@ import java.util.TreeMap;
  */
 public abstract class ScriptParser {
 
-    public static final Map<ScriptDescription, ScriptExecuter> SCRIPT_CACHE = new HashMap<ScriptDescription, ScriptExecuter>();
+    public static final Map<ScriptDescription, ScriptExecuter> SCRIPT_CACHE = new HashMap<>();
 
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
-        final ArrayList<ScriptParser> parsers = new ArrayList<ScriptParser>();
+        final ArrayList<ScriptParser> parsers = new ArrayList<>();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
             parsers.add(new BDNScripts());
@@ -42,7 +42,7 @@ public abstract class ScriptParser {
             Core.verbose("Scripts parsed.");
         }
 
-        Map<ScriptDescription, ScriptExecuter> SORTED_SCRIPT_CACHE = new TreeMap<ScriptDescription, ScriptExecuter>(SCRIPT_CACHE);
+        Map<ScriptDescription, ScriptExecuter> SORTED_SCRIPT_CACHE = new TreeMap<>(SCRIPT_CACHE);
 
         return SORTED_SCRIPT_CACHE.keySet().toArray(new ScriptDescription[SORTED_SCRIPT_CACHE.size()]);
     }

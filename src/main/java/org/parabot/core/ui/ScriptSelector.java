@@ -1,5 +1,6 @@
 package org.parabot.core.ui;
 
+import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.desc.ScriptDescription;
@@ -17,8 +18,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
@@ -30,20 +33,20 @@ import java.util.HashMap;
 public final class ScriptSelector extends JFrame {
     private static final long serialVersionUID = 1L;
     public static ScriptParser parser;
-    private final int                                     WIDTH;
-    private final int                                     HEIGHT;
-    private       HashMap<String, DefaultMutableTreeNode> categories;
-    private       HashMap<String, ScriptDescription>      format;
-    private       DefaultMutableTreeNode                  root;
-    private       DefaultTreeModel                        model;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private HashMap<String, DefaultMutableTreeNode> categories;
+    private HashMap<String, ScriptDescription> format;
+    private DefaultMutableTreeNode root;
+    private DefaultTreeModel model;
     private Font fontCategory = new Font("Arial", Font.BOLD, 12);
-    private Font fontScript   = new Font("Arial", Font.PLAIN, 12);
-    private JTree       tree;
+    private Font fontScript = new Font("Arial", Font.PLAIN, 12);
+    private JTree tree;
     private JEditorPane scriptInfo;
 
     public ScriptSelector() {
-        this.categories = new HashMap<String, DefaultMutableTreeNode>();
-        this.format = new HashMap<String, ScriptDescription>();
+        this.categories = new HashMap<>();
+        this.format = new HashMap<>();
         this.root = new DefaultMutableTreeNode("Scripts");
         this.WIDTH = 640;
         this.HEIGHT = 256 + 128;
@@ -185,10 +188,29 @@ public final class ScriptSelector extends JFrame {
             }
         });
 
+        JButton cmdScripts = new JButton("Add scripts");
+        cmdScripts.setBounds(12, HEIGHT - 24 - 4, 96 + 32,
+                24);
+        cmdScripts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                URI uri = URI
+                        .create(Configuration.BDN_PAGE);
+                try {
+                    Desktop.getDesktop().browse(uri);
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(null, "Connection Error",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+            }
+        });
+
         panel.add(scrlScriptTree);
         panel.add(scrlScriptInfo);
         panel.add(cmdStart);
         panel.add(cmdHome);
+        panel.add(cmdScripts);
 
         this.add(panel);
         this.pack();

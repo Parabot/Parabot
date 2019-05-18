@@ -27,11 +27,11 @@ import java.util.HashMap;
  */
 public class ReflectUI extends JFrame {
     private static final long serialVersionUID = 98565034137367257L;
-    private JTree                  tree;
+    private JTree tree;
     private DefaultMutableTreeNode root;
-    private DefaultTreeModel       model;
-    private JEditorPane            basicInfoPane;
-    private JEditorPane            selectionInfoPane;
+    private DefaultTreeModel model;
+    private JEditorPane basicInfoPane;
+    private JEditorPane selectionInfoPane;
 
     private Object instance;
 
@@ -82,7 +82,7 @@ public class ReflectUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RefField result = null;
-                String   search = searchFunction.getText();
+                String search = searchFunction.getText();
                 for (RefField f : fields.values()) {
                     if (f != null && (f.asObject()) != null) {
                         String value;
@@ -137,9 +137,9 @@ public class ReflectUI extends JFrame {
 
             @Override
             public void valueChanged(TreeSelectionEvent event) {
-                TreePath path         = event.getPath();
+                TreePath path = event.getPath();
                 Object[] pathElements = path.getPath();
-                Object   element      = pathElements[pathElements.length - 1];
+                Object element = pathElements[pathElements.length - 1];
                 if (pathElements.length == 2) {
                     setClassInfo(classes.get(element));
                 } else if (pathElements.length == 3) {
@@ -179,7 +179,7 @@ public class ReflectUI extends JFrame {
         content.add(searchContent);
 
         JScrollPane contentPane = new JScrollPane(content);
-        Dimension   prefSize    = content.getPreferredSize();
+        Dimension prefSize = content.getPreferredSize();
         contentPane.setPreferredSize(new Dimension(prefSize.width + contentPane.getVerticalScrollBar().getPreferredSize().width, prefSize.height + contentPane.getHorizontalScrollBar().getPreferredSize().height));
         setContentPane(contentPane);
         pack();
@@ -188,8 +188,8 @@ public class ReflectUI extends JFrame {
     }
 
     private void fillModel() {
-        Context        context     = Context.getInstance();
-        ClassPath      classPath   = context.getClassPath();
+        Context context = Context.getInstance();
+        ClassPath classPath = context.getClassPath();
         ASMClassLoader classLoader = context.getASMClassLoader();
         for (String className : classPath.classNames) {
             try {
@@ -219,7 +219,7 @@ public class ReflectUI extends JFrame {
     }
 
     private void fillBasicInfoPane() {
-        Context   context   = Context.getInstance();
+        Context context = Context.getInstance();
         ClassPath classPath = context.getClassPath();
 
         StringBuilder builder = new StringBuilder();
@@ -231,8 +231,8 @@ public class ReflectUI extends JFrame {
     }
 
     private void setFieldInfo(RefField refField) {
-        StringBuilder builder  = new StringBuilder();
-        RefClass      refClass = refField.getOwner();
+        StringBuilder builder = new StringBuilder();
+        RefClass refClass = refField.getOwner();
         builder.append("<h1>").append(refClass.getClassName()).append(".").append(refField.getName()).append("</h1><br/>");
         builder.append("<b>Class: </b>").append(refClass.getClassName()).append("<br/>");
         builder.append("<b>Value: </b>").append(refField.asObject()).append("<br/>");
@@ -240,11 +240,23 @@ public class ReflectUI extends JFrame {
         builder.append("<b>Static: </b>").append(refField.isStatic() ? "yes" : "no").append("<br/>");
         builder.append("<b>Array: </b>").append(refField.isArray() ? refField.getArrayDimensions() + " dimension(s)" : "no").append("<br/>");
 
-        if (refField.isArray() && refField.getASMType().getClassName().contains("String") && refField.getArrayDimensions() == 1) {
-            String[] strings = (String[]) refField.asObject();
-            String   values  = StringUtils.implode(", ", strings);
+        if (refField.isArray()) {
+            if (refField.getArrayDimensions() == 1) {
+                if (refField.getASMType().getClassName().contains("int")) {
+                    int[] ints = (int[]) refField.asObject();
+                    String values = "";
+                    for (int i = 0; i < ints.length; i++) {
+                        values += (ints[i] + (i < ints.length - 1 ? ", " : ""));
+                    }
 
-            builder.append("<b>Values: </b>").append(values).append("<br/>");
+                    builder.append("<b>Values: </b>").append(values).append("<br/>");
+                } else if (refField.getASMType().getClassName().contains("String")) {
+                    String[] strings = (String[]) refField.asObject();
+                    String values = StringUtils.implode(", ", strings);
+
+                    builder.append("<b>Values: </b>").append(values).append("<br/>");
+                }
+            }
         }
         selectionInfoPane.setText(builder.toString());
 

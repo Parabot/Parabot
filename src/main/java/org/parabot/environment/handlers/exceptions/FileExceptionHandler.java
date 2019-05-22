@@ -14,9 +14,22 @@ import java.io.IOException;
  */
 public class FileExceptionHandler extends ExceptionHandler {
     /**
+     * The default index of all options to be selected when the popup appears
+     */
+    private static final int defaultOptionIndex = 1;
+
+    /**
      * Directory where the reports get written to
      */
     private final File reportsDirectory;
+
+    /**
+     * All possible options to select when the popup appears
+     */
+    private final Object[] options = new Object[]{
+            "Close",
+            "Open report",
+            "Ignore " + this.getExceptionType().getName().toLowerCase() + " errors" };
 
     /**
      * Defines if the alert should popup during this client instance again
@@ -44,10 +57,14 @@ public class FileExceptionHandler extends ExceptionHandler {
             report.createNewFile();
 
             StringBuilder reportContent = new StringBuilder();
-            reportContent.append(e.getMessage() + "\n\n");
+            reportContent.append("Message: ").append(e.getMessage()).append("\n\n");
+            reportContent.append(e.toString()).append("\n\n");
 
             for (int i = 0; i < e.getStackTrace().length; i++) {
-                reportContent.append((i > 0 ? "  " : "") + e.getStackTrace()[i] + "\n");
+                if (i > 0) {
+                    reportContent.append("\t");
+                }
+                reportContent.append(e.getStackTrace()[i]).append("\n");
             }
 
             FileUtil.writeFileContents(report, reportContent.toString());
@@ -84,11 +101,8 @@ public class FileExceptionHandler extends ExceptionHandler {
                 "We are sorry to inform you that an error occurred within Parabot.\n\n" +
                         "The error has been written to a report file.\n" +
                         "Please report the error to the Parabot staff with as much information as possible.",
-                new Object[]{
-                        "Close",
-                        "Open report",
-                        "Ignore " + this.getExceptionType().getName().toLowerCase() + " errors" },
-                1,
+                this.options,
+                defaultOptionIndex,
                 JOptionPane.WARNING_MESSAGE
         );
 

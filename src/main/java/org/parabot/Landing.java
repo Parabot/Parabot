@@ -147,6 +147,7 @@ public final class Landing {
                     Core.disableSec();
                     break;
                 case "-no_validation":
+                case "-ignore_updates":
                     Core.disableValidation();
                     break;
                 case "-uuid":

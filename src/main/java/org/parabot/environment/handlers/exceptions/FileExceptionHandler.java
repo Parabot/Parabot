@@ -46,8 +46,8 @@ public class FileExceptionHandler extends ExceptionHandler {
             StringBuilder reportContent = new StringBuilder();
             reportContent.append(e.getMessage() + "\n\n");
 
-            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                reportContent.append(stackTraceElement);
+            for (int i = 0; i < e.getStackTrace().length; i++) {
+                reportContent.append((i > 0 ? "  " : "") + e.getStackTrace()[i] + "\n");
             }
 
             FileUtil.writeFileContents(report, reportContent.toString());

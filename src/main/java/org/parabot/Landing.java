@@ -11,10 +11,11 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.handlers.exceptions.ExceptionHandler;
+import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Parabot v2.7
@@ -27,7 +28,8 @@ public final class Landing {
     private static String username;
     private static String password;
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
+        Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
 
         if (Context.getJavaVersion() >= 9) {
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");

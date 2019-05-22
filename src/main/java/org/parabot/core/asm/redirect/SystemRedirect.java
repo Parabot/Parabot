@@ -9,7 +9,7 @@ public class SystemRedirect {
 
     public static PrintStream out = System.out;
     public static PrintStream err = System.err;
-    public static InputStream in  = System.in;
+    public static InputStream in = System.in;
 
     public static long currentTimeMillis() {
         return System.currentTimeMillis();
@@ -23,11 +23,23 @@ public class SystemRedirect {
         System.exit(i);
     }
 
+    private static String getClassPath(){
+        String classPath = System.getProperty("java.class.path");
+        StringBuilder finalClassPath = new StringBuilder();
+        for (String path : classPath.split(":")) {
+            if (!path.toLowerCase().contains("parabot")) {
+                finalClassPath.append(path).append(":");
+            }
+        }
+
+        return finalClassPath.toString();
+    }
+
     public static String getProperty(String s) {
         String value;
         switch (s) {
             case "java.class.path":
-                value = ".";
+                value = getClassPath();
                 break;
             default:
                 value = System.getProperty(s);
@@ -42,14 +54,14 @@ public class SystemRedirect {
         String value = null;
         switch (s2) {
             case "java.class.path":
-                value = ".";
+                value = getClassPath();
                 break;
         }
 
         if (value == null) {
             switch (s) {
                 case "java.class.path":
-                    value = ".";
+                    value = getClassPath();
                     break;
                 default:
                     value = System.getProperty(s);

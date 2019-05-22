@@ -39,7 +39,7 @@ public class FileExceptionHandler extends ExceptionHandler {
 
     @Override
     public void handle(Throwable e) {
-        File report = new File(this.reportsDirectory, "report-" + (System.currentTimeMillis() / 1000) + ".txt");
+        File report = new File(this.reportsDirectory, "report-" + this.getExceptionType().getName().toLowerCase() + "-" + (System.currentTimeMillis() / 1000) + ".txt");
         try {
             report.createNewFile();
 

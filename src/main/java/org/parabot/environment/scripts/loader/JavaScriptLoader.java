@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * An environment to load a script
  *
- * @author Everel, JKetelaar
+ * @author Everel
  */
 public class JavaScriptLoader extends ASMClassLoader {
     private ClassPath classPath;
@@ -27,55 +27,15 @@ public class JavaScriptLoader extends ASMClassLoader {
      * @return string array of class names that extends ServerProvider
      */
     public final String[] getScriptClassNames() {
-        final List<String> classNames = new ArrayList<>();
+        final List<String> classNames = new ArrayList<String>();
         for (ClassNode c : classPath.classes.values()) {
-            if (isScriptClass(c)) {
+            if (c.superName.replace('/', '.').equals(
+                    Script.class.getName())) {
                 classNames.add(c.name.replace('/', '.'));
-            } else {
-                ClassNode superClass = findClassNodeForName(c.superName);
-                if (superClass != null && isScriptClass(superClass)) {
-                    classNames.add(c.name.replace('/', '.'));
-                }
             }
         }
-
-        String[] classes = new String[classNames.size()];
-        for (int i = 0; i < classNames.size(); i++) {
-            classes[i] = classNames.get(i);
-        }
-
-        return classes;
+        return classNames.toArray(new String[classNames.size()]);
     }
 
-    /**
-     * Checks if given ClassNode is Script class
-     *
-     * @param classNode
-     *
-     * @return
-     */
-    private boolean isScriptClass(ClassNode classNode) {
-        return classNode
-                .superName
-                .replace('/', '.')
-                .equals(Script.class.getName());
-    }
-
-    /**
-     * Finds a ClassNode instance for a given class name
-     *
-     * @param name
-     *
-     * @return
-     */
-    private ClassNode findClassNodeForName(String name) {
-        for (ClassNode classNode : classPath.classes.values()) {
-            if (classNode.name.equals(name)) {
-                return classNode;
-            }
-        }
-
-        return null;
-    }
 }
 

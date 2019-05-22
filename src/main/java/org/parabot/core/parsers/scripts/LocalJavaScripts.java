@@ -60,6 +60,7 @@ public class LocalJavaScripts extends ScriptParser {
                 t.printStackTrace();
             }
         }
+
     }
 
 }

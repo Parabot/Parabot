@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * @author Everel, JKetelaar, Matt, Dane
  * @version 2.8.1
- * @see <a href="http://www.parabot.org">Homepage</a>
+ * @see <a href="https://www.parabot.org">Homepage</a>
  */
 public final class Landing {
     private static String username;

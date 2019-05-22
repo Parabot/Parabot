@@ -3,6 +3,8 @@ package org.parabot.environment.servers.executers;
 import org.parabot.core.Context;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.components.PaintComponent;
+import org.parabot.environment.handlers.exceptions.ExceptionHandler;
+import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 import org.parabot.environment.servers.ServerProvider;
 
 /**
@@ -15,7 +17,7 @@ public abstract class ServerExecuter {
     public abstract void run();
 
     public void finalize(final ServerProvider provider, final String serverName) {
-        new Thread(new Runnable() {
+        Thread serverThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -30,7 +32,11 @@ public abstract class ServerExecuter {
                     t.printStackTrace();
                 }
             }
-        }).start();
+        });
+
+        serverThread.setUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.SERVER));
+
+        serverThread.start();
     }
 
 }

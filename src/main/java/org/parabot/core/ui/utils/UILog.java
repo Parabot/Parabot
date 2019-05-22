@@ -39,4 +39,9 @@ public class UILog {
         return JOptionPane.showOptionDialog(null, message, title,
                 JOptionPane.YES_NO_CANCEL_OPTION, messageType, null, options, null);
     }
+
+    public static int alert(final String title, final String message, Object[] options, int initialValue, int messageType) {
+        return JOptionPane.showOptionDialog(null, message, title,
+                JOptionPane.YES_NO_CANCEL_OPTION, messageType, null, options, initialValue);
+    }
 }

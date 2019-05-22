@@ -18,9 +18,10 @@ public abstract class ScriptParser {
 
     public static final Map<ScriptDescription, ScriptExecuter> SCRIPT_CACHE = new HashMap<>();
 
+    private static final ArrayList<ScriptParser> parsers = new ArrayList<>();
+
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
-        final ArrayList<ScriptParser> parsers = new ArrayList<>();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
             parsers.add(new BDNScripts());
@@ -47,6 +48,9 @@ public abstract class ScriptParser {
         return SORTED_SCRIPT_CACHE.keySet().toArray(new ScriptDescription[SORTED_SCRIPT_CACHE.size()]);
     }
 
-    public abstract void execute();
+    public static final void addParser(ScriptParser parser) {
+        parsers.add(parser);
+    }
 
+    public abstract void execute();
 }

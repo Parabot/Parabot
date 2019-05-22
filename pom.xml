@@ -17,7 +17,7 @@
     </properties>
 
     <name>Parabot client</name>
-    <description>The only perfect open source (Runescape private server) bot!</description>
+    <description>The best open-source (Runescape Private Server) bot</description>
     <url>http://www.parabot.org/</url>
 
     <licenses>
@@ -68,7 +68,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>provided</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.parabot</groupId>
@@ -191,13 +191,13 @@
             <uniqueVersion>false</uniqueVersion>
             <id>parabot-maven</id>
             <name>Custom Maven Repository</name>
-            <url>ftp://maven.parabot.org</url>
+            <url>ftp://maven.parabot.org/public_html</url>
             <layout>default</layout>
         </repository>
         <site>
             <id>parabot-maven</id>
             <name>Frontend Parabot Maven</name>
-            <url>ftp://maven.parabot.org/docs/${artifactId}/</url>
+            <url>ftp://maven.parabot.org/public_html/docs/${artifactId}/</url>
         </site>
     </distributionManagement>
 

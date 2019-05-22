@@ -77,7 +77,7 @@ public abstract class ServerProvider implements Opcodes {
             return;
         }
 
-        HookParser   parser      = hookFile.getParser();
+        HookParser parser = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
 
         if (injectables == null) {
@@ -92,17 +92,18 @@ public abstract class ServerProvider implements Opcodes {
                 index++;
             }
         } catch (NullPointerException ex) {
-            if(!crashed) {
+            if (!crashed) {
                 Injectable inj = injectables[index];
 
-                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to a member of the Parabot staff.\r\n\r\n" +
-                        "Broken hook:\r\n"+inj, new Object[]{"Close", "Report here..."}, JOptionPane.ERROR_MESSAGE);
+                int resp = UILog.alert("Outdated client", "This server currently has outdated hooks, please report it to the Parabot staff.\r\n\r\n" +
+                        "Broken hook:\r\n" + inj, new Object[]{ "Close", "Report here..." }, JOptionPane.ERROR_MESSAGE);
 
-                if(resp == 1) {
+                if (resp == 1) {
                     URI uri = URI.create(Configuration.COMMUNITY_PAGE + "forum/135-reports/");
                     try {
                         Desktop.getDesktop().browse(uri);
-                    } catch (IOException ignore) {}
+                    } catch (IOException ignore) {
+                    }
                 }
             }
             crashed = true;
@@ -110,20 +111,6 @@ public abstract class ServerProvider implements Opcodes {
         }
 
         Context.getInstance().setHookParser(parser);
-    }
-
-    private HookFile fetchHookFile() {
-        HookFile hookFile = getHookFile();
-        if (hookFile != null) {
-            return hookFile;
-        }
-
-        URL hookLocation = getHooks();
-        if (hookLocation == null) {
-            return null;
-        }
-
-        return new HookFile(hookLocation, HookFile.TYPE_XML);
     }
 
     /**
@@ -156,16 +143,16 @@ public abstract class ServerProvider implements Opcodes {
 
     public void initMouse() {
         final Context context = Context.getInstance();
-        final Applet  applet  = context.getApplet();
-        final Mouse   mouse   = new Mouse(applet);
+        final Applet applet = context.getApplet();
+        final Mouse mouse = new Mouse(applet);
         applet.addMouseListener(mouse);
         applet.addMouseMotionListener(mouse);
         context.setMouse(mouse);
     }
 
     public void initKeyboard() {
-        final Context  context  = Context.getInstance();
-        final Applet   applet   = context.getApplet();
+        final Context context = Context.getInstance();
+        final Applet applet = context.getApplet();
         final Keyboard keyboard = new Keyboard(applet);
         applet.addKeyListener(keyboard);
         context.setKeyboard(keyboard);
@@ -189,6 +176,20 @@ public abstract class ServerProvider implements Opcodes {
      */
     public void postAppletStart() {
 
+    }
+
+    private HookFile fetchHookFile() {
+        HookFile hookFile = getHookFile();
+        if (hookFile != null) {
+            return hookFile;
+        }
+
+        URL hookLocation = getHooks();
+        if (hookLocation == null) {
+            return null;
+        }
+
+        return new HookFile(hookLocation, HookFile.TYPE_XML);
     }
 
 }

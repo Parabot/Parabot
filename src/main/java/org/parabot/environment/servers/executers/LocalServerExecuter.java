@@ -16,8 +16,8 @@ import java.net.MalformedURLException;
  */
 public class LocalServerExecuter extends ServerExecuter {
     private final Constructor<?> serverProviderConstructor;
-    private       ClassPath      classPath;
-    private       String         serverName;
+    private ClassPath classPath;
+    private String serverName;
 
     public LocalServerExecuter(Constructor<?> serverProviderConstructor,
                                ClassPath classPath, final String serverName) {

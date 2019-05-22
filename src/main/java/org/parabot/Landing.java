@@ -11,32 +11,31 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.handlers.exceptions.ExceptionHandler;
+import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 
 /**
- * Parabot v2.7
- *
  * @author Everel, JKetelaar, Matt, Dane
- * @version 2.7
- * @see <a href="http://www.parabot.org">Homepage</a>
+ * @version 2.8.1
+ * @see <a href="https://www.parabot.org">Homepage</a>
  */
 public final class Landing {
     private static String username;
     private static String password;
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) {
+        Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
 
         if (Context.getJavaVersion() >= 9) {
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
-            System.exit(0);
         }
 
         if (!System.getProperty("os.arch").contains("64")) {
             UILog.log("Parabot", "You are not running a 64-bit version of Java, this might cause the client to lag or crash unexpectedly.\r\n" +
-                    "It's recommended to upgrade to a 64-bit version.");
+                    "It is recommended to upgrade to a 64-bit version.");
         }
 
         parseArgs(args);
@@ -80,11 +79,11 @@ public final class Landing {
             switch (arg.toLowerCase()) {
                 case "-createdirs":
                     Directories.validate();
-                    System.out
-                            .println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
+                    System.out.println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
                     System.exit(0);
                     break;
                 case "-debug":
+                    Core.setDump(true);
                 case "-offlinemode":
                     Core.setDebug(true);
                     break;
@@ -130,14 +129,9 @@ public final class Landing {
                     break;
                 case "-proxy":
                     ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
-                    if (type == null) {
-                        System.err.println(TranslationHelper.translate("INVALID_PROXY_TYPE") + args[i]);
-                        System.exit(1);
-                        return;
-                    }
-                    ProxySocket.setProxy(type, args[++i],
-                            Integer.parseInt(args[++i]));
+                    ProxySocket.setProxy(type, args[++i], Integer.parseInt(args[++i]));
                     break;
+                case "-proxy_auth":
                 case "-auth":
                     ProxySocket.auth = true;
                     ProxySocket.setLogin(args[++i], args[++i]);
@@ -146,6 +140,7 @@ public final class Landing {
                     Core.disableSec();
                     break;
                 case "-no_validation":
+                case "-ignore_updates":
                     Core.disableValidation();
                     break;
                 case "-uuid":

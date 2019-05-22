@@ -29,8 +29,9 @@ public class ServerLoader extends ASMClassLoader {
     public final String[] getServerClassNames() {
         final List<String> classNames = new ArrayList<String>();
         for (ClassNode c : classPath.classes.values()) {
-            if (c.superName.replace('/', '.').equals(
-                    ServerProvider.class.getName())) {
+            if (c.superName
+                    .replace('/', '.')
+                    .equals(ServerProvider.class.getName())) {
                 classNames.add(c.name.replace('/', '.'));
             }
         }

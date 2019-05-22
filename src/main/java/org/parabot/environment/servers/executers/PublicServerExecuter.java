@@ -36,10 +36,9 @@ public class PublicServerExecuter extends ServerExecuter {
         }
 
     };
-    private String serverName;
-
-    private PBLocalPreferences settings;
     private final String cacheVersionKey = "cachedProviderVersion";
+    private String serverName;
+    private PBLocalPreferences settings;
 
     public PublicServerExecuter(final String serverName) {
         this.serverName = serverName;
@@ -58,14 +57,14 @@ public class PublicServerExecuter extends ServerExecuter {
             Core.verbose("Downloading: " + jarUrl + " ...");
 
             String providerVersion = serverProviderInfo.getProviderVersion();
-            if(providerVersion == null) {
+            if (providerVersion == null) {
                 providerVersion = "error";
             }
 
-            settings = new PBLocalPreferences(serverProviderInfo.getClientCRC32()+".json");
-            if(settings.getSetting(cacheVersionKey) != null) {
+            settings = new PBLocalPreferences(serverProviderInfo.getClientCRC32() + ".json");
+            if (settings.getSetting(cacheVersionKey) != null) {
                 Core.verbose(String.format("Latest provider version: %s, local provider version: %s", settings.getSetting(cacheVersionKey), providerVersion));
-                if(!settings.getSetting(cacheVersionKey).equals(providerVersion)) {
+                if (!settings.getSetting(cacheVersionKey).equals(providerVersion)) {
                     Core.verbose("Local provider outdated, clearing cache.");
                     Directories.clearCache();
                 }
@@ -88,8 +87,8 @@ public class PublicServerExecuter extends ServerExecuter {
 
             BuildPath.add(destination.toURI().toURL());
 
-            ServerLoader   serverLoader = new ServerLoader(classPath);
-            final String[] classNames   = serverLoader.getServerClassNames();
+            ServerLoader serverLoader = new ServerLoader(classPath);
+            final String[] classNames = serverLoader.getServerClassNames();
             if (classNames == null || classNames.length == 0) {
                 UILog.log(
                         "Error",

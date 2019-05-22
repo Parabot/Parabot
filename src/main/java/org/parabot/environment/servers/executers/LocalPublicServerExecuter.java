@@ -24,9 +24,9 @@ import java.net.URL;
  * @author JKetelaar
  */
 public class LocalPublicServerExecuter extends ServerExecuter {
-    private String             serverName;
-    private String             serverUrl;
-    private String             providerUrl;
+    private String serverName;
+    private String serverUrl;
+    private String providerUrl;
     private ServerProviderInfo serverProviderInfo;
 
     public LocalPublicServerExecuter(final String serverName, final ServerProviderInfo serverProviderInfo, String serverUrl, String providerUrl) {
@@ -80,8 +80,8 @@ public class LocalPublicServerExecuter extends ServerExecuter {
 
             BuildPath.add(destination.toURI().toURL());
 
-            ServerLoader   serverLoader = new ServerLoader(classPath);
-            final String[] classNames   = serverLoader.getServerClassNames();
+            ServerLoader serverLoader = new ServerLoader(classPath);
+            final String[] classNames = serverLoader.getServerClassNames();
             if (classNames.length == 0) {
                 UILog.log(
                         "Error",

@@ -81,11 +81,11 @@ public final class Landing {
             switch (arg.toLowerCase()) {
                 case "-createdirs":
                     Directories.validate();
-                    System.out
-                            .println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
+                    System.out.println(TranslationHelper.translate(("DIRECTORIES_CREATED")));
                     System.exit(0);
                     break;
                 case "-debug":
+                    Core.setDump(true);
                 case "-offlinemode":
                     Core.setDebug(true);
                     break;

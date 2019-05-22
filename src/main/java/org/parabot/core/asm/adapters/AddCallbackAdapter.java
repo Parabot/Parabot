@@ -57,7 +57,7 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
         }
         inject.add(new MethodInsnNode(INVOKESTATIC,
                 this.invokeClass, this.invokeMethod,
-                this.desc));
+                this.desc, false));
         if (this.conditional) {
             LabelNode ln = new LabelNode(new Label());
             inject.add(new JumpInsnNode(IFEQ, ln));

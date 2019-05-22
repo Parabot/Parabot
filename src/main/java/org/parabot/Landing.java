@@ -131,14 +131,9 @@ public final class Landing {
                     break;
                 case "-proxy":
                     ProxyType type = ProxyType.valueOf(args[++i].toUpperCase());
-                    if (type == null) {
-                        System.err.println(TranslationHelper.translate("INVALID_PROXY_TYPE") + args[i]);
-                        System.exit(1);
-                        return;
-                    }
-                    ProxySocket.setProxy(type, args[++i],
-                            Integer.parseInt(args[++i]));
+                    ProxySocket.setProxy(type, args[++i], Integer.parseInt(args[++i]));
                     break;
+                case "-proxy_auth":
                 case "-auth":
                     ProxySocket.auth = true;
                     ProxySocket.setLogin(args[++i], args[++i]);

@@ -33,12 +33,11 @@ public final class Landing {
 
         if (Context.getJavaVersion() >= 9) {
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
-            System.exit(0);
         }
 
         if (!System.getProperty("os.arch").contains("64")) {
             UILog.log("Parabot", "You are not running a 64-bit version of Java, this might cause the client to lag or crash unexpectedly.\r\n" +
-                    "It's recommended to upgrade to a 64-bit version.");
+                    "It is recommended to upgrade to a 64-bit version.");
         }
 
         parseArgs(args);

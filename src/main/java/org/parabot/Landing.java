@@ -18,10 +18,8 @@ import javax.swing.*;
 import java.io.File;
 
 /**
- * Parabot v2.7
- *
  * @author Everel, JKetelaar, Matt, Dane
- * @version 2.7
+ * @version 2.8.1
  * @see <a href="http://www.parabot.org">Homepage</a>
  */
 public final class Landing {

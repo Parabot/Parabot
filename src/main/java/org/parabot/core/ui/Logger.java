@@ -12,9 +12,9 @@ import java.awt.event.ActionListener;
  */
 public class Logger extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static Logger                   instance;
-    private final  DefaultListModel<String> model;
-    private final  JList<String>            list;
+    private static Logger instance;
+    private final DefaultListModel<String> model;
+    private final JList<String> list;
 
     private boolean clearable;
 
@@ -78,6 +78,14 @@ public class Logger extends JPanel {
         addMessage(message, true);
     }
 
+    public boolean isClearable() {
+        return clearable;
+    }
+
+    public void setClearable() {
+        this.clearable = true;
+    }
+
     protected static void clearLogger() {
         instance.model.clear();
     }
@@ -95,13 +103,5 @@ public class Logger extends JPanel {
                 return listCellRendererComponent;
             }
         };
-    }
-
-    public boolean isClearable() {
-        return clearable;
-    }
-
-    public void setClearable() {
-        this.clearable = true;
     }
 }

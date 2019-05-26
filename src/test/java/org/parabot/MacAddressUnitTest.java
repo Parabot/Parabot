@@ -4,15 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.parabot.core.network.NetworkInterface;
 
-import java.util.Arrays;
-
 /**
  * @author JKetelaar
  */
 public class MacAddressUnitTest {
 
     @Test
-    public void test(){
+    public void test() {
         String[] macString = new String[]{
                 "19",
                 "5C",

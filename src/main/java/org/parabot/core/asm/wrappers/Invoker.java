@@ -13,15 +13,15 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class Invoker implements Injectable {
-    private ClassNode  into;
-    private ClassNode  methodLocation;
+    private ClassNode into;
+    private ClassNode methodLocation;
     private MethodNode mn;
-    private String     argsDesc;
-    private String     returnDesc;
-    private String     methodName;
-    private boolean    isInterface;
-    private String     instanceCast;
-    private String     argsCheckCastDesc;
+    private String argsDesc;
+    private String returnDesc;
+    private String methodName;
+    private boolean isInterface;
+    private String instanceCast;
+    private String argsCheckCastDesc;
 
     private String mName;
     private String mDesc;
@@ -48,17 +48,6 @@ public class Invoker implements Injectable {
         this.argsCheckCastDesc = argsCheckCastDesc;
     }
 
-    private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
-    	for (Object method : into.methods) {
-			MethodNode m = (MethodNode) method;
-			if (m.name.equals(name) &&  m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
-					&& (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
-				return m;
-			}
-		}
-		return null;
-    }
-
     /**
      * Short route for getAdaptar().inject();
      *
@@ -77,6 +66,17 @@ public class Invoker implements Injectable {
     public AddInvokerAdapter getAdapter() {
         return new AddInvokerAdapter(this.methodLocation, this.into, this.mn, this.mName, this.mDesc,
                 this.argsDesc, this.returnDesc, this.methodName, this.isInterface, this.instanceCast, this.argsCheckCastDesc);
+    }
+
+    private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
+        for (Object method : into.methods) {
+            MethodNode m = (MethodNode) method;
+            if (m.name.equals(name) && m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
+                    && (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
+                return m;
+            }
+        }
+        return null;
     }
 
 }

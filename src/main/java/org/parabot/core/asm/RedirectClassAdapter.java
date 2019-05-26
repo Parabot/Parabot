@@ -16,12 +16,8 @@ import java.util.Map;
 
 public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
-    public static Map<String, Class<?>> getRedirects() {
-        return redirects;
-    }
-
     private static final Map<String, Class<?>> redirects = new HashMap<>();
-    private static       PrintStream           str_out, class_out;
+    private static PrintStream str_out, class_out;
 
     static {
         redirects.put("java/awt/Toolkit", ToolkitRedirect.class);
@@ -55,8 +51,12 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
         }
     }
 
+    public static Map<String, Class<?>> getRedirects() {
+        return redirects;
+    }
+
     public static SecurityException createSecurityException() {
-        Exception           e        = new Exception();
+        Exception e = new Exception();
         StackTraceElement[] elements = e.getStackTrace();
         return new SecurityException("Unsafe operation blocked. Op:"
                 + elements[1].getMethodName());

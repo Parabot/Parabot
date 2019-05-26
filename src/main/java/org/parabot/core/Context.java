@@ -35,25 +35,25 @@ public class Context {
     public static final HashMap<ThreadGroup, Context> threadGroups = new HashMap<>();
 
     private static ArrayList<Paintable> paintables = new ArrayList<>();
-    private static Context              instance;
-    private static String               username;
+    private static Context instance;
+    private static String username;
 
-    private ASMClassLoader     classLoader;
-    private ClassPath          classPath;
-    private ServerProvider     serverProvider;
-    private Applet             gameApplet;
-    private HookParser         hookParser;
-    private Script             runningScript;
-    private RandomHandler      randomHandler;
-    private Object             clientInstance;
-    private PaintDebugger      paintDebugger;
-    private Mouse              mouse;
-    private Keyboard           keyboard;
-    private PBKeyListener      pbKeyListener;
+    private ASMClassLoader classLoader;
+    private ClassPath classPath;
+    private ServerProvider serverProvider;
+    private Applet gameApplet;
+    private HookParser hookParser;
+    private Script runningScript;
+    private RandomHandler randomHandler;
+    private Object clientInstance;
+    private PaintDebugger paintDebugger;
+    private Mouse mouse;
+    private Keyboard keyboard;
+    private PBKeyListener pbKeyListener;
     private ServerProviderInfo providerInfo;
-    private JSONParser         jsonParser;
-    private PrintStream        defaultOut;
-    private PrintStream        defaultErr;
+    private JSONParser jsonParser;
+    private PrintStream defaultOut;
+    private PrintStream defaultErr;
 
     private Context(final ServerProvider serverProvider) {
         threadGroups.put(Thread.currentThread().getThreadGroup(), this);
@@ -192,7 +192,7 @@ public class Context {
 
         Core.verbose(TranslationHelper.translate("APPLET_FETCHED"));
 
-        final GamePanel panel      = GamePanel.getInstance();
+        final GamePanel panel = GamePanel.getInstance();
         final Dimension appletSize = serverProvider.getGameDimensions();
 
         panel.setPreferredSize(appletSize);

@@ -9,14 +9,14 @@ import java.awt.geom.Rectangle2D;
  * @author Everel
  */
 public class ProgressBar {
-    private double      value;
-    private int         width;
-    private int         height;
-    private double      locX;
-    private Color       progColor;
-    private Color       backColor;
+    private double value;
+    private int width;
+    private int height;
+    private double locX;
+    private Color progColor;
+    private Color backColor;
     private FontMetrics fontMetrics;
-    private String      text;
+    private String text;
 
     public ProgressBar(int width, int height) {
         this.progColor = new Color(255, 0, 0);
@@ -74,8 +74,8 @@ public class ProgressBar {
         g2.setColor(this.progColor);
         g2.fill(new Rectangle2D.Double(x, y, locX, height));
 
-        int    value   = (int) getValue();
-        String percent = Integer.toString(value) + "% " + text;
+        int value = (int) getValue();
+        String percent = value + "% " + text;
 
         int strX = (x + (width / 2)) - (fontMetrics.stringWidth(percent) / 2);
         g2.setColor(Color.white);

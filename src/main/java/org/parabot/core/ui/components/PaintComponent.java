@@ -18,9 +18,9 @@ public class PaintComponent extends JComponent implements Runnable {
     private static PaintComponent instance;
 
     private BufferedImage buffer;
-    private Graphics2D    g2;
-    private Dimension     dimensions;
-    private Context       context;
+    private Graphics2D g2;
+    private Dimension dimensions;
+    private Context context;
 
     private PaintComponent(Dimension dimensions) {
         this.dimensions = dimensions;

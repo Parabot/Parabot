@@ -6,10 +6,10 @@ package org.parabot.core.desc;
  * @author Everel
  */
 public class ServerDescription implements Comparable<ServerDescription> {
+    public int uuid;
     private String serverName;
     private String author;
     private double revision;
-    public int uuid;
 
     public ServerDescription(final String serverName, final String author,
                              final double revision) {

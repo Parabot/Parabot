@@ -16,7 +16,7 @@ import java.util.Arrays;
  * @author Everel
  */
 public class RefClass extends RefModifiers {
-    private Object   instance;
+    private Object instance;
     private Class<?> clazz;
 
     public RefClass(Class<?> clazz) {
@@ -251,7 +251,7 @@ public class RefClass extends RefModifiers {
      * @return an array with all the constructors in this class
      */
     public RefConstructor[] getConstructors() {
-        Constructor<?>[] constructors    = clazz.getDeclaredConstructors();
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
         RefConstructor[] refConstructors = new RefConstructor[constructors.length];
         for (int i = 0; i < constructors.length; i++) {
             refConstructors[i] = new RefConstructor(constructors[i]);

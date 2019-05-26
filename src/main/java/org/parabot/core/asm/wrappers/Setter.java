@@ -15,9 +15,9 @@ public class Setter implements Injectable {
     private ClassNode fieldLocation;
     private ClassNode into;
     private FieldNode field;
-    private String    name;
-    private String    desc;
-    private boolean   methodStatic;
+    private String name;
+    private String desc;
+    private boolean methodStatic;
 
     public Setter(final String fieldLocation, String into, final String fieldName, final String methodName, final String desc, final boolean methodStatic, final String fieldDesc) {
         this.fieldLocation = ASMUtils.getClass(fieldLocation);

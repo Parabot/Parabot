@@ -10,7 +10,7 @@ import org.parabot.environment.api.utils.Timer;
 public class TimerTest {
 
     @Test
-    public void test(){
+    public void test() {
         Timer timer1 = new Timer(0, System.currentTimeMillis() - (1000 * 60 * 60 * 24));
         Assert.assertEquals(timer1.toString(), "1d:00:00:00");
 

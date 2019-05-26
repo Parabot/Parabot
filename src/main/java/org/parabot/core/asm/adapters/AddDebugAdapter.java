@@ -5,7 +5,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
 public class AddDebugAdapter {
-    private ClassNode  owner;
+    private ClassNode owner;
     private MethodNode mn;
 
     public AddDebugAdapter(ClassNode owner, MethodNode mn) {
@@ -19,11 +19,11 @@ public class AddDebugAdapter {
 
     public void inject() {
         InsnList inject = new InsnList();
-        Label    l0     = new Label();
+        Label l0 = new Label();
         inject.add(new LabelNode(l0));
 
-        String      callString = owner.name + "." + mn.name + " " + mn.desc;
-        LdcInsnNode ldc        = new LdcInsnNode(callString);
+        String callString = owner.name + "." + mn.name + " " + mn.desc;
+        LdcInsnNode ldc = new LdcInsnNode(callString);
 
         MethodInsnNode methodNode = new MethodInsnNode(Opcodes.INVOKESTATIC, "org/parabot/core/Core", "debug",
                 "(Ljava/lang/String;)V");

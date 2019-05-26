@@ -16,7 +16,7 @@ public class RandomUI implements ActionListener {
 
     private static RandomUI instance;
 
-    private JFrame               frame;
+    private JFrame frame;
     private ArrayList<JCheckBox> checkBoxes;
 
     public static RandomUI getInstance() {

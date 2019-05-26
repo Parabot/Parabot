@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HookFile {
-    public static final int TYPE_XML  = 0;
+    public static final int TYPE_XML = 0;
     public static final int TYPE_JSON = 1;
 
     private URL url;
@@ -26,13 +26,6 @@ public class HookFile {
         this.url = url;
     }
 
-    private void setType(int type) {
-        if (type < 0 || type > 1) {
-            throw new IllegalArgumentException("This type does not exist");
-        }
-        this.type = type;
-    }
-
     public InputStream getInputStream() {
         return WebUtil.getInputStream(url);
     }
@@ -45,6 +38,13 @@ public class HookFile {
                 return new JSONHookParser(this);
         }
         return null;
+    }
+
+    private void setType(int type) {
+        if (type < 0 || type > 1) {
+            throw new IllegalArgumentException("This type does not exist");
+        }
+        this.type = type;
     }
 
 }

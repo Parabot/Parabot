@@ -27,17 +27,17 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     private static NetworkUI instance;
 
     private JComboBox<ProxyType> proxyType;
-    private JTextField           proxyHost;
-    private IntTextField         proxyPort;
-    private JButton              submitButton;
+    private JTextField proxyHost;
+    private IntTextField proxyPort;
+    private JButton submitButton;
 
     private JList<String>[] macList;
-    private JScrollPane[]   macScrollList;
+    private JScrollPane[] macScrollList;
 
-    private JCheckBox      authCheckBox;
-    private JTextField     authUsername;
+    private JCheckBox authCheckBox;
+    private JTextField authUsername;
     private JPasswordField authPassword;
-    private JButton        randomize;
+    private JButton randomize;
 
     private NetworkUI() {
         initGUI();
@@ -58,133 +58,6 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         authCheckBox.setSelected(ProxySocket.auth);
         setLocationRelativeTo(BotUI.getInstance());
         super.setVisible(b);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void initGUI() {
-        proxyType = new JComboBox<>(ProxyType.values());
-        proxyType.setSelectedItem(ProxySocket.getProxyType());
-
-        proxyType.addActionListener(this);
-
-        proxyHost = new JTextField();
-        proxyHost.addKeyListener(this);
-
-        proxyPort = new IntTextField(80, 5);
-        proxyPort.setColumns(5);
-        proxyPort.addKeyListener(this);
-
-        submitButton = new JButton("Submit");
-        submitButton.addActionListener(this);
-
-        byte[] mac = new byte[6];
-        mac = NetworkInterface.mac;
-        macList = new JList[mac.length];
-        macScrollList = new JScrollPane[mac.length];
-        for (int i = 0; i < mac.length; i++) {
-            int value = mac[i] & 0xFF;
-            macList[i] = createMacList();
-            macList[i].setSelectedIndex(value);
-            macScrollList[i] = new JScrollPane(macList[i]);
-            macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
-        }
-
-        randomize = new JButton("Randomize MAC");
-        randomize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Random rand    = new Random();
-                byte[] macAddr = new byte[6];
-                rand.nextBytes(macAddr);
-                macAddr[0] = (byte) (macAddr[0] & (byte) 254);
-                for (int i = 0; i < macAddr.length; i++) {
-                    int value = macAddr[i] & 0xFF;
-                    macList[i].setSelectedIndex(value);
-                    macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
-                }
-            }
-        });
-
-        authCheckBox = new JCheckBox("Auth");
-        authCheckBox.setSelected(ProxySocket.auth);
-        authCheckBox.addActionListener(this);
-
-        authUsername = new JTextField();
-        authPassword = new JPasswordField();
-
-        authUsername.setEnabled(authCheckBox.isSelected());
-        authPassword.setEnabled(authCheckBox.isSelected());
-
-        JPanel p = createPanelUI();
-        add(p);
-        setResizable(false);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
-        pack();
-        setTitle("Network Settings");
-    }
-
-    private JPanel createPanelUI() {
-        JPanel ret = new JPanel();
-        ret.setLayout(new BoxLayout(ret, BoxLayout.LINE_AXIS));
-        Box main = Box.createVerticalBox();
-
-        Box type = Box.createHorizontalBox();
-        type.add(new JLabel("Proxy Type: "));
-        type.add(proxyType);
-
-        Box host = Box.createHorizontalBox();
-        host.add(new JLabel("Proxy Host: "));
-        host.add(proxyHost);
-
-        Box port = Box.createHorizontalBox();
-        port.add(new JLabel("Proxy Port: "));
-        port.add(proxyPort);
-
-        Box auth = Box.createHorizontalBox();
-        auth.add(authCheckBox);
-
-        auth.add(Box.createHorizontalStrut(3));
-
-        auth.add(new JLabel("User:"));
-        auth.add(authUsername);
-
-        auth.add(Box.createHorizontalStrut(3));
-
-        auth.add(new JLabel("Pass:"));
-        auth.add(authPassword);
-
-        Box macBox = Box.createHorizontalBox();
-        macBox.add(new JLabel("MAC:"));
-        for (int i = 0; i < macList.length; i++) {
-            macBox.add(new JScrollPane(macList[i]));
-            macBox.add(Box.createHorizontalStrut(5));
-        }
-
-        Box submit = Box.createHorizontalBox();
-        main.add(Box.createVerticalStrut(5));
-        submit.add(randomize);
-        submit.add(submitButton);
-
-        main.add(type);
-
-        main.add(Box.createVerticalStrut(5));
-        main.add(host);
-
-        main.add(Box.createVerticalStrut(5));
-        main.add(port);
-
-        main.add(Box.createVerticalStrut(5));
-        main.add(auth);
-
-        main.add(Box.createVerticalStrut(5));
-        main.add(macBox);
-
-        main.add(Box.createVerticalStrut(5));
-        main.add(submit);
-
-        ret.add(main);
-        ret.setBorder(new EmptyBorder(10, 10, 10, 10));
-        return ret;
     }
 
     @Override
@@ -278,8 +151,8 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
                 }
             }
             ProxyType type = (ProxyType) proxyType.getSelectedItem();
-            String    host = proxyHost.getText();
-            int       port = proxyPort.getValue();
+            String host = proxyHost.getText();
+            int port = proxyPort.getValue();
 
             ProxySocket.setProxy(type, host, port);
             UILog.log("Info", "Network settings have been set!");
@@ -289,6 +162,133 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             e.printStackTrace();
         }
         setVisible(false);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initGUI() {
+        proxyType = new JComboBox<>(ProxyType.values());
+        proxyType.setSelectedItem(ProxySocket.getProxyType());
+
+        proxyType.addActionListener(this);
+
+        proxyHost = new JTextField();
+        proxyHost.addKeyListener(this);
+
+        proxyPort = new IntTextField(80, 5);
+        proxyPort.setColumns(5);
+        proxyPort.addKeyListener(this);
+
+        submitButton = new JButton("Submit");
+        submitButton.addActionListener(this);
+
+        byte[] mac = new byte[6];
+        mac = NetworkInterface.mac;
+        macList = new JList[mac.length];
+        macScrollList = new JScrollPane[mac.length];
+        for (int i = 0; i < mac.length; i++) {
+            int value = mac[i] & 0xFF;
+            macList[i] = createMacList();
+            macList[i].setSelectedIndex(value);
+            macScrollList[i] = new JScrollPane(macList[i]);
+            macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
+        }
+
+        randomize = new JButton("Randomize MAC");
+        randomize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Random rand = new Random();
+                byte[] macAddr = new byte[6];
+                rand.nextBytes(macAddr);
+                macAddr[0] = (byte) (macAddr[0] & (byte) 254);
+                for (int i = 0; i < macAddr.length; i++) {
+                    int value = macAddr[i] & 0xFF;
+                    macList[i].setSelectedIndex(value);
+                    macList[i].ensureIndexIsVisible(value > 0 ? value - 1 : value);
+                }
+            }
+        });
+
+        authCheckBox = new JCheckBox("Auth");
+        authCheckBox.setSelected(ProxySocket.auth);
+        authCheckBox.addActionListener(this);
+
+        authUsername = new JTextField();
+        authPassword = new JPasswordField();
+
+        authUsername.setEnabled(authCheckBox.isSelected());
+        authPassword.setEnabled(authCheckBox.isSelected());
+
+        JPanel p = createPanelUI();
+        add(p);
+        setResizable(false);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        pack();
+        setTitle("Network Settings");
+    }
+
+    private JPanel createPanelUI() {
+        JPanel ret = new JPanel();
+        ret.setLayout(new BoxLayout(ret, BoxLayout.LINE_AXIS));
+        Box main = Box.createVerticalBox();
+
+        Box type = Box.createHorizontalBox();
+        type.add(new JLabel("Proxy Type: "));
+        type.add(proxyType);
+
+        Box host = Box.createHorizontalBox();
+        host.add(new JLabel("Proxy Host: "));
+        host.add(proxyHost);
+
+        Box port = Box.createHorizontalBox();
+        port.add(new JLabel("Proxy Port: "));
+        port.add(proxyPort);
+
+        Box auth = Box.createHorizontalBox();
+        auth.add(authCheckBox);
+
+        auth.add(Box.createHorizontalStrut(3));
+
+        auth.add(new JLabel("User:"));
+        auth.add(authUsername);
+
+        auth.add(Box.createHorizontalStrut(3));
+
+        auth.add(new JLabel("Pass:"));
+        auth.add(authPassword);
+
+        Box macBox = Box.createHorizontalBox();
+        macBox.add(new JLabel("MAC:"));
+        for (int i = 0; i < macList.length; i++) {
+            macBox.add(new JScrollPane(macList[i]));
+            macBox.add(Box.createHorizontalStrut(5));
+        }
+
+        Box submit = Box.createHorizontalBox();
+        main.add(Box.createVerticalStrut(5));
+        submit.add(randomize);
+        submit.add(submitButton);
+
+        main.add(type);
+
+        main.add(Box.createVerticalStrut(5));
+        main.add(host);
+
+        main.add(Box.createVerticalStrut(5));
+        main.add(port);
+
+        main.add(Box.createVerticalStrut(5));
+        main.add(auth);
+
+        main.add(Box.createVerticalStrut(5));
+        main.add(macBox);
+
+        main.add(Box.createVerticalStrut(5));
+        main.add(submit);
+
+        ret.add(main);
+        ret.setBorder(new EmptyBorder(10, 10, 10, 10));
+        return ret;
     }
 
     private JList<String> createMacList() {
@@ -312,10 +312,6 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             super("" + defval, size);
         }
 
-        protected Document createDefaultModel() {
-            return new IntTextDocument();
-        }
-
         public boolean isValid() {
             try {
                 int i = Integer.parseInt(getText());
@@ -331,6 +327,10 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             } catch (NumberFormatException e) {
                 return 0;
             }
+        }
+
+        protected Document createDefaultModel() {
+            return new IntTextDocument();
         }
 
         class IntTextDocument extends PlainDocument {

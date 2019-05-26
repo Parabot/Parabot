@@ -72,7 +72,7 @@ public abstract class ServerProvider implements Opcodes {
             return;
         }
 
-        HookParser   parser      = hookFile.getParser();
+        HookParser parser = hookFile.getParser();
         Injectable[] injectables = parser.getInjectables();
         if (injectables == null) {
             return;
@@ -81,20 +81,6 @@ public abstract class ServerProvider implements Opcodes {
             inj.inject();
         }
         Context.getInstance().setHookParser(parser);
-    }
-
-    private HookFile fetchHookFile() {
-        HookFile hookFile = getHookFile();
-        if (hookFile != null) {
-            return hookFile;
-        }
-
-        URL hookLocation = getHooks();
-        if (hookLocation == null) {
-            return null;
-        }
-
-        return new HookFile(hookLocation, HookFile.TYPE_XML);
     }
 
     /**
@@ -127,16 +113,16 @@ public abstract class ServerProvider implements Opcodes {
 
     public void initMouse() {
         final Context context = Context.getInstance();
-        final Applet  applet  = context.getApplet();
-        final Mouse   mouse   = new Mouse(applet);
+        final Applet applet = context.getApplet();
+        final Mouse mouse = new Mouse(applet);
         applet.addMouseListener(mouse);
         applet.addMouseMotionListener(mouse);
         context.setMouse(mouse);
     }
 
     public void initKeyboard() {
-        final Context  context  = Context.getInstance();
-        final Applet   applet   = context.getApplet();
+        final Context context = Context.getInstance();
+        final Applet applet = context.getApplet();
         final Keyboard keyboard = new Keyboard(applet);
         applet.addKeyListener(keyboard);
         context.setKeyboard(keyboard);
@@ -160,6 +146,20 @@ public abstract class ServerProvider implements Opcodes {
      */
     public void postAppletStart() {
 
+    }
+
+    private HookFile fetchHookFile() {
+        HookFile hookFile = getHookFile();
+        if (hookFile != null) {
+            return hookFile;
+        }
+
+        URL hookLocation = getHooks();
+        if (hookLocation == null) {
+            return null;
+        }
+
+        return new HookFile(hookLocation, HookFile.TYPE_XML);
     }
 
 }

@@ -15,8 +15,8 @@ import java.awt.event.MouseMotionListener;
  */
 public class Mouse implements MouseListener, MouseMotionListener {
     private Component component;
-    private int       x;
-    private int       y;
+    private int x;
+    private int y;
 
     public Mouse(Component component) {
         this.component = component;

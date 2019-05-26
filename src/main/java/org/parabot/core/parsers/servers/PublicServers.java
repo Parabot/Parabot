@@ -43,9 +43,9 @@ public class PublicServers extends ServerParser {
             while ((line = br.readLine()) != null) {
 
                 JSONObject jsonObject = (JSONObject) parser.parse(line);
-                String     name       = String.valueOf(jsonObject.get("name"));
-                String     author     = String.valueOf(jsonObject.get("author"));
-                double     version    = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+                String name = String.valueOf(jsonObject.get("name"));
+                String author = String.valueOf(jsonObject.get("author"));
+                double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
 
                 ServerDescription desc = new ServerDescription(name,
                         author, version);

@@ -16,11 +16,11 @@ import java.lang.reflect.Modifier;
  */
 public class AddCallbackAdapter implements Injectable, Opcodes {
     private MethodNode method;
-    private String     invokeClass;
-    private String     invokeMethod;
-    private String     desc;
-    private int[]      args;
-    private boolean    conditional;
+    private String invokeClass;
+    private String invokeMethod;
+    private String desc;
+    private int[] args;
+    private boolean conditional;
 
     public AddCallbackAdapter(final MethodNode method,
                               final String invokeClass, final String invokeMethod,
@@ -35,9 +35,9 @@ public class AddCallbackAdapter implements Injectable, Opcodes {
 
     @Override
     public void inject() {
-        final Type[] types  = Type.getArgumentTypes(this.method.desc);
-        InsnList     inject = new InsnList();
-        Label        l0     = new Label();
+        final Type[] types = Type.getArgumentTypes(this.method.desc);
+        InsnList inject = new InsnList();
+        Label l0 = new Label();
         inject.add(new LabelNode(l0));
         int offset = 0;
         if (args != null) {

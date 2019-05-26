@@ -1,10 +1,5 @@
 package org.parabot.core.parsers.servers;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.parabot.core.Configuration;
@@ -18,6 +13,12 @@ import org.parabot.environment.servers.ServerManifest;
 import org.parabot.environment.servers.executers.LocalPublicServerExecuter;
 import org.parabot.environment.servers.executers.LocalServerExecuter;
 import org.parabot.environment.servers.loader.ServerLoader;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 /**
  * Parses local server providers located in the servers directory
@@ -76,31 +77,30 @@ public class LocalServers extends ServerParser {
         for (File file : Directories.listJSONFiles(Directories.getServerPath())) {
             Core.verbose("[Local server in]: " + file.getName());
             try {
-                JSONObject object      = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
-                String     name        = (String) object.get("name");
-                String     author      = (String) object.get("author");
-                double     version     = (Double) object.get("version");
-                String     clientClass = (String) object.get("client-class");
-                Object     bank;
-                int        bankTabs    = 0;
+                JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(new FileReader(file));
+                String name = (String) object.get("name");
+                String author = (String) object.get("author");
+                double version = (Double) object.get("version");
+                String clientClass = (String) object.get("client-class");
+                Object bank;
+                int bankTabs = 0;
                 if ((bank = object.get("bank")) != null) {
                     bankTabs = (int) bank;
                 }
-                String     uuidStr = (String) object.get("uuid"); // optional
-
+                String uuidStr = (String) object.get("uuid"); // optional
 
                 JSONObject locations = (JSONObject) object.get("locations");
-                String     server    = (String) locations.get("server");
-                String     provider  = (String) locations.get("provider");
-                String     hooks     = (String) locations.get("hooks");
-                String     randoms = (String) locations.get("randoms");
-              
+                String server = (String) locations.get("server");
+                String provider = (String) locations.get("provider");
+                String hooks = (String) locations.get("hooks");
+                String randoms = (String) locations.get("randoms");
+
                 if (randoms == null) {
                     randoms = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
                 }
-                
+
                 Core.verbose("[LocalServers]: Parsed server: " + name);
-              
+
                 ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs, randoms);
 
                 ServerDescription desc = new ServerDescription(name, author, version);

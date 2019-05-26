@@ -24,13 +24,13 @@ import java.net.URI;
  */
 public class LoginUI extends JFrame {
     private static final long serialVersionUID = 2032832552863466297L;
-    private static LoginUI        instance;
+    private static LoginUI instance;
     private static AccountManager manager;
 
-    private JTextField     txtUsername;
+    private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JButton        cmdLogin;
-    private JButton        cmdRegister;
+    private JButton cmdLogin;
+    private JButton cmdRegister;
 
     public LoginUI(String username, String password) {
         instance = this;

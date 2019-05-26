@@ -19,9 +19,9 @@ public class ServerComponent extends JPanel implements MouseListener,
         MouseMotionListener {
     private static final long serialVersionUID = 1L;
 
-    public  ServerDescription desc;
-    private String            name;
-    private boolean           hovered;
+    public ServerDescription desc;
+    private String name;
+    private boolean hovered;
 
     public ServerComponent(final ServerDescription desc) {
         this.desc = desc;
@@ -58,14 +58,14 @@ public class ServerComponent extends JPanel implements MouseListener,
         Font title = Fonts.getResource("leelawadee.ttf", 16);
         g.setFont(title);
         String serverName = desc.getServerName();
-        int    sw         = g.getFontMetrics().stringWidth(serverName);
+        int sw = g.getFontMetrics().stringWidth(serverName);
         g.drawString(serverName, (w / 2) - (sw / 2), 30);
 
         Font normal = Fonts.getResource("leelawadee.ttf");
         g.setFont(normal);
-        FontMetrics fm       = g.getFontMetrics();
-        String      author   = "Author: " + desc.getAuthor();
-        String      revision = "Revision: " + desc.getRevision();
+        FontMetrics fm = g.getFontMetrics();
+        String author = "Author: " + desc.getAuthor();
+        String revision = "Revision: " + desc.getRevision();
 
         g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
         g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);

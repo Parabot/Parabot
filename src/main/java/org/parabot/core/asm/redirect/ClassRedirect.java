@@ -41,7 +41,9 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method getDeclaredMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
+    public static Method getDeclaredMethod(Class<?> c, String name, Class<?>... params) throws
+            NoSuchMethodException,
+            SecurityException {
         if (validStack() || validRequest(c)) {
             return c.getDeclaredMethod(name, params);
         }
@@ -103,7 +105,9 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method getMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
+    public static Method getMethod(Class<?> c, String name, Class<?>... params) throws
+            NoSuchMethodException,
+            SecurityException {
         if (validStack() || validRequest(c)) {
             return c.getMethod(name, params);
         }
@@ -197,7 +201,9 @@ public class ClassRedirect {
         return c.getAnnotation(annotationClass);
     }
 
-    public static Constructor getDeclaredConstructor(Class c, Class[] parameterTypes) throws NoSuchMethodException, SecurityException {
+    public static Constructor getDeclaredConstructor(Class c, Class[] parameterTypes) throws
+            NoSuchMethodException,
+            SecurityException {
         return c.getDeclaredConstructor(parameterTypes);
     }
 

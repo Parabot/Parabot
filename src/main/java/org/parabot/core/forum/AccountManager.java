@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author Everel
  */
 public final class AccountManager {
-    private static boolean        validated;
+    private static boolean validated;
     private static AccountManager instance;
 
     private Account account;

@@ -9,7 +9,6 @@ import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomType;
 import org.parabot.environment.scripts.framework.*;
-import org.parabot.environment.scripts.framework.Frameworks;
 
 import java.util.Collection;
 
@@ -20,19 +19,19 @@ import java.util.Collection;
  */
 public class Script implements Runnable {
     public static final int TYPE_STRATEGY = 0;
-    public static final int TYPE_LOOP     = 1;
-    public static final int TYPE_OTHER    = 2;
+    public static final int TYPE_LOOP = 1;
+    public static final int TYPE_OTHER = 2;
 
     public static final int STATE_RUNNING = 0;
-    public static final int STATE_PAUSE   = 1;
+    public static final int STATE_PAUSE = 1;
     public static final int STATE_STOPPED = 2;
 
     private Collection<Strategy> strategies;
-    private PBPreferences        preferences;
-    private AbstractFramework    frameWork;
-    private int                  state;
-    private int                  frameWorkType;
-    private int                  scriptID;
+    private PBPreferences preferences;
+    private AbstractFramework frameWork;
+    private int state;
+    private int frameWorkType;
+    private int scriptID;
 
     public boolean onExecute() {
         return true;

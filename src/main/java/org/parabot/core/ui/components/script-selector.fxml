@@ -3,7 +3,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="500.0"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0"
+            minWidth="500.0"
             prefHeight="503.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/8">
     <top>
         <MenuBar BorderPane.alignment="CENTER">

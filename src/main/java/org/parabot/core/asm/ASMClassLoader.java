@@ -22,12 +22,17 @@ import java.util.Map;
  */
 public class ASMClassLoader extends ClassLoader {
 
-    public  ClassPath             classPath;
+    public ClassPath classPath;
     private Map<String, Class<?>> classCache;
 
     public ASMClassLoader(final ClassPath classPath) {
         this.classCache = new HashMap<>();
         this.classPath = classPath;
+    }
+
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return findClass(name);
     }
 
     @Override
@@ -45,11 +50,6 @@ public class ASMClassLoader extends ClassLoader {
             }
         }
         return getSystemResource(name);
-    }
-
-    @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        return findClass(name);
     }
 
     @Override

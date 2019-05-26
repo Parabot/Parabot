@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ParabotFont {
 
     private String location;
-    private Font   font;
+    private Font font;
 
     public ParabotFont(String location, float size) {
         if (!location.toLowerCase().startsWith("/storage/fonts/")) {
@@ -22,10 +22,6 @@ public class ParabotFont {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private Font createFont(float size) throws IOException, FontFormatException {
-        return Font.createFont(Font.TRUETYPE_FONT, Fonts.class.getResourceAsStream(this.location)).deriveFont(size);
     }
 
     public float getSize() {
@@ -49,5 +45,9 @@ public class ParabotFont {
             }
         }
         return false;
+    }
+
+    private Font createFont(float size) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, Fonts.class.getResourceAsStream(this.location)).deriveFont(size);
     }
 }

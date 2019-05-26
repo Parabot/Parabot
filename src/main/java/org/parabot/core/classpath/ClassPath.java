@@ -32,14 +32,14 @@ import java.util.zip.ZipInputStream;
  * @author Matt
  */
 public class ClassPath {
-    public final ArrayList<String>          classNames;
+    public final ArrayList<String> classNames;
     public final HashMap<String, ClassNode> classes;
-    public final Map<String, File>          resources;
-    public       URL                        lastParsed;
-    private      ClassRemapper              classRemapper;
-    private      boolean                    isJar;
-    private      boolean                    parseJar;
-    private      ArrayList<URL>             jarFiles;
+    public final Map<String, File> resources;
+    public URL lastParsed;
+    private ClassRemapper classRemapper;
+    private boolean isJar;
+    private boolean parseJar;
+    private ArrayList<URL> jarFiles;
 
     public ClassPath() {
         this(false);
@@ -83,7 +83,7 @@ public class ClassPath {
             final SizeInputStream sizeInputStream = new SizeInputStream(
                     connection.getInputStream(), size, VerboseLoader.get());
             final ZipInputStream zin = new ZipInputStream(sizeInputStream);
-            ZipEntry             e;
+            ZipEntry e;
             while ((e = zin.getNextEntry()) != null) {
                 if (e.isDirectory()) {
                     continue;
@@ -181,23 +181,6 @@ public class ClassPath {
     }
 
     /**
-     * Loads class from input stream
-     *
-     * @param in
-     *
-     * @throws IOException
-     */
-    protected void loadClass(InputStream in) throws IOException {
-        ClassReader           cr    = new ClassReader(in);
-        ClassNode             cn    = new ClassNode();
-        RemappingClassAdapter rca   = new RemappingClassAdapter(cn, classRemapper);
-        RedirectClassAdapter  redir = new RedirectClassAdapter(rca);
-        cr.accept(redir, ClassReader.EXPAND_FRAMES);
-        classNames.add(cn.name.replace('/', '.'));
-        classes.put(cn.name, cn);
-    }
-
-    /**
      * Determines if this classpath represents a jar file
      *
      * @return if this classpath represents a jar file
@@ -219,31 +202,6 @@ public class ClassPath {
             jars[i] = classPath;
         }
         return jars;
-    }
-
-    /**
-     * Dumps a resource from a input stream
-     *
-     * @param classPath
-     * @param name
-     * @param inputstream
-     *
-     * @throws IOException
-     */
-    private void loadResource(final String name, final InputStream in)
-            throws IOException {
-        final File f = File.createTempFile("bot", ".tmp",
-                Directories.getTempDirectory());
-        f.deleteOnExit();
-        try (OutputStream out = new FileOutputStream(f)) {
-            byte[] buffer = new byte[1024];
-            int    len;
-            while ((len = in.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-        } catch (IOException e) {
-        }
-        this.resources.put(name, f);
     }
 
     /**
@@ -300,6 +258,48 @@ public class ClassPath {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Loads class from input stream
+     *
+     * @param in
+     *
+     * @throws IOException
+     */
+    protected void loadClass(InputStream in) throws IOException {
+        ClassReader cr = new ClassReader(in);
+        ClassNode cn = new ClassNode();
+        RemappingClassAdapter rca = new RemappingClassAdapter(cn, classRemapper);
+        RedirectClassAdapter redir = new RedirectClassAdapter(rca);
+        cr.accept(redir, ClassReader.EXPAND_FRAMES);
+        classNames.add(cn.name.replace('/', '.'));
+        classes.put(cn.name, cn);
+    }
+
+    /**
+     * Dumps a resource from a input stream
+     *
+     * @param classPath
+     * @param name
+     * @param inputstream
+     *
+     * @throws IOException
+     */
+    private void loadResource(final String name, final InputStream in)
+            throws IOException {
+        final File f = File.createTempFile("bot", ".tmp",
+                Directories.getTempDirectory());
+        f.deleteOnExit();
+        try (OutputStream out = new FileOutputStream(f)) {
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+        }
+        this.resources.put(name, f);
     }
 
 }

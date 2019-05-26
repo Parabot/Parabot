@@ -6,15 +6,15 @@ package org.parabot.core.desc;
  * @author Everel
  */
 public class ScriptDescription implements Comparable<ScriptDescription> {
-    public String   scriptName;
-    public String   author;
-    public String   category;
-    public double   version;
-    public String   description;
+    public String scriptName;
+    public String author;
+    public String category;
+    public double version;
+    public String description;
     public String[] servers;
-    public String   isVip;
-    public String   isPremium;
-    public int      bdnId;
+    public String isVip;
+    public String isPremium;
+    public int bdnId;
 
     /**
      * The ScriptManifest

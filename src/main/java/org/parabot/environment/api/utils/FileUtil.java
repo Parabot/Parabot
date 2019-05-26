@@ -18,8 +18,8 @@ public class FileUtil {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 if (file.exists()) {
-                    FileInputStream fis       = new FileInputStream(file);
-                    byte[]          dataBytes = new byte[1024];
+                    FileInputStream fis = new FileInputStream(file);
+                    byte[] dataBytes = new byte[1024];
 
                     int nread;
 
@@ -49,8 +49,8 @@ public class FileUtil {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 if (file.exists()) {
-                    FileInputStream fis       = new FileInputStream(file);
-                    byte[]          dataBytes = new byte[1024];
+                    FileInputStream fis = new FileInputStream(file);
+                    byte[] dataBytes = new byte[1024];
 
                     int nread;
 
@@ -76,7 +76,7 @@ public class FileUtil {
         if (!destFile.exists()) {
             destFile.createNewFile();
         }
-        FileChannel source      = null;
+        FileChannel source = null;
         FileChannel destination = null;
         source = new FileInputStream(sourceFile).getChannel();
         destination = new FileOutputStream(destFile).getChannel();

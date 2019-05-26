@@ -46,7 +46,7 @@ public class Core {
     private static boolean dump;
 
     private static boolean validate = true;
-    private static boolean secure   = true;
+    private static boolean secure = true;
 
     private static Version currentVersion = Configuration.BOT_VERSION;
 
@@ -151,49 +151,6 @@ public class Core {
     }
 
     /**
-     * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
-     *
-     * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
-     */
-    private static boolean checksumValid() {
-        File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
-        if (f.isFile()) {
-            try {
-                MessageDigest md       = MessageDigest.getInstance("MD5");
-                File          location = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-                if (location.exists()) {
-                    FileInputStream fis       = new FileInputStream(location);
-                    byte[]          dataBytes = new byte[1024];
-
-                    int nread;
-
-                    while ((nread = fis.read(dataBytes)) != -1) {
-                        md.update(dataBytes, 0, nread);
-                    }
-
-                    byte[] mdbytes = md.digest();
-
-                    StringBuilder sb = new StringBuilder();
-                    for (byte mdbyte : mdbytes) {
-                        sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
-                    }
-
-                    String result;
-                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
-                        JSONObject object   = (JSONObject) WebUtil.getJsonParser().parse(result);
-                        boolean    upToDate = (boolean) object.get("result");
-                        Core.verbose("Local checksum: " + URLEncoder.encode(sb.toString(), "UTF-8") + ". " + (upToDate ? "This matches BDN and is up to date." : "BDN mismatch, must be Out Of Date."));
-                        return upToDate;
-                    }
-                }
-            } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-    }
-
-    /**
      * Compares the latest version from the BDN and the current version
      *
      * @return True if the current version is equal or higher than the latest version, false if lower than the latest version
@@ -205,7 +162,7 @@ public class Core {
         try {
             if (br != null) {
                 JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(br);
-                boolean    latest = (Boolean) object.get("result");
+                boolean latest = (Boolean) object.get("result");
                 if (!latest) {
                     Directories.clearCache();
                 }
@@ -225,14 +182,6 @@ public class Core {
         }
 
         return true;
-    }
-
-    /**
-     * Method that removes the cache contents after 3 days
-     */
-    private static void validateCache() {
-        // Already handled by Directories initiating
-        // Method will be used once BDN V3 has a functionality for this
     }
 
     public static void downloadNewVersion() {
@@ -278,5 +227,56 @@ public class Core {
      */
     public static int newVersionAlert() {
         return UILog.alert("Parabot Update", "There's a new version of Parabot! \nDo you wish to download it?\n\nThe current version could have some problems!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
+     * Checks the version of the bot using a checksum of the jar comparison against checksum given by the website
+     *
+     * @return <b>true</b> if no new version is found, otherwise <b>false</b>.
+     */
+    private static boolean checksumValid() {
+        File f = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().getFile());
+        if (f.isFile()) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                File location = new File(Landing.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                if (location.exists()) {
+                    FileInputStream fis = new FileInputStream(location);
+                    byte[] dataBytes = new byte[1024];
+
+                    int nread;
+
+                    while ((nread = fis.read(dataBytes)) != -1) {
+                        md.update(dataBytes, 0, nread);
+                    }
+
+                    byte[] mdbytes = md.digest();
+
+                    StringBuilder sb = new StringBuilder();
+                    for (byte mdbyte : mdbytes) {
+                        sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
+                    }
+
+                    String result;
+                    if ((result = WebUtil.getContents(String.format(Configuration.COMPARE_CHECKSUM_URL, "client", currentVersion.get()), "checksum=" + URLEncoder.encode(sb.toString(), "UTF-8"))) != null) {
+                        JSONObject object = (JSONObject) WebUtil.getJsonParser().parse(result);
+                        boolean upToDate = (boolean) object.get("result");
+                        Core.verbose("Local checksum: " + URLEncoder.encode(sb.toString(), "UTF-8") + ". " + (upToDate ? "This matches BDN and is up to date." : "BDN mismatch, must be Out Of Date."));
+                        return upToDate;
+                    }
+                }
+            } catch (NoSuchAlgorithmException | ParseException | IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method that removes the cache contents after 3 days
+     */
+    private static void validateCache() {
+        // Already handled by Directories initiating
+        // Method will be used once BDN V3 has a functionality for this
     }
 }

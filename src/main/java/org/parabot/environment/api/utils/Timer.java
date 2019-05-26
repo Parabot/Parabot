@@ -115,9 +115,9 @@ public class Timer {
      */
     @Override
     public String toString() {
-        StringBuilder b       = new StringBuilder();
-        long          elapsed = getElapsedTime();
-        int           day     = (int) (elapsed / 86400000);
+        StringBuilder b = new StringBuilder();
+        long elapsed = getElapsedTime();
+        int day = (int) (elapsed / 86400000);
         elapsed -= day * 86400000;
         int hour = (int) (elapsed / 3600000);
         elapsed -= hour * 3600000;

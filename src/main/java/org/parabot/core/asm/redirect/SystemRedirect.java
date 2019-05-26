@@ -9,7 +9,7 @@ public class SystemRedirect {
 
     public static PrintStream out = System.out;
     public static PrintStream err = System.err;
-    public static InputStream in  = System.in;
+    public static InputStream in = System.in;
 
     public static long currentTimeMillis() {
         return System.currentTimeMillis();

@@ -68,9 +68,9 @@ public class BDNScriptsExecuter extends ScriptExecuter {
 
                     final String className = scriptClasses[0];
                     try {
-                        final Class<?>       scriptClass = loader.loadClass(className);
-                        final Constructor<?> con         = scriptClass.getConstructor();
-                        final Script         script      = (Script) con.newInstance();
+                        final Class<?> scriptClass = loader.loadClass(className);
+                        final Constructor<?> con = scriptClass.getConstructor();
+                        final Script script = (Script) con.newInstance();
                         script.setScriptID(this.id);
                         super.finalize(tg, script);
 

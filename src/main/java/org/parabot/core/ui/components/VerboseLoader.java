@@ -224,7 +224,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         g.drawImage(banner, rop, 0, 0);
 
         g.setStroke(new BasicStroke(5));
-        g.setPaint(Color.WHITE);
+        g.setPaint(Color.DARK_GRAY);
 
         g.draw(new Line2D.Float(0, 1, this.getWidth(), 1)); //TOP
         g.draw(new Line2D.Float(0, 0, 0, 120)); //LEFT

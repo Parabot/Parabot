@@ -1,0 +1,142 @@
+ParaBot Enabled {
+    kind=Dark
+    colorUltraLight=#3B3B3B
+    colorExtraLight=#363636
+    colorLight=#303030
+    colorMid=#2E2E2E
+    colorDark=#262626
+    colorUltraDark=#212121
+    colorForeground=#D7D7D7
+}
+
+ParaBot Border {
+    kind=Dark
+    colorUltraLight=#0F0F0F
+    colorExtraLight=#0F0F0F
+    colorLight=#0F0F0F
+    colorMid=#0F0F0F
+    colorDark=#0F0F0F
+    colorUltraDark=#0F0F0F
+    colorForeground=#FFFFFF
+}
+
+ParaBot Background {
+    kind=Dark
+    colorUltraLight=#0F0F0F
+    colorExtraLight=#0F0F0F
+    colorLight=#0F0F0F
+    colorMid=#0F0F0F
+    colorDark=#0F0F0F
+    colorUltraDark=#0F0F0F
+    colorForeground=#D7D7D7
+}
+
+ParaBot Active {
+    kind=Dark
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#D7D7D7
+}
+
+ParaBot Selected {
+    kind=Light
+    colorUltraLight=#575656
+    colorExtraLight=#474646
+    colorLight=#3D3C3C
+    colorMid=#363535
+    colorDark=#303030
+    colorUltraDark=#2B2B2B
+    colorForeground=#AFAFAF
+}
+
+ParaBot Selected Disabled {
+    kind=Dark
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#AFAFAF
+}
+
+ParaBot Disabled {
+    kind=Dark
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#999999
+}
+
+ParaBot Highlight {
+    kind=Dark
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#323232
+}
+
+ParaBot Tab Highlight {
+    kind=Light
+    colorUltraLight=#575656
+    colorExtraLight=#474646
+    colorLight=#3D3C3C
+    colorMid=#363535
+    colorDark=#303030
+    colorUltraDark=#2B2B2B
+    colorForeground=#D7D7D7
+}
+
+ParaBot Highlight Mark {
+    kind=Light
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#0DFF00
+}
+
+ParaBot Text Highlight {
+    kind=Light
+    colorUltraLight=#242424
+    colorExtraLight=#1F1F1F
+    colorLight=#1C1C1C
+    colorMid=#171717
+    colorDark=#121212
+    colorUltraDark=#0D0D0D
+    colorForeground=#EDEDED
+}
+
+ParaBot Separator {
+    kind=Light
+    colorUltraLight=#575656
+    colorExtraLight=#474646
+    colorLight=#3D3C3C
+    colorMid=#363535
+    colorDark=#303030
+    colorUltraDark=#2B2B2B
+    colorForeground=#0DFF00
+}
+
+ParaBot Dark {
+    kind=Light
+    colorUltraLight=#8A8A8A
+    colorExtraLight=#8A8A8A
+    colorLight=#8A8A8A
+    colorMid=#777777
+    colorDark=#636363
+    colorUltraDark=#4C4C4C
+    colorForeground=#323232
+}

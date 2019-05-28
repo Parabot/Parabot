@@ -37,7 +37,6 @@ public final class Landing {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-
                 JFrame.setDefaultLookAndFeelDecorated(true);
                 JPopupMenu.setDefaultLightWeightPopupEnabled(false);
                 ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
@@ -51,9 +50,7 @@ public final class Landing {
 
                 Directories.validate();
 
-
                 Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
-
 
                 if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
                     if (Core.newVersionAlert() == JOptionPane.YES_OPTION) {

@@ -42,7 +42,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
         setTitle(Configuration.BOT_TITLE);
-        setResizable(true);
+        setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.menuBar = new BotMenuBar(this);
         setJMenuBar(menuBar);

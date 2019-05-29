@@ -36,12 +36,12 @@ public final class Landing {
         parseArgs(args);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-
+                System.setProperty("insubstantial.checkEDT", "false"); //turns off printing Substance throwables.
+                System.setProperty("insubstantial.logEDT", "false"); //turns off printing Substance exceptions.
                 JFrame.setDefaultLookAndFeelDecorated(true);
                 JPopupMenu.setDefaultLightWeightPopupEnabled(false);
                 ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
                 toolTipManager.setLightWeightPopupEnabled(false);
-
                 try {
                     UIManager.setLookAndFeel(new SubstanceDark());
                 } catch (Exception e) {

@@ -45,7 +45,7 @@ public class BotMenuBar extends JMenuBar {
         JMenuItem exit = new JMenuItem("Exit");
 
 
-        run = createNewJMenuItem(new ImageIcon(Images.getResource("/storage/images/run.png")), "Run", true);
+        run = createNewJMenuItem(new ImageIcon(Images.getResource("/storage/images/run.png")), "Run", false);
 
         pause = createNewJMenuItem(new ImageIcon(Images.getResource("/storage/images/pause.png")), "Pause", false);
 
@@ -84,7 +84,7 @@ public class BotMenuBar extends JMenuBar {
         features.add(notifications);
 
 
-        startButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/run_button.png")), "Run Script", "Run", true);
+        startButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/run_button.png")), "Run Script", "Run", false);
 
         pauseButton = createNewButton(new ImageIcon(Images.getResource("/storage/images/pause_button.png")), "Pause Script", "Pause", false);
 

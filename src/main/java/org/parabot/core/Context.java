@@ -85,7 +85,13 @@ public class Context {
      * @return
      */
     public static Context getInstance(ServerProvider serverProvider) {
-        return instance == null ? instance = new Context(serverProvider) : instance;
+        if(instance == null)
+            instance = new Context(serverProvider);
+        if(instance.getServerProvider() == null) {
+            instance.serverProvider = serverProvider;
+            return instance;
+        }
+        return instance;
     }
 
     /**
@@ -241,6 +247,12 @@ public class Context {
         BotDialog.getInstance().validate();
         System.setOut(this.defaultOut);
         System.setErr(this.defaultErr);
+        enableRunOptions();
+    }
+
+    private void enableRunOptions() {
+        BotUI.getInstance().getBotMenuBar().getStartButton().setEnabled(true);
+        BotUI.getInstance().getBotMenuBar().getRun().setEnabled(true);
     }
 
     /**

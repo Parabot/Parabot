@@ -290,7 +290,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     }
 
     public JMenu getScripts() {
-        return null;
+        return menuBar.getScripts();
     }
 
     public JMenu getFile() {
@@ -303,5 +303,9 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
     public JMenuItem getNotifications() {
         return menuBar.getNotifications();
+    }
+
+    public BotMenuBar getBotMenuBar() {
+        return menuBar;
     }
 }

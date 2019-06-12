@@ -1,5 +1,7 @@
 package org.parabot.environment.scripts.executers;
 
+import org.parabot.environment.handlers.exceptions.ExceptionHandler;
+import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 import org.parabot.environment.scripts.Script;
 
 /**
@@ -19,6 +21,7 @@ public abstract class ScriptExecuter {
      */
     public final void finalize(final ThreadGroup tg, final Script script) {
         Thread thread = new Thread(tg, script);
+        thread.setUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.SCRIPT));
         thread.start();
     }
 

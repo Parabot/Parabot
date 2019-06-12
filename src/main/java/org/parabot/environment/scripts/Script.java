@@ -109,7 +109,7 @@ public class Script implements Runnable {
         }
         Core.verbose("Running script...");
         Logger.addMessage("Script started.", true);
-        FileExceptionHandler scriptException = new FileExceptionHandler(ExceptionHandler.ExceptionType.SCRIPT);
+
         try {
             while (this.state != STATE_STOPPED) {
                 if (context.getRandomHandler().checkAndRun(RandomType.SCRIPT)) {
@@ -125,7 +125,6 @@ public class Script implements Runnable {
                 }
             }
         } catch (Throwable t) {
-            scriptException.handle(t);
             t.printStackTrace();
         }
         Core.verbose("Script stopped/finished, unloading and stopping...");

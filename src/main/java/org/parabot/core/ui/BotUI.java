@@ -319,6 +319,15 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
 
     @Override
     public void windowClosing(WindowEvent e) {
+        if (Context.getInstance().getClient() != null) {
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to exit?", "Exit Parabot",
+                    JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION)
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            else if (result == JOptionPane.NO_OPTION)
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
     }
 
     @Override

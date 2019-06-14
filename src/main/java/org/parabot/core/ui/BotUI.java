@@ -67,6 +67,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
             BotDialog.getInstance().setVisible(false);
         }
+        VerboseLoader.get().focusOnLogin();
     }
 
     public static BotUI getInstance() {

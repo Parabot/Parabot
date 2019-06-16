@@ -16,21 +16,17 @@ import java.util.Map;
 
 public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 
-    public static Map<String, Class<?>> getRedirects() {
-        return redirects;
-    }
-
     private static final Map<String, Class<?>> redirects = new HashMap<String, Class<?>>();
-    private static       PrintStream           str_out, class_out;
+    private static PrintStream str_out, class_out;
 
     static {
         redirects.put("java/awt/Toolkit", ToolkitRedirect.class);
         redirects.put("java/lang/Class", ClassRedirect.class);
-//		redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
+//        redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
+        redirects.put("java/net/URLClassLoader", URLClassLoaderRedirect.class);
         redirects.put("java/lang/Runtime", RuntimeRedirect.class);
         redirects.put("java/lang/Thread", ThreadRedirect.class);
-        redirects.put("java/lang/StackTraceElement",
-                StackTraceElementRedirect.class);
+        redirects.put("java/lang/StackTraceElement", StackTraceElementRedirect.class);
         redirects.put("java/lang/ProcessBuilder", ProcessBuilderRedirect.class);
         redirects.put("java/lang/System", SystemRedirect.class);
     }
@@ -55,8 +51,12 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
         }
     }
 
+    public static Map<String, Class<?>> getRedirects() {
+        return redirects;
+    }
+
     public static SecurityException createSecurityException() {
-        Exception           e        = new Exception();
+        Exception e = new Exception();
         StackTraceElement[] elements = e.getStackTrace();
         return new SecurityException("Unsafe operation blocked. Op:"
                 + elements[1].getMethodName());

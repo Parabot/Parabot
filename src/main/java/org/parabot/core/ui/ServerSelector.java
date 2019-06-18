@@ -56,6 +56,8 @@ public class ServerSelector extends JPanel {
                 .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrlInterior
                 .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrlInterior
+                .getVerticalScrollBar().setUnitIncrement(16);
         add(scrlInterior);
 
     }

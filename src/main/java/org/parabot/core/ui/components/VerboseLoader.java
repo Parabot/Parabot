@@ -133,7 +133,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         usernameLabel.setAlignmentX(Box.CENTER_ALIGNMENT);
         usernameLabel.setForeground(Color.white);
 
-        userInput = new JTextField(new PBLocalPreferences("username.json").getSetting("username"), 20);
+        userInput = new JTextField(new PBLocalPreferences("login.json").getSetting("login"), 20);
         passInput = new JPasswordField(20);
         userInput.addActionListener(new ActionListener() {
 

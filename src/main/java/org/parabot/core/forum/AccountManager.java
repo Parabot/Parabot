@@ -104,7 +104,7 @@ public final class AccountManager {
                 String api = (String) ((JSONObject) result.get("data")).get("api");
                 account = new Account(user, pass, api);
                 Context.setUsername(user);
-                new PBLocalPreferences("username.json").adjustSetting("username", user);
+                new PBLocalPreferences("login.json").adjustSetting("login", user);
                 return true;
             } else if (result.get("error") != null) {
                 String errorResult = (String) result.get("error");

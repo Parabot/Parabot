@@ -4,17 +4,12 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.Logger;
-import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.PBPreferences;
 import org.parabot.environment.api.utils.Time;
-import org.parabot.environment.handlers.exceptions.ExceptionHandler;
-import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 import org.parabot.environment.randoms.Random;
 import org.parabot.environment.randoms.RandomType;
 import org.parabot.environment.scripts.framework.*;
-import org.parabot.environment.scripts.framework.Frameworks;
 
-import javax.swing.*;
 import java.util.Collection;
 
 /**

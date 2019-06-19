@@ -27,7 +27,7 @@ public final class Landing {
     private static String password;
 
     public static void main(String... args) {
-        Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
+        // Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
 
         if (Context.getJavaVersion() >= 9) {
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");

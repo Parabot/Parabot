@@ -30,7 +30,7 @@ public final class Landing {
 //        Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
 
         if (Context.getJavaVersion() >= 9) {
-            UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
+            UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Get Java 8 at adoptopenjdk.net to ensure Parabot is working correctly.");
         }
 
         if (!System.getProperty("os.arch").contains("64")) {

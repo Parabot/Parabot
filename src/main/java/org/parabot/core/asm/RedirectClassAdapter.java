@@ -25,6 +25,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 //        redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
         redirects.put("java/net/URLClassLoader", URLClassLoaderRedirect.class);
         redirects.put("java/lang/Runtime", RuntimeRedirect.class);
+        redirects.put("java/lang/management/RuntimeMXBean", RuntimeMXBeanRedirect.class);
         redirects.put("java/lang/Thread", ThreadRedirect.class);
         redirects.put("java/lang/StackTraceElement", StackTraceElementRedirect.class);
         redirects.put("java/lang/ProcessBuilder", ProcessBuilderRedirect.class);

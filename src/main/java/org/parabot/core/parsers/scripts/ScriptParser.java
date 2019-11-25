@@ -22,6 +22,7 @@ public abstract class ScriptParser {
 
     public static ScriptDescription[] getDescriptions() {
         SCRIPT_CACHE.clear();
+        parsers.clear();
         if (Core.inLoadLocal()) {
             parsers.add(new LocalJavaScripts());
             parsers.add(new BDNScripts());

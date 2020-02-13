@@ -11,8 +11,6 @@ import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
-import org.parabot.environment.handlers.exceptions.ExceptionHandler;
-import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 
 import javax.swing.*;
 import java.io.File;
@@ -121,7 +119,7 @@ public final class Landing {
                     } else {
                         i--;
                         for (int j = 0; j < 6; j++) {
-                            mac[j] = Byte.parseByte(args[++i], 16); // parses a hex
+                            mac[j] = (byte) Integer.parseInt(args[++i], 16); // parses a hex
                             // number
                         }
                     }

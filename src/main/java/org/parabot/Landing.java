@@ -10,6 +10,7 @@ import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
+import org.parabot.core.ui.themes.SubstanceDark;
 import org.parabot.core.ui.utils.UILog;
 
 import javax.swing.*;
@@ -25,50 +26,53 @@ public final class Landing {
     private static String password;
 
     public static void main(String... args) {
-//        Thread.setDefaultUncaughtExceptionHandler(new FileExceptionHandler(ExceptionHandler.ExceptionType.CLIENT));
-
         if (Context.getJavaVersion() >= 9) {
             UILog.log("Parabot", "Parabot doesn't support Java 9+ currently. Please downgrade to Java 8 to ensure Parabot is working correctly.");
         }
-
         if (!System.getProperty("os.arch").contains("64")) {
             UILog.log("Parabot", "You are not running a 64-bit version of Java, this might cause the client to lag or crash unexpectedly.\r\n" +
                     "It is recommended to upgrade to a 64-bit version.");
         }
-
         parseArgs(args);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                System.setProperty("insubstantial.checkEDT", "false"); //turns off printing Substance throwables.
+                System.setProperty("insubstantial.logEDT", "false"); //turns off printing Substance exceptions.
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+                ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
+                toolTipManager.setLightWeightPopupEnabled(false);
+                try {
+                    UIManager.setLookAndFeel(new SubstanceDark());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        Directories.validate();
+                Directories.validate();
 
-        Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
+                Core.verbose(TranslationHelper.translate("DEBUG_MODE") + Core.inDebugMode());
 
-        try {
-            Core.verbose(TranslationHelper.translate("SETTING_LOOK_AND_FEEL")
-                    + UIManager.getSystemLookAndFeelClassName());
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+                if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
+                    if (Core.newVersionAlert() == JOptionPane.YES_OPTION) {
+                        Core.downloadNewVersion();
+                        return;
+                    }
+                }
 
-        if (!Core.inDebugMode() && Core.hasValidation() && !Core.isValid()) {
-            if (Core.newVersionAlert() == JOptionPane.YES_OPTION) {
-                Core.downloadNewVersion();
-                return;
+                Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
+                AccountManager.validate();
+
+                createBotUI();
             }
-        }
+        });
+    }
 
-        Core.verbose(TranslationHelper.translate("VALIDATION_ACCOUNT_MANAGER"));
-        AccountManager.validate();
-
-        if (username != null && password != null) {
-            new BotUI(username, password);
-            username = null;
-            password = null;
-            return;
-        }
-
-        Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
-        new BotUI(null, null);
+    private static void createBotUI() {
+        if (username == null || password == null)
+            Core.verbose(TranslationHelper.translate("STARTING_LOGIN_GUI"));
+        new BotUI(username, password);
+        username = null;
+        password = null;
     }
 
     private static void parseArgs(String... args) {

@@ -6,7 +6,6 @@ import org.parabot.core.Directories;
 import org.parabot.core.ui.components.GamePanel;
 import org.parabot.core.ui.components.VerboseLoader;
 import org.parabot.core.ui.components.notifications.NotificationUI;
-import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.environment.OperatingSystem;
 import org.parabot.environment.api.utils.StringUtils;
@@ -25,17 +24,14 @@ import java.util.ArrayList;
 /**
  * The bot user interface
  *
- * @author Dane, Everel, JKetelaar
+ * @author Dane, Everel, JKetelaar, Ethan
  */
 public class BotUI extends JFrame implements ActionListener, ComponentListener, WindowListener {
 
     private static final long serialVersionUID = -2126184292879805519L;
-    private static BotUI   instance;
+    private static BotUI instance;
     private static JDialog dialog;
-
-    private JMenuBar menuBar;
-    private JMenu    features, scripts, file;
-    private JMenuItem run, pause, stop, cacheClear, notifications;
+    private BotMenuBar menuBar;
     private boolean runScript, pauseScript;
 
     public BotUI(String username, String password) {
@@ -48,8 +44,8 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         setTitle(Configuration.BOT_TITLE);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        createMenu();
-
+        this.menuBar = new BotMenuBar(this);
+        setJMenuBar(menuBar);
         setLayout(new BorderLayout());
         addComponentListener(this);
         addWindowListener(this);
@@ -61,6 +57,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         SwingUtil.setParabotIcons(this);
 
         pack();
+        revalidate();
         setLocationRelativeTo(null);
         BotDialog.getInstance(this);
 
@@ -73,78 +70,6 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         return instance;
     }
 
-    private void createMenu() {
-        menuBar = new JMenuBar();
-
-        file = new JMenu("File");
-        scripts = new JMenu("Script");
-        features = new JMenu("Features");
-
-        JMenuItem screenshot = new JMenuItem("Create screenshot");
-        JMenuItem proxy      = new JMenuItem("Network");
-        JMenuItem randoms    = new JMenuItem("Randoms");
-        JMenuItem dialog     = new JCheckBoxMenuItem("Disable dialog");
-        JMenuItem logger     = new JCheckBoxMenuItem("Logger");
-
-        if (!OperatingSystem.getOS().equals(OperatingSystem.WINDOWS)) {
-            dialog.setSelected(true);
-        }
-
-        JMenuItem explorer = new JMenuItem("Reflection explorer");
-        JMenuItem exit     = new JMenuItem("Exit");
-
-        run = new JMenuItem("Run");
-        run.setIcon(new ImageIcon(Images.getResource("/storage/images/run.png")));
-
-        pause = new JMenuItem("Pause");
-        pause.setEnabled(false);
-        pause.setIcon(new ImageIcon(Images.getResource("/storage/images/pause.png")));
-
-        stop = new JMenuItem("Stop");
-        stop.setEnabled(false);
-        stop.setIcon(new ImageIcon(Images.getResource("/storage/images/stop.png")));
-
-        cacheClear = new JMenuItem("Clear cache");
-        cacheClear.setIcon(new ImageIcon(Images.getResource("/storage/images/trash.png")));
-
-        notifications = new JMenuItem("Notifications");
-        notifications.setIcon(new ImageIcon(Images.getResource("/storage/images/bell.png")));
-
-        screenshot.addActionListener(this);
-        proxy.addActionListener(this);
-        randoms.addActionListener(this);
-        dialog.addActionListener(this);
-        logger.addActionListener(this);
-        explorer.addActionListener(this);
-        exit.addActionListener(this);
-        cacheClear.addActionListener(this);
-        notifications.addActionListener(this);
-
-        run.addActionListener(this);
-        pause.addActionListener(this);
-        stop.addActionListener(this);
-
-        file.add(screenshot);
-        file.add(proxy);
-        file.add(randoms);
-        file.add(dialog);
-        file.add(logger);
-        file.add(explorer);
-        file.add(exit);
-
-        scripts.add(run);
-        scripts.add(pause);
-        scripts.add(stop);
-
-        features.add(cacheClear);
-        features.add(notifications);
-
-        menuBar.add(file);
-        menuBar.add(scripts);
-        menuBar.add(features);
-
-        setJMenuBar(menuBar);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -155,15 +80,15 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
         switch (command) {
             case "Create screenshot":
                 try {
-                    Robot         robot         = new Robot();
-                    int menuBarHeight = menuBar.getHeight() + file.getHeight();
-                    Rectangle     parabotScreen = new Rectangle(
+                    Robot robot = new Robot();
+                    int menuBarHeight = menuBar.getHeight() + getFile().getHeight();
+                    Rectangle parabotScreen = new Rectangle(
                             (int) getLocation().getX(), (int) getLocation().getY() + menuBarHeight,
                             getWidth(), getHeight() - menuBarHeight);
-                    BufferedImage image         = robot.createScreenCapture(parabotScreen);
-                    String        randString    = StringUtils.randomString(10);
-                    boolean       search        = true;
-                    boolean       duplicate     = false;
+                    BufferedImage image = robot.createScreenCapture(parabotScreen);
+                    String randString = StringUtils.randomString(10);
+                    boolean search = true;
+                    boolean duplicate = false;
                     while (search) {
                         File[] files;
                         if ((files = Directories.getScreenshotDir().listFiles()) != null) {
@@ -207,8 +132,7 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
             case "Run":
                 if (pauseScript) {
                     pauseScript = false;
-                    pause.setEnabled(true);
-                    run.setEnabled(false);
+                    setRunning();
                     setScriptState(Script.STATE_RUNNING);
                     break;
                 }
@@ -216,16 +140,13 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
                 break;
             case "Pause":
                 setScriptState(Script.STATE_PAUSE);
-                pause.setEnabled(false);
-                run.setEnabled(true);
+                setPaused();
                 pauseScript = true;
                 break;
             case "Stop":
                 if (pauseScript) {
                     pauseScript = false;
-                    pause.setEnabled(false);
-                    run.setEnabled(true);
-                    stop.setEnabled(false);
+                    setStopped();
                 }
                 setScriptState(Script.STATE_STOPPED);
                 break;
@@ -270,22 +191,43 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     public void toggleRun() {
         runScript = !runScript;
         if (runScript) {
-            scriptRunning();
+            setRunning();
         } else {
-            scriptStopped();
+            setStopped();
         }
     }
 
-    private void scriptRunning() {
-        run.setEnabled(false);
-        pause.setEnabled(true);
-        stop.setEnabled(true);
+    private void setPaused() {
+        setPausedButtons(false);
+        setRunButtons(true);
+        setStopButtons(true);
     }
 
-    private void scriptStopped() {
-        run.setEnabled(true);
-        pause.setEnabled(false);
-        stop.setEnabled(false);
+    private void setRunning() {
+        setRunButtons(false);
+        setPausedButtons(true);
+        setStopButtons(true);
+    }
+
+    private void setStopped() {
+        setStopButtons(false);
+        setPausedButtons(false);
+        setRunButtons(true);
+    }
+
+    private void setPausedButtons(boolean enabled) {
+        menuBar.getPause().setEnabled(enabled);
+        menuBar.getPauseButton().setEnabled(enabled);
+    }
+
+    private void setStopButtons(boolean enabled) {
+        menuBar.getStop().setEnabled(enabled);
+        menuBar.getStopButton().setEnabled(enabled);
+    }
+
+    private void setRunButtons(boolean enabled) {
+        menuBar.getRun().setEnabled(enabled);
+        menuBar.getStartButton().setEnabled(enabled);
     }
 
     private void setScriptState(int state) {
@@ -344,22 +286,26 @@ public class BotUI extends JFrame implements ActionListener, ComponentListener, 
     }
 
     public JMenu getFeatures() {
-        return features;
+        return menuBar.getFeatures();
     }
 
     public JMenu getScripts() {
-        return scripts;
+        return menuBar.getScripts();
     }
 
     public JMenu getFile() {
-        return file;
+        return menuBar.getFile();
     }
 
     public JMenuItem getCacheClear() {
-        return cacheClear;
+        return menuBar.getCacheClear();
     }
 
     public JMenuItem getNotifications() {
-        return notifications;
+        return menuBar.getNotifications();
+    }
+
+    public BotMenuBar getBotMenuBar() {
+        return menuBar;
     }
 }

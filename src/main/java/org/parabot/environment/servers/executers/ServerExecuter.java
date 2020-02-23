@@ -7,6 +7,8 @@ import org.parabot.environment.handlers.exceptions.ExceptionHandler;
 import org.parabot.environment.handlers.exceptions.FileExceptionHandler;
 import org.parabot.environment.servers.ServerProvider;
 
+import javax.swing.*;
+
 /**
  * Executes a server provider
  *
@@ -22,11 +24,13 @@ public abstract class ServerExecuter {
             public void run() {
                 try {
                     BotUI.getInstance().getCacheClear().setEnabled(false);
-
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
                     Context context = Context.getInstance(provider);
-                    context.load();
+                            context.load();
                     PaintComponent.getInstance().startPainting(context);
-
+                        }
+                    });
                     Context.getInstance().getRandomHandler().init();
                 } catch (Throwable t) {
                     t.printStackTrace();

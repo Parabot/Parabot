@@ -8,6 +8,7 @@ import org.parabot.core.parsers.hooks.HookParser;
 import org.parabot.core.parsers.scripts.BDNScripts;
 import org.parabot.core.parsers.servers.PublicServers;
 import org.parabot.core.ui.components.VerboseLoader;
+import org.parabot.environment.api.utils.PBLocalPreferences;
 import org.parabot.environment.api.utils.PBPreferences;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
@@ -103,6 +104,7 @@ public final class AccountManager {
                 String api = (String) ((JSONObject) result.get("data")).get("api");
                 account = new Account(user, pass, api);
                 Context.setUsername(user);
+                new PBLocalPreferences("login.json").adjustSetting("login", user);
                 return true;
             } else if (result.get("error") != null) {
                 String errorResult = (String) result.get("error");

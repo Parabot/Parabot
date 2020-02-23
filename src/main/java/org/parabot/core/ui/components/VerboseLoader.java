@@ -9,11 +9,11 @@ import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.UILog;
+import org.parabot.environment.api.utils.PBLocalPreferences;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
@@ -44,6 +44,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     private BufferedImage background, banner, loginBox;
     private ProgressBar progressBar;
     private JPanel      loginPanel;
+
+    private JTextField userInput;
+    private JTextField passInput;
 
     private VerboseLoader(String username, String password) {
         if (current != null) {
@@ -130,8 +133,8 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         usernameLabel.setAlignmentX(Box.CENTER_ALIGNMENT);
         usernameLabel.setForeground(Color.white);
 
-        final JTextField userInput = new JTextField(20);
-        final JTextField passInput = new JPasswordField(20);
+        userInput = new JTextField(new PBLocalPreferences("login.json").getSetting("login"), 20);
+        passInput = new JPasswordField(20);
         userInput.addActionListener(new ActionListener() {
 
             @Override
@@ -140,6 +143,7 @@ public class VerboseLoader extends JPanel implements ProgressListener {
             }
 
         });
+
         userInput.setFont(labelFont);
         userInput.setAlignmentX(Box.CENTER_ALIGNMENT);
         userInput.setMaximumSize(userInput.getPreferredSize());
@@ -203,6 +207,14 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
         this.currentState = state;
         revalidate();
+    }
+
+    public void focusOnLogin()
+    {
+        if (userInput.getText().equals(""))
+            userInput.requestFocus();
+        else
+            passInput.requestFocus();
     }
 
     /**

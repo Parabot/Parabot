@@ -40,16 +40,16 @@ public class ServerSelector extends JPanel {
         int y = 0;
         while (widgets != null && !widgets.isEmpty()) {
             final ServerComponent w = widgets.poll();
-            w.setSize(300, 100);
+            w.setSize(600, 25);
             if (i % 2 == 0 && i != 0) {
-                y += 100;
+                y += 25;
             }
-            w.setLocation(i % 2 == 0 ? 0 : 300, y);
+            w.setLocation(i % 2 == 0 ? 0 : 600, y);
             interior.add(w);
             i++;
         }
         y += 100;
-        interior.setPreferredSize(new Dimension(300, y));
+        interior.setPreferredSize(new Dimension(600, y));
 
         JScrollPane scrlInterior = new JScrollPane(interior);
         scrlInterior

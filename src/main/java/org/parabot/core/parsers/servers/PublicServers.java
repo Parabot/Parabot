@@ -46,9 +46,11 @@ public class PublicServers extends ServerParser {
                 String     name       = String.valueOf(jsonObject.get("name"));
                 String     author     = String.valueOf(jsonObject.get("author"));
                 double     version    = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+                String     updated    = jsonObject.get("updated") != null ? String.valueOf(jsonObject.get("updated")) : "Unknown";
+                boolean     active    = Boolean.parseBoolean(String.valueOf(jsonObject.get("active")));
 
                 ServerDescription desc = new ServerDescription(name,
-                        author, version);
+                        author, version, updated, active, true);
                 SERVER_CACHE.put(desc, new PublicServerExecuter(name));
             }
 

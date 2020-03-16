@@ -94,6 +94,8 @@ public class LocalServers extends ServerParser {
                 String     provider  = (String) locations.get("provider");
                 String     hooks     = (String) locations.get("hooks");
                 String     randoms = (String) locations.get("randoms");
+                String     updated = locations.containsKey("updated") ? "" : (String) locations.get("updated");
+                boolean active = locations.containsKey("active") && Boolean.parseBoolean((String) locations.get("active"));
               
                 if (randoms == null) {
                     randoms = Configuration.GET_RANDOMS + (Configuration.BOT_VERSION.isNightly() ? Configuration.NIGHTLY_APPEND : "");
@@ -103,7 +105,7 @@ public class LocalServers extends ServerParser {
               
                 ServerProviderInfo serverProviderInfo = new ServerProviderInfo(server, hooks, name, clientClass, bankTabs, randoms);
 
-                ServerDescription desc = new ServerDescription(name, author, version);
+                ServerDescription desc = new ServerDescription(name, author, version, updated, active, false);
                 if (uuidStr != null && uuidStr.length() > 0) {
                     desc.uuid = Integer.parseInt(uuidStr);
                 }

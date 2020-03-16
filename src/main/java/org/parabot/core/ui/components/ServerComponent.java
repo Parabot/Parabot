@@ -3,12 +3,14 @@ package org.parabot.core.ui.components;
 import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
+import org.parabot.environment.api.utils.Random;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Collections;
 
 /**
  * A neat looking server component
@@ -59,16 +61,26 @@ public class ServerComponent extends JPanel implements MouseListener,
         g.setFont(title);
         String serverName = desc.getServerName();
         int    sw         = g.getFontMetrics().stringWidth(serverName);
-        g.drawString(serverName, (w / 2) - (sw / 2), 30);
+        g.drawString(serverName, 15, 18);
 
         Font normal = Fonts.getResource("leelawadee.ttf");
         g.setFont(normal);
         FontMetrics fm       = g.getFontMetrics();
-        String      author   = "Author: " + desc.getAuthor();
-        String      revision = "Revision: " + desc.getRevision();
+        String      author   = "By " + desc.getAuthor();
+        String      revision = "v" + desc.getRevision();
+        String      active = desc.getActive() ? "Active" : "Outdated";
+        String updated = desc.getUpdated().equalsIgnoreCase("unknown") ? "" : "(updated " + desc.getUpdated() + ")";
+        String local = desc.isBdn() ? "" : "[Local]";
 
-        g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
-        g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);
+        g.drawString(revision,  sw + 35, 18);
+        g.drawString(author, (fm.stringWidth(revision) + sw) + 40, 18);
+
+        g.setColor(desc.getActive() ? Color.GREEN : Color.red);
+        g.drawString(active, (fm.stringWidth(revision) + sw + fm.stringWidth(author)) + 45, 18);
+
+        g.setColor(Color.black);
+        g.drawString(updated, fm.stringWidth(revision) + sw + fm.stringWidth(author) + fm.stringWidth(active) + 50, 18);
+        g.drawString(local, fm.stringWidth(revision) + sw + fm.stringWidth(author) + fm.stringWidth(active) + + fm.stringWidth(updated) + 55, 18);
     }
 
     public void load(final ServerDescription desc) {

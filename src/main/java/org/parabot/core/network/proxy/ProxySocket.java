@@ -21,6 +21,7 @@ public class ProxySocket extends Socket {
     private InetAddress addr;
     private int         port;
     private InetSocketAddress cachedAddr;
+    private ProxyInputStream pin;
 
     public ProxySocket(InetAddress addr, int port) throws IOException {
         super(addr, port);
@@ -32,6 +33,14 @@ public class ProxySocket extends Socket {
 
     public ProxySocket(String host, int port) throws IOException {
         super(host, port);
+    }
+
+    
+    public InputStream getInputStream() throws IOException {
+        if(pin != null){
+            return pin;
+        }
+        return pin = new ProxyInputStream(super.getInputStream());
     }
 
     public static int closeConnections() {
@@ -131,7 +140,7 @@ public class ProxySocket extends Socket {
     }
 
     private void http_connect() throws IOException {
-        InputStream    in  = getInputStream();
+        InputStream    in  = super.getInputStream();
         BufferedReader br  = new BufferedReader(new InputStreamReader(in));
         OutputStream   out = getOutputStream();
         out.write(("CONNECT " + addr.getHostAddress() + ":" + port + "\r\n")
@@ -166,7 +175,7 @@ public class ProxySocket extends Socket {
 
     private void socks4_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream  in  = new DataInputStream(getInputStream());
+        DataInputStream  in  = new DataInputStream(super.getInputStream());
 
         out.write(0x04);
         out.write(0x01); // connection type (TCP stream)
@@ -195,7 +204,7 @@ public class ProxySocket extends Socket {
 
     private void socks5_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream  in  = new DataInputStream(getInputStream());
+        DataInputStream  in  = new DataInputStream(super.getInputStream());
         out.write(0x05); // the version
         out.write(auth ? 2 : 1); // number of authentication methods (no auth
         // for now)
@@ -304,6 +313,7 @@ public class ProxySocket extends Socket {
     @Override
     public void close() throws IOException {
         connections.remove(this);
+        pin.close();
         super.close();
     }
 

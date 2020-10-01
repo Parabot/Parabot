@@ -6,7 +6,11 @@ import org.parabot.environment.scripts.Script;
 
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -42,7 +46,9 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method getDeclaredMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
+    public static Method getDeclaredMethod(Class<?> c, String name, Class<?>... params) throws
+            NoSuchMethodException,
+            SecurityException {
         if (validStack() || validRequest(c)) {
             return c.getDeclaredMethod(name, params);
         }
@@ -60,7 +66,7 @@ public class ClassRedirect {
     }
 
     public static URL getResource(Class<?> c, String path) {
-        if(validStack() || validRequest(c)) {
+        if (validStack() || validRequest(c)) {
             return c.getResource(path);
         }
 
@@ -113,7 +119,9 @@ public class ClassRedirect {
         throw RedirectClassAdapter.createSecurityException();
     }
 
-    public static Method getMethod(Class<?> c, String name, Class<?>... params) throws NoSuchMethodException, SecurityException {
+    public static Method getMethod(Class<?> c, String name, Class<?>... params) throws
+            NoSuchMethodException,
+            SecurityException {
         if (validStack() || validRequest(c)) {
             return c.getMethod(name, params);
         }
@@ -207,7 +215,9 @@ public class ClassRedirect {
         return c.getAnnotation(annotationClass);
     }
 
-    public static Constructor getDeclaredConstructor(Class c, Class[] parameterTypes) throws NoSuchMethodException, SecurityException {
+    public static Constructor getDeclaredConstructor(Class c, Class[] parameterTypes) throws
+            NoSuchMethodException,
+            SecurityException {
         return c.getDeclaredConstructor(parameterTypes);
     }
 

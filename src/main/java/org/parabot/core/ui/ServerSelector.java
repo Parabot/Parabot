@@ -6,10 +6,13 @@ import org.parabot.core.parsers.servers.ServerParser;
 import org.parabot.core.ui.components.ServerComponent;
 import org.parabot.environment.Environment;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * Shows a list of every supported server which can be started
@@ -70,6 +73,22 @@ public class ServerSelector extends JPanel {
     }
 
     /**
+     * Fetches array of server widgets
+     *
+     * @return widgets array
+     */
+    public Queue<ServerComponent> getServers() {
+        final Queue<ServerComponent> widgets = new LinkedList<>();
+        ServerDescription[] servers = ServerParser.getDescriptions();
+        if (servers != null) {
+            for (ServerDescription desc : servers) {
+                widgets.add(new ServerComponent(desc));
+            }
+        }
+        return widgets;
+    }
+
+    /**
      * This method is called when -server argument is given, or -uuid arg is given.
      *
      * @param widgets
@@ -80,7 +99,7 @@ public class ServerSelector extends JPanel {
         }
         if (Core.getQuickLaunchByUuid() > -1) { // match the pre-requested server config uuid to quick-launch
             for (ServerComponent widget : widgets) {
-                if (widget.desc.uuid ==  Core.getQuickLaunchByUuid()) {
+                if (widget.desc.uuid == Core.getQuickLaunchByUuid()) {
                     Environment.load(widget.desc);
                     return true;
                 }
@@ -99,22 +118,6 @@ public class ServerSelector extends JPanel {
             System.err.println("No server config with -server " + serverName + " was found to quick launch.");
         }
         return false;
-    }
-
-    /**
-     * Fetches array of server widgets
-     *
-     * @return widgets array
-     */
-    public Queue<ServerComponent> getServers() {
-        final Queue<ServerComponent> widgets = new LinkedList<>();
-        ServerDescription[]          servers = ServerParser.getDescriptions();
-        if (servers != null) {
-            for (ServerDescription desc : servers) {
-                widgets.add(new ServerComponent(desc));
-            }
-        }
-        return widgets;
     }
 
 }

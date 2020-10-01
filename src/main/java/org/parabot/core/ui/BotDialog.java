@@ -3,8 +3,10 @@ package org.parabot.core.ui;
 import org.parabot.core.ui.components.PaintComponent;
 import org.parabot.environment.OperatingSystem;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JDialog;
 
 /**
  * @author Everel

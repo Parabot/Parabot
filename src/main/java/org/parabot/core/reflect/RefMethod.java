@@ -8,8 +8,8 @@ import java.lang.reflect.Method;
  * @author Everel
  */
 public class RefMethod extends RefModifiers {
-    private Method method;
-    private Object instance;
+    private final Method method;
+    private final Object instance;
 
     public RefMethod(Method method) {
         this(method, null);

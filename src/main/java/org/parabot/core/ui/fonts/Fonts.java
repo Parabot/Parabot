@@ -1,6 +1,6 @@
 package org.parabot.core.ui.fonts;
 
-import java.awt.*;
+import java.awt.Font;
 import java.util.ArrayList;
 
 /**

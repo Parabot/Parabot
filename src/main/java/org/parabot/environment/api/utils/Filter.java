@@ -15,5 +15,5 @@ public interface Filter<F> {
      *
      * @return <b>true</b> to include this object, otherwise <b>false</b> to exclude.
      */
-    public boolean accept(F f);
+    boolean accept(F f);
 }

@@ -13,8 +13,8 @@ import java.util.HashMap;
  * @author AlexanderBielen
  */
 public class PBLocalPreferences {
-    private static JSONParser parser = new JSONParser();
-    private File settingsFile;
+    private static final JSONParser parser = new JSONParser();
+    private final File settingsFile;
 
     public PBLocalPreferences(String fileName) {
         settingsFile = new File(Directories.getSettingsPath() + "/" + secureFileName(fileName));
@@ -29,7 +29,7 @@ public class PBLocalPreferences {
         try {
             String stringContents = FileUtil.getFileContents(settingsFile);
             return (JSONObject) parser.parse(stringContents);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -38,11 +38,11 @@ public class PBLocalPreferences {
      * Convert a HashMap to json and writes it to the file
      *
      * @param settings HashMap<String, String>
-     * @param append If true, append to existing settings in file
+     * @param append   If true, append to existing settings in file
      */
     public void writeSettings(HashMap<String, String> settings, boolean append) {
         JSONObject existingSettings;
-        if(append && (existingSettings = getSettings()) != null) {
+        if (append && (existingSettings = getSettings()) != null) {
             existingSettings.putAll(settings);
             settings = existingSettings;
         }
@@ -62,7 +62,7 @@ public class PBLocalPreferences {
     /**
      * Adds a setting, or overwrites it if it exists
      *
-     * @param key key of the setting
+     * @param key   key of the setting
      * @param value value of the setting
      */
     public void addSetting(String key, String value) {
@@ -75,10 +75,11 @@ public class PBLocalPreferences {
      * Fetches a setting
      *
      * @param key key to get the value for
+     *
      * @return value that belongs to given key or null if non-existent
      */
     public String getSetting(String key) {
-        if(getSettings() == null) {
+        if (getSettings() == null) {
             return null;
         }
 
@@ -88,7 +89,7 @@ public class PBLocalPreferences {
     /**
      * Adjusts an existing setting
      *
-     * @param key key to adjust the value for
+     * @param key   key to adjust the value for
      * @param value value for the key
      */
     public void adjustSetting(String key, String value) {
@@ -110,6 +111,7 @@ public class PBLocalPreferences {
      * Replaces all double dots to make sure the link does not leave the settings folder
      *
      * @param filePath path to secure
+     *
      * @return secured string
      */
     private static String secureFileName(String filePath) {

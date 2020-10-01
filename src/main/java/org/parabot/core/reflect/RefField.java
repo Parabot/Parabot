@@ -9,8 +9,8 @@ import java.lang.reflect.Type;
  * @author Everel
  */
 public class RefField extends RefModifiers {
-    private Field  field;
-    private Object instance;
+    private final Field field;
+    private final Object instance;
 
     public RefField(Field field) {
         this(field, null);

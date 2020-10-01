@@ -7,11 +7,11 @@ import java.io.InputStream;
  * @author Everel
  */
 public class SizeInputStream extends InputStream {
-    public  int              bytesRead;
-    private ProgressListener l;
-    private InputStream      in;
-    private long             startTime;
-    private double           size;
+    private final ProgressListener l;
+    private final InputStream in;
+    private final long startTime;
+    private final double size;
+    public int bytesRead;
 
     public SizeInputStream(InputStream in, int size, ProgressListener l) {
         this.in = in;
@@ -52,9 +52,9 @@ public class SizeInputStream extends InputStream {
             double percent = (bytesRead / size) * 100.0D;
             l.onProgressUpdate(percent);
 
-            long   curTime     = System.currentTimeMillis();
+            long curTime = System.currentTimeMillis();
             double timeSeconds = (curTime - startTime) / 1000.0D;
-            double speed       = bytesRead / (1024.0D * 1024.0D) / timeSeconds;
+            double speed = bytesRead / (1024.0D * 1024.0D) / timeSeconds;
             l.updateDownloadSpeed(speed);
         }
     }

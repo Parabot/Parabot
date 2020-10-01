@@ -10,9 +10,10 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.net.URL;
+
+import javax.swing.JOptionPane;
 
 /**
  * Parses servers hosted on Parabot
@@ -43,9 +44,9 @@ public class PublicServers extends ServerParser {
             while ((line = br.readLine()) != null) {
 
                 JSONObject jsonObject = (JSONObject) parser.parse(line);
-                String     name       = String.valueOf(jsonObject.get("name"));
-                String     author     = String.valueOf(jsonObject.get("author"));
-                double     version    = Double.parseDouble(String.valueOf(jsonObject.get("version")));
+                String name = String.valueOf(jsonObject.get("name"));
+                String author = String.valueOf(jsonObject.get("author"));
+                double version = Double.parseDouble(String.valueOf(jsonObject.get("version")));
 
                 ServerDescription desc = new ServerDescription(name,
                         author, version);

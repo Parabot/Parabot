@@ -4,7 +4,7 @@ import org.parabot.core.asm.RedirectClassAdapter;
 
 public class ThreadRedirect {
 
-    private static int count = 0;
+    private static final int count = 0;
 
     public static void start(Thread t) {
         t.start();

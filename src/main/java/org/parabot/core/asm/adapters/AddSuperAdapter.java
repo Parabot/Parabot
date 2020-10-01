@@ -17,8 +17,8 @@ import java.util.ListIterator;
  * @author Everel
  */
 public class AddSuperAdapter implements Injectable {
-    private ClassNode node;
-    private String    superClass;
+    private final ClassNode node;
+    private final String superClass;
 
     public AddSuperAdapter(final ClassNode node, final String superClass) {
         this.node = node;
@@ -28,6 +28,19 @@ public class AddSuperAdapter implements Injectable {
     public AddSuperAdapter(final String className, final String superClass) {
         this.node = ASMUtils.getClass(className);
         this.superClass = superClass;
+    }
+
+    @Override
+    public void inject() {
+        Core.verbose("Injecting: " + this.toString());
+        setSuper(node, superClass);
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("[Injectable: super, class name: ")
+                .append(node.name).append(", super: ").append(superClass)
+                .append("]").toString();
     }
 
     private static final void setSuper(final ClassNode node,
@@ -50,19 +63,6 @@ public class AddSuperAdapter implements Injectable {
             }
         }
         node.superName = superClass;
-    }
-
-    @Override
-    public void inject() {
-        Core.verbose("Injecting: " + this.toString());
-        setSuper(node, superClass);
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("[Injectable: super, class name: ")
-                .append(node.name).append(", super: ").append(superClass)
-                .append("]").toString();
     }
 
 }

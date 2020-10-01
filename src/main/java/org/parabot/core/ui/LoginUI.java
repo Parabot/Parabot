@@ -8,14 +8,24 @@ import org.parabot.core.ui.utils.SwingUtil;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.input.Keyboard;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * Users must login with their parabot account through this LoginUI class
@@ -24,13 +34,13 @@ import java.net.URI;
  */
 public class LoginUI extends JFrame {
     private static final long serialVersionUID = 2032832552863466297L;
-    private static LoginUI        instance;
+    private static LoginUI instance;
     private static AccountManager manager;
 
-    private JTextField     txtUsername;
+    private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JButton        cmdLogin;
-    private JButton        cmdRegister;
+    private JButton cmdLogin;
+    private JButton cmdRegister;
 
     public LoginUI(String username, String password) {
         instance = this;

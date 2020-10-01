@@ -17,7 +17,7 @@ import java.util.LinkedList;
  */
 public class Environment extends org.parabot.api.io.libraries.Environment {
 
-    private static LinkedList<Library> libs = new LinkedList<>();
+    private static final LinkedList<Library> libs = new LinkedList<>();
 
     static {
         libs.add(new JavaFX());

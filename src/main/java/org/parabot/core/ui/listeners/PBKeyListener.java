@@ -20,11 +20,6 @@ public class PBKeyListener implements KeyListener {
         this.fillBindings();
     }
 
-    private void fillBindings() {
-        this.bindings.add(new ActionEventBinding(KeyEvent.VK_R, "Run"));
-        this.bindings.add(new ActionEventBinding(KeyEvent.VK_R, "Stop"));
-    }
-
     public List<Binding> getBindings() {
         return bindings;
     }
@@ -62,5 +57,10 @@ public class PBKeyListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private void fillBindings() {
+        this.bindings.add(new ActionEventBinding(KeyEvent.VK_R, "Run"));
+        this.bindings.add(new ActionEventBinding(KeyEvent.VK_R, "Stop"));
     }
 }

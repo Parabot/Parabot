@@ -9,8 +9,8 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class Interface implements Injectable {
-    private String className;
-    private String interfaceClass;
+    private final String className;
+    private final String interfaceClass;
 
     public Interface(String className, String interfaceClass) {
         this.className = className;

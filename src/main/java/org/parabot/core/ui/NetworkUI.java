@@ -5,7 +5,26 @@ import org.parabot.core.network.proxy.ProxySocket;
 import org.parabot.core.network.proxy.ProxyType;
 import org.parabot.core.ui.utils.UILog;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Random;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,11 +32,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Random;
 
 public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         DocumentListener {
@@ -27,17 +41,17 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
     private static NetworkUI instance;
 
     private JComboBox<ProxyType> proxyType;
-    private JTextField           proxyHost;
-    private IntTextField         proxyPort;
-    private JButton              submitButton;
+    private JTextField proxyHost;
+    private IntTextField proxyPort;
+    private JButton submitButton;
 
     private JList<String>[] macList;
-    private JScrollPane[]   macScrollList;
+    private JScrollPane[] macScrollList;
 
-    private JCheckBox      authCheckBox;
-    private JTextField     authUsername;
+    private JCheckBox authCheckBox;
+    private JTextField authUsername;
     private JPasswordField authPassword;
-    private JButton        randomize;
+    private JButton randomize;
 
     private NetworkUI() {
         initGUI();
@@ -58,6 +72,110 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         authCheckBox.setSelected(ProxySocket.auth);
         setLocationRelativeTo(BotUI.getInstance());
         super.setVisible(b);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Object source = e.getSource();
+        if (source == proxyPort || source == proxyHost) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                actionPerformed(null);
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent arg0) {
+
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent arg0) {
+        if (proxyPort.isValid()) {
+            proxyPort.setText("" + proxyPort.getValue());
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent arg0) {
+        insertUpdate(arg0);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        boolean b = false;
+
+        if (arg0.getSource() == proxyType) {
+            Object o = proxyType.getSelectedItem();
+            authCheckBox.setEnabled(o == ProxyType.SOCKS5);
+            proxyHost.setEnabled(o != ProxyType.NONE);
+            proxyPort.setEnabled(o != ProxyType.NONE);
+            b = true;
+        }
+
+        if (b || arg0.getSource() == authCheckBox) {
+            b = authCheckBox.isSelected() && authCheckBox.isEnabled();
+            ProxySocket.auth = b;
+            authUsername.setEnabled(b);
+            authPassword.setEnabled(b);
+            return;
+        }
+
+        if (proxyType.getSelectedItem() != ProxyType.NONE) {
+            if (proxyPort.getText().equals("")
+                    || proxyHost.getText().equals("")) {
+                UILog.log("Error", "Please supply proxy information!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        String username = authUsername.getText();
+        char[] password = authPassword.getPassword();
+
+        ProxySocket
+                .setLogin(username, password);
+
+        byte[] mac = new byte[macList.length];
+        for (int i = 0; i < mac.length; i++) {
+            mac[i] = (byte) Short.parseShort(
+                    macList[i].getSelectedValue(), 16);
+        }
+        NetworkInterface.setMac(mac);
+
+        try {
+            if (ProxySocket.getConnectionCount() > 0) {
+                try {
+                    System.out.println("Closing Existing Connections...");
+                    ProxySocket.closeConnections();
+                } catch (Exception e) {
+
+                }
+            }
+            ProxyType type = (ProxyType) proxyType.getSelectedItem();
+            String host = proxyHost.getText();
+            int port = proxyPort.getValue();
+
+            ProxySocket.setProxy(type, host, port);
+            UILog.log("Info", "Network settings have been set!");
+        } catch (Exception e) {
+            UILog.log("Error",
+                    "Unable to set proxy info!\n\nReason:" + e.getMessage());
+            e.printStackTrace();
+        }
+        setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +211,7 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         randomize.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Random rand    = new Random();
+                Random rand = new Random();
                 byte[] macAddr = new byte[6];
                 rand.nextBytes(macAddr);
                 macAddr[0] = (byte) (macAddr[0] & (byte) 254);
@@ -187,110 +305,6 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
         return ret;
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        Object source = e.getSource();
-        if (source == proxyPort || source == proxyHost) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                actionPerformed(null);
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent arg0) {
-
-    }
-
-    @Override
-    public void insertUpdate(DocumentEvent arg0) {
-        if (proxyPort.isValid()) {
-            proxyPort.setText("" + proxyPort.getValue());
-        }
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent arg0) {
-        insertUpdate(arg0);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        boolean b = false;
-
-        if (arg0.getSource() == proxyType) {
-            Object o = proxyType.getSelectedItem();
-            authCheckBox.setEnabled(o == ProxyType.SOCKS5);
-            proxyHost.setEnabled(o != ProxyType.NONE);
-            proxyPort.setEnabled(o != ProxyType.NONE);
-            b = true;
-        }
-
-        if (b || arg0.getSource() == authCheckBox) {
-            b = authCheckBox.isSelected() && authCheckBox.isEnabled();
-            ProxySocket.auth = b;
-            authUsername.setEnabled(b);
-            authPassword.setEnabled(b);
-            return;
-        }
-
-        if (proxyType.getSelectedItem() != ProxyType.NONE) {
-            if (proxyPort.getText().equals("")
-                    || proxyHost.getText().equals("")) {
-                UILog.log("Error", "Please supply proxy information!",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        }
-
-        String username = authUsername.getText();
-        char[] password = authPassword.getPassword();
-
-        ProxySocket
-                .setLogin(username, password);
-
-        byte[] mac = new byte[macList.length];
-        for (int i = 0; i < mac.length; i++) {
-            mac[i] = (byte) Short.parseShort(
-                    (String) macList[i].getSelectedValue(), 16);
-        }
-        NetworkInterface.setMac(mac);
-
-        try {
-            if (ProxySocket.getConnectionCount() > 0) {
-                try {
-                    System.out.println("Closing Existing Connections...");
-                    ProxySocket.closeConnections();
-                } catch (Exception e) {
-
-                }
-            }
-            ProxyType type = (ProxyType) proxyType.getSelectedItem();
-            String    host = proxyHost.getText();
-            int       port = proxyPort.getValue();
-
-            ProxySocket.setProxy(type, host, port);
-            UILog.log("Info", "Network settings have been set!");
-        } catch (Exception e) {
-            UILog.log("Error",
-                    "Unable to set proxy info!\n\nReason:" + e.getMessage());
-            e.printStackTrace();
-        }
-        setVisible(false);
-    }
-
     private JList<String> createMacList() {
         String[] hexStrings = new String[256];
         for (int i = 0; i < 256; i++) {
@@ -312,10 +326,6 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             super("" + defval, size);
         }
 
-        protected Document createDefaultModel() {
-            return new IntTextDocument();
-        }
-
         public boolean isValid() {
             try {
                 int i = Integer.parseInt(getText());
@@ -331,6 +341,10 @@ public class NetworkUI extends JFrame implements KeyListener, ActionListener,
             } catch (NumberFormatException e) {
                 return 0;
             }
+        }
+
+        protected Document createDefaultModel() {
+            return new IntTextDocument();
         }
 
         class IntTextDocument extends PlainDocument {

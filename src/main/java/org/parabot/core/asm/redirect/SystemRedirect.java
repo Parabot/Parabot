@@ -23,18 +23,6 @@ public class SystemRedirect {
         System.exit(i);
     }
 
-    private static String getClassPath(){
-        String classPath = System.getProperty("java.class.path");
-        StringBuilder finalClassPath = new StringBuilder();
-        for (String path : classPath.split(":")) {
-            if (!path.toLowerCase().contains("parabot")) {
-                finalClassPath.append(path).append(":");
-            }
-        }
-
-        return finalClassPath.toString();
-    }
-
     public static String getProperty(String s) {
         String value;
         switch (s) {
@@ -105,6 +93,18 @@ public class SystemRedirect {
 
     public static long nanoTime() {
         return System.nanoTime();
+    }
+
+    private static String getClassPath() {
+        String classPath = System.getProperty("java.class.path");
+        StringBuilder finalClassPath = new StringBuilder();
+        for (String path : classPath.split(":")) {
+            if (!path.toLowerCase().contains("parabot")) {
+                finalClassPath.append(path).append(":");
+            }
+        }
+
+        return finalClassPath.toString();
     }
 
 }

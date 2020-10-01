@@ -10,8 +10,8 @@ public enum RandomType {
     ON_SERVER_START(2, "On server start"),
     ON_SCRIPT_FINISH(3, "On script finish");
 
-    private int    id;
-    private String name;
+    private final int id;
+    private final String name;
 
     RandomType(int id, String name) {
         this.id = id;

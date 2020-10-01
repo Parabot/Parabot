@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 
 public class NetworkInterface {
     public static byte[] mac = new byte[]{ 11, 11, 11, 11, 11, 11 };
-    private static byte[]           realMac;
+    private static byte[] realMac;
     private static NetworkInterface cached;
 
     static {

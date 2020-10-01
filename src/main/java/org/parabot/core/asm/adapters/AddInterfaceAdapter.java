@@ -14,8 +14,8 @@ import org.parabot.core.asm.interfaces.Injectable;
 public class AddInterfaceAdapter implements Injectable {
     private static String accessorPackage;
 
-    private ClassNode node;
-    private String    interfaceClass;
+    private final ClassNode node;
+    private final String interfaceClass;
 
     public AddInterfaceAdapter(ClassNode node, String interfaceClass) {
         this.node = node;
@@ -35,17 +35,6 @@ public class AddInterfaceAdapter implements Injectable {
         accessorPackage = packageName;
     }
 
-    protected static void addInterface(ClassNode node, String i) {
-        ASMUtils.makePublic(node);
-        for (Object mn : node.methods) {
-            MethodNode methodNode = (MethodNode) mn;
-            if (methodNode.name.startsWith("<init")) {
-                ASMUtils.makePublic(methodNode);
-            }
-        }
-        node.interfaces.add(i);
-    }
-
     @Override
     public void inject() {
         Core.verbose("Injecting: " + this.toString());
@@ -55,5 +44,16 @@ public class AddInterfaceAdapter implements Injectable {
     @Override
     public String toString() {
         return new StringBuilder("[Injectable: interface, into classname: ").append(node.name).append(", interface: ").append(accessorPackage).append(interfaceClass).append("]").toString();
+    }
+
+    protected static void addInterface(ClassNode node, String i) {
+        ASMUtils.makePublic(node);
+        for (Object mn : node.methods) {
+            MethodNode methodNode = (MethodNode) mn;
+            if (methodNode.name.startsWith("<init")) {
+                ASMUtils.makePublic(methodNode);
+            }
+        }
+        node.interfaces.add(i);
     }
 }

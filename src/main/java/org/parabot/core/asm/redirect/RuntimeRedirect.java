@@ -18,11 +18,11 @@ public class RuntimeRedirect {
     }
 
     public static long totalMemory(Runtime runtime) {
-        return (long) Random.between(1024, 4096);
+        return Random.between(1024, 4096);
     }
 
     public static long freeMemory(Runtime runtime) {
-        return (long) Random.between(1024, 4096);
+        return Random.between(1024, 4096);
     }
 
     public static Process exec(Runtime r, String[] s) {

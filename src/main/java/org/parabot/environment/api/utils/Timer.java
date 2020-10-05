@@ -111,9 +111,10 @@ public class Timer {
     /**
      * Calculates hourly gains based on given variable, with variable start amount
      *
-     * @param gained        total gained amount
-     * @param startAmount   start amount
-     * @return              hourly gains
+     * @param gained      total gained amount
+     * @param startAmount start amount
+     *
+     * @return hourly gains
      */
     public int getPerHour(final int gained, final int startAmount) {
         return (int) (((gained - startAmount) * 3600000D) / (System.currentTimeMillis() - start));
@@ -126,9 +127,9 @@ public class Timer {
      */
     @Override
     public String toString() {
-        StringBuilder b       = new StringBuilder();
-        long          elapsed = getElapsedTime();
-        int           day     = (int) (elapsed / 86400000);
+        StringBuilder b = new StringBuilder();
+        long elapsed = getElapsedTime();
+        int day = (int) (elapsed / 86400000);
         elapsed -= day * 86400000;
         int hour = (int) (elapsed / 3600000);
         elapsed -= hour * 3600000;

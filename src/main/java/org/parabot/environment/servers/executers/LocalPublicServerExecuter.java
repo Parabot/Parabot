@@ -13,10 +13,11 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
-import javax.swing.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+
+import javax.swing.JOptionPane;
 
 /**
  * Fetches a server provider from the local config file
@@ -24,10 +25,10 @@ import java.net.URL;
  * @author JKetelaar
  */
 public class LocalPublicServerExecuter extends ServerExecuter {
-    private String serverName;
-    private String serverUrl;
-    private String providerUrl;
-    private ServerProviderInfo serverProviderInfo;
+    private final String serverName;
+    private final String serverUrl;
+    private final String providerUrl;
+    private final ServerProviderInfo serverProviderInfo;
 
     public LocalPublicServerExecuter(final String serverName, final ServerProviderInfo serverProviderInfo, String serverUrl, String providerUrl) {
         this.serverName = serverName;

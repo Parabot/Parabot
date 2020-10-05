@@ -4,11 +4,17 @@ import org.parabot.core.desc.ServerDescription;
 import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.environment.Environment;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JPanel;
 
 /**
  * A neat looking server component
@@ -18,10 +24,9 @@ import java.awt.event.MouseMotionListener;
 public class ServerComponent extends JPanel implements MouseListener,
         MouseMotionListener {
     private static final long serialVersionUID = 1L;
-
-    public  ServerDescription desc;
-    private String            name;
-    private boolean           hovered;
+    private final String name;
+    public ServerDescription desc;
+    private boolean hovered;
 
     public ServerComponent(final ServerDescription desc) {
         this.desc = desc;
@@ -58,14 +63,14 @@ public class ServerComponent extends JPanel implements MouseListener,
         Font title = Fonts.getResource("leelawadee.ttf", 16);
         g.setFont(title);
         String serverName = desc.getServerName();
-        int    sw         = g.getFontMetrics().stringWidth(serverName);
+        int sw = g.getFontMetrics().stringWidth(serverName);
         g.drawString(serverName, (w / 2) - (sw / 2), 30);
 
         Font normal = Fonts.getResource("leelawadee.ttf");
         g.setFont(normal);
-        FontMetrics fm       = g.getFontMetrics();
-        String      author   = "Author: " + desc.getAuthor();
-        String      revision = "Revision: " + desc.getRevision();
+        FontMetrics fm = g.getFontMetrics();
+        String author = "Author: " + desc.getAuthor();
+        String revision = "Revision: " + desc.getRevision();
 
         g.drawString(author, (w / 2) - (fm.stringWidth(author) / 2), 55);
         g.drawString(revision, (w / 2) - (fm.stringWidth(revision) / 2), 70);

@@ -11,8 +11,8 @@ import java.net.URLEncoder;
  * @author Everel
  */
 public class Account {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private String api;
 
     /**

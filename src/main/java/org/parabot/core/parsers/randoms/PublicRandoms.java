@@ -1,25 +1,25 @@
 package org.parabot.core.parsers.randoms;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import org.parabot.api.io.WebUtil;
-import org.parabot.api.output.Logger;
 import org.parabot.core.Configuration;
 import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
 import org.parabot.core.io.NoProgressListener;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 /**
  * @author JKetelaar
  */
 public class PublicRandoms extends RandomParser {
 
-    private String fileName = ((Configuration.BOT_VERSION.isNightly()) ? "randoms-nightly.jar" : "randoms.jar");
+    private final String fileName = ((Configuration.BOT_VERSION.isNightly()) ? "randoms-nightly.jar" : "randoms.jar");
 
     @Override
     public void parse() {
@@ -37,14 +37,14 @@ public class PublicRandoms extends RandomParser {
             download(destination, overrideDownload);
         }
         try {
-            URL    url    = destination.toURI().toURL();
-            URL[]  urls   = new URL[]{ url };
+            URL url = destination.toURI().toURL();
+            URL[] urls = new URL[]{ url };
             String server = Context.getInstance().getServerProviderInfo().getServerName();
 
-            URLClassLoader child       = new URLClassLoader(urls, this.getClass().getClassLoader());
-            Class<?>       classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
-            Method         method      = classToLoad.getDeclaredMethod("init", String.class);
-            Object         instance    = classToLoad.newInstance();
+            URLClassLoader child = new URLClassLoader(urls, this.getClass().getClassLoader());
+            Class<?> classToLoad = Class.forName("org.parabot.randoms.Core", true, child);
+            Method method = classToLoad.getDeclaredMethod("init", String.class);
+            Object instance = classToLoad.newInstance();
             Core.verbose(String.format("[%s] %s %s", getClass().getSimpleName(), "Initing core Randoms for", server));
             method.invoke(instance, server);
             Core.verbose("Successfully parsed public random!");

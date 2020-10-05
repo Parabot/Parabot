@@ -2,10 +2,14 @@ package org.parabot.core.parsers.hooks;
 
 import org.parabot.core.asm.hooks.HookFile;
 import org.parabot.core.asm.interfaces.Injectable;
-import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.asm.wrappers.Callback;
+import org.parabot.core.asm.wrappers.Getter;
+import org.parabot.core.asm.wrappers.Interface;
+import org.parabot.core.asm.wrappers.Invoker;
+import org.parabot.core.asm.wrappers.Setter;
+import org.parabot.core.asm.wrappers.Super;
 import org.parabot.core.forum.AccountManager;
 import org.parabot.core.forum.AccountManagerAccess;
-import org.parabot.environment.api.utils.PBPreferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +54,7 @@ public abstract class HookParser {
 
     public Injectable[] getInjectables() {
         ArrayList<Injectable> injectables = new ArrayList<Injectable>();
-        Interface[]           interfaces  = getInterfaces();
+        Interface[] interfaces = getInterfaces();
         if (interfaces != null) {
             Collections.addAll(injectables, interfaces);
         }

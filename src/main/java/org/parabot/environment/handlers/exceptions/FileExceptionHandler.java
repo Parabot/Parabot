@@ -4,10 +4,11 @@ import org.parabot.core.Directories;
 import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.FileUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
 
 /**
  * Writes exceptions to a file and reports the file location back to the user

@@ -16,10 +16,11 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.servers.ServerProvider;
 import org.parabot.environment.servers.loader.ServerLoader;
 
-import javax.swing.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+
+import javax.swing.JOptionPane;
 
 /**
  * Fetches a server provider from the Parabot BDN
@@ -37,7 +38,7 @@ public class PublicServerExecuter extends ServerExecuter {
 
     };
     private final String cacheVersionKey = "cachedProviderVersion";
-    private String serverName;
+    private final String serverName;
     private PBLocalPreferences settings;
 
     public PublicServerExecuter(final String serverName) {

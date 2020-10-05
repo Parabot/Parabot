@@ -2,7 +2,8 @@ package org.parabot.core.paint;
 
 import org.parabot.core.Context;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,7 +15,7 @@ import java.util.Queue;
  */
 public class PaintDebugger {
     private final HashMap<String, AbstractDebugger> debuggers;
-    private final Queue<String>                     stringDebug;
+    private final Queue<String> stringDebug;
 
     public PaintDebugger() {
         this.debuggers = new HashMap<String, AbstractDebugger>();

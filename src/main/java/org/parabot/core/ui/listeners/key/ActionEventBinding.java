@@ -7,7 +7,7 @@ import org.parabot.core.ui.BotUI;
  */
 public class ActionEventBinding extends Binding {
 
-    private String actionString;
+    private final String actionString;
 
     public ActionEventBinding(int key, String actionString) {
         super(key);

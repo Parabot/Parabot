@@ -5,25 +5,35 @@ import org.parabot.core.Context;
 import org.parabot.core.Directories;
 import org.parabot.core.desc.ScriptDescription;
 import org.parabot.core.parsers.scripts.ScriptParser;
-import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Category;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashMap;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.util.HashMap;
 
 /**
  * Script Selector GUI, shows all scripts
@@ -35,12 +45,12 @@ public final class ScriptSelector extends JFrame {
     public static ScriptParser parser;
     private final int WIDTH;
     private final int HEIGHT;
-    private HashMap<String, DefaultMutableTreeNode> categories;
-    private HashMap<String, ScriptDescription> format;
-    private DefaultMutableTreeNode root;
-    private DefaultTreeModel model;
-    private Font fontCategory = new Font("Arial", Font.BOLD, 12);
-    private Font fontScript = new Font("Arial", Font.PLAIN, 12);
+    private final HashMap<String, DefaultMutableTreeNode> categories;
+    private final HashMap<String, ScriptDescription> format;
+    private final DefaultMutableTreeNode root;
+    private final DefaultTreeModel model;
+    private final Font fontCategory = new Font("Arial", Font.BOLD, 12);
+    private final Font fontScript = new Font("Arial", Font.PLAIN, 12);
     private JTree tree;
     private JEditorPane scriptInfo;
 
@@ -212,7 +222,7 @@ public final class ScriptSelector extends JFrame {
     }
 
     private class ScriptTreeCellRenderer implements TreeCellRenderer {
-        private JLabel label;
+        private final JLabel label;
 
         ScriptTreeCellRenderer() {
             label = new JLabel();

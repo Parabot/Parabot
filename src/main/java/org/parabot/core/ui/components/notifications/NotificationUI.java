@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * A JavaFX Panel embedded into a Swing JFrame - handles notification settings

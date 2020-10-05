@@ -12,8 +12,10 @@ import org.parabot.core.ui.BotUI;
 import org.parabot.core.ui.ServerSelector;
 import org.parabot.core.ui.utils.UILog;
 
-import javax.swing.*;
 import java.io.File;
+
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  * @author Everel, JKetelaar, Matt, Dane

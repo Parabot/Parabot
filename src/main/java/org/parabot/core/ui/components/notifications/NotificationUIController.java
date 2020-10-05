@@ -1,14 +1,15 @@
 package org.parabot.core.ui.components.notifications;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 import org.parabot.api.notifications.NotificationManager;
 import org.parabot.api.notifications.types.NotificationType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 /**
  * @author JKetelaar

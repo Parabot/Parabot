@@ -15,17 +15,17 @@ import java.lang.reflect.Modifier;
  * @author Everel
  */
 public class AddInvokerAdapter implements Opcodes, Injectable {
-    private ClassNode  into;
-    private ClassNode  methodLocation;
-    private MethodNode mn;
-    private String     argsDesc;
-    private String     returnDesc;
-    private String     methodName;
-    private boolean    isInterface;
-    private String     instanceCast;
-    private String     mName;
-    private String     mDesc;
-    private String     argsCheckCast;
+    private final ClassNode into;
+    private final ClassNode methodLocation;
+    private final MethodNode mn;
+    private final String argsDesc;
+    private final String returnDesc;
+    private final String methodName;
+    private final boolean isInterface;
+    private final String instanceCast;
+    private final String mName;
+    private final String mDesc;
+    private final String argsCheckCast;
 
     private boolean isStatic;
 
@@ -78,7 +78,7 @@ public class AddInvokerAdapter implements Opcodes, Injectable {
         }
 
         if (!this.argsDesc.equals("()")) {
-            Type[] castArgs   = argsCheckCast == null ? null : Type.getArgumentTypes(argsCheckCast + "V");
+            Type[] castArgs = argsCheckCast == null ? null : Type.getArgumentTypes(argsCheckCast + "V");
             Type[] methodArgs = Type.getArgumentTypes(argsDesc + "V");
 
             for (int i = 0; i < methodArgs.length; i++) {

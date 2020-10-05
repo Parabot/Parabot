@@ -25,35 +25,12 @@ public class PBPreferences {
             PBPreferences.manager = manager;
         }
     };
+    private final int scriptID;
     private Properties properties;
-    private int        scriptID;
 
     public PBPreferences(int scriptID) {
         this.scriptID = scriptID;
         this.updateSettings();
-    }
-
-    private void updateSettings() {
-        properties = new Properties();
-        try {
-            JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(
-                    WebUtil.getContents("http://bdn.parabot.org/api/v2/user/preferences/" + scriptID,
-                            "apikey=" + manager.getAccount().getApi())
-            );
-
-            JSONArray resultArray;
-            if ((resultArray = ((JSONArray) result.get("result"))) != null) {
-                for (Object rObject : resultArray) {
-                    JSONObject resultObject = (JSONObject) rObject;
-                    for (Object map : resultObject.entrySet()) {
-                        Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) map;
-                        properties.put(pairs.getKey(), pairs.getValue());
-                    }
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -99,7 +76,7 @@ public class PBPreferences {
                     WebUtil.getContents("http://bdn.parabot.org/api/v2/user/preferences/set/",
                             "apikey=" + manager.getAccount().getApi() +
                                     "&key=" + URLEncoder.encode(String.valueOf(key), "UTF-8") +
-                                    "&script=" + String.valueOf(scriptID)
+                                    "&script=" + scriptID
                     )
             );
             if ((boolean) result.get("result")) {
@@ -123,13 +100,36 @@ public class PBPreferences {
                             "apikey=" + manager.getAccount().getApi() +
                                     "&key=" + URLEncoder.encode(String.valueOf(key), "UTF-8") +
                                     "&value=" + URLEncoder.encode(String.valueOf(value), "UTF-8") +
-                                    "&script=" + String.valueOf(scriptID)
+                                    "&script=" + scriptID
                     )
             );
             if ((boolean) result.get("result")) {
                 this.properties.put(key, value);
             }
         } catch (ParseException | MalformedURLException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateSettings() {
+        properties = new Properties();
+        try {
+            JSONObject result = (JSONObject) WebUtil.getJsonParser().parse(
+                    WebUtil.getContents("http://bdn.parabot.org/api/v2/user/preferences/" + scriptID,
+                            "apikey=" + manager.getAccount().getApi())
+            );
+
+            JSONArray resultArray;
+            if ((resultArray = ((JSONArray) result.get("result"))) != null) {
+                for (Object rObject : resultArray) {
+                    JSONObject resultObject = (JSONObject) rObject;
+                    for (Object map : resultObject.entrySet()) {
+                        Map.Entry<?, ?> pairs = (Map.Entry<?, ?>) map;
+                        properties.put(pairs.getKey(), pairs.getValue());
+                    }
+                }
+            }
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }

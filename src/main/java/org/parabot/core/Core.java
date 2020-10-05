@@ -8,8 +8,7 @@ import org.parabot.core.ui.utils.UILog;
 import org.parabot.environment.api.utils.Version;
 import org.parabot.environment.api.utils.WebUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +19,8 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.swing.JOptionPane;
+
 /**
  * The core of parabot
  *
@@ -28,16 +29,14 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("Duplicates")
 public class Core {
 
+    private static final Version currentVersion = Configuration.BOT_VERSION;
     private static int quickLaunchByUuid = -1; // used like -server, but denoted by an Int rather than the server name
-    private static boolean debug; // Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages. 
+    private static boolean debug; // Debug mode is Offline Mode. No BDN connection for Servers/Scripts/User Login. Not related to debug messages.
     private static boolean verbose;
     private static boolean dump;
     private static boolean loadLocal; //Loads both local and public scripts/servers
-
     private static boolean validate = true;
     private static boolean secure = true;
-
-    private static Version currentVersion = Configuration.BOT_VERSION;
 
     public static void disableValidation() {
         Core.validate = false;
@@ -251,7 +250,7 @@ public class Core {
 
                     byte[] mdbytes = md.digest();
 
-                    StringBuilder sb = new StringBuilder("");
+                    StringBuilder sb = new StringBuilder();
                     for (byte mdbyte : mdbytes) {
                         sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
                     }

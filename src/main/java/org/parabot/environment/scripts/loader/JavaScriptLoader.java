@@ -14,7 +14,7 @@ import java.util.List;
  * @author Everel
  */
 public class JavaScriptLoader extends ASMClassLoader {
-    private ClassPath classPath;
+    private final ClassPath classPath;
 
     public JavaScriptLoader(ClassPath classPath) {
         super(classPath);

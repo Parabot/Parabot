@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor;
  * @author Everel
  */
 public class RefConstructor extends RefModifiers {
-    private Constructor<?> constructor;
+    private final Constructor<?> constructor;
 
     public RefConstructor(Constructor<?> constructor) {
         super(constructor.getModifiers());

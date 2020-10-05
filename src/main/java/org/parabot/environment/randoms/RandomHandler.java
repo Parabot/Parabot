@@ -10,12 +10,11 @@ import java.util.ArrayList;
  * @author JKetelaar
  */
 public class RandomHandler {
-    private ArrayList<Random> randoms;
-
     /**
      * The randoms that will actually run
      */
-    private ArrayList<Random> activeRandoms;
+    private final ArrayList<Random> activeRandoms;
+    private ArrayList<Random> randoms;
 
     public RandomHandler() {
         this.randoms = new ArrayList<>();

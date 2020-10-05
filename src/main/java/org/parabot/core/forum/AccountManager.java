@@ -13,11 +13,12 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.executers.BDNScriptsExecuter;
 import org.parabot.environment.servers.executers.PublicServerExecuter;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 /**
  * Handles logging in to parabot forum, only certain classes may use this class.
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * @author Everel
  */
 public final class AccountManager {
-    private static boolean        validated;
+    private static boolean validated;
     private static AccountManager instance;
 
     private Account account;

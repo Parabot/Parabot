@@ -5,7 +5,7 @@ import org.objectweb.asm.commons.Remapper;
 import java.util.HashMap;
 
 public class ClassRemapper extends Remapper {
-    private static HashMap<String, String> remapNames = new HashMap<String, String>();
+    private static final HashMap<String, String> remapNames = new HashMap<String, String>();
 
     static {
         remapNames.put("java/net/Socket", "org/parabot/core/network/proxy/ProxySocket");

@@ -75,7 +75,7 @@ public abstract class ExceptionHandler implements Thread.UncaughtExceptionHandle
         SCRIPT("Script"),
         CLIENT("Client");
 
-        private String name;
+        private final String name;
 
         ExceptionType(String name) {
             this.name = name;

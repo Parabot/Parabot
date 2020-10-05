@@ -4,10 +4,15 @@ import org.parabot.core.Context;
 import org.parabot.core.Core;
 import org.parabot.environment.randoms.Random;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
 /**
  * @author JKetelaar
@@ -16,7 +21,7 @@ public class RandomUI implements ActionListener {
 
     private static RandomUI instance;
 
-    private JFrame               frame;
+    private JFrame frame;
     private ArrayList<JCheckBox> checkBoxes;
 
     public static RandomUI getInstance() {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class FileRedirect extends File {
 
-    private static ArrayList<String> cachedFiles = new ArrayList<>();
+    private static final ArrayList<String> cachedFiles = new ArrayList<>();
 
     public FileRedirect(String pathname) {
         super(pathname);

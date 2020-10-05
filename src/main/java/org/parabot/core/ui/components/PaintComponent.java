@@ -4,9 +4,13 @@ import org.parabot.core.Context;
 import org.parabot.environment.api.interfaces.Paintable;
 import org.parabot.environment.api.utils.Time;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JComponent;
 
 /**
  * The panel that is painted on
@@ -18,9 +22,9 @@ public class PaintComponent extends JComponent implements Runnable {
     private static PaintComponent instance;
 
     private BufferedImage buffer;
-    private Graphics2D    g2;
-    private Dimension     dimensions;
-    private Context       context;
+    private Graphics2D g2;
+    private Dimension dimensions;
+    private Context context;
 
     private PaintComponent(Dimension dimensions) {
         this.dimensions = dimensions;

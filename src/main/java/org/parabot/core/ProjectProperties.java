@@ -12,7 +12,7 @@ import java.util.Properties;
 public class ProjectProperties {
 
     private static ProjectProperties instance;
-    private Properties cached = new Properties();
+    private final Properties cached = new Properties();
 
     private ProjectProperties() {
         setProperties();

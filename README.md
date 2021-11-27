@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/Parabot/Parabot.png?label=ready&title=Ready)](https://waffle.io/Parabot/Parabot)
 [![Build Status](https://travis-ci.org/Parabot/Parabot.svg?branch=master)](https://travis-ci.org/Parabot/Parabot)
 
 # Parabot

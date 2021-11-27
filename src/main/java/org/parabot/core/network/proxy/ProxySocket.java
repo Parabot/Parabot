@@ -3,23 +3,34 @@ package org.parabot.core.network.proxy;
 import org.parabot.core.Core;
 import org.parabot.core.ui.utils.UILog;
 
-import javax.swing.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class ProxySocket extends Socket {
 
+    private static final List<ProxySocket> connections = new ArrayList<ProxySocket>();
     public static boolean auth = false;
-    private static List<ProxySocket> connections = new ArrayList<ProxySocket>();
     private static ProxyType proxyType = ProxyType.NONE;
     private static int proxyPort = 0;
     private static String username = null, password = null;
     private static InetAddress proxyInetAddress = null;
     private InetAddress addr;
-    private int         port;
+    private int port;
     private InetSocketAddress cachedAddr;
 
     public ProxySocket(InetAddress addr, int port) throws IOException {
@@ -112,6 +123,44 @@ public class ProxySocket extends Socket {
         }
     }
 
+    @Override
+    public int getPort() {
+        if (super.getInetAddress().equals(proxyInetAddress)) {
+            return port;
+        }
+        return super.getPort();
+    }
+
+    @Override
+    public InetAddress getInetAddress() {
+        if (super.getInetAddress().equals(proxyInetAddress)) {
+            return addr;
+        }
+        return super.getInetAddress();
+    }
+
+    @Override
+    public SocketAddress getRemoteSocketAddress() {
+        if (super.getInetAddress().equals(proxyInetAddress)) {
+            return cachedAddr;
+        }
+        return super.getRemoteSocketAddress();
+    }
+
+    @Override
+    public SocketChannel getChannel() {
+        if (super.getInetAddress().equals(proxyInetAddress)) {
+            return null;
+        }
+        return super.getChannel();
+    }
+
+    @Override
+    public void close() throws IOException {
+        connections.remove(this);
+        super.close();
+    }
+
     private void initProxy() throws IOException {
         System.out.println("Proxying:" + addr + ":" + port + " Over:"
                 + proxyInetAddress + ":" + proxyPort + " Type:" + proxyType);
@@ -131,9 +180,9 @@ public class ProxySocket extends Socket {
     }
 
     private void http_connect() throws IOException {
-        InputStream    in  = getInputStream();
-        BufferedReader br  = new BufferedReader(new InputStreamReader(in));
-        OutputStream   out = getOutputStream();
+        InputStream in = getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        OutputStream out = getOutputStream();
         out.write(("CONNECT " + addr.getHostAddress() + ":" + port + "\r\n")
                 .getBytes());
         // out.write("Connection:keep-alive\r\n".getBytes());
@@ -166,7 +215,7 @@ public class ProxySocket extends Socket {
 
     private void socks4_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream  in  = new DataInputStream(getInputStream());
+        DataInputStream in = new DataInputStream(getInputStream());
 
         out.write(0x04);
         out.write(0x01); // connection type (TCP stream)
@@ -195,7 +244,7 @@ public class ProxySocket extends Socket {
 
     private void socks5_connect() throws IOException {
         DataOutputStream out = new DataOutputStream(getOutputStream());
-        DataInputStream  in  = new DataInputStream(getInputStream());
+        DataInputStream in = new DataInputStream(getInputStream());
         out.write(0x05); // the version
         out.write(auth ? 2 : 1); // number of authentication methods (no auth
         // for now)
@@ -267,44 +316,6 @@ public class ProxySocket extends Socket {
         }
         in.readFully(b);
         in.readShort(); // the returned port #, ignored
-    }
-
-    @Override
-    public int getPort() {
-        if (super.getInetAddress().equals(proxyInetAddress)) {
-            return port;
-        }
-        return super.getPort();
-    }
-
-    @Override
-    public InetAddress getInetAddress() {
-        if (super.getInetAddress().equals(proxyInetAddress)) {
-            return addr;
-        }
-        return super.getInetAddress();
-    }
-
-    @Override
-    public SocketAddress getRemoteSocketAddress() {
-        if (super.getInetAddress().equals(proxyInetAddress)) {
-            return cachedAddr;
-        }
-        return super.getRemoteSocketAddress();
-    }
-
-    @Override
-    public SocketChannel getChannel() {
-        if (super.getInetAddress().equals(proxyInetAddress)) {
-            return null;
-        }
-        return super.getChannel();
-    }
-
-    @Override
-    public void close() throws IOException {
-        connections.remove(this);
-        super.close();
     }
 
 }

@@ -1,6 +1,10 @@
 package org.parabot.core.ui.components;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -9,14 +13,14 @@ import java.awt.geom.Rectangle2D;
  * @author Everel
  */
 public class ProgressBar {
-    private double      value;
-    private int         width;
-    private int         height;
-    private double      locX;
-    private Color       progColor;
-    private Color       backColor;
+    private final int width;
+    private final int height;
+    private final Color backColor;
+    private double value;
+    private double locX;
+    private Color progColor;
     private FontMetrics fontMetrics;
-    private String      text;
+    private String text;
 
     public ProgressBar(int width, int height) {
         this.progColor = new Color(255, 0, 0);
@@ -53,9 +57,9 @@ public class ProgressBar {
 					100 + (2 * val), 0);
 		}*/
 
-        int r = (int) (((double) (225 - 218) * (double) val) / ((double) 100.D));
-        int g = (int) (((double) (253 - 165) * (double) val) / ((double) 100.D));
-        int b = (int) (((double) (145 - 32) * (double) val) / ((double) 100.D));
+        int r = (int) (((double) (225 - 218) * (double) val) / 100.D);
+        int g = (int) (((double) (253 - 165) * (double) val) / 100.D);
+        int b = (int) (((double) (145 - 32) * (double) val) / 100.D);
         this.progColor = new Color(255 - r, 253 - g, 145 - b);
     }
 
@@ -74,8 +78,8 @@ public class ProgressBar {
         g2.setColor(this.progColor);
         g2.fill(new Rectangle2D.Double(x, y, locX, height));
 
-        int    value   = (int) getValue();
-        String percent = Integer.toString(value) + "% " + text;
+        int value = (int) getValue();
+        String percent = value + "% " + text;
 
         int strX = (x + (width / 2)) - (fontMetrics.stringWidth(percent) / 2);
         g2.setColor(Color.white);

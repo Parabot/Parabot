@@ -17,14 +17,14 @@ import java.lang.reflect.Modifier;
  * @author Everel
  */
 public class AddGetterAdapter implements Opcodes, Injectable {
-    private ClassNode into;
-    private ClassNode fieldLocation;
-    private FieldNode fieldNode;
-    private String    methodName;
-    private String    returnDesc;
-    private boolean   staticField;
-    private boolean   staticMethod;
-    private long      multiplier;
+    private final ClassNode into;
+    private final ClassNode fieldLocation;
+    private final FieldNode fieldNode;
+    private final String methodName;
+    private final String returnDesc;
+    private final boolean staticField;
+    private final boolean staticMethod;
+    private long multiplier;
 
     /**
      * @param into          - classnode to inject getter method in

@@ -1,6 +1,11 @@
 package org.parabot.environment.api.utils;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.security.MessageDigest;
@@ -16,8 +21,8 @@ public class FileUtil {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 if (file.exists()) {
-                    FileInputStream fis       = new FileInputStream(file);
-                    byte[]          dataBytes = new byte[1024];
+                    FileInputStream fis = new FileInputStream(file);
+                    byte[] dataBytes = new byte[1024];
 
                     int nread;
 
@@ -27,7 +32,7 @@ public class FileUtil {
 
                     byte[] mdbytes = md.digest();
 
-                    StringBuilder sb = new StringBuilder("");
+                    StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < mdbytes.length; i++) {
                         sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
                     }
@@ -47,8 +52,8 @@ public class FileUtil {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 if (file.exists()) {
-                    FileInputStream fis       = new FileInputStream(file);
-                    byte[]          dataBytes = new byte[1024];
+                    FileInputStream fis = new FileInputStream(file);
+                    byte[] dataBytes = new byte[1024];
 
                     int nread;
 
@@ -74,7 +79,7 @@ public class FileUtil {
         if (!destFile.exists()) {
             destFile.createNewFile();
         }
-        FileChannel source      = null;
+        FileChannel source = null;
         FileChannel destination = null;
         source = new FileInputStream(sourceFile).getChannel();
         destination = new FileOutputStream(destFile).getChannel();
@@ -91,7 +96,9 @@ public class FileUtil {
      * Reads the contents of a text file
      *
      * @param file file to get contents from
+     *
      * @return file contents
+     *
      * @throws IOException when anything goes wrong
      */
     public static String getFileContents(File file) throws IOException {
@@ -101,8 +108,9 @@ public class FileUtil {
     /**
      * Writes a string to a file overwriting the existing contents if present
      *
-     * @param file file to write to
+     * @param file     file to write to
      * @param contents contents to write to given file
+     *
      * @throws IOException when anything goes wrong
      */
     public static void writeFileContents(File file, String contents) throws IOException {

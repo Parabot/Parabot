@@ -13,13 +13,13 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class Getter implements Injectable {
-    private ClassNode into;
-    private ClassNode fieldLocation;
-    private FieldNode fieldNode;
-    private String    methodName;
-    private String    returnDesc;
-    private boolean   staticMethod;
-    private long      multiplier;
+    private final ClassNode into;
+    private final ClassNode fieldLocation;
+    private final FieldNode fieldNode;
+    private final String methodName;
+    private final String returnDesc;
+    private final boolean staticMethod;
+    private long multiplier;
 
     /**
      * @param into          - classnode to inject getter method in
@@ -82,11 +82,11 @@ public class Getter implements Injectable {
         StringBuilder sb = new StringBuilder();
         sb.append("Injectable type: Getter");
 
-        if(fieldLocation.interfaces.size() > 0) {
+        if (fieldLocation.interfaces.size() > 0) {
             sb.append(", accessor type: ").append(fieldLocation.interfaces.get(0).toString().replace('/', '.'));
         }
 
-        if(fieldNode != null) {
+        if (fieldNode != null) {
             sb.append(", field: ").append(fieldNode.name);
         }
 

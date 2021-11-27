@@ -2,19 +2,31 @@ package org.parabot.core.ui;
 
 import org.parabot.core.ui.components.GamePanel;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
 
 /**
  * @author JKetelaar
  */
 public class Logger extends JPanel {
     private static final long serialVersionUID = 1L;
-    private static Logger                   instance;
-    private final  DefaultListModel<String> model;
-    private final  JList<String>            list;
+    private static Logger instance;
+    private final DefaultListModel<String> model;
+    private final JList<String> list;
 
     private boolean clearable;
 
@@ -78,6 +90,14 @@ public class Logger extends JPanel {
         addMessage(message, true);
     }
 
+    public boolean isClearable() {
+        return clearable;
+    }
+
+    public void setClearable() {
+        this.clearable = true;
+    }
+
     protected static void clearLogger() {
         instance.model.clear();
     }
@@ -95,13 +115,5 @@ public class Logger extends JPanel {
                 return listCellRendererComponent;
             }
         };
-    }
-
-    public boolean isClearable() {
-        return clearable;
-    }
-
-    public void setClearable() {
-        this.clearable = true;
     }
 }

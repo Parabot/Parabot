@@ -3,17 +3,23 @@ package org.parabot.core.parsers.hooks;
 import org.parabot.core.Core;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
-import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.asm.wrappers.Callback;
+import org.parabot.core.asm.wrappers.Getter;
+import org.parabot.core.asm.wrappers.Interface;
+import org.parabot.core.asm.wrappers.Invoker;
+import org.parabot.core.asm.wrappers.Setter;
+import org.parabot.core.asm.wrappers.Super;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Parses an XML file which injects the hooks and other bytecode manipulation
@@ -22,9 +28,9 @@ import java.util.Map;
  * @author JKetelaar
  */
 public class XMLHookParser extends HookParser {
-    private Document doc;
-    private HashMap<String, String> interfaceMap;
-    private HashMap<String, String> constants;
+    private final Document doc;
+    private final HashMap<String, String> interfaceMap;
+    private final HashMap<String, String> constants;
     private boolean parsedInterfaces;
 
     public XMLHookParser(HookFile hookFile) {
@@ -170,8 +176,8 @@ public class XMLHookParser extends HookParser {
             final String fieldName = getValue("field", addGetter);
             final String fieldDesc = isSet("descfield", addGetter) ? getValue("descfield", addGetter) : null;
             final String methodName = getValue("methodname", addGetter);
-            boolean staticMethod = isSet("methstatic", addGetter) ? (getValue(
-                    "methstatic", addGetter).equals("true")) : false;
+            boolean staticMethod = isSet("methstatic", addGetter) && (getValue(
+                    "methstatic", addGetter).equals("true"));
             String returnDesc = isSet("desc", addGetter) ? getValue("desc",
                     addGetter) : null;
             String array = "";
@@ -244,8 +250,8 @@ public class XMLHookParser extends HookParser {
             final String fieldName = getValue("field", addSetter);
             final String fieldDesc = isSet("descfield", addSetter) ? getValue("descfield", addSetter) : null;
             final String methodName = getValue("methodname", addSetter);
-            boolean staticMethod = isSet("methstatic", addSetter) ? (getValue(
-                    "methstatic", addSetter).equals("true")) : false;
+            boolean staticMethod = isSet("methstatic", addSetter) && (getValue(
+                    "methstatic", addSetter).equals("true"));
             String returnDesc = isSet("desc", addSetter) ? getValue("desc",
                     addSetter) : null;
             String array = "";
@@ -320,7 +326,7 @@ public class XMLHookParser extends HookParser {
             String returnDesc = isSet("desc", addInvoker) ? resolveDesc(getValue(
                     "desc", addInvoker)) : null;
 
-            final boolean isInterface = isSet("interface", addInvoker) ? Boolean.parseBoolean(getValue("interface", addInvoker)) : false;
+            final boolean isInterface = isSet("interface", addInvoker) && Boolean.parseBoolean(getValue("interface", addInvoker));
             final String instanceCast = isSet("instancecast", addInvoker) ? getValue("instancecast", addInvoker) : null;
             final String checkCastArgsDesc = isSet("castargs", addInvoker) ? getValue("castargs", addInvoker) : null;
 
@@ -464,7 +470,7 @@ public class XMLHookParser extends HookParser {
             }
             return "";
         }
-        Node node = (Node) nodes.item(0);
+        Node node = nodes.item(0);
         return node.getNodeValue();
     }
 

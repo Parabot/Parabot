@@ -3,7 +3,8 @@ package org.parabot.environment.input;
 import org.parabot.core.Context;
 import org.parabot.environment.api.utils.Time;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,9 +15,9 @@ import java.awt.event.MouseMotionListener;
  * @author Everel
  */
 public class Mouse implements MouseListener, MouseMotionListener {
-    private Component component;
-    private int       x;
-    private int       y;
+    private final Component component;
+    private int x;
+    private int y;
 
     public Mouse(Component component) {
         this.component = component;

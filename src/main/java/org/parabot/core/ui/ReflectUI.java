@@ -7,18 +7,27 @@ import org.parabot.core.reflect.RefClass;
 import org.parabot.core.reflect.RefField;
 import org.parabot.environment.api.utils.StringUtils;
 
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Enumeration;
+import java.util.HashMap;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 /**
  * A Reflection explorer
@@ -27,16 +36,16 @@ import java.util.HashMap;
  */
 public class ReflectUI extends JFrame {
     private static final long serialVersionUID = 98565034137367257L;
-    private JTree tree;
-    private DefaultMutableTreeNode root;
-    private DefaultTreeModel model;
-    private JEditorPane basicInfoPane;
-    private JEditorPane selectionInfoPane;
+    private final JTree tree;
+    private final DefaultMutableTreeNode root;
+    private final DefaultTreeModel model;
+    private final JEditorPane basicInfoPane;
+    private final JEditorPane selectionInfoPane;
 
-    private Object instance;
+    private final Object instance;
 
-    private HashMap<DefaultMutableTreeNode, RefClass> classes;
-    private HashMap<DefaultMutableTreeNode, RefField> fields;
+    private final HashMap<DefaultMutableTreeNode, RefClass> classes;
+    private final HashMap<DefaultMutableTreeNode, RefField> fields;
 
     public ReflectUI() {
         this.root = new DefaultMutableTreeNode("Classes");
@@ -267,7 +276,7 @@ public class ReflectUI extends JFrame {
         StringBuilder builder = new StringBuilder();
         builder.append("<h1>").append(refClass.getClassName()).append("</h1><br/>");
         if (refClass.getClassName().contains(".")) {
-            builder.append("<b>Package: </b>").append(refClass.getClassName().substring(0, refClass.getClassName().lastIndexOf("."))).append("<br/>");
+            builder.append("<b>Package: </b>").append(refClass.getClassName(), 0, refClass.getClassName().lastIndexOf(".")).append("<br/>");
         }
         builder.append("<b>Abstract: </b>").append(refClass.isAbstract() ? "yes" : "no").append("<br/>");
         builder.append("<b>Interface: </b>").append(refClass.isInterface() ? "yes" : "no").append("<br/>");

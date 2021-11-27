@@ -5,7 +5,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.parabot.core.asm.adapters.AddInterfaceAdapter;
 import org.parabot.core.asm.hooks.HookFile;
-import org.parabot.core.asm.wrappers.*;
+import org.parabot.core.asm.wrappers.Callback;
+import org.parabot.core.asm.wrappers.Getter;
+import org.parabot.core.asm.wrappers.Interface;
+import org.parabot.core.asm.wrappers.Invoker;
+import org.parabot.core.asm.wrappers.Setter;
+import org.parabot.core.asm.wrappers.Super;
 
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -18,8 +23,8 @@ import java.util.Map;
  * @author Dane, JKetelaar
  */
 public class JSONHookParser extends HookParser {
-    private JSONObject              root;
-    private Map<String, String>     interfaces;
+    private JSONObject root;
+    private Map<String, String> interfaces;
     private HashMap<String, String> constants;
 
     public JSONHookParser(HookFile file) {
@@ -63,7 +68,7 @@ public class JSONHookParser extends HookParser {
             for (int j = 0; j < a.size(); j++) {
                 JSONObject o = (JSONObject) a.get(j);
 
-                String clazz     = this.get(o, "class");
+                String clazz = this.get(o, "class");
                 String interfaze = this.get(o, "interface");
 
                 interfaces.put(clazz, interfaze);
@@ -118,9 +123,9 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
-                g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, 0, null);
+                g[i] = new Getter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") && (boolean) o.get("static"), 0, null);
             }
             return g;
         }
@@ -151,9 +156,9 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
-                s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") ? (boolean) o.get("static") : false, null);
+                s[i] = new Setter(into, clazz, this.get(o, "field"), this.get(o, "method"), desc, o.containsKey("static") && (boolean) o.get("static"), null);
             }
             return s;
         }
@@ -184,7 +189,7 @@ public class JSONHookParser extends HookParser {
                 }
 
                 String clazz = o.containsKey("class") ? this.get(o, "class") : interfaces.get(this.get(o, "accessor"));
-                String into  = o.containsKey("into") ? this.get(o, "into") : clazz;
+                String into = o.containsKey("into") ? this.get(o, "into") : clazz;
 
                 i[j] = new Invoker(into, clazz, this.get(o, "invokemethod"), this.get(o, "argdesc"), this.get(o, "desc"), this.get(o, "method"), false, null, null);
             }

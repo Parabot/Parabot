@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
  * @author Everel
  */
 public class LocalScriptExecuter extends ScriptExecuter {
-    private Constructor<?> scriptConstructor;
+    private final Constructor<?> scriptConstructor;
 
     public LocalScriptExecuter(final Constructor<?> scriptConstructor) {
         this.scriptConstructor = scriptConstructor;

@@ -13,18 +13,18 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class Invoker implements Injectable {
-    private ClassNode  into;
-    private ClassNode  methodLocation;
-    private MethodNode mn;
-    private String     argsDesc;
-    private String     returnDesc;
-    private String     methodName;
-    private boolean    isInterface;
-    private String     instanceCast;
-    private String     argsCheckCastDesc;
+    private final ClassNode into;
+    private final ClassNode methodLocation;
+    private final MethodNode mn;
+    private final String argsDesc;
+    private final String returnDesc;
+    private final String methodName;
+    private final boolean isInterface;
+    private final String instanceCast;
+    private final String argsCheckCastDesc;
 
-    private String mName;
-    private String mDesc;
+    private final String mName;
+    private final String mDesc;
 
     public Invoker(String methodLoc, String invMethName, String argsDesc,
                    String returnDesc, String methodName) {
@@ -46,17 +46,6 @@ public class Invoker implements Injectable {
         this.mName = invMethName;
         this.mDesc = argsDesc + returnDesc;
         this.argsCheckCastDesc = argsCheckCastDesc;
-    }
-
-    private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
-    	for (Object method : into.methods) {
-			MethodNode m = (MethodNode) method;
-			if (m.name.equals(name) &&  m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
-					&& (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
-				return m;
-			}
-		}
-		return null;
     }
 
     /**
@@ -82,5 +71,16 @@ public class Invoker implements Injectable {
     @Override
     public String toString() {
         return String.format("Injectable type: Invoker, accessor: %s, method name: %s, invokes method: %s", methodLocation.name, methodName, mName);
+    }
+
+    private static MethodNode getMethod(ClassNode into, String name, String argsDesc, String returnDesc) {
+        for (Object method : into.methods) {
+            MethodNode m = (MethodNode) method;
+            if (m.name.equals(name) && m.desc.substring(0, m.desc.indexOf(')') + 1).equals(argsDesc)
+                    && (returnDesc == null || Type.getType(m.desc).getReturnType().getDescriptor().equals(returnDesc))) {
+                return m;
+            }
+        }
+        return null;
     }
 }

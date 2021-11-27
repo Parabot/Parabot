@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Runtime {
 
     private static Runtime cached;
-    private java.lang.Runtime rt;
+    private final java.lang.Runtime rt;
 
     private Runtime(java.lang.Runtime rt) {
         this.rt = rt;

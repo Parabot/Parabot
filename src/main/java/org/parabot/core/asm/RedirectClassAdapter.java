@@ -5,7 +5,15 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.parabot.core.Core;
 import org.parabot.core.Directories;
-import org.parabot.core.asm.redirect.*;
+import org.parabot.core.asm.redirect.ClassRedirect;
+import org.parabot.core.asm.redirect.ProcessBuilderRedirect;
+import org.parabot.core.asm.redirect.RuntimeMXBeanRedirect;
+import org.parabot.core.asm.redirect.RuntimeRedirect;
+import org.parabot.core.asm.redirect.StackTraceElementRedirect;
+import org.parabot.core.asm.redirect.SystemRedirect;
+import org.parabot.core.asm.redirect.ThreadRedirect;
+import org.parabot.core.asm.redirect.ToolkitRedirect;
+import org.parabot.core.asm.redirect.URLClassLoaderRedirect;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +33,7 @@ public class RedirectClassAdapter extends ClassVisitor implements Opcodes {
 //        redirects.put("java/lang/ClassLoader", ClassLoaderRedirect.class);
         redirects.put("java/net/URLClassLoader", URLClassLoaderRedirect.class);
         redirects.put("java/lang/Runtime", RuntimeRedirect.class);
+        redirects.put("java/lang/management/RuntimeMXBean", RuntimeMXBeanRedirect.class);
         redirects.put("java/lang/Thread", ThreadRedirect.class);
         redirects.put("java/lang/StackTraceElement", StackTraceElementRedirect.class);
         redirects.put("java/lang/ProcessBuilder", ProcessBuilderRedirect.class);

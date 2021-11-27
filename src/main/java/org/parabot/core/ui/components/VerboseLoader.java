@@ -10,13 +10,31 @@ import org.parabot.core.ui.fonts.Fonts;
 import org.parabot.core.ui.images.Images;
 import org.parabot.core.ui.utils.UILog;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * An informative JPanel which tells the user what bot is doing
@@ -24,10 +42,10 @@ import java.awt.image.RescaleOp;
  * @author Everel, EmmaStone
  */
 public class VerboseLoader extends JPanel implements ProgressListener {
-    public static final  int STATE_LOADING        = 1;
+    public static final int STATE_LOADING = 1;
     private static final long serialVersionUID = 7412412644921803896L;
     private static final int STATE_AUTHENTICATION = 0;
-    private static final int STATE_SERVER_SELECT  = 2;
+    private static final int STATE_SERVER_SELECT = 2;
     private static VerboseLoader current;
     private static String state = "Initializing loader...";
     private static AccountManager manager;
@@ -39,11 +57,13 @@ public class VerboseLoader extends JPanel implements ProgressListener {
         }
 
     };
+    private final BufferedImage background;
+    private final BufferedImage banner;
+    private final BufferedImage loginBox;
+    private final ProgressBar progressBar;
     private int currentState;
-    private FontMetrics   fontMetrics;
-    private BufferedImage background, banner, loginBox;
-    private ProgressBar progressBar;
-    private JPanel      loginPanel;
+    private FontMetrics fontMetrics;
+    private JPanel loginPanel;
 
     private VerboseLoader(String username, String password) {
         if (current != null) {
@@ -102,9 +122,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
     }
 
     public void addServerPanel() {
-        JPanel             servers   = ServerSelector.getInstance();
-        GridBagLayout      bagLayout = (GridBagLayout) getLayout();
-        GridBagConstraints c         = new GridBagConstraints();
+        JPanel servers = ServerSelector.getInstance();
+        GridBagLayout bagLayout = (GridBagLayout) getLayout();
+        GridBagConstraints c = new GridBagConstraints();
 
         c.weightx = 1;
         c.weighty = 1;
@@ -218,9 +238,9 @@ public class VerboseLoader extends JPanel implements ProgressListener {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.drawImage(background, 0, 0, null);
-        float[]   scales  = { 1f, 1f, 1f, 0.9f };
-        float[]   offsets = new float[4];
-        RescaleOp rop     = new RescaleOp(scales, offsets, null);
+        float[] scales = { 1f, 1f, 1f, 0.9f };
+        float[] offsets = new float[4];
+        RescaleOp rop = new RescaleOp(scales, offsets, null);
         g.drawImage(banner, rop, 0, 0);
 
         g.setStroke(new BasicStroke(5));

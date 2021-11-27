@@ -14,7 +14,7 @@ import java.util.List;
  * @author Everel
  */
 public class ServerLoader extends ASMClassLoader {
-    private ClassPath classPath;
+    private final ClassPath classPath;
 
     public ServerLoader(ClassPath classPath) {
         super(classPath);

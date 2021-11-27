@@ -1,6 +1,6 @@
 package org.parabot.core.ui.utils;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 /**
  * Log messages to the log user interface which is attached to the bot user interface

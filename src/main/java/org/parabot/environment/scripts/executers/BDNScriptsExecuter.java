@@ -9,10 +9,11 @@ import org.parabot.environment.api.utils.WebUtil;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.loader.JavaScriptLoader;
 
-import javax.swing.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.swing.JOptionPane;
 
 /**
  * Loads a script from the BDN
@@ -68,9 +69,9 @@ public class BDNScriptsExecuter extends ScriptExecuter {
 
                     final String className = scriptClasses[0];
                     try {
-                        final Class<?>       scriptClass = loader.loadClass(className);
-                        final Constructor<?> con         = scriptClass.getConstructor();
-                        final Script         script      = (Script) con.newInstance();
+                        final Class<?> scriptClass = loader.loadClass(className);
+                        final Constructor<?> con = scriptClass.getConstructor();
+                        final Script script = (Script) con.newInstance();
                         script.setScriptID(this.id);
                         super.finalize(tg, script);
 

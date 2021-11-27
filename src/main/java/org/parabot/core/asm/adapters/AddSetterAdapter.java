@@ -13,12 +13,12 @@ import org.parabot.core.asm.interfaces.Injectable;
  * @author Everel
  */
 public class AddSetterAdapter implements Opcodes, Injectable {
-    private ClassNode fieldLocation;
-    private ClassNode into;
-    private FieldNode field;
-    private String    name;
-    private String    desc;
-    private boolean   methodStatic;
+    private final ClassNode fieldLocation;
+    private final ClassNode into;
+    private final FieldNode field;
+    private final String name;
+    private final String desc;
+    private final boolean methodStatic;
 
     public AddSetterAdapter(ClassNode fieldLocation, ClassNode into,
                             FieldNode field, String name, String desc, boolean methodStatic) {
@@ -33,6 +33,27 @@ public class AddSetterAdapter implements Opcodes, Injectable {
     public AddSetterAdapter(ClassNode fieldLocation, ClassNode into,
                             FieldNode field, String name, String desc) {
         this(fieldLocation, into, field, name, desc, false);
+    }
+
+    /**
+     * Injects the setter
+     */
+    @Override
+    public void inject() {
+        Core.verbose("Injecting: " + this.toString());
+        addSetter(fieldLocation, into, field, name, desc, methodStatic);
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("[Injectable: setter, into classname: ")
+                .append(into.name).append(", field classname: ")
+                .append(fieldLocation.name).append(", field name: ")
+                .append(field.name).append(", field desc: ").append(field.desc)
+                .append(", method name: ").append(name)
+                .append(", method desc: ").append(desc)
+                .append(", static method: ").append(methodStatic).append("]")
+                .toString();
     }
 
     private static void addSetter(ClassNode fieldLocation, ClassNode into,
@@ -59,27 +80,6 @@ public class AddSetterAdapter implements Opcodes, Injectable {
         method.visitInsn(RETURN);
         method.visitMaxs(2, 2);
         into.methods.add(method);
-    }
-
-    /**
-     * Injects the setter
-     */
-    @Override
-    public void inject() {
-        Core.verbose("Injecting: " + this.toString());
-        addSetter(fieldLocation, into, field, name, desc, methodStatic);
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("[Injectable: setter, into classname: ")
-                .append(into.name).append(", field classname: ")
-                .append(fieldLocation.name).append(", field name: ")
-                .append(field.name).append(", field desc: ").append(field.desc)
-                .append(", method name: ").append(name)
-                .append(", method desc: ").append(desc)
-                .append(", static method: ").append(methodStatic).append("]")
-                .toString();
     }
 
 }

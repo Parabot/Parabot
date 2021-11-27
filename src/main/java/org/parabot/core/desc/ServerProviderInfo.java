@@ -22,8 +22,8 @@ import java.util.zip.CRC32;
  */
 public class ServerProviderInfo {
 
-    private HashMap<String, Integer> settings;
-    private Properties               properties;
+    private final HashMap<String, Integer> settings;
+    private final Properties properties;
 
     public ServerProviderInfo(URL providerInfo, String username, String password) {
         this.properties = new Properties();
@@ -52,11 +52,12 @@ public class ServerProviderInfo {
 
     /**
      * Initialize configuration with data provided by {@link org.parabot.core.parsers.servers.LocalServers} from a {@code /parabot/servers/config.json} file. Also loads the default Settings map from the BDN.
-     * @param clientJar Name of the client jar file
-     * @param hooks Name of the hooks file
-     * @param name Server name
+     *
+     * @param clientJar   Name of the client jar file
+     * @param hooks       Name of the hooks file
+     * @param name        Server name
      * @param clientClass Entry class within the client jar
-     * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
+     * @param bankTabs    Bank tabs - only relevant for certain servers. Default 0
      */
     public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs) {
         this(clientJar, hooks, name, clientClass, bankTabs, null);
@@ -64,20 +65,21 @@ public class ServerProviderInfo {
 
     /**
      * Initialize configuration with data provided by {@link org.parabot.core.parsers.servers.LocalServers} from a {@code /parabot/servers/config.json} file. Also loads the default Settings map from the BDN.
-     * @param clientJar Name of the client jar file
-     * @param hooks Name of the hooks file
-     * @param name Server name
+     *
+     * @param clientJar   Name of the client jar file
+     * @param hooks       Name of the hooks file
+     * @param name        Server name
      * @param clientClass Entry class within the client jar
-     * @param bankTabs Bank tabs - only relevant for certain servers. Default 0
-     * @param randoms A URL to an endpoint where the Randoms are located. Can be Null, in which case getRandoms() will fallback to the default BDN Randoms URL.
+     * @param bankTabs    Bank tabs - only relevant for certain servers. Default 0
+     * @param randoms     A URL to an endpoint where the Randoms are located. Can be Null, in which case getRandoms() will fallback to the default BDN Randoms URL.
      */
     public ServerProviderInfo(String clientJar, String hooks, String name, String clientClass, int bankTabs, String randoms) {
         this.properties = new Properties();
         this.settings = new HashMap<>();
 
         try {
-            BufferedReader br       = WebUtil.getReader(new URL(Configuration.GET_SERVER_SETTINGS));
-            JSONObject     settings = (JSONObject) WebUtil.getJsonParser().parse(br);
+            BufferedReader br = WebUtil.getReader(new URL(Configuration.GET_SERVER_SETTINGS));
+            JSONObject settings = (JSONObject) WebUtil.getJsonParser().parse(br);
             parseSettings(settings);
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -91,22 +93,6 @@ public class ServerProviderInfo {
         this.properties.setProperty("client_crc32", String.valueOf(getCRC32(name, "client")));
         this.properties.setProperty("bank_tabs", String.valueOf(bankTabs));
         this.properties.setProperty("randoms_jar", randoms);
-    }
-
-    private long getCRC32(String name, String type) {
-        CRC32 crc = new CRC32();
-        name += "-" + type;
-        crc.update(name.getBytes());
-        return crc.getValue();
-    }
-
-    private void parseSettings(JSONObject object) {
-        for (Object settingObject : object.entrySet()) {
-            Map.Entry<?, ?> settingValue = (Map.Entry<?, ?>) settingObject;
-            String          key          = (String) settingValue.getKey();
-            long            value        = (Long) settingValue.getValue();
-            settings.put(key, (int) value);
-        }
     }
 
     public URL getClient() {
@@ -190,12 +176,28 @@ public class ServerProviderInfo {
      * @return provider version
      */
     public String getProviderVersion() {
-        String providerType = WebUtil.getJsonValue(String.format(Configuration.GET_SERVER_PROVIDER_TYPE , properties.getProperty("name")), "type");
-        if(providerType != null) {
+        String providerType = WebUtil.getJsonValue(String.format(Configuration.GET_SERVER_PROVIDER_TYPE, properties.getProperty("name")), "type");
+        if (providerType != null) {
             String providerInfo = String.format(Configuration.SERVER_PROVIDER_INFO, providerType);
             return WebUtil.getJsonValue(providerInfo, "version");
         }
 
         return null;
+    }
+
+    private long getCRC32(String name, String type) {
+        CRC32 crc = new CRC32();
+        name += "-" + type;
+        crc.update(name.getBytes());
+        return crc.getValue();
+    }
+
+    private void parseSettings(JSONObject object) {
+        for (Object settingObject : object.entrySet()) {
+            Map.Entry<?, ?> settingValue = (Map.Entry<?, ?>) settingObject;
+            String key = (String) settingValue.getKey();
+            long value = (Long) settingValue.getValue();
+            settings.put(key, (int) value);
+        }
     }
 }

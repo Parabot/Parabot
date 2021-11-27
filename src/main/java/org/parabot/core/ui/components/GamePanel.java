@@ -2,8 +2,12 @@ package org.parabot.core.ui.components;
 
 import org.parabot.core.Context;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.GroupLayout;
+import javax.swing.JPanel;
 
 /**
  * Main panel where applets are added.

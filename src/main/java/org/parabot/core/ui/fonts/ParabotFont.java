@@ -1,6 +1,7 @@
 package org.parabot.core.ui.fonts;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.IOException;
 
 /**
@@ -8,8 +9,8 @@ import java.io.IOException;
  */
 public class ParabotFont {
 
-    private String location;
-    private Font   font;
+    private final String location;
+    private Font font;
 
     public ParabotFont(String location, float size) {
         if (!location.toLowerCase().startsWith("/storage/fonts/")) {
@@ -22,10 +23,6 @@ public class ParabotFont {
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private Font createFont(float size) throws IOException, FontFormatException {
-        return Font.createFont(Font.TRUETYPE_FONT, Fonts.class.getResourceAsStream(this.location)).deriveFont(size);
     }
 
     public float getSize() {
@@ -45,11 +42,13 @@ public class ParabotFont {
         if (obj != null) {
             if (obj instanceof ParabotFont) {
                 ParabotFont otherFont = (ParabotFont) obj;
-                if (otherFont.getSize() == this.getSize()) {
-                    return true;
-                }
+                return otherFont.getSize() == this.getSize();
             }
         }
         return false;
+    }
+
+    private Font createFont(float size) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, Fonts.class.getResourceAsStream(this.location)).deriveFont(size);
     }
 }

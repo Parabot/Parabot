@@ -17,7 +17,7 @@ public enum Category {
     /**
      * Cache
      */
-    private static HashMap<String, BufferedImage> images = new HashMap<>();
+    private static final HashMap<String, BufferedImage> images = new HashMap<>();
 
     static {
         images.put("script", Images.getResource("/storage/images/category/script.png"));

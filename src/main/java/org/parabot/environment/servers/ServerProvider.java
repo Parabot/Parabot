@@ -11,13 +11,16 @@ import org.parabot.environment.input.Keyboard;
 import org.parabot.environment.input.Mouse;
 import org.parabot.environment.scripts.Script;
 
-import javax.swing.*;
 import java.applet.Applet;
 import java.applet.AppletStub;
-import java.awt.*;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 /**
  * Provides a server to the bot

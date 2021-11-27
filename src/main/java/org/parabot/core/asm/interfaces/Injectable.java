@@ -10,6 +10,6 @@ public interface Injectable {
     /**
      * Injects bytecode into a class
      */
-    public void inject();
+    void inject();
 
 }

@@ -17,8 +17,8 @@ import java.net.MalformedURLException;
 @Deprecated
 public class LocalServerExecuter extends ServerExecuter {
     private final ServerProvider serverProvider;
-    private       ClassPath      classPath;
-    private       String         serverName;
+    private final ClassPath classPath;
+    private final String serverName;
 
     public LocalServerExecuter(ServerProvider serverProvider,
                                ClassPath classPath, final String serverName) {
